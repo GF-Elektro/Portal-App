@@ -14,27 +14,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Initial Release** of the G&F Elektro Portal desktop application
 - Full-screen webview loading [portal.gfelektro.com](https://portal.gfelektro.com)
 - No browser chrome — no menu bar, status bar, or toolbars
-- **System tray integration** — app minimizes to Windows system tray on minimize/close
-- Tray context menu with options: *Portal öffnen*, *Neu laden*, *Beenden*
-- Click/double-click tray icon to show/hide window
-- **Native notification support** — web push notifications bridge to Windows notification center
-- Automatic notification permission grants for the portal
-- **Single instance lock** — prevents multiple instances from running simultaneously
-- **External link handling** — non-portal links open in the default browser
 - Dark background (`#1a1a2e`) shown during initial load to prevent white flash
-- App icon derived from the G&F Elektro brand assets (512x512 → ICO)
-- Windows installer via Squirrel (Electron Forge)
+
+#### Windows
+- **System tray integration** — app minimizes to Windows system tray on minimize/close
+- Click tray icon to toggle window visibility, double-click to always open
+- Right-click tray icon for context menu: *Portal öffnen*, *Neu laden*, *Beenden*
+- Windows installer via Squirrel (`GFElektroPortal-1.0.0-Setup.exe`)
+
+#### macOS
+- **Menu bar icon** — app stays accessible from the macOS top-right menu bar
+- Left-click menu bar icon to toggle window, right-click for context menu
+- Custom G&F template icon for macOS menu bar (auto-adapts to dark/light mode)
+- Custom macOS dock icon using high-resolution `icon-512.png`
+- Dock icon hides when app is minimized to tray, restores when window is shown
+- macOS DMG installer with professional layout (`GFElektroPortal-1.0.0.dmg`)
+- macOS `.icns` app icon generated from brand assets
+
+#### Notifications
+- **Native OS notification support** — web push notifications bridge to OS notification center
+- IPC-based notification bridge from web content to Electron's native Notification API
+- Notification permission automatically granted for the portal
+
+#### Security & Auth
+- **Google OAuth / Firebase Auth** handled inside the app (popup windows)
+- Auth domain allowlist for Google Sign-In, Firebase, and related services
+- Auth popup windows auto-close on redirect back to portal
+- External links open in default system browser
+
+#### Core
+- **Single instance lock** — prevents multiple instances from running simultaneously
 - Preload script exposing `electronAPI` with platform detection
-- GitHub documentation: README, CHANGELOG, SECURITY, CONTRIBUTING
+- `contextIsolation` and `sandbox` enabled for security
 
 ### Technical Details
 
 - Built with Electron 35
 - Electron Forge for packaging and distribution
+- `create-dmg` for professional macOS DMG creation
 - ASAR packaging enabled for production builds
 - Minimum window size: 800×600
 - Default window size: 1280×800
 
+### Build Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm start` | Run in development mode |
+| `npm run make` | Build Windows installer (via Electron Forge) |
+| `npm run make-dmg` | Build macOS DMG installer (via create-dmg) |
+| `npm run create-ico` | Regenerate Windows icon from PNG |
+
 ---
 
-[1.0.0]: https://github.com/your-org/gf-elektro-portal/releases/tag/v1.0.0
+[1.0.0]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.0

@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────
 // G&F Elektro Portal – Electron Main Process
 // ─────────────────────────────────────────────────────────────
-const { app, BrowserWindow, Tray, Menu, nativeImage, Notification, shell } = require('electron');
+const { app, BrowserWindow, Tray, Menu, nativeImage, Notification, shell, ipcMain } = require('electron');
 const path = require('path');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -49,9 +49,23 @@ function getIconPath() {
 }
 
 function getTrayIcon() {
+  if (process.platform === 'darwin') {
+    // macOS menu bar icons should use the transparent typography template
+    const devPath = path.join(__dirname, '..', 'build', 'mac-tray-iconTemplate.png');
+    const prodPath = path.join(process.resourcesPath, 'mac-tray-iconTemplate.png');
+    let activePath = devPath;
+    try { require('fs').accessSync(devPath); } catch { activePath = prodPath; }
+    
+    const iconBase = nativeImage.createFromPath(activePath);
+    // Menu bar icons look best around 18x18
+    const resized = iconBase.resize({ width: 18, height: 18 });
+    resized.setTemplateImage(true);
+    return resized;
+  }
+
+  // Windows tray icons should be 16x16
   const iconPath = getIconPath();
   const icon = nativeImage.createFromPath(iconPath);
-  // Tray icons should be 16x16 on Windows
   return icon.resize({ width: 16, height: 16 });
 }
 
@@ -202,12 +216,20 @@ function createWindow() {
   // ── Minimize to Tray ────────────────────────────────────
   mainWindow.on('minimize', () => {
     mainWindow.hide(); // Hide from taskbar when minimized
+    // On macOS, also hide from dock when minimized to tray
+    if (process.platform === 'darwin') {
+      app.dock.hide();
+    }
   });
 
   mainWindow.on('close', (event) => {
     if (!isQuitting) {
       event.preventDefault();
       mainWindow.hide(); // Hide instead of closing
+      // On macOS, also hide from dock when closed to tray
+      if (process.platform === 'darwin') {
+        app.dock.hide();
+      }
     }
   });
 
@@ -215,17 +237,36 @@ function createWindow() {
     mainWindow = null;
   });
 
-  // ── Handle Notifications from Web Content ───────────────
-  // The web app can send notifications via the standard Web Notification API.
-  // Electron automatically bridges these to the OS notification system.
-  mainWindow.webContents.on('notification', (event, title, body) => {
+  // Notifications are handled via IPC from the preload script
+  ipcMain.on('show-notification', (event, title, options) => {
     const notification = new Notification({
-      title: title,
-      body: body,
+      title: title || 'G&F Elektro Portal',
+      body: options?.body || '',
       icon: getIconPath(),
     });
     notification.show();
   });
+}
+
+// ── Helper: Show window and restore dock on macOS ───────────
+function showWindowFromTray() {
+  if (mainWindow) {
+    // On macOS, show the dock icon again when restoring
+    if (process.platform === 'darwin') {
+      app.dock.show();
+    }
+    mainWindow.show();
+    mainWindow.focus();
+  }
+}
+
+function hideWindowToTray() {
+  if (mainWindow) {
+    mainWindow.hide();
+    if (process.platform === 'darwin') {
+      app.dock.hide();
+    }
+  }
 }
 
 // ── Create System Tray ──────────────────────────────────────
@@ -235,18 +276,13 @@ function createTray() {
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'Portal öffnen',
-      click: () => {
-        if (mainWindow) {
-          mainWindow.show();
-          mainWindow.focus();
-        }
-      },
+      click: () => showWindowFromTray(),
     },
     {
       label: 'Neu laden',
       click: () => {
+        showWindowFromTray();
         if (mainWindow) {
-          mainWindow.show();
           mainWindow.webContents.reload();
         }
       },
@@ -262,31 +298,48 @@ function createTray() {
   ]);
 
   tray.setToolTip(APP_NAME);
-  tray.setContextMenu(contextMenu);
 
-  // Click on tray icon to show/hide the window
+  // By NOT using tray.setContextMenu(contextMenu) here, we prevent macOS from 
+  // hijacking the left-click to open the menu.
+  // Instead, we will manually trigger the context menu on right-click.
+
   tray.on('click', () => {
     if (mainWindow) {
       if (mainWindow.isVisible()) {
-        mainWindow.hide();
+        hideWindowToTray();
       } else {
-        mainWindow.show();
-        mainWindow.focus();
+        showWindowFromTray();
       }
     }
   });
 
-  // Double-click to always open
-  tray.on('double-click', () => {
-    if (mainWindow) {
-      mainWindow.show();
-      mainWindow.focus();
-    }
+  tray.on('right-click', () => {
+    tray.popUpContextMenu(contextMenu);
   });
+
+  // Double-click to always open (Windows)
+  tray.on('double-click', () => showWindowFromTray());
 }
 
 // ── App Lifecycle ───────────────────────────────────────────
 app.on('ready', () => {
+  // Set macOS specific dock icon
+  if (process.platform === 'darwin') {
+    const highResIconPath = path.join(__dirname, '..', 'icon-512.png');
+    const prodHighResIconPath = path.join(process.resourcesPath, 'icon-512.png');
+    let dockIconPath = getIconPath(); // fallback
+    try {
+      require('fs').accessSync(highResIconPath);
+      dockIconPath = highResIconPath;
+    } catch {
+      try {
+        require('fs').accessSync(prodHighResIconPath);
+        dockIconPath = prodHighResIconPath;
+      } catch {}
+    }
+    app.dock.setIcon(dockIconPath);
+  }
+
   createWindow();
   createTray();
 
@@ -307,6 +360,7 @@ app.on('activate', () => {
     createWindow();
   } else {
     mainWindow.show();
+    mainWindow.focus();
   }
 });
 

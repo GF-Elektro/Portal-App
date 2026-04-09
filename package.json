@@ -14,6 +14,7 @@
     "start": "electron .",
     "create-ico": "node scripts/create-ico.js",
     "package": "electron-forge package",
+    "make-dmg": "node scripts/build-dmg.js",
     "make": "electron-forge make"
   },
   "config": {
@@ -24,6 +25,10 @@
         "icon": "build/icon",
         "appBundleId": "com.gfelektro.portal",
         "asar": true,
+        "extraResource": [
+          "icon-512.png",
+          "build/mac-tray-iconTemplate.png"
+        ],
         "win32metadata": {
           "CompanyName": "G&F Elektro s.r.o.",
           "FileDescription": "G&F Elektro Portal",
@@ -44,7 +49,40 @@
         },
         {
           "name": "@electron-forge/maker-zip",
-          "platforms": ["win32"]
+          "platforms": [
+            "win32"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-dmg",
+          "config": {
+            "format": "ULFO",
+            "icon": "build/icon.icns",
+            "background": "build/dmg-background.png",
+            "additionalDMGOptions": {
+              "icon-size": 100,
+              "window": {
+                "size": {
+                  "width": 600,
+                  "height": 380
+                }
+              },
+              "contents": [
+                {
+                  "x": 175,
+                  "y": 190,
+                  "type": "file",
+                  "path": ""
+                },
+                {
+                  "x": 425,
+                  "y": 190,
+                  "type": "link",
+                  "path": "/Applications"
+                }
+              ]
+            }
+          }
         }
       ]
     }
@@ -54,8 +92,10 @@
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.8.0",
+    "@electron-forge/maker-dmg": "^7.8.0",
     "@electron-forge/maker-squirrel": "^7.8.0",
     "@electron-forge/maker-zip": "^7.8.0",
+    "create-dmg": "^8.1.0",
     "electron": "^35.0.1",
     "png-to-ico": "^3.0.1"
   }

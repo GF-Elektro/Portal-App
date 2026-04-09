@@ -35,7 +35,7 @@ The app provides a native desktop experience with:
 
 ### Pre-built Installers
 
-Download the latest release from the [Releases](https://github.com/your-org/gf-elektro-portal/releases) page:
+Download the latest release from the [Releases](https://github.com/GF-Elektro/Portal-App/releases) page:
 
 | Platform | File | Notes |
 |----------|------|-------|
@@ -55,8 +55,8 @@ Download the latest release from the [Releases](https://github.com/your-org/gf-e
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/gf-elektro-portal.git
-cd gf-elektro-portal
+git clone https://github.com/GF-Elektro/Portal-App.git
+cd Portal-App
 
 # Install dependencies
 npm install
@@ -64,8 +64,11 @@ npm install
 # Run in development mode
 npm start
 
-# Build the installer
+# Build the installer (Windows)
 npm run make
+
+# Build the macOS DMG installer
+npm run make-dmg
 ```
 
 The built installer will be in the `out/make/` directory.
@@ -101,16 +104,23 @@ The app automatically bridges web notifications from the portal to your operatin
 ```
 gf-elektro-portal/
 ├── build/
-│   └── icon.ico          # Windows icon
-├── icon-192.png          # PWA icon (192x192)
-├── icon-512.png          # PWA icon (512x512)
-├── icon.png              # Base icon
-├── logo.png              # Logo image
+│   ├── icon.ico                  # Windows icon
+│   ├── icon.icns                 # macOS app icon
+│   ├── icon.png                  # Base icon (PNG)
+│   ├── mac-tray-iconTemplate.png # macOS menu bar icon
+│   └── dmg-background.png        # DMG installer background
+├── icon-192.png                  # PWA icon (192x192)
+├── icon-512.png                  # PWA icon (512x512)
+├── icon.png                      # Base icon
+├── logo.png                      # Logo image
 ├── scripts/
-│   └── create-ico.js     # PNG to ICO converter
+│   ├── create-ico.js             # PNG to ICO converter
+│   ├── create-mac-icon.js        # macOS menu bar icon generator
+│   ├── create-dmg-bg.js          # DMG background generator
+│   └── build-dmg.js              # Custom DMG builder (uses create-dmg)
 ├── src/
-│   ├── main.js           # Electron main process
-│   └── preload.js        # Preload script for renderer
+│   ├── main.js                   # Electron main process
+│   └── preload.js                # Preload script for renderer
 ├── package.json
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
@@ -130,7 +140,8 @@ gf-elektro-portal/
 |---------|-------------|
 | `npm start` | Run the app in development mode |
 | `npm run package` | Package the app (no installer) |
-| `npm run make` | Build distributable installer |
+| `npm run make` | Build Windows distributable installer |
+| `npm run make-dmg` | Build macOS DMG installer |
 | `npm run create-ico` | Regenerate the Windows icon from PNG |
 
 ---
@@ -153,5 +164,5 @@ This project is licensed under the [Apache License 2.0](LICENSE). See the [LICEN
 ---
 
 <p align="center">
-  <sub>Built with ❤️ for <a href="https://www.gfelektro.com">G&F Elektro s.r.o.</a></sub>
+  <sub>Built with ❤️ by <a href="https://www.gfelektro.com">G&F Elektro s.r.o.</a></sub>
 </p>
