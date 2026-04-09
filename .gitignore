@@ -24,3 +24,5 @@ Desktop.ini
 # Environment
 .env
 .env.local
+
+release
