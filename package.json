@@ -1,0 +1,62 @@
+{
+  "name": "gf-elektro-portal",
+  "productName": "G&F Elektro Portal",
+  "version": "1.0.0",
+  "description": "Desktop app for G&F Elektro Portal – Portal for managing electrical installation projects",
+  "main": "src/main.js",
+  "author": {
+    "name": "G&F Elektro s.r.o.",
+    "url": "https://www.gfelektro.com"
+  },
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "create-ico": "node scripts/create-ico.js",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "name": "G&F Elektro Portal",
+        "executableName": "GFElektroPortal",
+        "icon": "build/icon",
+        "appBundleId": "com.gfelektro.portal",
+        "asar": true,
+        "win32metadata": {
+          "CompanyName": "G&F Elektro s.r.o.",
+          "FileDescription": "G&F Elektro Portal",
+          "OriginalFilename": "GFElektroPortal.exe",
+          "ProductName": "G&F Elektro Portal"
+        }
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "GFElektroPortal",
+            "setupIcon": "build/icon.ico",
+            "iconUrl": "https://www.gfelektro.com/icon-512.png",
+            "authors": "G&F Elektro s.r.o.",
+            "description": "Desktop app for G&F Elektro Portal"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": ["win32"]
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.8.0",
+    "@electron-forge/maker-squirrel": "^7.8.0",
+    "@electron-forge/maker-zip": "^7.8.0",
+    "electron": "^35.0.1",
+    "png-to-ico": "^3.0.1"
+  }
+}
