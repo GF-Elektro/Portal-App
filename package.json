@@ -25,9 +25,26 @@
         "icon": "build/icon",
         "appBundleId": "com.gfelektro.portal",
         "asar": true,
+        "ignore": [
+          "^/release($|/)",
+          "^/out($|/)",
+          "^/scripts($|/)",
+          "^/build($|/)",
+          "^/\\.git($|/)",
+          "^/\\.gitignore$",
+          "^/README\\.md$",
+          "^/CHANGELOG\\.md$",
+          "^/CONTRIBUTING\\.md$",
+          "^/SECURITY\\.md$",
+          "^/LICENSE$",
+          "^/icon-192\\.png$",
+          "^/icon-512\\.png$",
+          "^/icon\\.png$",
+          "^/logo\\.png$"
+        ],
         "extraResource": [
           "icon-512.png",
-          "build/mac-tray-iconTemplate.png"
+          "build/icon.ico"
         ],
         "win32metadata": {
           "CompanyName": "G&F Elektro s.r.o.",
@@ -39,6 +56,9 @@
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
+          "platforms": [
+            "win32"
+          ],
           "config": {
             "name": "GFElektroPortal",
             "setupIcon": "build/icon.ico",
@@ -52,37 +72,6 @@
           "platforms": [
             "win32"
           ]
-        },
-        {
-          "name": "@electron-forge/maker-dmg",
-          "config": {
-            "format": "ULFO",
-            "icon": "build/icon.icns",
-            "background": "build/dmg-background.png",
-            "additionalDMGOptions": {
-              "icon-size": 100,
-              "window": {
-                "size": {
-                  "width": 600,
-                  "height": 380
-                }
-              },
-              "contents": [
-                {
-                  "x": 175,
-                  "y": 190,
-                  "type": "file",
-                  "path": ""
-                },
-                {
-                  "x": 425,
-                  "y": 190,
-                  "type": "link",
-                  "path": "/Applications"
-                }
-              ]
-            }
-          }
         }
       ]
     }
@@ -92,11 +81,10 @@
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.8.0",
-    "@electron-forge/maker-dmg": "^7.8.0",
     "@electron-forge/maker-squirrel": "^7.8.0",
     "@electron-forge/maker-zip": "^7.8.0",
-    "create-dmg": "^8.1.0",
     "electron": "^35.0.1",
-    "png-to-ico": "^3.0.1"
+    "png-to-ico": "^3.0.1",
+    "sharp": "^0.34.5"
   }
 }
