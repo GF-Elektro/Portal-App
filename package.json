@@ -59,6 +59,12 @@
       "target": ["AppImage", "deb"],
       "category": "Office",
       "icon": "icon-512.png"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "GF-Elektro",
+      "repo": "Portal-App",
+      "releaseType": "release"
     }
   },
   "devDependencies": {
