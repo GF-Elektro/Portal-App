@@ -40,6 +40,28 @@
       "hardenedRuntime": false,
       "gatekeeperAssess": false
     },
+    "dmg": {
+      "background": "build/dmg-background.png",
+      "icon": "icon-512.png",
+      "iconSize": 128,
+      "window": {
+        "width": 600,
+        "height": 380
+      },
+      "contents": [
+        {
+          "x": 160,
+          "y": 170,
+          "type": "file"
+        },
+        {
+          "x": 440,
+          "y": 170,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
     "win": {
       "target": [
         { "target": "nsis", "arch": ["x64"] },
