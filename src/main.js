@@ -233,7 +233,17 @@ function createWindow() {
     }
   });
 
+  // ── Enhanced Notification IPC Handlers ────────────────────
+  // Track active notifications for click handling
+  const activeNotifications = new Map();
+  let notificationIdCounter = 0;
+
   mainWindow.on('closed', () => {
+    // Clean up any active notifications
+    activeNotifications.forEach(({ notification }) => {
+      notification.close();
+    });
+    activeNotifications.clear();
     mainWindow = null;
   });
 
@@ -245,6 +255,116 @@ function createWindow() {
       icon: getIconPath(),
     });
     notification.show();
+  });
+
+  // Handle show notification requests from renderer
+  ipcMain.on('notification:show', (event, title, options = {}) => {
+    const notificationId = ++notificationIdCounter;
+    
+    const notificationOptions = {
+      title: title || 'G&F Elektro Portal',
+      body: options.body || options.message || '',
+      icon: getIconPath(),
+      silent: options.silent || false,
+    };
+
+    // Add actions/buttons if provided and supported
+    if (options.actions && Array.isArray(options.actions)) {
+      notificationOptions.actions = options.actions;
+    }
+
+    // Add tag for notification grouping/replacement
+    if (options.tag) {
+      notificationOptions.tag = options.tag;
+    }
+
+    const notification = new Notification(notificationOptions);
+    
+    // Store reference with original data for click handling
+    activeNotifications.set(notificationId, {
+      notification,
+      data: options.data || {},
+      tag: options.tag,
+    });
+
+    // Handle notification click
+    notification.on('click', () => {
+      // Focus and show the main window
+      if (mainWindow) {
+        if (mainWindow.isMinimized()) mainWindow.restore();
+        if (!mainWindow.isVisible()) {
+          showWindowFromTray();
+        }
+        mainWindow.focus();
+        
+        // Send click event to renderer if there's a click handler defined
+        if (options.data?.clickAction) {
+          mainWindow.webContents.send('notification:clicked', {
+            tag: options.tag,
+            data: options.data,
+          });
+        }
+      }
+      
+      // Clean up
+      activeNotifications.delete(notificationId);
+      notification.close();
+    });
+
+    // Handle notification close
+    notification.on('close', () => {
+      activeNotifications.delete(notificationId);
+    });
+
+    // Auto-close after timeout if specified
+    if (options.requireInteraction === false && options.timeout) {
+      setTimeout(() => {
+        if (activeNotifications.has(notificationId)) {
+          notification.close();
+        }
+      }, options.timeout);
+    }
+
+    notification.show();
+  });
+
+  // Handle permission check requests
+  ipcMain.handle('notification:check-permission', async () => {
+    // Check if the Notification API is available
+    if (!Notification.isSupported()) {
+      return 'denied';
+    }
+    
+    // Return the current permission state
+    // Note: Electron's Notification doesn't expose permission state directly
+    // We assume granted since we handle it via setPermissionRequestHandler
+    return 'granted';
+  });
+
+  // Handle permission request
+  ipcMain.handle('notification:request-permission', async () => {
+    if (!Notification.isSupported()) {
+      return 'denied';
+    }
+    
+    // On macOS, the first notification will trigger the permission dialog
+    // We create a test notification to trigger the permission request
+    try {
+      const testNotification = new Notification({
+        title: 'G&F Elektro Portal',
+        body: 'Notifications enabled',
+        icon: getIconPath(),
+        silent: true,
+      });
+      
+      // Close it immediately
+      setTimeout(() => testNotification.close(), 100);
+      
+      return 'granted';
+    } catch (error) {
+      console.error('[Main] Failed to request notification permission:', error);
+      return 'denied';
+    }
   });
 }
 

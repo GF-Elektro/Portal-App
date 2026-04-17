@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.1] - 2026-04-17
+
+### Fixed
+
+#### Cross-Platform Native Notifications
+- **Fixed Service Worker notification interception** — notifications from the portal's Service Worker (`registration.showNotification()`) now properly display as native OS notifications
+- **Fixed notification permission handling** — permission requests now properly bridge to the OS-level notification system
+- **Fixed "Send Test Notification" button** — test notifications now display correctly on macOS, Windows, and Linux
+
+### Changed
+
+#### Enhanced Notification System
+- **Complete rewrite of notification bridge** (`src/preload.js`):
+  - Added Service Worker registration proxy to intercept `showNotification()` calls
+  - Implemented `electronNotificationAPI` with `requestPermission()`, `checkPermission()`, and `show()` methods
+  - Added WeakMap tracking to prevent double-proxying of Service Worker registrations
+  - Maintained backward compatibility with legacy `window.Notification` override
+  
+- **Enhanced main process notification handling** (`src/main.js`):
+  - Added `notification:show` IPC handler with full option support (title, body, icon, silent, actions, tag)
+  - Added `notification:request-permission` IPC handler for explicit permission requests
+  - Added `notification:check-permission` IPC handler to query current permission state
+  - Implemented notification click-to-focus: clicking a notification restores and focuses the app window
+  - Added notification cleanup on window close
+  - Support for notification tags for grouping/replacement
+  - Support for notification actions/buttons (platform-dependent)
+
+### Technical Details
+
+- Notifications now work with the portal's **Service Worker + Polling** architecture
+- Notifications display in the OS notification center (macOS Notification Center, Windows Action Center, Linux notification daemon)
+- Clicking a notification brings the app to the foreground
+- Permission is auto-granted via `setPermissionRequestHandler` for seamless UX
+- Future-proof design for Flutter mobile migration using compatible API structure
+
+---
+
 ## [1.0.0] - 2026-04-09
 
 ### Added
@@ -67,4 +104,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[1.0.1]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.1
 [1.0.0]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.0
