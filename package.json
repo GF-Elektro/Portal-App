@@ -8,8 +8,8 @@
     "name": "G&F Elektro s.r.o.",
     "url": "https://www.gfelektro.com"
   },
+  "repository": "github:GF-Elektro/Portal-App",
   "license": "Apache-2.0",
-  "private": true,
   "scripts": {
     "start": "electron .",
     "create-ico": "node scripts/create-ico.js",
