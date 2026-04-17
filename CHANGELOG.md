@@ -11,36 +11,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-#### Cross-Platform Native Notifications
-- **Fixed Service Worker notification interception** — notifications from the portal's Service Worker (`registration.showNotification()`) now properly display as native OS notifications
-- **Fixed notification permission handling** — permission requests now properly bridge to the OS-level notification system
-- **Fixed "Send Test Notification" button** — test notifications now display correctly on macOS, Windows, and Linux
+#### Background Processing & Notification Delivery
+- **Fixed application sleep when minimized** — disabled Chromium timer throttling (`backgroundThrottling: false`) to ensure background checks and polling continue seamlessly when the app is minimized to the system tray.
+- **Fixed invisible macOS Menu Bar Icon** — the `mac-tray-iconTemplate.png` was previously excluded from the `.asar` build archive. It is now properly bundled, resolving the invisible (but clickable) gap in the top bar.
+- **Fixed macOS unsigned native notification dropping** — Apple restricts native Electron Notification API broadcasts for unsigned distributions. Completely bypassed this OS-level restriction by engineering a custom HTML/CSS `BrowserWindow` Toast Notification system that glides natively onto the desktop, completely avoiding macOS permissions handling.
+- **Fixed Service Worker Web Push interceptions** — completely reformed `src/preload.js` to override `ServiceWorkerRegistration.prototype.showNotification` globally, accurately routing native Web Push dispatches transparently into Electron.
+
+### Added
+- **Tray Version Display** — added the current iteration number (e.g., `Version 1.0.1`) precisely to the top of the system tray context menu for rapid verification.
+- **Linux Packages** — officially added `.AppImage` (Ubuntu/Linux) and `.deb` (Debian) target deployments via GitHub Releases.
+- **Automated CI/CD** — introduced standard GitHub Action pipelines for automated public deployment to GitHub Pages (landing page) and synchronized tagging deployment for application release assets.
 
 ### Changed
 
+#### Build System Migration
+- **Electron Builder Migration** — Swapped `electron-forge` setup for `electron-builder` to accommodate the requested target coverage natively (NSIS, Portable, AppImage, deb, dmg).
+
 #### Enhanced Notification System
 - **Complete rewrite of notification bridge** (`src/preload.js`):
-  - Added Service Worker registration proxy to intercept `showNotification()` calls
-  - Implemented `electronNotificationAPI` with `requestPermission()`, `checkPermission()`, and `show()` methods
-  - Added WeakMap tracking to prevent double-proxying of Service Worker registrations
-  - Maintained backward compatibility with legacy `window.Notification` override
-  
-- **Enhanced main process notification handling** (`src/main.js`):
-  - Added `notification:show` IPC handler with full option support (title, body, icon, silent, actions, tag)
-  - Added `notification:request-permission` IPC handler for explicit permission requests
-  - Added `notification:check-permission` IPC handler to query current permission state
-  - Implemented notification click-to-focus: clicking a notification restores and focuses the app window
-  - Added notification cleanup on window close
-  - Support for notification tags for grouping/replacement
-  - Support for notification actions/buttons (platform-dependent)
-
-### Technical Details
-
-- Notifications now work with the portal's **Service Worker + Polling** architecture
-- Notifications display in the OS notification center (macOS Notification Center, Windows Action Center, Linux notification daemon)
-- Clicking a notification brings the app to the foreground
-- Permission is auto-granted via `setPermissionRequestHandler` for seamless UX
-- Future-proof design for Flutter mobile migration using compatible API structure
+  - Abstracted to override native prototypes directly, halting complex state-checking and ensuring total compatibility with standard frontend dispatch mechanisms.
+  - Implemented `ipcRenderer.on('notification:clicked')` handler dispatched globally as `electron-notification-clicked`, granting correct contextual window-focusing when interacting with background OS banners.
 
 ---
 

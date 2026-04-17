@@ -39,8 +39,11 @@ Download the latest release from the [Releases](https://github.com/GF-Elektro/Po
 
 | Platform | File | Notes |
 |----------|------|-------|
-| Windows  | `GFElektroPortal-x.x.x-Setup.exe` | Squirrel installer with auto-updates |
+| Windows  | `GFElektroPortal-x.x.x-Setup.exe` | NSIS Desktop Installer |
+| Windows  | `GFElektroPortal-x.x.x.exe` | Portable Windows App |
 | macOS    | `GFElektroPortal-x.x.x.dmg` | Drag & drop to Applications |
+| Linux    | `GFElektroPortal-x.x.x.AppImage` | Portable Linux executable |
+| Linux    | `GFElektroPortal-x.x.x.deb` | Debian/Ubuntu package |
 
 ### Building from Source
 
@@ -64,14 +67,11 @@ npm install
 # Run in development mode
 npm start
 
-# Build the installer (Windows)
-npm run make
-
-# Build the macOS DMG installer
-npm run make-dmg
+# Build for all platforms (may require wine/mono if cross-compiling on macOS)
+npm run build
 ```
 
-The built installer will be in the `out/make/` directory.
+The built binaries will be generated in the `release/` directory.
 
 ---
 
@@ -139,9 +139,7 @@ gf-elektro-portal/
 | Command | Description |
 |---------|-------------|
 | `npm start` | Run the app in development mode |
-| `npm run package` | Package the app (no installer) |
-| `npm run make` | Build Windows distributable installer |
-| `npm run make-dmg` | Build macOS DMG installer |
+| `npm run build` | Build executables for the current platform |
 | `npm run create-ico` | Regenerate the Windows icon from PNG |
 
 ---

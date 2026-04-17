@@ -4,10 +4,6 @@
 const { app, BrowserWindow, Tray, Menu, nativeImage, Notification, shell, ipcMain } = require('electron');
 const path = require('path');
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) {
-  app.quit();
-}
 
 // ── Constants ───────────────────────────────────────────────
 const PORTAL_URL = 'https://portal.gfelektro.com';
@@ -17,6 +13,8 @@ const APP_NAME = 'G&F Elektro Portal';
 let mainWindow = null;
 let tray = null;
 let isQuitting = false;
+let customToast = null;
+let isCreatingToast = false;
 
 // ── Single Instance Lock ────────────────────────────────────
 const gotTheLock = app.requestSingleInstanceLock();
@@ -90,6 +88,8 @@ function createWindow() {
       sandbox: true,
       // Enable notifications
       notifications: true,
+      // Disable timer throttling for background polling
+      backgroundThrottling: false,
       // Enable web audio
       webAudio: true,
     },
@@ -173,7 +173,7 @@ function createWindow() {
   // When a child window (auth popup) navigates back to the portal,
   // close the popup and reload the main window
   app.on('browser-window-created', (event, childWindow) => {
-    if (childWindow === mainWindow) return;
+    if (childWindow === mainWindow || isCreatingToast) return;
 
     childWindow.setMenu(null);
 
@@ -261,6 +261,65 @@ function createWindow() {
   ipcMain.on('notification:show', (event, title, options = {}) => {
     const notificationId = ++notificationIdCounter;
     
+    // Support unsigned fallback on macOS
+    if (process.platform === 'darwin') {
+      const { screen } = require('electron');
+      const display = screen.getPrimaryDisplay();
+      const toastWidth = 320;
+      const toastHeight = 85;
+      
+      if (customToast) {
+        customToast.close();
+      }
+      
+      isCreatingToast = true;
+      customToast = new BrowserWindow({
+        width: toastWidth,
+        height: toastHeight,
+        x: display.workAreaSize.width - toastWidth - 20,
+        y: 20,
+        frame: false,
+        transparent: true,
+        alwaysOnTop: true,
+        skipTaskbar: true,
+        resizable: false,
+        focusable: false,
+        webPreferences: { nodeIntegration: true, contextIsolation: false }
+      });
+      isCreatingToast = false;
+      
+      const safeTitle = (title || 'G&F Elektro Portal').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const safeMessage = (options.body || options.message || 'Neue Benachrichtigung').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      
+      const html = `<html><body style="margin:0;padding:14px;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:rgba(26,26,46,0.95);color:white;border-radius:12px;border:1px solid rgba(255,255,255,0.15);box-shadow:0 8px 32px rgba(0,0,0,0.5);display:flex;align-items:center;user-select:none;cursor:pointer;-webkit-app-region:no-drag;" onclick="require('electron').ipcRenderer.send('toast-clicked')"><div style="flex:1;overflow:hidden;"><h3 style="margin:0 0 5px;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${safeTitle}</h3><p style="margin:0;font-size:12px;opacity:0.85;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4;">${safeMessage}</p></div></body></html>`;
+
+      customToast.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(html)}`);
+      
+      const clickHandler = () => {
+        if (mainWindow) {
+          if (mainWindow.isMinimized()) mainWindow.restore();
+          if (!mainWindow.isVisible()) showWindowFromTray();
+          mainWindow.focus();
+          mainWindow.webContents.send('notification:clicked', { id: options.id, tag: options.tag, data: options.data });
+        }
+        if (customToast && !customToast.isDestroyed()) customToast.close();
+      };
+      
+      ipcMain.once('toast-clicked', clickHandler);
+      
+      customToast.once('closed', () => {
+        ipcMain.removeListener('toast-clicked', clickHandler);
+        customToast = null;
+      });
+      
+      // Auto close after 6 seconds
+      setTimeout(() => {
+        if (customToast && !customToast.isDestroyed()) customToast.close();
+      }, 6000);
+      
+      return;
+    }
+
     const notificationOptions = {
       title: title || 'G&F Elektro Portal',
       body: options.body || options.message || '',
@@ -297,13 +356,12 @@ function createWindow() {
         }
         mainWindow.focus();
         
-        // Send click event to renderer if there's a click handler defined
-        if (options.data?.clickAction) {
-          mainWindow.webContents.send('notification:clicked', {
-            tag: options.tag,
-            data: options.data,
-          });
-        }
+        // Send click event to renderer
+        mainWindow.webContents.send('notification:clicked', {
+          id: options.id,
+          tag: options.tag,
+          data: options.data,
+        });
       }
       
       // Clean up
@@ -394,6 +452,11 @@ function createTray() {
   tray = new Tray(getTrayIcon());
 
   const contextMenu = Menu.buildFromTemplate([
+    {
+      label: `Version ${app.getVersion()}`,
+      enabled: false,
+    },
+    { type: 'separator' },
     {
       label: 'Portal öffnen',
       click: () => showWindowFromTray(),

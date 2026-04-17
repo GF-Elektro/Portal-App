@@ -1,7 +1,7 @@
 {
   "name": "gf-elektro-portal",
   "productName": "G&F Elektro Portal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Desktop app for G&F Elektro Portal – Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {
@@ -13,77 +13,53 @@
   "scripts": {
     "start": "electron .",
     "create-ico": "node scripts/create-ico.js",
-    "package": "electron-forge package",
     "make-dmg": "node scripts/build-dmg.js",
-    "make": "electron-forge make"
+    "build": "electron-builder build"
   },
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "name": "G&F Elektro Portal",
-        "executableName": "GFElektroPortal",
-        "icon": "build/icon",
-        "appBundleId": "com.gfelektro.portal",
-        "asar": true,
-        "ignore": [
-          "^/release($|/)",
-          "^/out($|/)",
-          "^/scripts($|/)",
-          "^/build($|/)",
-          "^/\\.git($|/)",
-          "^/\\.gitignore$",
-          "^/README\\.md$",
-          "^/CHANGELOG\\.md$",
-          "^/CONTRIBUTING\\.md$",
-          "^/SECURITY\\.md$",
-          "^/LICENSE$",
-          "^/icon-192\\.png$",
-          "^/icon-512\\.png$",
-          "^/icon\\.png$",
-          "^/logo\\.png$"
-        ],
-        "extraResource": [
-          "icon-512.png",
-          "build/icon.ico"
-        ],
-        "win32metadata": {
-          "CompanyName": "G&F Elektro s.r.o.",
-          "FileDescription": "G&F Elektro Portal",
-          "OriginalFilename": "GFElektroPortal.exe",
-          "ProductName": "G&F Elektro Portal"
-        }
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "platforms": [
-            "win32"
-          ],
-          "config": {
-            "name": "GFElektroPortal",
-            "setupIcon": "build/icon.ico",
-            "iconUrl": "https://www.gfelektro.com/icon-512.png",
-            "authors": "G&F Elektro s.r.o.",
-            "description": "Desktop app for G&F Elektro Portal"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "win32"
-          ]
-        }
-      ]
+  "build": {
+    "appId": "com.gfelektro.portal",
+    "productName": "G&F Elektro Portal",
+    "artifactName": "GFElektroPortal-${version}.${ext}",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "src/**/*",
+      "package.json",
+      "icon-512.png",
+      "build/icon.ico",
+      "build/mac-tray-iconTemplate.png"
+    ],
+    "mac": {
+      "target": ["dmg"],
+      "icon": "icon-512.png",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false
+    },
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "artifactName": "GFElektroPortal-${version}-Setup.${ext}"
+    },
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Office",
+      "icon": "icon-512.png"
     }
   },
-  "dependencies": {
-    "electron-squirrel-startup": "^1.0.1"
-  },
   "devDependencies": {
-    "@electron-forge/cli": "^7.8.0",
-    "@electron-forge/maker-squirrel": "^7.8.0",
-    "@electron-forge/maker-zip": "^7.8.0",
     "electron": "^35.0.1",
+    "electron-builder": "^25.1.8",
     "png-to-ico": "^3.0.1",
     "sharp": "^0.34.5"
   }
