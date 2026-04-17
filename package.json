@@ -8,7 +8,10 @@
     "name": "G&F Elektro s.r.o.",
     "url": "https://www.gfelektro.com"
   },
-  "repository": "github:GF-Elektro/Portal-App",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GF-Elektro/Portal-App.git"
+  },
   "license": "Apache-2.0",
   "scripts": {
     "start": "electron .",
