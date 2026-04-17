@@ -6,6 +6,7 @@
   "main": "src/main.js",
   "author": {
     "name": "G&F Elektro s.r.o.",
+    "email": "info@gfelektro.com",
     "url": "https://www.gfelektro.com"
   },
   "repository": {
