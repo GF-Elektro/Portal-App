@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD033 MD041 -->
 <p align="center">
   <img src="build/icon.ico" alt="G&F Elektro Portal" width="80" />
 </p>
@@ -9,10 +10,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS-blue?style=flat-square" alt="Platform" />
+  <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square&logo=Polestar" alt="Platform" />
   <img src="https://img.shields.io/badge/electron-35-47848f?style=flat-square&logo=electron" alt="Electron" />
-  <img src="https://img.shields.io/badge/version-1.0.0-green?style=flat-square" alt="Version" />
-  <img src="https://img.shields.io/badge/license-Apache%202.0-blue?style=flat-square" alt="License" />
+  <img src="https://img.shields.io/badge/version-1.0.1-orange?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/license-Apache%202.0-yellow?style=flat-square" alt="License" />
 </p>
 
 ---
@@ -37,13 +38,13 @@ The app provides a native desktop experience with:
 
 Download the latest release from the [Releases](https://github.com/GF-Elektro/Portal-App/releases) page:
 
-| Platform | File | Notes |
-|----------|------|-------|
-| Windows  | `GFElektroPortal-x.x.x-Setup.exe` | NSIS Desktop Installer |
-| Windows  | `GFElektroPortal-x.x.x.exe` | Portable Windows App |
-| macOS    | `GFElektroPortal-x.x.x.dmg` | Drag & drop to Applications |
-| Linux    | `GFElektroPortal-x.x.x.AppImage` | Portable Linux executable |
-| Linux    | `GFElektroPortal-x.x.x.deb` | Debian/Ubuntu package |
+| Platform | File                               | Notes                        |
+| -------- | ---------------------------------- | ---------------------------- |
+| Windows  | `GFElektroPortal-x.x.x-Setup.exe` | NSIS Desktop Installer       |
+| Windows  | `GFElektroPortal-x.x.x.exe`       | Portable Windows App         |
+| macOS    | `GFElektroPortal-x.x.x.dmg`       | Drag & drop to Applications  |
+| Linux    | `GFElektroPortal-x.x.x.AppImage`  | Portable Linux executable    |
+| Linux    | `GFElektroPortal-x.x.x.deb`       | Debian/Ubuntu package        |
 
 ### Building from Source
 
@@ -87,6 +88,7 @@ When you **minimize** or **close** the window, the app minimizes to the system t
 
 - **Click** the tray icon to show/hide the window
 - **Right-click** the tray icon for options:
+  - *Version* — Show the current version
   - *Portal öffnen* — Show the portal window
   - *Neu laden* — Reload the portal
   - *Beenden* — Quit the application completely
@@ -101,7 +103,7 @@ The app automatically bridges web notifications from the portal to your operatin
 
 ### Project Structure
 
-```
+```text
 gf-elektro-portal/
 ├── build/
 │   ├── icon.ico                  # Windows icon
@@ -136,11 +138,11 @@ gf-elektro-portal/
 
 ### Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm start` | Run the app in development mode |
-| `npm run build` | Build executables for the current platform |
-| `npm run create-ico` | Regenerate the Windows icon from PNG |
+| Command              | Description                                |
+| -------------------- | ------------------------------------------ |
+| `npm start`          | Run the app in development mode            |
+| `npm run build`      | Build executables for the current platform |
+| `npm run create-ico` | Regenerate the Windows icon from PNG       |
 
 ---
 
@@ -161,6 +163,7 @@ This project is licensed under the [Apache License 2.0](LICENSE). See the [LICEN
 
 ---
 
+<!-- markdownlint-enable MD033 -->
 <p align="center">
   <sub>Built with ❤️ by <a href="https://www.gfelektro.com">G&F Elektro s.r.o.</a></sub>
 </p>
