@@ -18,6 +18,8 @@ Desktop.ini
 # IDE
 .vscode/
 .idea/
+.continue/
+.kilo/
 *.swp
 *.swo
 
