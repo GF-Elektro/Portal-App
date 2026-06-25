@@ -11,7 +11,8 @@ Thin Electron desktop wrapper that loads `https://portal.gfelektro.com` in a `Br
 ```bash
 npm start          # Run in dev mode (electron .)
 npm run build      # Build installers → release/ (electron-builder)
-npm run make-dmg   # Build macOS DMG → out/make/ (electron-forge + create-dmg)
+npm run build:win  # Build Windows installers on Windows
+npm run build:mac  # Build macOS DMG on a Mac
 ```
 
 ## Key Constraints
@@ -20,8 +21,8 @@ npm run make-dmg   # Build macOS DMG → out/make/ (electron-forge + create-dmg)
 - **No test runner** — `test-*.js` files are scratch scripts, not a suite.
 - **Tray-first lifecycle** — window close hides, does not quit. Use `showWindowFromTray()` / `hideWindowToTray()`.
 - **`isCreatingToast` flag** — must not be removed; guards toast BrowserWindow from auth popup handler.
-- **`AUTH_ALLOWED_DOMAINS`** — add any new Firebase/Google auth domains here or auth flows break.
-- **Two build toolchains** — `electron-builder` (primary/CI) vs `electron-forge + create-dmg` (macOS DMG). Do not mix config.
+- **Auth allowlists** — add new Firebase/Google auth hosts only through exact host or suffix rules in `src/main.js`.
+- **Single build toolchain** — `electron-builder` is used for CI and local platform builds.
 
 For detailed coding rules, see `.agent/rules/`.
 For authorized scripts, see `.agent/workflows/allow_scripts.md`.

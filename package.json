@@ -1,7 +1,7 @@
 {
   "name": "gf-elektro-portal",
   "productName": "G&F Elektro Portal",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Desktop app for G&F Elektro Portal – Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {
@@ -17,8 +17,10 @@
   "scripts": {
     "start": "electron .",
     "create-ico": "node scripts/create-ico.js",
-    "make-dmg": "node scripts/build-dmg.js",
-    "build": "electron-builder build"
+    "build": "electron-builder build",
+    "build:win": "electron-builder build --win",
+    "build:mac": "electron-builder build --mac",
+    "build:linux": "electron-builder build --linux"
   },
   "build": {
     "appId": "com.gfelektro.portal",

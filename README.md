@@ -12,7 +12,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square&logo=Polestar" alt="Platform" />
   <img src="https://img.shields.io/badge/electron-35-47848f?style=flat-square&logo=electron" alt="Electron" />
-  <img src="https://img.shields.io/badge/version-1.0.1-orange?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.0.2-orange?style=flat-square" alt="Version" />
   <img src="https://img.shields.io/badge/license-Apache%202.0-yellow?style=flat-square" alt="License" />
 </p>
 
@@ -25,7 +25,7 @@
 The app provides a native desktop experience with:
 
 - 🖥️ **Full-screen web view** — No browser chrome, toolbars, or address bars
-- 🔔 **Native notifications** — Web push notifications appear as native Windows/macOS notifications
+- 🔔 **Native notifications** — Portal page notifications appear as native desktop notifications
 - 📌 **System tray integration** — Minimize to tray, always accessible with one click
 - 🔒 **Single instance** — Only one instance of the app can run at a time
 - 🌐 **External link handling** — External links open in your default browser
@@ -68,8 +68,14 @@ npm install
 # Run in development mode
 npm start
 
-# Build for all platforms (may require wine/mono if cross-compiling on macOS)
+# Build for the current platform
 npm run build
+
+# Windows installers on this machine
+npm run build:win
+
+# macOS DMG on a Mac
+npm run build:mac
 ```
 
 The built binaries will be generated in the `release/` directory.
@@ -117,12 +123,10 @@ gf-elektro-portal/
 ├── logo.png                      # Logo image
 ├── scripts/
 │   ├── create-ico.js             # PNG to ICO converter
-│   ├── create-mac-icon.js        # macOS menu bar icon generator
-│   ├── create-dmg-bg.js          # DMG background generator
-│   └── build-dmg.js              # Custom DMG builder (uses create-dmg)
 ├── src/
 │   ├── main.js                   # Electron main process
-│   └── preload.js                # Preload script for renderer
+│   ├── preload.js                # Preload script for renderer
+│   └── toast-preload.js          # Isolated preload for macOS toast fallback
 ├── package.json
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
@@ -133,8 +137,8 @@ gf-elektro-portal/
 ### Key Technologies
 
 - **[Electron](https://www.electronjs.org/)** — Cross-platform desktop apps with web technologies
-- **[Electron Forge](https://www.electronforge.io/)** — Build tooling and distribution
-- **[Squirrel.Windows](https://github.com/Squirrel/Squirrel.Windows)** — Windows installer framework
+- **[electron-builder](https://www.electron.build/)** — Build tooling and distribution
+- **[NSIS](https://nsis.sourceforge.io/)** — Windows installer target via electron-builder
 
 ### Scripts
 
@@ -142,6 +146,9 @@ gf-elektro-portal/
 | -------------------- | ------------------------------------------ |
 | `npm start`          | Run the app in development mode            |
 | `npm run build`      | Build executables for the current platform |
+| `npm run build:win`  | Build Windows NSIS and portable packages   |
+| `npm run build:mac`  | Build the macOS DMG on a Mac               |
+| `npm run build:linux` | Build Linux AppImage and deb packages     |
 | `npm run create-ico` | Regenerate the Windows icon from PNG       |
 
 ---

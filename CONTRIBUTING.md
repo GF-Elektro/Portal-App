@@ -55,12 +55,11 @@ src/
 
 ### Branching Strategy
 
-We follow a simplified Git Flow:
+We follow a simple mainline workflow:
 
 | Branch | Purpose |
 |--------|---------|
 | `main` | Production-ready code, always stable |
-| `develop` | Integration branch for next release |
 | `feature/<name>` | New features |
 | `fix/<name>` | Bug fixes |
 | `hotfix/<name>` | Urgent production fixes |
@@ -68,9 +67,9 @@ We follow a simplified Git Flow:
 ### Creating a Feature
 
 ```bash
-# Create a feature branch from develop
-git checkout develop
-git pull origin develop
+# Create a feature branch from main
+git checkout main
+git pull origin main
 git checkout -b feature/my-feature
 
 # Make your changes
@@ -144,7 +143,7 @@ chore(deps): bump electron to v35
 
 - [ ] Ensure the app runs without errors (`npm start`)
 - [ ] Test on Windows (primary platform)
-- [ ] Update `CHANGELOG.md` with your changes under `[Unreleased]`
+- [ ] Update `CHANGELOG.md` with a version entry or planned release notes
 - [ ] Follow the coding standards above
 - [ ] Write a clear PR description
 
@@ -170,7 +169,7 @@ Add screenshots for UI changes.
 
 ### Review Process
 
-1. Submit a PR against `develop` (or `main` for hotfixes)
+1. Submit a PR against `main`
 2. At least one maintainer must approve the PR
 3. All CI checks must pass
 4. PRs are squash-merged to keep a clean history
@@ -189,9 +188,10 @@ We follow [Semantic Versioning](https://semver.org/):
 
 1. Update version in `package.json`
 2. Update `CHANGELOG.md` — move `[Unreleased]` items to the new version
-3. Build the installer: `npm run make`
-4. Create a GitHub Release with the installer attached
+3. Build locally for your platform: `npm run build`
+4. On Windows, use `npm run build:win`; on macOS, use `npm run build:mac` for the DMG
 5. Tag the release: `git tag v1.x.x`
+6. Push the tag so GitHub Actions builds and publishes release assets
 
 ---
 

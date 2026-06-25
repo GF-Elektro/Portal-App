@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnAppImage.classList.add('active', 'btn-primary');
         btnAppImage.classList.remove('btn-secondary');
         btnWin.classList.replace('btn-primary', 'btn-secondary');
-        osHint.textContent = 'Es sieht so aus, als würdest du Linux nutzen. Nähe AppImage oder Debian Paket.';
+        osHint.textContent = 'Es sieht so aus, als würdest du Linux nutzen. Wähle AppImage oder Debian-Paket.';
     } else {
         // Other
         osHint.textContent = 'Bitte lade die für dein Betriebssystem passende Datei herunter.';

@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.2] - 2026-06-25
+
+### Fixed
+
+#### Security & Auth Routing
+
+- **Hardened auth URL allowlisting** — replaced broad substring matching with exact host and explicit suffix checks for the portal, Google, Firebase, and related authentication endpoints.
+- **Restricted notification IPC senders** — notification requests are now accepted only from the trusted portal renderer, reducing exposure from auth popups or unexpected frames.
+- **Prevented duplicate IPC registration** — app-level notification handlers now register once for the application lifetime instead of every time the main window is recreated.
+
+#### Notifications
+
+- **Safer macOS toast fallback** — custom toast windows now run with `nodeIntegration` disabled, `contextIsolation` enabled, and a dedicated preload bridge for click handling.
+- **Clarified notification bridge behavior** — page-created notifications are bridged to Electron, while true Service Worker push handlers are documented as outside the preload context.
+- **Prevented duplicate page notification display** — page calls to `ServiceWorkerRegistration.showNotification()` no longer trigger both Electron and browser notification paths.
+
+#### Build & Documentation
+
+- **Aligned build scripts with Electron Builder** — removed the obsolete custom Forge/create-dmg path and added explicit platform build commands.
+- **Updated release documentation** — refreshed README, contributor guidance, and agent instructions for the `electron-builder` workflow.
+- **Fixed Linux download hint copy** on the GitHub Pages download page.
+
+---
+
 ## [1.0.1] - 2026-04-17
 
 ### Fixed
@@ -103,5 +127,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[1.0.2]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.2
 [1.0.1]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.1
 [1.0.0]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.0

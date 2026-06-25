@@ -13,7 +13,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
 });
 
 // ── Notification Bridge API ─────────────────────────────────
-// This provides a complete notification API that works with Service Workers
+// This bridges page-created notifications into Electron. Real push event
+// handlers run inside the service worker context and cannot be patched here.
 contextBridge.exposeInMainWorld('electronNotificationAPI', {
   // Request notification permission from the main process
   requestPermission: () => ipcRenderer.invoke('notification:request-permission'),
@@ -21,7 +22,7 @@ contextBridge.exposeInMainWorld('electronNotificationAPI', {
   // Check current permission state
   checkPermission: () => ipcRenderer.invoke('notification:check-permission'),
   
-  // Show a notification (used by Service Worker interceptor)
+  // Show a notification from trusted portal page code
   show: (title, options) => ipcRenderer.send('notification:show', title, options),
 });
 
@@ -31,14 +32,14 @@ ipcRenderer.on('notification:clicked', (event, data) => {
   window.dispatchEvent(new CustomEvent('electron-notification-clicked', { detail: data }));
 });
 
-// ── Service Worker Notification Interception ────────────────
-// Inject code into the main world to intercept Service Worker notifications
+// ── Page Notification Interception ──────────────────────────
+// Inject code into the main world so normal page notification calls use Electron.
 webFrame.executeJavaScript(`
   (function() {
     'use strict';
-    
+
     const activeNotifications = new Map();
-    
+
     // ── Override window.Notification for legacy support ───────
     class DesktopNotification extends window.EventTarget {
       constructor(title, options) {
@@ -52,14 +53,14 @@ webFrame.executeJavaScript(`
         this.onclose = null;
         this.onerror = null;
         this.onshow = null;
-        
+
         activeNotifications.set(this.id, this);
-        
+
         // Forward to our electron bridge
         if (window.electronNotificationAPI) {
           window.electronNotificationAPI.show(title, { ...this.options, id: this.id });
         }
-        
+
         // Simulate async show event
         setTimeout(() => {
           this.dispatchEvent(new Event('show'));
@@ -70,7 +71,7 @@ webFrame.executeJavaScript(`
       static get permission() {
         return 'granted';
       }
-      
+
       static requestPermission(callback) {
         if (window.electronNotificationAPI) {
           const promise = window.electronNotificationAPI.requestPermission();
@@ -79,16 +80,16 @@ webFrame.executeJavaScript(`
         }
         return Promise.resolve('granted');
       }
-      
+
       close() {
         activeNotifications.delete(this.id);
         this.dispatchEvent(new Event('close'));
         if (typeof this.onclose === 'function') this.onclose(new Event('close'));
       }
     }
-    
+
     window.Notification = DesktopNotification;
-    
+
     // Listen for notification clicks from Electron
     window.addEventListener('electron-notification-clicked', (event) => {
       const data = event.detail;
@@ -99,33 +100,25 @@ webFrame.executeJavaScript(`
           const clickEvent = new Event('click');
           notif.dispatchEvent(clickEvent);
           if (typeof notif.onclick === 'function') notif.onclick(clickEvent);
-          
+
           // Cleanup
           activeNotifications.delete(data.id);
         }
       }
     });
-    
-    // ── Intercept globally ServiceWorkerRegistration.showNotification ─
+
+    // ── Intercept page calls to ServiceWorkerRegistration.showNotification ─
+    // This does not patch the service worker global itself; it only handles
+    // calls made by portal page code that has a registration object.
     if ('ServiceWorkerRegistration' in window) {
-      const originalShowNotification = ServiceWorkerRegistration.prototype.showNotification;
-      
       ServiceWorkerRegistration.prototype.showNotification = async function(title, options = {}) {
-        // Send to Electron
         const id = Math.random().toString(36).substr(2, 9);
         if (window.electronNotificationAPI) {
           window.electronNotificationAPI.show(title, { ...options, id });
         }
-        
-        // Let the Native Web Notification trigger too silently to ensure SW states update if the portal depends on it
-        try {
-          await originalShowNotification.call(this, title, { ...options, silent: true });
-        } catch (e) {
-          // Ignore errors
-        }
       };
     }
-    
-    console.log('[Electron Preload] Enhanced Notification bridge initialized');
+
+    console.log('[Electron Preload] Notification bridge initialized');
   })();
 `);

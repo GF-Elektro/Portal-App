@@ -11,5 +11,8 @@ This workflow allows the agent to run common development scripts without asking 
 2. Build Installers (electron-builder → release/)
     `npm run build`
 
-3. Build macOS DMG (electron-forge + create-dmg → out/make/)
-    `npm run make-dmg`
+3. Build Windows Installers (electron-builder → release/)
+    `npm run build:win`
+
+4. Build macOS DMG on a Mac (electron-builder → release/)
+    `npm run build:mac`
