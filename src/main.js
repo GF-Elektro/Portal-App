@@ -1,9 +1,26 @@
 // ─────────────────────────────────────────────────────────────
 // G&F Elektro Portal – Electron Main Process
 // ─────────────────────────────────────────────────────────────
-const { app, BrowserWindow, Tray, Menu, nativeImage, Notification, shell, ipcMain } = require('electron');
+const {
+  app,
+  BrowserWindow,
+  Tray,
+  Menu,
+  nativeImage,
+  Notification,
+  shell,
+  ipcMain,
+  systemPreferences,
+  dialog,
+  session,
+} = require('electron');
+const fs = require('fs');
 const path = require('path');
 
+// Windows toast association must be set before app ready
+if (process.platform === 'win32') {
+  app.setAppUserModelId('com.gfelektro.portal');
+}
 
 // ── Constants ───────────────────────────────────────────────
 const PORTAL_URL = 'https://portal.gfelektro.com';
@@ -26,6 +43,9 @@ const AUTH_HOST_SUFFIXES = [
 const PORTAL_AUTH_PATH_PREFIXES = [
   '/__/auth',
 ];
+const DOWNLOAD_HOSTS = new Set([
+  'firebasestorage.googleapis.com',
+]);
 
 // ── State ───────────────────────────────────────────────────
 let mainWindow = null;
@@ -36,6 +56,8 @@ let isCreatingToast = false;
 let customToastClickData = null;
 let notificationIdCounter = 0;
 let ipcHandlersRegistered = false;
+let downloadHandlerRegistered = false;
+let micDeniedDialogShown = false;
 const activeNotifications = new Map();
 
 // ── Single Instance Lock ────────────────────────────────────
@@ -143,6 +165,127 @@ function isAuthOrAllowedURL(url) {
   } catch {
     return false;
   }
+}
+
+/**
+ * Checks whether a URL is a genuine OAuth/Firebase auth popup target.
+ * Unlike isAuthOrAllowedURL, this excludes broad portal hosts so PDF/storage
+ * links are not treated as auth windows.
+ *
+ * @param {string} url - Candidate URL
+ * @returns {boolean} True when close/reload auth handlers should attach
+ */
+function isGenuineAuthURL(url) {
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== 'https:') return false;
+
+    const hostname = normalizeHostname(parsed);
+    if (hostname === 'portal.gfelektro.com' || hostname === 'gfelektro.com') {
+      return PORTAL_AUTH_PATH_PREFIXES.some((prefix) => parsed.pathname.startsWith(prefix));
+    }
+
+    const authOnlyHosts = new Set([
+      'accounts.google.com',
+      'accounts.youtube.com',
+      'apis.google.com',
+    ]);
+    if (authOnlyHosts.has(hostname)) return true;
+
+    const authOnlySuffixes = [
+      '.firebaseapp.com',
+      '.firebaseauth.com',
+      '.gstatic.com',
+    ];
+    return authOnlySuffixes.some((suffix) => hostname === suffix.slice(1) || hostname.endsWith(suffix));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Checks whether a URL should be saved as a file download instead of a popup.
+ *
+ * @param {string} url - Candidate URL
+ * @returns {boolean} True when the URL should trigger a download
+ */
+function isFileDownloadURL(url) {
+  try {
+    if (url.startsWith('blob:')) return true;
+
+    const parsed = new URL(url);
+    const hostname = normalizeHostname(parsed);
+    if (DOWNLOAD_HOSTS.has(hostname)) return true;
+
+    const pathname = decodeURIComponent(parsed.pathname).toLowerCase();
+    return pathname.endsWith('.pdf');
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Builds a unique save path under the Downloads folder.
+ *
+ * @param {string} suggestedName - Preferred file name
+ * @returns {string} Absolute path that does not collide with an existing file
+ */
+function getUniqueDownloadPath(suggestedName) {
+  const downloadsDir = app.getPath('downloads');
+  const safeName = path.basename(suggestedName || 'download.bin') || 'download.bin';
+  const ext = path.extname(safeName);
+  const base = path.basename(safeName, ext) || 'download';
+
+  let candidate = path.join(downloadsDir, safeName);
+  let counter = 1;
+  while (fs.existsSync(candidate)) {
+    candidate = path.join(downloadsDir, `${base} (${counter})${ext}`);
+    counter += 1;
+  }
+  return candidate;
+}
+
+/**
+ * Registers a single session-level download handler for the app lifetime.
+ */
+function registerDownloadHandler() {
+  if (downloadHandlerRegistered) return;
+  downloadHandlerRegistered = true;
+
+  session.defaultSession.on('will-download', (event, item) => {
+    const savePath = getUniqueDownloadPath(item.getFilename());
+    item.setSavePath(savePath);
+
+    item.once('done', (doneEvent, state) => {
+      const fileName = path.basename(savePath);
+
+      if (state === 'completed') {
+        if (!Notification.isSupported()) return;
+
+        const notification = new Notification({
+          title: APP_NAME,
+          body: `Download abgeschlossen – ${fileName}`,
+          icon: getIconPath(),
+        });
+        notification.on('click', () => {
+          shell.showItemInFolder(savePath);
+        });
+        notification.show();
+        return;
+      }
+
+      if (state === 'cancelled') return;
+
+      if (Notification.isSupported()) {
+        const notification = new Notification({
+          title: APP_NAME,
+          body: `Download fehlgeschlagen – ${fileName}`,
+          icon: getIconPath(),
+        });
+        notification.show();
+      }
+    });
+  });
 }
 
 /**
@@ -395,9 +538,9 @@ function registerIpcHandlers() {
 }
 
 /**
- * Adds auth-popup navigation handlers to a child window.
+ * Adds navigation/close handlers used by genuine OAuth/Firebase auth popups.
  *
- * @param {Electron.BrowserWindow} childWindow - Candidate child window
+ * @param {Electron.BrowserWindow} childWindow - Auth popup window
  */
 function attachAuthPopupHandlers(childWindow) {
   if (childWindow === mainWindow || childWindow === customToast || isCreatingToast) return;
@@ -406,6 +549,16 @@ function attachAuthPopupHandlers(childWindow) {
 
   const closeOnPortalRedirect = (navUrl) => {
     if (!isPortalURL(navUrl)) return;
+    // Keep the popup open while Firebase handler routes are still running
+    try {
+      const parsed = new URL(navUrl);
+      if (PORTAL_AUTH_PATH_PREFIXES.some((prefix) => parsed.pathname.startsWith(prefix))) {
+        return;
+      }
+    } catch {
+      return;
+    }
+
     childWindow.close();
     if (mainWindow && !mainWindow.isDestroyed()) {
       mainWindow.webContents.reload();
@@ -467,8 +620,14 @@ function createWindow() {
     mainWindow.focus();
   });
 
-  // ── Handle Popups (Google Auth, etc.) ───────────────────
+  // ── Handle Popups (Google Auth, downloads, etc.) ────────
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    // Certificate PDFs / storage blobs → save to Downloads (no popup)
+    if (isFileDownloadURL(url)) {
+      mainWindow.webContents.downloadURL(url);
+      return { action: 'deny' };
+    }
+
     // Allow auth popups to open inside Electron
     if (isAuthOrAllowedURL(url)) {
       return {
@@ -492,6 +651,16 @@ function createWindow() {
     // Everything else → open in system browser
     shell.openExternal(url);
     return { action: 'deny' };
+  });
+
+  // Attach close/reload handlers only to genuine auth popups
+  mainWindow.webContents.on('did-create-window', (childWindow, details) => {
+    if (childWindow === customToast || isCreatingToast) return;
+    childWindow.setMenu(null);
+
+    if (isGenuineAuthURL(details.url)) {
+      attachAuthPopupHandlers(childWindow);
+    }
   });
 
   // ── Handle main window navigation ──────────────────────
@@ -558,6 +727,55 @@ function hideWindowToTray() {
   }
 }
 
+/**
+ * Fires a native test notification, or offers Windows settings when blocked.
+ */
+async function showTestNotification() {
+  if (!Notification.isSupported()) {
+    if (process.platform === 'win32') {
+      const result = await dialog.showMessageBox(mainWindow || undefined, {
+        type: 'warning',
+        title: APP_NAME,
+        message: 'Benachrichtigungen nicht verfügbar',
+        detail: 'Windows blockiert Benachrichtigungen für diese App. Öffnen Sie die Benachrichtigungseinstellungen, um sie zu aktivieren.',
+        buttons: ['Einstellungen öffnen', 'Abbrechen'],
+        defaultId: 0,
+        cancelId: 1,
+      });
+      if (result.response === 0) {
+        shell.openExternal('ms-settings:notifications');
+      }
+    }
+    return;
+  }
+
+  try {
+    const notification = new Notification({
+      title: APP_NAME,
+      body: 'Benachrichtigungen funktionieren.',
+      icon: getIconPath(),
+    });
+    notification.on('click', () => showWindowFromTray());
+    notification.show();
+  } catch (error) {
+    console.error('[Main] Failed to show test notification:', error);
+    if (process.platform === 'win32') {
+      const result = await dialog.showMessageBox(mainWindow || undefined, {
+        type: 'warning',
+        title: APP_NAME,
+        message: 'Benachrichtigungen blockiert',
+        detail: 'Die Test-Benachrichtigung konnte nicht angezeigt werden. Prüfen Sie die Windows-Benachrichtigungseinstellungen.',
+        buttons: ['Einstellungen öffnen', 'Abbrechen'],
+        defaultId: 0,
+        cancelId: 1,
+      });
+      if (result.response === 0) {
+        shell.openExternal('ms-settings:notifications');
+      }
+    }
+  }
+}
+
 // ── Create System Tray ──────────────────────────────────────
 function createTray() {
   tray = new Tray(getTrayIcon());
@@ -580,6 +798,10 @@ function createTray() {
           mainWindow.webContents.reload();
         }
       },
+    },
+    {
+      label: 'Benachrichtigung testen',
+      click: () => showTestNotification(),
     },
     { type: 'separator' },
     {
@@ -635,11 +857,9 @@ app.on('ready', () => {
   }
 
   registerIpcHandlers();
+  registerDownloadHandler();
   createWindow();
   createTray();
-
-  // Set the app user model ID for Windows notifications
-  app.setAppUserModelId('com.gfelektro.portal');
 });
 
 app.on('window-all-closed', () => {
@@ -664,18 +884,77 @@ app.on('before-quit', () => {
 });
 
 app.on('browser-window-created', (event, childWindow) => {
-  attachAuthPopupHandlers(childWindow);
+  // Guard toast windows; auth close/reload is attached via did-create-window
+  if (childWindow === mainWindow || childWindow === customToast || isCreatingToast) return;
+  childWindow.setMenu(null);
 });
 
-// ── Permission Handling ─────────────────────────────────────
-// Grant notification permission requests from the web content
-app.on('web-contents-created', (event, contents) => {
-  contents.session.setPermissionRequestHandler((webContents, permission, callback) => {
-    if (ALLOWED_PERMISSIONS.includes(permission)) {
-      callback(true);
-    } else {
-      callback(false);
+/**
+ * Shows a one-time Windows dialog when microphone access is denied at the OS level.
+ */
+async function showMicDeniedHintIfNeeded() {
+  if (micDeniedDialogShown || process.platform !== 'win32') return;
+  micDeniedDialogShown = true;
+
+  const result = await dialog.showMessageBox(mainWindow || undefined, {
+    type: 'warning',
+    title: APP_NAME,
+    message: 'Mikrofonzugriff ist blockiert',
+    detail: 'Windows hat den Mikrofonzugriff für diese App verweigert. Öffnen Sie die Datenschutzeinstellungen, um den Zugriff zu erlauben.',
+    buttons: ['Einstellungen öffnen', 'Abbrechen'],
+    defaultId: 0,
+    cancelId: 1,
+  });
+
+  if (result.response === 0) {
+    shell.openExternal('ms-settings:privacy-microphone');
+  }
+}
+
+/**
+ * Resolves OS-level microphone access before granting the web media permission.
+ *
+ * @returns {Promise<boolean>} True when media access should be granted to the page
+ */
+async function resolveMicrophoneAccess() {
+  try {
+    if (process.platform === 'darwin') {
+      const status = systemPreferences.getMediaAccessStatus('microphone');
+      if (status === 'granted') return true;
+      return systemPreferences.askForMediaAccess('microphone');
     }
+
+    if (process.platform === 'win32') {
+      const status = systemPreferences.getMediaAccessStatus('microphone');
+      if (status === 'denied') {
+        await showMicDeniedHintIfNeeded();
+        return false;
+      }
+      return true;
+    }
+  } catch (error) {
+    console.error('[Main] Failed to resolve microphone access:', error);
+  }
+
+  return true;
+}
+
+// ── Permission Handling ─────────────────────────────────────
+// Grant notification / media permission requests from the web content
+app.on('web-contents-created', (event, contents) => {
+  contents.session.setPermissionRequestHandler(async (webContents, permission, callback) => {
+    if (!ALLOWED_PERMISSIONS.includes(permission)) {
+      callback(false);
+      return;
+    }
+
+    if (permission === 'media') {
+      const granted = await resolveMicrophoneAccess();
+      callback(granted);
+      return;
+    }
+
+    callback(true);
   });
 
   // Auto-grant notification permission checks

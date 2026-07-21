@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.3] - 2026-07-21
+
+### Fixed
+
+#### Downloads & Popups
+
+- **Certificate PDFs download instead of opening as auth popups** — `window.open` targets that are `blob:` URLs, `.pdf` paths, or Firebase Storage hosts are saved to the Downloads folder via Electron's download pipeline.
+- **No more main-window reload after closing a certificate popup** — close/reload handlers are attached only to genuine Google/Firebase auth popups, not every child window.
+- **Auth redirect hardening** — portal `/__/auth/*` navigations no longer close the auth popup mid-flow.
+
+#### OS Permissions
+
+- **Windows notification association** — `app.setAppUserModelId` is applied before `ready` so OS toasts map to the installed app shortcut.
+- **Tray notification self-test** — right-click tray → *Benachrichtigung testen*; if blocked on Windows, a dialog offers to open notification settings.
+- **Microphone OS access** — macOS prompts via `askForMediaAccess('microphone')` with `NSMicrophoneUsageDescription`; Windows shows a one-time privacy-settings hint when mic access is denied.
+
+### Added
+
+- Session-level `will-download` handler that auto-saves files to Downloads with collision-safe names and shows a completion notification (click opens the file location).
+
+---
+
 ## [1.0.2] - 2026-06-25
 
 ### Fixed
@@ -127,6 +149,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[1.0.3]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.3
 [1.0.2]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.2
 [1.0.1]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.1
 [1.0.0]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.0

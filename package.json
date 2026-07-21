@@ -1,7 +1,7 @@
 {
   "name": "gf-elektro-portal",
   "productName": "G&F Elektro Portal",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Desktop app for G&F Elektro Portal – Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {
@@ -40,7 +40,10 @@
       "target": ["dmg"],
       "icon": "icon-512.png",
       "hardenedRuntime": false,
-      "gatekeeperAssess": false
+      "gatekeeperAssess": false,
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "Das G&F Elektro Portal benötigt Mikrofonzugriff für Sprachnachrichten und Audiofunktionen."
+      }
     },
     "dmg": {
       "background": "build/dmg-background.png",
