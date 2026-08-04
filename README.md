@@ -12,7 +12,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square&logo=Polestar" alt="Platform" />
   <img src="https://img.shields.io/badge/electron-35-47848f?style=flat-square&logo=electron" alt="Electron" />
-  <img src="https://img.shields.io/badge/version-1.0.11-orange?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.0.12-orange?style=flat-square" alt="Version" />
   <img src="https://img.shields.io/badge/license-Apache%202.0-yellow?style=flat-square" alt="License" />
 </p>
 
@@ -38,7 +38,7 @@ The app provides a native desktop experience with:
 ### macOS (Homebrew — recommended)
 
 ```bash
-brew tap KurtStevenK/tap
+brew tap GF-Elektro/tap
 brew install --cask gfe-portal-eu
 ```
 
@@ -57,7 +57,7 @@ If you previously installed **G&F Elektro Portal**, delete the old app from Appl
 If Homebrew asks you to trust a third-party cask:
 
 ```bash
-brew trust --cask KurtStevenK/tap/gfe-portal-eu
+brew trust --cask GF-Elektro/tap/gfe-portal-eu
 ```
 
 ### Pre-built Installers
@@ -135,8 +135,8 @@ The app automatically bridges web notifications from the portal to your operatin
 
 ## Maintainers
 
-- Set Portal-App secret `HOMEBREW_TAP_TOKEN` (PAT with `contents: write` on `KurtStevenK/homebrew-tap`) so the *Bump Homebrew Cask* workflow can update `sha256` on each release.
-- Transfer `KurtStevenK/homebrew-tap` → `GF-Elektro/homebrew-tap` when org permissions allow, then switch install docs back to `GF-Elektro/tap`.
+- Portal-App secret `HOMEBREW_TAP_TOKEN` (fine-grained PAT, Contents: Read and write on `GF-Elektro/homebrew-tap`) powers the *Bump Homebrew Cask* workflow on each GitHub Release.
+- Staff install: `brew tap GF-Elektro/tap` then `brew install --cask gfe-portal-eu`.
 
 ## Development
 

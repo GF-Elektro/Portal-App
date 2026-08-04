@@ -7,11 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.12] - 2026-08-04
+
+### Changed
+
+- **Homebrew tap is `GF-Elektro/tap`** — docs, tray *Check for Update* messaging, and the cask-bump workflow now use `GF-Elektro/homebrew-tap` after the org transfer. Secret `HOMEBREW_TAP_TOKEN` is configured on Portal-App.
+
+---
+
 ## [1.0.11] - 2026-08-04
 
 ### Changed
 
-- **Homebrew tap path** — docs and tray *Check for Update* messaging use `KurtStevenK/tap` (`KurtStevenK/homebrew-tap`) until the tap can be transferred to the `GF-Elektro` organization.
+- **Homebrew tap path** — docs and tray *Check for Update* messaging temporarily used `KurtStevenK/tap` until the tap was transferred to the `GF-Elektro` organization.
 
 ---
 
@@ -28,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Updates (macOS)
 
-- **Tray: Nach Updates suchen / Check for Update** — runs `brew upgrade --cask gfe-portal-eu` (requires Homebrew tap `KurtStevenK/tap`).
+- **Tray: Nach Updates suchen / Check for Update** — runs `brew upgrade --cask gfe-portal-eu` (requires Homebrew tap `GF-Elektro/tap`).
 - **Tray menu order** — Version → Portal öffnen → Neu laden → Check for Update → Tray-Symbol → Benachrichtigung testen → Sprache → Fenstergröße → Beenden.
 
 #### Tray icon
