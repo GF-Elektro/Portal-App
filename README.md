@@ -12,7 +12,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square&logo=Polestar" alt="Platform" />
   <img src="https://img.shields.io/badge/electron-35-47848f?style=flat-square&logo=electron" alt="Electron" />
-  <img src="https://img.shields.io/badge/version-1.0.10-orange?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.0.11-orange?style=flat-square" alt="Version" />
   <img src="https://img.shields.io/badge/license-Apache%202.0-yellow?style=flat-square" alt="License" />
 </p>
 
@@ -133,7 +133,13 @@ The app automatically bridges web notifications from the portal to your operatin
 
 ---
 
+## Maintainers
+
+- Set Portal-App secret `HOMEBREW_TAP_TOKEN` (PAT with `contents: write` on `KurtStevenK/homebrew-tap`) so the *Bump Homebrew Cask* workflow can update `sha256` on each release.
+- Transfer `KurtStevenK/homebrew-tap` → `GF-Elektro/homebrew-tap` when org permissions allow, then switch install docs back to `GF-Elektro/tap`.
+
 ## Development
+
 
 ### Project Structure
 

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.11] - 2026-08-04
+
+### Changed
+
+- **Homebrew tap path** — docs and tray *Check for Update* messaging use `KurtStevenK/tap` (`KurtStevenK/homebrew-tap`) until the tap can be transferred to the `GF-Elektro` organization.
+
+---
+
 ## [1.0.10] - 2026-08-04
 
 ### Changed
