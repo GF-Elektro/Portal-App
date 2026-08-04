@@ -38,7 +38,7 @@ The app provides a native desktop experience with:
 ### macOS (Homebrew — recommended)
 
 ```bash
-brew tap GF-Elektro/tap
+brew tap KurtStevenK/tap
 brew install --cask gfe-portal-eu
 ```
 
@@ -57,7 +57,7 @@ If you previously installed **G&F Elektro Portal**, delete the old app from Appl
 If Homebrew asks you to trust a third-party cask:
 
 ```bash
-brew trust --cask GF-Elektro/tap/gfe-portal-eu
+brew trust --cask KurtStevenK/tap/gfe-portal-eu
 ```
 
 ### Pre-built Installers
