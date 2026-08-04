@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.9] - 2026-08-04
+
+### Fixed
+
+#### Media & courses
+
+- **Course (and other) HTML5 fullscreen works again** — Electron was denying the Chromium `fullscreen` permission because it was missing from the session allowlist. Native video fullscreen and in-page fullscreen controls now succeed the same way they do in Chrome/Firefox.
+
+---
+
 ## [1.0.7] - 2026-08-04
 
 ### Added

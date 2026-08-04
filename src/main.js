@@ -27,7 +27,15 @@ if (process.platform === 'win32') {
 const PORTAL_URL = 'https://portal.gfelektro.com';
 const APP_NAME = 'G&F Elektro Portal';
 const PORTAL_ORIGIN = new URL(PORTAL_URL).origin;
-const ALLOWED_PERMISSIONS = ['notifications', 'media', 'clipboard-read', 'clipboard-sanitized-write'];
+// `fullscreen` is required for HTML5 / <video> Fullscreen API (course lessons, etc.).
+// Without it, Chromium denies requestFullscreen() even on a user click.
+const ALLOWED_PERMISSIONS = [
+  'notifications',
+  'media',
+  'clipboard-read',
+  'clipboard-sanitized-write',
+  'fullscreen',
+];
 const AUTH_EXACT_HOSTS = new Set([
   'portal.gfelektro.com',
   'gfelektro.com',
