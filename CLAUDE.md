@@ -35,14 +35,17 @@ The portal can create browser notifications from page code. Electron's renderer 
 **macOS-specific fallback:** unsigned macOS builds can't reliably trigger the native Notification UI, so the main process draws a custom transparent, frameless `BrowserWindow` as a toast in the top-right of the primary display. The toast uses `src/toast-preload.js` as an isolated click bridge with Node integration disabled. The `isCreatingToast` flag exists to prevent the `browser-window-created` handler (which exists for auth popups) from treating the toast as a child window. Don't remove it.
 
 ### Auth popup handling
-Google Sign-In / Firebase Auth requires popups to render inside Electron rather than the system browser. `setWindowOpenHandler` checks the URL against exact host and suffix allowlists in `src/main.js`. Matches open as a child `BrowserWindow`; everything else is opened via `shell.openExternal` and denied.
+Google Sign-In / Firebase Auth requires popups to render inside Electron rather than the system browser. `setWindowOpenHandler` checks the URL against exact host and suffix allowlists in `src/main.js` (including `about:blank` for initial window creation). Matches open as a child `BrowserWindow` (non-modal); everything else is opened via `shell.openExternal` and denied.
 
-The `app.on('browser-window-created')` handler watches each child popup for navigation back to the portal origin (via both `will-navigate` and `did-navigate`) — when that happens, the popup is closed and the main window is reloaded, which is how a successful auth flow propagates back. The `closed` handler also reloads the main window in case the user dismissed the popup mid-flow. If you add new auth-related domains (Google, Firebase, etc.), add them through the allowlist helpers — otherwise the popup gets shunted to the OS browser and the round-trip breaks.
+Genuine auth popups (detected via `isGenuineAuthURL` on `did-create-window`) get `attachAuthPopupHandlers` (menu cleared). **Do not close the popup from navigate handlers or reload the main window** — force-closing a child window during Google/Firebase navigation can take down the shell, and a main-window reload wipes in-memory MFA challenge state. Firebase delivers the auth result to the opener and closes the popup itself. The `browser-window-created` handler only clears menus on child windows (and guards toast windows).
 
 ### Tray-first lifecycle
 Closing or minimizing the window does **not** quit the app — it hides the window (and on macOS, hides the dock icon via `app.dock.hide()`). The only paths to actually quit are the tray's "Beenden" menu item and `app.on('before-quit')`, both of which set `isQuitting = true`. The `window-all-closed` handler is gated on `isQuitting`, so don't assume standard Electron quit behavior.
 
 `showWindowFromTray()` / `hideWindowToTray()` are the canonical ways to toggle visibility because they also handle the macOS dock show/hide. On macOS the tray is left-click-toggle; the context menu is bound to `right-click` only (intentional — `tray.setContextMenu()` is **not** called, because doing so makes macOS hijack the left-click).
+
+### Window size presets
+The main window opens at **1024×598** (Standard) by default. Tray → *Fenstergröße* offers Kompakt, Standard, Groß, and Maximal presets; the last choice is persisted in `userData/window-preferences.json`. Sizes scale down on smaller displays while preserving aspect ratio.
 
 ### Single-instance lock
 `app.requestSingleInstanceLock()` runs at module load. A second launch focuses the existing window instead of starting a new process. If you need to debug startup behavior, this is why launching the app twice doesn't give you two windows.

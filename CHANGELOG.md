@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.7] - 2026-08-04
+
+### Added
+
+#### Window & usability
+
+- **Smarter default window size** — the desktop app now opens at the ideal dashboard size (1024 × 598) instead of a larger generic window, so users no longer need to resize on every launch.
+- **Tray menu: Fenstergröße** — right-click the tray icon to switch between Kompakt, Standard, Groß, and Maximal. The app remembers the last choice and adapts to smaller screens automatically (never opens off-screen).
+- **Screen-aware sizing** — on laptops or smaller monitors, window presets scale down proportionally while keeping the correct layout ratio.
+
+---
+
+## [1.0.6] - 2026-08-04
+
+### Fixed
+
+#### Auth & MFA
+
+- **Fixed Google login crash (about:blank)** — allowed `about:blank` in URL checks so Firebase can safely initialize the OAuth popup window without being blocked.
+- **Fixed MFA loop** — OAuth popups no longer reload `mainWindow` on close or redirect, keeping in-memory MFA challenge state intact. Popup auto-close on portal return is safely deferred (`setImmediate`) to prevent Electron navigation crashes.
+- **Restored GPU hardware acceleration** — preserved full GPU acceleration for 3D graphics, live video conferences, and WebGL rendering.
+
+---
+
+## [1.0.4] - 2026-08-04
+
+### Fixed
+
+#### Auth & MFA
+
+- **Google login + Firebase MFA no longer loops to the login screen** — OAuth auth popups no longer reload the main window when the popup closes or returns to the portal. Reloading wiped the web app's in-memory MFA challenge state after the first factor completed; Firebase/React now keep the session and MFA overlay intact (same as Chrome/Firefox). Popup open/close behavior otherwise matches 1.0.3.
+
+---
+
 ## [1.0.3] - 2026-07-21
 
 ### Fixed
@@ -149,6 +183,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[1.0.7]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.7
+[1.0.6]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.6
 [1.0.3]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.3
 [1.0.2]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.2
 [1.0.1]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.1

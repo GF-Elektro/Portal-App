@@ -13,6 +13,7 @@ const {
   systemPreferences,
   dialog,
   session,
+  screen,
 } = require('electron');
 const fs = require('fs');
 const path = require('path');
@@ -46,6 +47,17 @@ const PORTAL_AUTH_PATH_PREFIXES = [
 const DOWNLOAD_HOSTS = new Set([
   'firebasestorage.googleapis.com',
 ]);
+const PREFERRED_WINDOW = { width: 1024, height: 598 };
+const WINDOW_ASPECT = PREFERRED_WINDOW.width / PREFERRED_WINDOW.height;
+const WINDOW_MIN = { width: 640, height: 374 };
+const WINDOW_SIZE_PRESETS = [
+  { id: 'compact', label: 'Kompakt', scale: 0.75 },
+  { id: 'standard', label: 'Standard', scale: 1.0 },
+  { id: 'large', label: 'Groß', scale: 1.25 },
+  { id: 'max', label: 'Maximal', scale: null },
+];
+const DEFAULT_WINDOW_PRESET_ID = 'standard';
+const WINDOW_PREFS_FILE = 'window-preferences.json';
 
 // ── State ───────────────────────────────────────────────────
 let mainWindow = null;
@@ -58,6 +70,7 @@ let notificationIdCounter = 0;
 let ipcHandlersRegistered = false;
 let downloadHandlerRegistered = false;
 let micDeniedDialogShown = false;
+let activeWindowPresetId = DEFAULT_WINDOW_PRESET_ID;
 const activeNotifications = new Map();
 
 // ── Single Instance Lock ────────────────────────────────────
@@ -112,6 +125,158 @@ function getTrayIcon() {
 }
 
 /**
+ * Returns the absolute path for persisted window size preferences.
+ *
+ * @returns {string} Path to window-preferences.json in userData
+ */
+function getWindowPrefsPath() {
+  return path.join(app.getPath('userData'), WINDOW_PREFS_FILE);
+}
+
+/**
+ * Loads the saved window size preset from disk.
+ *
+ * @returns {string} Active preset id
+ */
+function loadWindowSizePreference() {
+  try {
+    const raw = fs.readFileSync(getWindowPrefsPath(), 'utf8');
+    const data = JSON.parse(raw);
+    const isValid = WINDOW_SIZE_PRESETS.some((preset) => preset.id === data.presetId);
+    if (isValid) {
+      activeWindowPresetId = data.presetId;
+      return data.presetId;
+    }
+  } catch {
+    // Missing or invalid preferences fall back to the default preset.
+  }
+
+  activeWindowPresetId = DEFAULT_WINDOW_PRESET_ID;
+  return DEFAULT_WINDOW_PRESET_ID;
+}
+
+/**
+ * Persists the selected window size preset to disk.
+ *
+ * @param {string} presetId - Preset identifier
+ */
+function saveWindowSizePreference(presetId) {
+  activeWindowPresetId = presetId;
+  try {
+    fs.writeFileSync(getWindowPrefsPath(), JSON.stringify({ presetId }), 'utf8');
+  } catch (error) {
+    console.error('[Main] Failed to save window preferences:', error);
+  }
+}
+
+/**
+ * Resolves the display that should constrain window sizing.
+ *
+ * @param {Electron.BrowserWindow | null} browserWindow - Existing window, if any
+ * @returns {Electron.Display} Target display
+ */
+function getTargetDisplay(browserWindow) {
+  if (browserWindow && !browserWindow.isDestroyed()) {
+    return screen.getDisplayMatching(browserWindow.getBounds());
+  }
+  return screen.getPrimaryDisplay();
+}
+
+/**
+ * Scales a window size down to fit within a display work area.
+ *
+ * @param {number} width - Requested width
+ * @param {number} height - Requested height
+ * @param {Electron.Rectangle} workArea - Available work area
+ * @returns {{ width: number, height: number }} Fitted size
+ */
+function fitWindowSize(width, height, workArea) {
+  if (width <= workArea.width && height <= workArea.height) {
+    return { width: Math.round(width), height: Math.round(height) };
+  }
+
+  const scale = Math.min(workArea.width / width, workArea.height / height);
+  return {
+    width: Math.round(width * scale),
+    height: Math.round(height * scale),
+  };
+}
+
+/**
+ * Computes the fitted size for a named window preset.
+ *
+ * @param {string} presetId - Preset identifier
+ * @param {Electron.Rectangle} workArea - Available work area
+ * @returns {{ width: number, height: number }} Preset size
+ */
+function computePresetSize(presetId, workArea) {
+  const preset = WINDOW_SIZE_PRESETS.find((entry) => entry.id === presetId)
+    || WINDOW_SIZE_PRESETS.find((entry) => entry.id === DEFAULT_WINDOW_PRESET_ID);
+
+  let width;
+  let height;
+
+  if (preset.scale === null) {
+    const maxWidth = workArea.width * 0.9;
+    const maxHeight = workArea.height * 0.9;
+
+    if (maxWidth / maxHeight > WINDOW_ASPECT) {
+      height = maxHeight;
+      width = maxHeight * WINDOW_ASPECT;
+    } else {
+      width = maxWidth;
+      height = maxWidth / WINDOW_ASPECT;
+    }
+  } else {
+    width = PREFERRED_WINDOW.width * preset.scale;
+    height = PREFERRED_WINDOW.height * preset.scale;
+  }
+
+  return fitWindowSize(width, height, workArea);
+}
+
+/**
+ * Centers a window within a display work area.
+ *
+ * @param {Electron.BrowserWindow} browserWindow - Window to reposition
+ * @param {Electron.Rectangle} workArea - Available work area
+ */
+function centerWindowInWorkArea(browserWindow, workArea) {
+  const [width, height] = browserWindow.getSize();
+  const x = workArea.x + Math.round((workArea.width - width) / 2);
+  const y = workArea.y + Math.round((workArea.height - height) / 2);
+  browserWindow.setPosition(x, y);
+}
+
+/**
+ * Applies a window size preset to the main window and persists the choice.
+ *
+ * @param {string} presetId - Preset identifier
+ */
+function applyWindowSize(presetId) {
+  if (!mainWindow || mainWindow.isDestroyed()) return;
+
+  saveWindowSizePreference(presetId);
+
+  const workArea = getTargetDisplay(mainWindow).workArea;
+  const { width, height } = computePresetSize(presetId, workArea);
+  mainWindow.setSize(width, height);
+  centerWindowInWorkArea(mainWindow, workArea);
+}
+
+/**
+ * Builds the tray label for a window size preset, including fitted dimensions.
+ *
+ * @param {{ id: string, label: string }} preset - Preset definition
+ * @param {Electron.Rectangle} workArea - Available work area
+ * @returns {string} Menu label
+ */
+function formatPresetMenuLabel(preset, workArea) {
+  const { width, height } = computePresetSize(preset.id, workArea);
+  return `${preset.label} (${width} × ${height})`;
+}
+
+/**
  * Normalizes a parsed URL hostname for exact and suffix allowlist checks.
  *
  * @param {URL} parsedUrl - Parsed URL instance
@@ -155,6 +320,7 @@ function isPortalURL(url) {
  */
 function isAuthOrAllowedURL(url) {
   try {
+    if (!url || url === 'about:blank' || url.startsWith('about:')) return true;
     const parsed = new URL(url);
     if (parsed.protocol !== 'https:') return false;
     if (hasAllowedAuthHost(parsed)) return true;
@@ -173,10 +339,11 @@ function isAuthOrAllowedURL(url) {
  * links are not treated as auth windows.
  *
  * @param {string} url - Candidate URL
- * @returns {boolean} True when close/reload auth handlers should attach
+ * @returns {boolean} True when auth popup handlers should attach
  */
 function isGenuineAuthURL(url) {
   try {
+    if (!url || url === 'about:blank' || url.startsWith('about:')) return true;
     const parsed = new URL(url);
     if (parsed.protocol !== 'https:') return false;
 
@@ -538,7 +705,11 @@ function registerIpcHandlers() {
 }
 
 /**
- * Adds navigation/close handlers used by genuine OAuth/Firebase auth popups.
+ * Configures genuine OAuth/Firebase auth popups.
+ * Never closes the popup or reloads the main window — force-closing a child
+ * BrowserWindow during Google/Firebase navigation can take down the Electron
+ * shell, and reloading the main window wipes in-memory MFA challenge state.
+ * Firebase delivers the auth result to the opener and closes the popup itself.
  *
  * @param {Electron.BrowserWindow} childWindow - Auth popup window
  */
@@ -546,49 +717,20 @@ function attachAuthPopupHandlers(childWindow) {
   if (childWindow === mainWindow || childWindow === customToast || isCreatingToast) return;
 
   childWindow.setMenu(null);
-
-  const closeOnPortalRedirect = (navUrl) => {
-    if (!isPortalURL(navUrl)) return;
-    // Keep the popup open while Firebase handler routes are still running
-    try {
-      const parsed = new URL(navUrl);
-      if (PORTAL_AUTH_PATH_PREFIXES.some((prefix) => parsed.pathname.startsWith(prefix))) {
-        return;
-      }
-    } catch {
-      return;
-    }
-
-    childWindow.close();
-    if (mainWindow && !mainWindow.isDestroyed()) {
-      mainWindow.webContents.reload();
-    }
-  };
-
-  childWindow.webContents.on('will-navigate', (navEvent, navUrl) => {
-    closeOnPortalRedirect(navUrl);
-  });
-
-  childWindow.webContents.on('did-navigate', (navEvent, navUrl) => {
-    closeOnPortalRedirect(navUrl);
-  });
-
-  childWindow.on('closed', () => {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-      mainWindow.webContents.reload();
-    }
-  });
 }
 
 // ── Create Main Window ──────────────────────────────────────
 function createWindow() {
   const icon = nativeImage.createFromPath(getIconPath());
+  const presetId = loadWindowSizePreference();
+  const workArea = getTargetDisplay(null).workArea;
+  const { width, height } = computePresetSize(presetId, workArea);
 
   mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 800,
-    minWidth: 800,
-    minHeight: 600,
+    width,
+    height,
+    minWidth: WINDOW_MIN.width,
+    minHeight: WINDOW_MIN.height,
     icon: icon,
     title: APP_NAME,
     show: false, // Don't show until ready
@@ -616,6 +758,7 @@ function createWindow() {
 
   // Show window when ready to avoid white flash
   mainWindow.once('ready-to-show', () => {
+    centerWindowInWorkArea(mainWindow, getTargetDisplay(mainWindow).workArea);
     mainWindow.show();
     mainWindow.focus();
   });
@@ -628,7 +771,8 @@ function createWindow() {
       return { action: 'deny' };
     }
 
-    // Allow auth popups to open inside Electron
+    // Allow auth popups to open inside Electron (non-modal — parented modals
+    // have crashed the shell when the popup closes mid Google/Firebase auth)
     if (isAuthOrAllowedURL(url)) {
       return {
         action: 'allow',
@@ -638,7 +782,6 @@ function createWindow() {
           autoHideMenuBar: true,
           icon: icon,
           title: 'G&F Elektro – Anmeldung',
-          parent: mainWindow,
           webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
@@ -653,7 +796,7 @@ function createWindow() {
     return { action: 'deny' };
   });
 
-  // Attach close/reload handlers only to genuine auth popups
+  // Attach auth popup close handlers only to genuine Google/Firebase popups
   mainWindow.webContents.on('did-create-window', (childWindow, details) => {
     if (childWindow === customToast || isCreatingToast) return;
     childWindow.setMenu(null);
@@ -777,10 +920,10 @@ async function showTestNotification() {
 }
 
 // ── Create System Tray ──────────────────────────────────────
-function createTray() {
-  tray = new Tray(getTrayIcon());
+function buildTrayContextMenu() {
+  const workArea = getTargetDisplay(mainWindow).workArea;
 
-  const contextMenu = Menu.buildFromTemplate([
+  return Menu.buildFromTemplate([
     {
       label: `Version ${app.getVersion()}`,
       enabled: false,
@@ -789,6 +932,15 @@ function createTray() {
     {
       label: 'Portal öffnen',
       click: () => showWindowFromTray(),
+    },
+    {
+      label: 'Fenstergröße',
+      submenu: WINDOW_SIZE_PRESETS.map((preset) => ({
+        label: formatPresetMenuLabel(preset, workArea),
+        type: 'checkbox',
+        checked: activeWindowPresetId === preset.id,
+        click: () => applyWindowSize(preset.id),
+      })),
     },
     {
       label: 'Neu laden',
@@ -812,6 +964,10 @@ function createTray() {
       },
     },
   ]);
+}
+
+function createTray() {
+  tray = new Tray(getTrayIcon());
 
   tray.setToolTip(APP_NAME);
 
@@ -830,7 +986,7 @@ function createTray() {
   });
 
   tray.on('right-click', () => {
-    tray.popUpContextMenu(contextMenu);
+    tray.popUpContextMenu(buildTrayContextMenu());
   });
 
   // Double-click to always open (Windows)
@@ -884,7 +1040,7 @@ app.on('before-quit', () => {
 });
 
 app.on('browser-window-created', (event, childWindow) => {
-  // Guard toast windows; auth close/reload is attached via did-create-window
+  // Guard toast windows; auth popup close is attached via did-create-window
   if (childWindow === mainWindow || childWindow === customToast || isCreatingToast) return;
   childWindow.setMenu(null);
 });
