@@ -1,9 +1,39 @@
 # Changelog
 
-All notable changes to the **G&F Elektro Portal** desktop application will be documented in this file.
+All notable changes to the **G&F Portal EU** desktop application will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [1.0.10] - 2026-08-04
+
+### Changed
+
+#### Branding
+
+- **App renamed to G&F Portal EU** — Finder, Dock, window title, and notifications now use *G&F Portal EU* (bundle remains `com.gfelektro.portal`).
+- **New Dock / DMG icon** — uses the Digital Platform `favicon.png` (red G&F with yellow bolt).
+
+### Added
+
+#### Updates (macOS)
+
+- **Tray: Nach Updates suchen / Check for Update** — runs `brew upgrade --cask gfe-portal-eu` (requires Homebrew tap `GF-Elektro/tap`).
+- **Tray menu order** — Version → Portal öffnen → Neu laden → Check for Update → Tray-Symbol → Benachrichtigung testen → Sprache → Fenstergröße → Beenden.
+
+#### Tray icon
+
+- **Selectable tray icon** — right-click the tray icon and choose *Tray-Symbol* to use **G&F** (the new default), **GF**, or a yellow/orange **Blitz** symbol.
+- **Preference is remembered** — the selected tray icon is restored automatically after restarting the app.
+- **Native macOS appearance** — macOS uses the system-required monochrome menu-bar variants; Windows uses the colored G&F and spark assets.
+- **Seven tray menu languages** — choose Slovak, Czech, Polish, Hungarian, German, Ukrainian, or English from the new *Sprache* submenu.
+- **G⚡F icon** — fourth compact tray symbol combining G, lightning bolt, and F.
+
+### Fixed
+
+- **Clear, undistorted tray symbols** — tray symbols preserve natural proportions; refined 17px macOS text icons; ampersand escaping in Electron menus.
 
 ---
 
@@ -14,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Media & courses
 
 - **Course (and other) HTML5 fullscreen works again** — Electron was denying the Chromium `fullscreen` permission because it was missing from the session allowlist. Native video fullscreen and in-page fullscreen controls now succeed the same way they do in Chrome/Firefox.
+
 
 ---
 
@@ -193,6 +224,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[1.0.8]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.8
 [1.0.7]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.7
 [1.0.6]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.6
 [1.0.3]: https://github.com/GF-Elektro/Portal-App/releases/tag/v1.0.3

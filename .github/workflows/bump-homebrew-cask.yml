@@ -1,0 +1,94 @@
+name: Bump Homebrew Cask
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.8)'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  bump-cask:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve version
+        id: ver
+        env:
+          INPUT_TAG: ${{ github.event.inputs.tag }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          TAG="${INPUT_TAG:-$RELEASE_TAG}"
+          if [ -z "$TAG" ]; then
+            echo "No tag provided" >&2
+            exit 1
+          fi
+          VERSION="${TAG#v}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "asset=GFElektroPortal-${VERSION}.dmg" >> "$GITHUB_OUTPUT"
+
+      - name: Download macOS DMG
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release download "${{ steps.ver.outputs.tag }}" \
+            --repo GF-Elektro/Portal-App \
+            --pattern "${{ steps.ver.outputs.asset }}" \
+            --dir /tmp
+
+      - name: Compute SHA-256
+        id: sha
+        run: |
+          HASH=$(sha256sum "/tmp/${{ steps.ver.outputs.asset }}" | awk '{print $1}')
+          echo "sha256=$HASH" >> "$GITHUB_OUTPUT"
+          echo "sha256=$HASH"
+
+      - name: Checkout homebrew-tap
+        uses: actions/checkout@v4
+        with:
+          repository: GF-Elektro/homebrew-tap
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          path: homebrew-tap
+
+      - name: Update cask
+        env:
+          VERSION: ${{ steps.ver.outputs.version }}
+          SHA256: ${{ steps.sha.outputs.sha256 }}
+        run: |
+          CASK="homebrew-tap/Casks/gfe-portal-eu.rb"
+          if [ ! -f "$CASK" ]; then
+            echo "Missing $CASK" >&2
+            exit 1
+          fi
+          python3 << 'PY'
+          from pathlib import Path
+          import os, re
+          version = os.environ["VERSION"]
+          sha = os.environ["SHA256"]
+          path = Path("homebrew-tap/Casks/gfe-portal-eu.rb")
+          text = path.read_text()
+          text = re.sub(r'version "[^"]+"', f'version "{version}"', text, count=1)
+          text = re.sub(r'sha256 "[^"]+"', f'sha256 "{sha}"', text, count=1)
+          path.write_text(text)
+          print(path.read_text())
+          PY
+
+      - name: Commit and push
+        working-directory: homebrew-tap
+        env:
+          VERSION: ${{ steps.ver.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Casks/gfe-portal-eu.rb
+          if git diff --cached --quiet; then
+            echo "No cask changes"
+            exit 0
+          fi
+          git commit -m "gfe-portal-eu ${VERSION}"
+          git push

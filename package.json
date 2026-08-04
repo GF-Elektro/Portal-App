@@ -1,8 +1,8 @@
 {
   "name": "gf-elektro-portal",
-  "productName": "G&F Elektro Portal",
-  "version": "1.0.9",
-  "description": "Desktop app for G&F Elektro Portal – Portal for managing electrical installation projects",
+  "productName": "G&F Portal EU",
+  "version": "1.0.10",
+  "description": "Desktop app for G&F Portal EU – Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {
     "name": "G&F Elektro s.r.o.",
@@ -24,7 +24,7 @@
   },
   "build": {
     "appId": "com.gfelektro.portal",
-    "productName": "G&F Elektro Portal",
+    "productName": "G&F Portal EU",
     "artifactName": "GFElektroPortal-${version}.${ext}",
     "directories": {
       "output": "release"
@@ -34,7 +34,15 @@
       "package.json",
       "icon-512.png",
       "build/icon.ico",
-      "build/mac-tray-iconTemplate.png"
+      "build/mac-tray-gfTemplate.png",
+      "build/mac-tray-g-and-fTemplate.png",
+      "build/mac-tray-sparkTemplate.png",
+      "build/mac-tray-g-bolt-fTemplate.png",
+      "build/tray-gf.png",
+      "build/tray-g-and-f.png",
+      "build/tray-spark.png",
+      "build/tray-g-bolt-f.png",
+      "build/flags/*.svg"
     ],
     "mac": {
       "target": ["dmg"],
@@ -42,7 +50,7 @@
       "hardenedRuntime": false,
       "gatekeeperAssess": false,
       "extendInfo": {
-        "NSMicrophoneUsageDescription": "Das G&F Elektro Portal benötigt Mikrofonzugriff für Sprachnachrichten und Audiofunktionen."
+        "NSMicrophoneUsageDescription": "Das G&F Portal EU benötigt Mikrofonzugriff für Sprachnachrichten und Audiofunktionen."
       }
     },
     "dmg": {

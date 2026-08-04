@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-// G&F Elektro Portal – Electron Main Process
+// G&F Portal EU – Electron Main Process
 // ─────────────────────────────────────────────────────────────
 const {
   app,
@@ -17,6 +17,7 @@ const {
 } = require('electron');
 const fs = require('fs');
 const path = require('path');
+const { execFile } = require('child_process');
 
 // Windows toast association must be set before app ready
 if (process.platform === 'win32') {
@@ -25,7 +26,7 @@ if (process.platform === 'win32') {
 
 // ── Constants ───────────────────────────────────────────────
 const PORTAL_URL = 'https://portal.gfelektro.com';
-const APP_NAME = 'G&F Elektro Portal';
+const APP_NAME = 'G&F Portal EU';
 const PORTAL_ORIGIN = new URL(PORTAL_URL).origin;
 // `fullscreen` is required for HTML5 / <video> Fullscreen API (course lessons, etc.).
 // Without it, Chromium denies requestFullscreen() even on a user click.
@@ -64,7 +65,33 @@ const WINDOW_SIZE_PRESETS = [
   { id: 'large', label: 'Groß', scale: 1.25 },
   { id: 'max', label: 'Maximal', scale: null },
 ];
+const TRAY_ICON_PRESETS = [
+  { id: 'g-and-f' },
+  { id: 'gf' },
+  { id: 'spark' },
+  { id: 'g-bolt-f' },
+];
+const TRAY_LANGUAGES = [
+  { id: 'sk', label: 'Slovenčina' },
+  { id: 'cz', label: 'Čeština' },
+  { id: 'pl', label: 'Polski' },
+  { id: 'hu', label: 'Magyar' },
+  { id: 'de', label: 'Deutsch' },
+  { id: 'uk', label: 'Українська' },
+  { id: 'en', label: 'English' },
+];
+const TRAY_TRANSLATIONS = {
+  de: { open: 'Portal öffnen', reload: 'Neu laden', checkForUpdate: 'Nach Updates suchen', updating: 'Update wird geprüft…', updateDone: 'Update abgeschlossen', updateLatest: 'Bereits auf dem neuesten Stand', updateFailed: 'Update fehlgeschlagen', brewMissing: 'Homebrew nicht gefunden. Bitte Brew installieren und GF-Elektro/tap hinzufügen.', relaunchPrompt: 'Eine neue Version wurde installiert. App jetzt neu starten?', relaunch: 'Neu starten', later: 'Später', trayIcon: 'Tray-Symbol', language: 'Sprache', windowSize: 'Fenstergröße', compact: 'Kompakt', standard: 'Standard', large: 'Groß', max: 'Maximal', testNotification: 'Benachrichtigung testen', quit: 'Beenden', bolt: 'Blitz' },
+  en: { open: 'Open portal', reload: 'Reload', checkForUpdate: 'Check for Update', updating: 'Checking for updates…', updateDone: 'Update complete', updateLatest: 'Already up to date', updateFailed: 'Update failed', brewMissing: 'Homebrew not found. Install Brew and tap GF-Elektro/tap.', relaunchPrompt: 'A new version was installed. Relaunch the app now?', relaunch: 'Relaunch', later: 'Later', trayIcon: 'Tray icon', language: 'Language', windowSize: 'Window size', compact: 'Compact', standard: 'Standard', large: 'Large', max: 'Maximum', testNotification: 'Test notification', quit: 'Quit', bolt: 'Lightning bolt' },
+  sk: { open: 'Otvoriť portál', reload: 'Obnoviť', checkForUpdate: 'Skontrolovať aktualizácie', updating: 'Kontrolujú sa aktualizácie…', updateDone: 'Aktualizácia dokončená', updateLatest: 'Už máte najnovšiu verziu', updateFailed: 'Aktualizácia zlyhala', brewMissing: 'Homebrew sa nenašiel. Nainštalujte Brew a pridajte GF-Elektro/tap.', relaunchPrompt: 'Bola nainštalovaná nová verzia. Reštartovať aplikáciu?', relaunch: 'Reštartovať', later: 'Neskôr', trayIcon: 'Ikona v lište', language: 'Jazyk', windowSize: 'Veľkosť okna', compact: 'Kompaktné', standard: 'Štandardné', large: 'Veľké', max: 'Maximálne', testNotification: 'Otestovať upozornenie', quit: 'Ukončiť', bolt: 'Blesk' },
+  cz: { open: 'Otevřít portál', reload: 'Obnovit', checkForUpdate: 'Zkontrolovat aktualizace', updating: 'Kontrola aktualizací…', updateDone: 'Aktualizace dokončena', updateLatest: 'Již máte nejnovější verzi', updateFailed: 'Aktualizace selhala', brewMissing: 'Homebrew nenalezen. Nainstalujte Brew a přidejte GF-Elektro/tap.', relaunchPrompt: 'Byla nainstalována nová verze. Restartovat aplikaci?', relaunch: 'Restartovat', later: 'Později', trayIcon: 'Ikona v liště', language: 'Jazyk', windowSize: 'Velikost okna', compact: 'Kompaktní', standard: 'Standardní', large: 'Velké', max: 'Maximální', testNotification: 'Otestovat oznámení', quit: 'Ukončit', bolt: 'Blesk' },
+  pl: { open: 'Otwórz portal', reload: 'Odśwież', checkForUpdate: 'Sprawdź aktualizacje', updating: 'Sprawdzanie aktualizacji…', updateDone: 'Aktualizacja zakończona', updateLatest: 'Masz już najnowszą wersję', updateFailed: 'Aktualizacja nie powiodła się', brewMissing: 'Nie znaleziono Homebrew. Zainstaluj Brew i dodaj GF-Elektro/tap.', relaunchPrompt: 'Zainstalowano nową wersję. Uruchomić aplikację ponownie?', relaunch: 'Uruchom ponownie', later: 'Później', trayIcon: 'Ikona w zasobniku', language: 'Język', windowSize: 'Rozmiar okna', compact: 'Kompaktowy', standard: 'Standardowy', large: 'Duży', max: 'Maksymalny', testNotification: 'Test powiadomienia', quit: 'Zakończ', bolt: 'Błyskawica' },
+  hu: { open: 'Portál megnyitása', reload: 'Újratöltés', checkForUpdate: 'Frissítések keresése', updating: 'Frissítések ellenőrzése…', updateDone: 'Frissítés kész', updateLatest: 'Már a legújabb verzió fut', updateFailed: 'A frissítés sikertelen', brewMissing: 'A Homebrew nem található. Telepítse a Brew-t és adja hozzá a GF-Elektro/tap-et.', relaunchPrompt: 'Új verzió telepítve. Újraindítja az alkalmazást?', relaunch: 'Újraindítás', later: 'Később', trayIcon: 'Tálcaikon', language: 'Nyelv', windowSize: 'Ablakméret', compact: 'Kompakt', standard: 'Normál', large: 'Nagy', max: 'Maximális', testNotification: 'Értesítés tesztelése', quit: 'Kilépés', bolt: 'Villám' },
+  uk: { open: 'Відкрити портал', reload: 'Перезавантажити', checkForUpdate: 'Перевірити оновлення', updating: 'Перевірка оновлень…', updateDone: 'Оновлення завершено', updateLatest: 'Вже найновіша версія', updateFailed: 'Помилка оновлення', brewMissing: 'Homebrew не знайдено. Встановіть Brew і додайте GF-Elektro/tap.', relaunchPrompt: 'Встановлено нову версію. Перезапустити застосунок?', relaunch: 'Перезапустити', later: 'Пізніше', trayIcon: 'Значок у треї', language: 'Мова', windowSize: 'Розмір вікна', compact: 'Компактний', standard: 'Стандартний', large: 'Великий', max: 'Максимальний', testNotification: 'Тест сповіщення', quit: 'Вийти', bolt: 'Блискавка' },
+};
 const DEFAULT_WINDOW_PRESET_ID = 'standard';
+const DEFAULT_TRAY_ICON_PRESET_ID = 'g-and-f';
+const DEFAULT_TRAY_LANGUAGE_ID = 'de';
 const WINDOW_PREFS_FILE = 'window-preferences.json';
 
 // ── State ───────────────────────────────────────────────────
@@ -79,6 +106,8 @@ let ipcHandlersRegistered = false;
 let downloadHandlerRegistered = false;
 let micDeniedDialogShown = false;
 let activeWindowPresetId = DEFAULT_WINDOW_PRESET_ID;
+let activeTrayIconPresetId = DEFAULT_TRAY_ICON_PRESET_ID;
+let activeTrayLanguageId = DEFAULT_TRAY_LANGUAGE_ID;
 const activeNotifications = new Map();
 
 // ── Single Instance Lock ────────────────────────────────────
@@ -111,25 +140,66 @@ function getIconPath() {
   }
 }
 
+/**
+ * Resolves a tray icon asset in development or a packaged app.
+ *
+ * @param {string} fileName - Icon file name within the build directory
+ * @returns {string} Absolute icon asset path
+ */
+function getTrayIconAssetPath(fileName) {
+  const devPath = path.join(__dirname, '..', 'build', fileName);
+  const prodPath = path.join(app.getAppPath(), 'build', fileName);
+
+  try {
+    fs.accessSync(devPath);
+    return devPath;
+  } catch {
+    return prodPath;
+  }
+}
+
+/**
+ * Returns the selected tray icon for the current operating system.
+ *
+ * @returns {Electron.NativeImage} Current tray icon
+ */
 function getTrayIcon() {
+  const fileName = process.platform === 'darwin'
+    ? `mac-tray-${activeTrayIconPresetId}Template.png`
+    : `tray-${activeTrayIconPresetId}.png`;
+  const icon = nativeImage.createFromPath(getTrayIconAssetPath(fileName));
+  const height = process.platform === 'darwin'
+    ? (activeTrayIconPresetId === 'spark' ? 18 : 17)
+    : 16;
+  // Set only height so wide text icons retain their native aspect ratio.
+  const resized = icon.resize({ height });
+
   if (process.platform === 'darwin') {
-    // macOS menu bar icons should use the transparent typography template
-    const devPath = path.join(__dirname, '..', 'build', 'mac-tray-iconTemplate.png');
-    const prodPath = path.join(process.resourcesPath, 'mac-tray-iconTemplate.png');
-    let activePath = devPath;
-    try { require('fs').accessSync(devPath); } catch { activePath = prodPath; }
-    
-    const iconBase = nativeImage.createFromPath(activePath);
-    // Menu bar icons look best around 18x18
-    const resized = iconBase.resize({ width: 18, height: 18 });
+    // macOS status-bar icons must be monochrome template images.
     resized.setTemplateImage(true);
-    return resized;
   }
 
-  // Windows tray icons should be 16x16
-  const iconPath = getIconPath();
-  const icon = nativeImage.createFromPath(iconPath);
-  return icon.resize({ width: 16, height: 16 });
+  return resized;
+}
+
+/**
+ * Loads a language flag SVG for use in the tray context menu.
+ *
+ * @param {string} languageId - Language identifier
+ * @returns {Electron.NativeImage} Resized flag icon
+ */
+function getLanguageFlagIcon(languageId) {
+  const icon = nativeImage.createFromPath(getTrayIconAssetPath(`flags/${languageId}.svg`));
+  return icon.isEmpty() ? icon : icon.resize({ height: 14 });
+}
+
+/**
+ * Returns the localized labels for the selected tray menu language.
+ *
+ * @returns {object} Tray menu labels
+ */
+function getTrayLabels() {
+  return TRAY_TRANSLATIONS[activeTrayLanguageId] || TRAY_TRANSLATIONS[DEFAULT_TRAY_LANGUAGE_ID];
 }
 
 /**
@@ -150,8 +220,18 @@ function loadWindowSizePreference() {
   try {
     const raw = fs.readFileSync(getWindowPrefsPath(), 'utf8');
     const data = JSON.parse(raw);
-    const isValid = WINDOW_SIZE_PRESETS.some((preset) => preset.id === data.presetId);
-    if (isValid) {
+    const isWindowPresetValid = WINDOW_SIZE_PRESETS.some((preset) => preset.id === data.presetId);
+    const isTrayIconPresetValid = TRAY_ICON_PRESETS.some((preset) => preset.id === data.trayIconPresetId);
+    const isTrayLanguageValid = TRAY_LANGUAGES.some((language) => language.id === data.trayLanguageId);
+
+    if (isTrayIconPresetValid) {
+      activeTrayIconPresetId = data.trayIconPresetId;
+    }
+    if (isTrayLanguageValid) {
+      activeTrayLanguageId = data.trayLanguageId;
+    }
+
+    if (isWindowPresetValid) {
       activeWindowPresetId = data.presetId;
       return data.presetId;
     }
@@ -170,11 +250,50 @@ function loadWindowSizePreference() {
  */
 function saveWindowSizePreference(presetId) {
   activeWindowPresetId = presetId;
+  saveUserPreferences();
+}
+
+/**
+ * Persists the selected window, tray icon, and tray language preferences.
+ */
+function saveUserPreferences() {
   try {
-    fs.writeFileSync(getWindowPrefsPath(), JSON.stringify({ presetId }), 'utf8');
+    fs.writeFileSync(getWindowPrefsPath(), JSON.stringify({
+      presetId: activeWindowPresetId,
+      trayIconPresetId: activeTrayIconPresetId,
+      trayLanguageId: activeTrayLanguageId,
+    }), 'utf8');
   } catch (error) {
     console.error('[Main] Failed to save window preferences:', error);
   }
+}
+
+/**
+ * Applies and persists a tray icon preset.
+ *
+ * @param {string} presetId - Tray icon preset identifier
+ */
+function applyTrayIcon(presetId) {
+  if (!TRAY_ICON_PRESETS.some((preset) => preset.id === presetId)) return;
+
+  activeTrayIconPresetId = presetId;
+  saveUserPreferences();
+
+  if (tray) {
+    tray.setImage(getTrayIcon());
+  }
+}
+
+/**
+ * Applies and persists the tray context menu language.
+ *
+ * @param {string} languageId - Tray language identifier
+ */
+function applyTrayLanguage(languageId) {
+  if (!TRAY_LANGUAGES.some((language) => language.id === languageId)) return;
+
+  activeTrayLanguageId = languageId;
+  saveUserPreferences();
 }
 
 /**
@@ -275,13 +394,14 @@ function applyWindowSize(presetId) {
 /**
  * Builds the tray label for a window size preset, including fitted dimensions.
  *
- * @param {{ id: string, label: string }} preset - Preset definition
+ * @param {{ id: string }} preset - Preset definition
  * @param {Electron.Rectangle} workArea - Available work area
+ * @param {object} labels - Localized tray menu labels
  * @returns {string} Menu label
  */
-function formatPresetMenuLabel(preset, workArea) {
+function formatPresetMenuLabel(preset, workArea, labels) {
   const { width, height } = computePresetSize(preset.id, workArea);
-  return `${preset.label} (${width} × ${height})`;
+  return `${labels[preset.id]} (${width} × ${height})`;
 }
 
 /**
@@ -511,7 +631,7 @@ function escapeHtml(value, fallback = '') {
  * @returns {string} HTML document
  */
 function createToastHtml(title, message) {
-  const safeTitle = escapeHtml(title, 'G&F Elektro Portal');
+  const safeTitle = escapeHtml(title, 'G&F Portal EU');
   const safeMessage = escapeHtml(message, 'Neue Benachrichtigung');
 
   return `<!doctype html>
@@ -927,31 +1047,128 @@ async function showTestNotification() {
   }
 }
 
+
+function resolveBrewPath() {
+  const candidates = ['/opt/homebrew/bin/brew', '/usr/local/bin/brew'];
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) return candidate;
+  }
+  return null;
+}
+
+function getBrewEnv() {
+  const pathParts = [
+    '/opt/homebrew/bin',
+    '/usr/local/bin',
+    '/usr/bin',
+    '/bin',
+    process.env.PATH || '',
+  ];
+  return { ...process.env, PATH: pathParts.join(':') };
+}
+
+let isCheckingForUpdate = false;
+
+/**
+ * Runs `brew upgrade --cask gfe-portal-eu` and prompts to relaunch on success.
+ */
+function checkForBrewCaskUpdate() {
+  const labels = getTrayLabels();
+  if (isCheckingForUpdate) return;
+
+  const brewPath = resolveBrewPath();
+  if (!brewPath) {
+    dialog.showMessageBox({
+      type: 'warning',
+      title: APP_NAME,
+      message: labels.brewMissing,
+      buttons: ['OK'],
+    });
+    return;
+  }
+
+  isCheckingForUpdate = true;
+  if (Notification.isSupported()) {
+    new Notification({ title: APP_NAME, body: labels.updating }).show();
+  }
+
+  execFile(
+    brewPath,
+    ['upgrade', '--cask', 'gfe-portal-eu'],
+    { env: getBrewEnv(), timeout: 15 * 60 * 1000 },
+    (err, stdout, stderr) => {
+      isCheckingForUpdate = false;
+      const output = `${stdout || ''}\n${stderr || ''}`.trim();
+      const alreadyLatest = /already installed|already up-to-date|is the newest version/i.test(output)
+        || (!err && /gfe-portal-eu/i.test(output) && /already/i.test(output));
+
+      if (err) {
+        const missingCask = /No available cask|No Casks available|is not installed/i.test(output);
+        dialog.showMessageBox({
+          type: 'error',
+          title: APP_NAME,
+          message: labels.updateFailed,
+          detail: missingCask
+            ? `${labels.brewMissing}\n\n${output.slice(0, 800)}`
+            : (output.slice(0, 800) || err.message),
+          buttons: ['OK'],
+        });
+        return;
+      }
+
+      if (alreadyLatest || /already installed/i.test(output)) {
+        dialog.showMessageBox({
+          type: 'info',
+          title: APP_NAME,
+          message: labels.updateLatest,
+          detail: output.slice(0, 800) || undefined,
+          buttons: ['OK'],
+        });
+        return;
+      }
+
+      dialog.showMessageBox({
+        type: 'question',
+        title: APP_NAME,
+        message: labels.updateDone,
+        detail: labels.relaunchPrompt,
+        buttons: [labels.relaunch, labels.later],
+        defaultId: 0,
+        cancelId: 1,
+      }).then(({ response }) => {
+        if (response !== 0) return;
+        isQuitting = true;
+        execFile('/usr/bin/open', ['-a', 'G&F Portal EU'], () => {
+          app.quit();
+        });
+      });
+    },
+  );
+}
+
 // ── Create System Tray ──────────────────────────────────────
 function buildTrayContextMenu() {
   const workArea = getTargetDisplay(mainWindow).workArea;
+  const labels = getTrayLabels();
+  const trayIconLabels = {
+    'g-and-f': 'G&&F',
+    gf: 'GF',
+    spark: labels.bolt,
+    'g-bolt-f': 'G⚡F',
+  };
 
-  return Menu.buildFromTemplate([
+  const template = [
     {
       label: `Version ${app.getVersion()}`,
       enabled: false,
     },
     { type: 'separator' },
     {
-      label: 'Portal öffnen',
+      label: labels.open,
       click: () => showWindowFromTray(),
     },
     {
-      label: 'Fenstergröße',
-      submenu: WINDOW_SIZE_PRESETS.map((preset) => ({
-        label: formatPresetMenuLabel(preset, workArea),
-        type: 'checkbox',
-        checked: activeWindowPresetId === preset.id,
-        click: () => applyWindowSize(preset.id),
-      })),
-    },
-    {
-      label: 'Neu laden',
+      label: labels.reload,
       click: () => {
         showWindowFromTray();
         if (mainWindow) {
@@ -959,19 +1176,59 @@ function buildTrayContextMenu() {
         }
       },
     },
+  ];
+
+  if (process.platform === 'darwin') {
+    template.push({
+      label: labels.checkForUpdate,
+      click: () => checkForBrewCaskUpdate(),
+    });
+  }
+
+  template.push(
     {
-      label: 'Benachrichtigung testen',
+      label: labels.trayIcon,
+      submenu: TRAY_ICON_PRESETS.map((preset) => ({
+        label: trayIconLabels[preset.id],
+        type: 'checkbox',
+        checked: activeTrayIconPresetId === preset.id,
+        click: () => applyTrayIcon(preset.id),
+      })),
+    },
+    {
+      label: labels.testNotification,
       click: () => showTestNotification(),
+    },
+    {
+      label: labels.language,
+      submenu: TRAY_LANGUAGES.map((language) => ({
+        label: language.label,
+        icon: getLanguageFlagIcon(language.id),
+        type: 'checkbox',
+        checked: activeTrayLanguageId === language.id,
+        click: () => applyTrayLanguage(language.id),
+      })),
+    },
+    {
+      label: labels.windowSize,
+      submenu: WINDOW_SIZE_PRESETS.map((preset) => ({
+        label: formatPresetMenuLabel(preset, workArea, labels),
+        type: 'checkbox',
+        checked: activeWindowPresetId === preset.id,
+        click: () => applyWindowSize(preset.id),
+      })),
     },
     { type: 'separator' },
     {
-      label: 'Beenden',
+      label: labels.quit,
       click: () => {
         isQuitting = true;
         app.quit();
       },
     },
-  ]);
+  );
+
+  return Menu.buildFromTemplate(template);
 }
 
 function createTray() {
