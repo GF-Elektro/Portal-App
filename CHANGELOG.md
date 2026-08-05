@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Changed
+
+- **Electron 35 → 43** and **electron-builder 25 → 26** — Chromium/Node stack update; packaging toolchain upgrade. Verified with `npm run smoke:electron` and a local `npm run build:mac` DMG build.
+- **`npm start` launcher** — `scripts/run-electron.js` clears `ELECTRON_RUN_AS_NODE` so agent/CI shells do not start the app as plain Node (which makes `require('electron').app` undefined).
+
+---
+
 ## [1.0.12] - 2026-08-04
 
 ### Changed

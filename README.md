@@ -17,7 +17,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-0078d4?style=flat-square&logo=windows&logoColor=white" alt="Platform" />
-  <img src="https://img.shields.io/badge/Electron-35-47848f?style=flat-square&logo=electron&logoColor=white" alt="Electron" />
+  <img src="https://img.shields.io/badge/Electron-43-47848f?style=flat-square&logo=electron&logoColor=white" alt="Electron" />
   <img src="https://img.shields.io/badge/Node.js-%3E%3D18-339933?style=flat-square&logo=nodedotjs&logoColor=white" alt="Node.js" />
   <img src="https://img.shields.io/badge/source-open%20on%20GitHub-181717?style=flat-square&logo=github&logoColor=white" alt="Open source" />
   <img src="https://img.shields.io/badge/maintained-yes-brightgreen?style=flat-square" alt="Maintained" />

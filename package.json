@@ -15,12 +15,13 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "start": "electron .",
+    "start": "node scripts/run-electron.js .",
     "create-ico": "node scripts/create-ico.js",
     "build": "electron-builder build",
     "build:win": "electron-builder build --win",
     "build:mac": "electron-builder build --mac",
-    "build:linux": "electron-builder build --linux"
+    "build:linux": "electron-builder build --linux",
+    "smoke:electron": "node scripts/run-electron.js scripts/smoke-electron-api.js"
   },
   "build": {
     "appId": "com.gfelektro.portal",
@@ -118,8 +119,8 @@
     }
   },
   "devDependencies": {
-    "electron": "^35.0.1",
-    "electron-builder": "^25.1.8",
+    "electron": "^43.2.0",
+    "electron-builder": "^26.15.3",
     "png-to-ico": "^3.0.2",
     "sharp": "^0.35.3"
   }
