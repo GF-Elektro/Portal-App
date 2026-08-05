@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.17] - 2026-08-05
+
+### Fixed
+
+- **Linux packaging config** — remove invalid `linux.desktop` object rejected by electron-builder 26 schema; keep `executableName: GFElektroPortal` only.
+
+---
+
 ## [1.0.16] - 2026-08-05
 
 ### Fixed
