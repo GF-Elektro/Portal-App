@@ -33,6 +33,7 @@ const PORTAL_ORIGIN = new URL(PORTAL_URL).origin;
 const ALLOWED_PERMISSIONS = [
   'notifications',
   'media',
+  'geolocation',
   'clipboard-read',
   'clipboard-sanitized-write',
   'fullscreen',
@@ -1333,35 +1334,47 @@ async function showMicDeniedHintIfNeeded() {
 }
 
 /**
- * Resolves OS-level microphone access before granting the web media permission.
+ * Resolves OS-level access for a single media device type (microphone or camera).
  *
- * @returns {Promise<boolean>} True when media access should be granted to the page
+ * @param {'microphone' | 'camera'} mediaType
+ * @returns {Promise<boolean>}
  */
-async function resolveMicrophoneAccess() {
+async function resolveOsMediaAccess(mediaType) {
   try {
     if (process.platform === 'darwin') {
-      const status = systemPreferences.getMediaAccessStatus('microphone');
+      const status = systemPreferences.getMediaAccessStatus(mediaType);
       if (status === 'granted') return true;
-      return systemPreferences.askForMediaAccess('microphone');
+      return systemPreferences.askForMediaAccess(mediaType);
     }
 
     if (process.platform === 'win32') {
-      const status = systemPreferences.getMediaAccessStatus('microphone');
-      if (status === 'denied') {
+      const status = systemPreferences.getMediaAccessStatus(mediaType);
+      if (mediaType === 'microphone' && status === 'denied') {
         await showMicDeniedHintIfNeeded();
         return false;
       }
-      return true;
+      return status !== 'denied';
     }
   } catch (error) {
-    console.error('[Main] Failed to resolve microphone access:', error);
+    console.error(`[Main] Failed to resolve ${mediaType} access:`, error);
   }
 
   return true;
 }
 
+/**
+ * Resolves OS-level microphone and camera access before granting Chromium `media`.
+ *
+ * @returns {Promise<boolean>} True when media access should be granted to the page
+ */
+async function resolveMediaDeviceAccess() {
+  const micOk = await resolveOsMediaAccess('microphone');
+  const cameraOk = await resolveOsMediaAccess('camera');
+  return micOk && cameraOk;
+}
+
 // ── Permission Handling ─────────────────────────────────────
-// Grant notification / media permission requests from the web content
+// Grant notification / media / geolocation permission requests from the web content
 app.on('web-contents-created', (event, contents) => {
   contents.session.setPermissionRequestHandler(async (webContents, permission, callback) => {
     if (!ALLOWED_PERMISSIONS.includes(permission)) {
@@ -1370,7 +1383,7 @@ app.on('web-contents-created', (event, contents) => {
     }
 
     if (permission === 'media') {
-      const granted = await resolveMicrophoneAccess();
+      const granted = await resolveMediaDeviceAccess();
       callback(granted);
       return;
     }
@@ -1378,7 +1391,7 @@ app.on('web-contents-created', (event, contents) => {
     callback(true);
   });
 
-  // Auto-grant notification permission checks
+  // Auto-grant allowlisted permission checks
   contents.session.setPermissionCheckHandler((webContents, permission) => {
     return ALLOWED_PERMISSIONS.includes(permission);
   });

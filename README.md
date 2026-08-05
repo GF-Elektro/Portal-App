@@ -63,6 +63,7 @@ The app provides a native desktop experience with:
 - Single instance — Only one instance of the app can run at a time
 - External link handling — External links open in your default browser
 - macOS Homebrew updates — Tray *Check for Update* runs `brew upgrade --cask gfe-portal-eu`
+- Camera, microphone, and optional geolocation — OS prompts when the portal needs expense photos, voice dictation, or AddFast report GPS
 
 ---
 
@@ -78,7 +79,7 @@ This repository is **public and auditable** ([Apache 2.0](LICENSE)). Installers 
 | 2 | **Quota-safe VT API use** — Free tier **4 req/min**, **500/day**; **4 installers** per release (~**8 API calls**, files >32 MB) |
 | 3 | **Electron hardening** — Context isolation, sandbox, `nodeIntegration: false`, minimal `contextBridge` preload ([SECURITY.md](SECURITY.md)) |
 | 4 | **HTTPS-only + navigation allowlist** — Auth popups limited to Google/Firebase; other URLs open in the **system browser** |
-| 5 | **Least-privilege permissions** — Notifications + media; no camera / geolocation in the shell |
+| 5 | **Least-privilege permissions** — Notifications, camera, microphone, and optional geolocation for portal features (expenses, dictation, AddFast GPS); see [SECURITY.md](SECURITY.md) |
 | 6 | **Single-instance lock** — One tray process only |
 | 7 | **Dependabot** — Weekly npm + GitHub Actions update PRs |
 | 8 | **Reproducible CI builds** — [Release workflow](.github/workflows/release.yml) on every `v*` tag (Windows, macOS, Linux) |
