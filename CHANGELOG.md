@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.16] - 2026-08-05
+
+### Fixed
+
+- **Linux AppImage / deb build** — set `executableName` to `GFElektroPortal` so electron-builder 26 accepts the product name containing `&` (fixes CI failure on ubuntu that left docs Linux download links without assets).
+
+---
+
 ## [1.0.15] - 2026-08-05
 
 ### Added
