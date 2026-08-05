@@ -1,4 +1,5 @@
-# Upload release installers to VirusTotal and append report links to the release body.
+# Upload primary release installers to VirusTotal (free tier: 4 req/min, 500/day).
+# Scans only Setup.exe + dmg + AppImage + deb — skips blockmaps, yml, portable exe duplicate.
 # Requires repository secret VT_API_KEY (https://www.virustotal.com/gui/my-apikey).
 
 name: VirusTotal scan
@@ -6,6 +7,12 @@ name: VirusTotal scan
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to scan (e.g. v1.0.12)
+        required: true
+        default: v1.0.12
 
 permissions:
   contents: write
@@ -15,12 +22,47 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      - name: Resolve release tag
+        id: meta
+        run: |
+          if [ -n "${{ github.event.release.tag_name }}" ]; then
+            echo "tag=${{ github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Resolve release ID
+        id: rel
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.meta.outputs.tag }}"
+          echo "id=$(gh api "repos/${{ github.repository }}/releases/tags/${TAG}" --jq .id)" >> "$GITHUB_OUTPUT"
+
+      - name: Download primary installers (quota-safe)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p vt-scan
+          gh release download "${{ steps.meta.outputs.tag }}" \
+            --repo "${{ github.repository }}" \
+            -p 'GFElektroPortal-*-Setup.exe' \
+            -p 'GFElektroPortal-*.dmg' \
+            -p 'GFElektroPortal-*.AppImage' \
+            -p 'GFElektroPortal-*.deb' \
+            -D vt-scan
+          echo "Files to scan:"
+          ls -la vt-scan
+
       - name: VirusTotal scan
-        uses: crazy-max/ghaction-virustotal@v5
+        uses: cssnr/virustotal-action@v2
         with:
           vt_api_key: ${{ secrets.VT_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          update_release_body: true
-          request_rate: 4
-          files: |
-            GFElektroPortal-.*\.(exe|dmg|deb|AppImage)$
+          file_globs: vt-scan/*
+          rate_limit: 4
+          update_release: true
+          release_id: ${{ steps.rel.outputs.id }}
+          sha256: true
+          release_heading: '## VirusTotal scan'
+          summary: true

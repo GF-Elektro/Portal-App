@@ -79,10 +79,25 @@ The application grants the following permissions to web content:
 
 ### Release integrity
 
-- GitHub Release installers (Windows `.exe`, macOS `.dmg`, Linux `.AppImage` / `.deb`) are uploaded to [VirusTotal](https://www.virustotal.com) automatically when a release is published
-- Scan report links are appended to the release notes by the `VirusTotal scan` GitHub Actions workflow
-- **Maintainers:** configure repository secret `VT_API_KEY` from [VirusTotal → API key](https://www.virustotal.com/gui/my-apikey) (free tier: 4 requests/minute)
+- Primary GitHub Release installers (Windows **Setup.exe**, macOS **.dmg**, Linux **.AppImage** / **.deb**) are uploaded to [VirusTotal](https://www.virustotal.com) when a release is published
+- Scan report links and SHA256 hashes are appended to the release notes by the [`VirusTotal scan`](.github/workflows/virustotal.yml) workflow
+- **Maintainers:** repository secret `VT_API_KEY` from [VirusTotal → API key](https://www.virustotal.com/gui/my-apikey)
+
+#### VirusTotal API quota (free tier)
+
+We intentionally stay within the **standard free public API** limits:
+
+| Limit | Value | How we comply |
+| ----- | ----- | ------------- |
+| Request rate | **4 / minute** | Workflow `rate_limit: 4` |
+| Daily quota | **500 / day** | Only runs on release publish (or manual re-scan) |
+| Monthly quota | **~15.5 K / month** | ~4 files × 1–2 calls each per release |
+| Files scanned | 4 primary installers | Skips `.blockmap`, `latest*.yml`, portable `.exe` duplicate |
+
+VirusTotal’s free tier is intended for **personal / non-commercial** API use. We use it for **release transparency** (public scan reports on GitHub Releases). If distribution volume grows, review [VirusTotal premium API](https://www.virustotal.com/gui/join-us) or enterprise options.
+
 - Unsigned builds may occasionally trigger heuristic detections on one engine; compare full VirusTotal reports and SHA256 hashes before treating a hit as malware
+- To re-scan an existing release: **Actions → VirusTotal scan → Run workflow** (enter tag, e.g. `v1.0.12`)
 
 ---
 
