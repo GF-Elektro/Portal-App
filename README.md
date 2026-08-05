@@ -199,6 +199,7 @@ The app automatically bridges web notifications from the portal to your operatin
 
 ## Maintainers
 
+- **Branch protection** — `main` should block force-push and deletion ([setup guide](.github/BRANCH_PROTECTION.md) · `scripts/apply-branch-protection.sh`; requires **repo admin**)
 - **`VT_API_KEY`** — VirusTotal free API key ([my-apikey](https://www.virustotal.com/gui/my-apikey)); respect **4/min** and **500/day** limits (see [SECURITY.md](SECURITY.md))
 - **`HOMEBREW_TAP_TOKEN`** — fine-grained PAT (Contents: Read and write on `GF-Elektro/homebrew-tap`) for the *Bump Homebrew Cask* workflow
 - Re-scan a past release: **Actions → VirusTotal scan → Run workflow** (tag e.g. `v1.0.12`)
