@@ -1,6 +1,8 @@
-# Contributing to G&F Elektro Portal
+# Contributing to G&F Portal EU
 
-Thank you for your interest in contributing to the G&F Portal EU desktop application! This document provides guidelines for contributing.
+Thank you for your interest in contributing to **G&F Portal EU** — *where electricians and opportunity meet*.
+
+This document provides guidelines for contributing to the desktop application.
 
 ## Table of Contents
 
@@ -202,5 +204,6 @@ If you have questions about contributing, reach out to the development team at *
 ---
 
 <p align="center">
-  <sub>G&F Elektro s.r.o. — <a href="https://gfelektro.com">www.gfelektro.com</a></sub>
+  <sub><strong>G&F Portal EU</strong> — where electricians and opportunity meet</sub><br />
+  <sub>G&F Elektro s.r.o. — <a href="https://www.gfelektro.com">www.gfelektro.com</a></sub>
 </p>
