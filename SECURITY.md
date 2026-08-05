@@ -64,12 +64,12 @@ The application grants the following permissions to web content:
 | Permission | Granted | Reason |
 |------------|---------|--------|
 | Notifications | ✅ | Required for real-time project updates |
-| Media | ✅ | Required for file upload previews |
+| Media | ✅ | Camera + microphone for portal features (Chromium `media` permission) |
 | Clipboard Read | ✅ | Required for paste functionality |
 | Clipboard Write | ✅ | Required for copy functionality |
-| Geolocation | ❌ | Not required |
-| Camera | ❌ | Not required |
-| Microphone | ❌ | Not required |
+| Geolocation | ✅ | Optional GPS on daily work reports (site position via AddFast) |
+| Camera | ✅ | Expense receipt photos and on-site photo capture |
+| Microphone | ✅ | Voice dictation and audio features |
 
 ### Content Security
 

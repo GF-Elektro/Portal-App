@@ -1,7 +1,7 @@
 {
   "name": "gf-elektro-portal",
   "productName": "G&F Portal EU",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Desktop app for G&F Portal EU \u2013 Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {

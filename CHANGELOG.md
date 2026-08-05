@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.14] - 2026-08-05
+
+### Changed
+
+- **SECURITY.md permissions table** — Camera, Microphone, and Geolocation are documented as granted for expense photos, voice dictation, and optional AddFast report GPS; Media reason clarified as Chromium camera + microphone access.
+
+---
+
 ## [1.0.13] - 2026-08-05
 
 ### Changed
