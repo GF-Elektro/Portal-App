@@ -77,6 +77,13 @@ The application grants the following permissions to web content:
 - All communication is over HTTPS
 - No local file access is granted to web content
 
+### Release integrity
+
+- GitHub Release installers (Windows `.exe`, macOS `.dmg`, Linux `.AppImage` / `.deb`) are uploaded to [VirusTotal](https://www.virustotal.com) automatically when a release is published
+- Scan report links are appended to the release notes by the `VirusTotal scan` GitHub Actions workflow
+- **Maintainers:** configure repository secret `VT_API_KEY` from [VirusTotal → API key](https://www.virustotal.com/gui/my-apikey) (free tier: 4 requests/minute)
+- Unsigned builds may occasionally trigger heuristic detections on one engine; compare full VirusTotal reports and SHA256 hashes before treating a hit as malware
+
 ---
 
 <p align="center">

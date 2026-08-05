@@ -72,6 +72,8 @@ Download the latest release from the [Releases](https://github.com/GF-Elektro/Po
 | Linux    | `GFElektroPortal-x.x.x.AppImage`  | Portable Linux executable    |
 | Linux    | `GFElektroPortal-x.x.x.deb`       | Debian/Ubuntu package        |
 
+Each release is scanned with [VirusTotal](https://www.virustotal.com). Report links are appended automatically to the GitHub Release notes (`.exe`, `.dmg`, `.AppImage`, `.deb`).
+
 ### Building from Source
 
 #### Prerequisites

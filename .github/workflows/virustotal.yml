@@ -1,0 +1,26 @@
+# Upload release installers to VirusTotal and append report links to the release body.
+# Requires repository secret VT_API_KEY (https://www.virustotal.com/gui/my-apikey).
+
+name: VirusTotal scan
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  virustotal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: VirusTotal scan
+        uses: crazy-max/ghaction-virustotal@v5
+        with:
+          vt_api_key: ${{ secrets.VT_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          update_release_body: true
+          request_rate: 4
+          files: |
+            GFElektroPortal-.*\.(exe|dmg|deb|AppImage)$
