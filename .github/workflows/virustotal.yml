@@ -54,6 +54,18 @@ jobs:
           echo "Files to scan:"
           ls -la vt-scan
 
+      - name: Ensure release has a body
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.meta.outputs.tag }}"
+          VER="${TAG#v}"
+          BODY=$(gh api "repos/${{ github.repository }}/releases/${{ steps.rel.outputs.id }}" --jq .body)
+          if [ -z "$BODY" ] || [ "$BODY" = "null" ]; then
+            gh api --method PATCH "repos/${{ github.repository }}/releases/${{ steps.rel.outputs.id }}" \
+              -f body="G&F Portal EU ${VER} release installers."
+          fi
+
       - name: VirusTotal scan
         uses: cssnr/virustotal-action@v2
         with:

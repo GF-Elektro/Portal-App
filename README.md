@@ -75,7 +75,7 @@ This repository is **public and auditable** ([Apache 2.0](LICENSE)). Installers 
 | # | What we do |
 | - | ---------- |
 | 1 | **VirusTotal on every release** — Setup.exe, `.dmg`, `.AppImage`, `.deb` scanned (~70 engines); report links + **SHA256** in [GitHub Releases](https://github.com/GF-Elektro/Portal-App/releases) |
-| 2 | **Quota-safe VT API use** — Free tier **4 req/min**, **500/day**; we scan **4 files** per release (skip blockmaps, yml, portable exe duplicate) |
+| 2 | **Quota-safe VT API use** — Free tier **4 req/min**, **500/day**; **4 installers** per release (~**8 API calls**, files >32 MB) |
 | 3 | **Electron hardening** — Context isolation, sandbox, `nodeIntegration: false`, minimal `contextBridge` preload ([SECURITY.md](SECURITY.md)) |
 | 4 | **HTTPS-only + navigation allowlist** — Auth popups limited to Google/Firebase; other URLs open in the **system browser** |
 | 5 | **Least-privilege permissions** — Notifications + media; no camera / geolocation in the shell |

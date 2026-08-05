@@ -93,6 +93,7 @@ We intentionally stay within the **standard free public API** limits:
 | Daily quota | **500 / day** | Only runs on release publish (or manual re-scan) |
 | Monthly quota | **~15.5 K / month** | ~4 files × 1–2 calls each per release |
 | Files scanned | 4 primary installers | Skips `.blockmap`, `latest*.yml`, portable `.exe` duplicate |
+| Calls per release | **~8** (typical) | Each installer is **>32 MB** → 2 VT API calls per file (upload URL + submit) |
 
 VirusTotal’s free tier is intended for **personal / non-commercial** API use. We use it for **release transparency** (public scan reports on GitHub Releases). If distribution volume grows, review [VirusTotal premium API](https://www.virustotal.com/gui/join-us) or enterprise options.
 
