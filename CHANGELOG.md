@@ -7,7 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [1.0.15] - 2026-08-05
+
+### Added
+
+- **Geolocation permission** — Chromium `geolocation` is allowlisted so the portal can optionally capture report GPS (AddFast).
+- **Camera OS prompt (macOS)** — `askForMediaAccess('camera')` alongside microphone before granting `media`.
+- **Info.plist usage strings** — `NSCameraUsageDescription` and `NSLocationWhenInUseUsageDescription` (mic string updated for dictation).
+- **Docs site + README** — [docs.gfelektro.com](https://docs.gfelektro.com) download links and version badge set to 1.0.15; README documents camera, microphone, and optional geolocation.
+
+### Changed
+
+- Staff need this **tagged release** (and Homebrew cask bump) before new OS permission strings appear on installed Macs.
+
+---
+
+## [1.0.14] - 2026-08-05
+
+### Changed
+
+- **SECURITY.md permissions table** — Camera, Microphone, and Geolocation are documented as granted for expense photos, voice dictation, and optional AddFast report GPS; Media reason clarified as Chromium camera + microphone access.
+
+---
+
+## [1.0.13] - 2026-08-05
 
 ### Changed
 
