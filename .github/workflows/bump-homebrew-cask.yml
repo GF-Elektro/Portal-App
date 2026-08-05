@@ -49,7 +49,7 @@ jobs:
           echo "sha256=$HASH"
 
       - name: Checkout homebrew-tap
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: GF-Elektro/homebrew-tap
           token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
