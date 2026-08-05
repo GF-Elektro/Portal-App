@@ -121,6 +121,6 @@
     "electron": "^35.0.1",
     "electron-builder": "^25.1.8",
     "png-to-ico": "^3.0.2",
-    "sharp": "^0.34.5"
+    "sharp": "^0.35.3"
   }
 }
