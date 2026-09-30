@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>macOS-Installation – G&#38;F Portal EU</title>
+    <meta name="description" content="So installierst du G&#38;F Portal EU auf dem Mac: DMG herunterladen, in Programme ziehen – sicher signiert, ohne Zertifikatsdateien.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://docs.gfelektro.com/macos-install.html">
+    <meta property="og:title" content="macOS-Installation – G&#38;F Portal EU">
+    <meta property="og:description" content="Anleitung zur Installation der G&#38;F Portal EU Desktop App auf macOS.">
+    <meta property="og:image" content="https://docs.gfelektro.com/assets/icon-512.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="macOS-Installation – G&#38;F Portal EU">
+    <meta name="twitter:description" content="Anleitung zur Installation der G&#38;F Portal EU Desktop App auf macOS.">
+    <meta name="twitter:image" content="https://docs.gfelektro.com/assets/icon-512.png">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="assets/icon-512.png">
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <img src="assets/logo.png" alt="G&F Elektro Logo" class="brand-logo">
+            <a href="https://www.gfelektro.com" class="nav-link" target="_blank" rel="noopener">Zur Webseite</a>
+        </div>
+    </nav>
+
+    <main class="container hero-section">
+        <div class="hero-content" style="max-width: 720px;">
+            <h1 class="hero-title" style="font-size: 2.75rem;">Installation auf macOS</h1>
+            <h2 class="hero-subtitle">G&#38;F Portal EU per DMG installieren</h2>
+            <p class="hero-description">
+                Die Desktop-App für Mac wird als <strong>DMG-Datei</strong> ausgeliefert. Du installierst nur diese App – keine zusätzlichen Zertifikats- oder Schlüsseldateien.
+            </p>
+
+            <div class="feature-card" style="margin-bottom: 32px; text-align: left;">
+                <h3 style="margin-bottom: 16px;">Schritte</h3>
+                <ol style="padding-left: 1.25rem; color: var(--color-text-muted);">
+                    <li style="margin-bottom: 8px;">Lade die neueste <strong>macOS-DMG</strong> von GitHub herunter (Button unten).</li>
+                    <li style="margin-bottom: 8px;">Öffne die heruntergeladene <code>.dmg</code>-Datei (Doppelklick).</li>
+                    <li style="margin-bottom: 8px;">Ziehe <strong>G&#38;F Portal EU</strong> per Drag&nbsp;&amp;&nbsp;Drop in den Ordner <strong>Programme</strong> (Applications).</li>
+                    <li>Werfe das DMG-Fenster weg und starte die App aus Programme oder über Spotlight.</li>
+                </ol>
+            </div>
+
+            <p class="hero-description">
+                Releases, die mit dem <strong>Developer-ID-Zertifikat</strong> von G&#38;F Elektro signiert und von Apple <strong>notarisiert</strong> sind, öffnen ohne die Warnung „nicht identifizierter Entwickler“.
+                Der private Apple-Schlüssel bleibt bei G&#38;F Elektro und wird nicht zum Download angeboten. Ältere Releases können die Warnung noch zeigen — dann die neueste DMG laden.
+            </p>
+
+            <div class="feature-card" style="margin-bottom: 32px; text-align: left; border-color: rgba(230, 0, 0, 0.2);">
+                <div class="feature-icon" style="font-size: 2rem; margin-bottom: 12px;">🔒</div>
+                <h3 style="margin-bottom: 12px;">Wichtig zur Sicherheit</h3>
+                <p style="color: var(--color-text-muted); margin-bottom: 12px;">
+                    Du installierst ausschließlich die <strong>DMG</strong> mit der App. Du installierst <strong>keinen</strong> Apple-Privatschlüssel, keine <strong>.p12</strong>-Datei und keine <strong>.p8</strong>-Datei – weder von dieser Seite noch aus E-Mails oder anderen Quellen.
+                </p>
+                <p style="color: var(--color-text-muted); margin-bottom: 12px;">
+                    <strong>G&#38;F Elektro</strong> signiert die App beim Build über die Mitgliedschaft im <strong>Apple Developer Program</strong>.
+                    Der private Developer-ID-Schlüssel wird nur intern beim Erstellen der App verwendet und ist <strong>niemals</strong> auf dieser Website oder im öffentlichen Git-Repository veröffentlicht.
+                </p>
+                <p style="color: var(--color-text-muted);">
+                    Vertraue keinen Anleitungen, die dir zum Installieren der App ein Zertifikat oder einen Schlüssel zum Herunterladen anbieten – das ist nicht nötig und unsicher.
+                </p>
+            </div>
+
+            <div class="download-section" style="margin-bottom: 16px;">
+                <a href="https://github.com/GF-Elektro/Portal-App/releases/latest" class="btn btn-primary" id="btn-latest-dmg" rel="noopener">
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 384 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path></svg>
+                    Neueste macOS-DMG laden
+                </a>
+                <a href="index.html" class="btn btn-secondary">Zurück zum Download</a>
+            </div>
+            <p class="os-hint">
+                Der Button führt zur aktuellsten GitHub-Release-Seite; dort die passende <strong>.dmg</strong> für Mac auswählen.
+            </p>
+
+            <div class="feature-card" style="margin-top: 40px; text-align: left;">
+                <h3 style="margin-bottom: 12px;">Warnung von macOS?</h3>
+                <p style="color: var(--color-text-muted); margin-bottom: 12px;">
+                    Wenn macOS beim Öffnen noch warnt, liegt oft eine <strong>ältere, nicht signierte</strong> Version vor.
+                    <strong>Lade die neueste Version</strong> von der GitHub-Release-Seite (Link oben) und installiere sie erneut – das ist der empfohlene Weg.
+                </p>
+                <p style="color: var(--color-text-muted); margin-bottom: 12px;">
+                    Bitte <strong>deaktiviere Gatekeeper nicht</strong> und nutze keine Terminal-Befehle wie <code>xattr</code> als Standard-Lösung; bei aktuellen signierten Releases sind solche Workarounds nicht nötig.
+                </p>
+                <p style="color: var(--color-text-muted); font-size: 0.95rem;">
+                    Hinweis: Sehr alte, unsignierte Test-Builds benötigten früher gelegentlich einen Quarantäne-Workaround; ab den notarisierten Developer-ID-Releases entfällt das.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <p>&copy; 2026 G&F Elektro s.r.o. - Alle Rechte vorbehalten.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

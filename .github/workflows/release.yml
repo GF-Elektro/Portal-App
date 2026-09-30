@@ -58,7 +58,7 @@ jobs:
           fi
           if [ -n "$APPLE_API_KEY_BASE64" ]; then
             KEY_PATH="$RUNNER_TEMP/AuthKey.p8"
-            printf '%s' "$APPLE_API_KEY_BASE64" | base64 --decode > "$KEY_PATH"
+            printf '%s' "$APPLE_API_KEY_BASE64" | base64 -D > "$KEY_PATH"
             export APPLE_API_KEY="$KEY_PATH"
           else
             echo "APPLE_API_KEY_BASE64 is unset; skipping notarization."

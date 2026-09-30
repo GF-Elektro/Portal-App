@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.23] - 2026-09-30
+
+### Added
+
+- **GitHub Pages macOS install guide** — [docs/macos-install.html](docs/macos-install.html) explains the DMG install. The Apple Developer private key is not published; users install the DMG only.
+- **Latest-release download links** — the docs site reads the newest GitHub Release and points Windows, macOS, and Linux buttons at those files.
+
+### Fixed
+
+- **macOS notarization key decode** — the release workflow uses `base64 -D`, which is the flag on GitHub’s macOS runners.
+
+---
+
 ## [1.0.22] - 2026-09-30
 
 ### Added
