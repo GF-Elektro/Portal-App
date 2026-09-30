@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.22] - 2026-09-30
+
+### Added
+
+- **iOS app scaffold** — `ios/PortalEU.xcodeproj` is a SwiftUI WKWebView client for `https://portal.gfelektro.com` (bundle id `com.gfelektro.portal.ios`). Portal and Google/Firebase hosts stay in the app; other links open in Safari. See `ios/README.md` for team signing, TestFlight, and App Store review notes. This target is not part of the Electron release build.
+
+---
+
 ## [1.0.21] - 2026-09-30
 
 ### Added
