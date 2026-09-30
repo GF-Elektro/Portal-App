@@ -15,6 +15,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.38] - 2026-09-30
+
+### Added
+
+- **README mobile section** — links to iOS and Android shells and to [docs.gfelektro.com](https://docs.gfelektro.com) install/permission pages.
+
+### Fixed
+
+- **Desktop package version** — `package.json` version aligned to **1.0.37** after the Microsoft Store docs release.
+
+---
+
 ## [1.0.36] - 2026-09-30
 
 ### Added
