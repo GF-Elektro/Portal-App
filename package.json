@@ -1,7 +1,7 @@
 {
   "name": "gf-elektro-portal",
   "productName": "G&F Portal EU",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Desktop app for G&F Portal EU – Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {
@@ -49,9 +49,12 @@
       "target": [
         "dmg"
       ],
-      "icon": "icon-512.png",
-      "hardenedRuntime": false,
+      "icon": "build/icon.icns",
+      "category": "public.app-category.business",
+      "hardenedRuntime": true,
       "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.inherit.plist",
       "extendInfo": {
         "NSMicrophoneUsageDescription": "Das G&F Portal EU benötigt Mikrofonzugriff für Sprachnachrichten, Diktat und Audiofunktionen.",
         "NSCameraUsageDescription": "Das G&F Portal EU benötigt Kamerazugriff für Belegfotos und Fotodokumentation auf der Baustelle.",

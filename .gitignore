@@ -29,3 +29,9 @@ Desktop.ini
 
 release
 _archive/
+
+# Apple signing material (private keys and profiles stay off git and GitHub Pages)
+*.p12
+*.p8
+*.mobileprovision
+build/embedded.provisionprofile

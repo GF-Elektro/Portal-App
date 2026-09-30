@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.18] - 2026-09-30
+
+### Added
+
+- **macOS Developer ID signing setup** — hardened runtime, `build/entitlements.mac.plist`, and maintainer steps in `docs/apple-signing.md`. Notarization runs when App Store Connect API credentials are present. Private `.p12` / `.p8` keys stay out of git and off GitHub Pages; users install the DMG.
+
+---
+
 ## [1.0.17] - 2026-08-05
 
 ### Fixed
