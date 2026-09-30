@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>gfe-portal-eu</id>
+    <version>1.0.42</version>
+    <title>G&amp;F Portal EU</title>
+    <authors>G&amp;F Elektro s.r.o.</authors>
+    <projectUrl>https://github.com/GF-Elektro/Portal-App</projectUrl>
+    <packageSourceUrl>https://github.com/GF-Elektro/Portal-App</packageSourceUrl>
+    <docsUrl>https://docs.gfelektro.com/</docsUrl>
+    <licenseUrl>https://github.com/GF-Elektro/Portal-App/blob/main/LICENSE</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Desktop app for the G&amp;F Portal EU.</description>
+    <tags>gfelektro portal</tags>
+  </metadata>
+</package>

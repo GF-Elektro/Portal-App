@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.42] - 2026-09-30
+
+### Added
+
+- **Chocolatey package** — [`packaging/chocolatey/`](packaging/chocolatey/) and [`.github/workflows/bump-chocolatey.yml`](.github/workflows/bump-chocolatey.yml). The workflow pushes `gfe-portal-eu` only when the `CHOCOLATEY_API_KEY` secret is set; otherwise it skips.
+
+---
+
 ## [1.0.41] - 2026-09-30
 
 ### Added
