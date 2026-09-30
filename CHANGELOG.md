@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.31] - 2026-09-30
+
+### Added
+
+- **Flutter Android shell scaffold** — [`mobile/portal_android/`](mobile/portal_android/) with application id `com.gfelektro.portal.android` and [`mobile/portal_android/README.md`](mobile/portal_android/README.md).
+
+### Changed
+
+- **iOS simulator docs** — [`ios/README.md`](ios/README.md) uses **iPhone 18 Pro** on **iOS 27.0** (Xcode 27), matching the maintainer simulator already in use.
+
+---
+
 ## [1.0.30] - 2026-09-30
 
 ### Added

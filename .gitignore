@@ -38,3 +38,8 @@ _archive/
 build/embedded.provisionprofile
 **/GoogleService-Info.plist
 **/google-services.json
+
+# Flutter (portal_android)
+mobile/portal_android/.dart_tool/
+mobile/portal_android/build/
+mobile/portal_android/.flutter-plugins-dependencies

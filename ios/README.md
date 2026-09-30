@@ -28,12 +28,12 @@ This target is **not** built by `electron-builder` or the repository’s GitHub 
 
 ## Simulator
 
-1. **Xcode → Settings → Platforms** — install the **iOS** runtime that matches your Xcode (e.g. Xcode 27 with the current iOS simulator platform).
-2. **Window → Devices and Simulators → Simulators → +** — choose **iPhone 17** (or the newest iPhone model listed if “iPhone 17” is not available yet).
-3. Open `ios/PortalEU.xcodeproj`, select scheme **PortalEU**, pick the simulator, press **Run** (⌘R).
-4. Smoke test: portal loads at `https://portal.gfelektro.com`, paste into a text field, and open a page that requests camera or microphone to see the system prompt.
+1. **Xcode → Settings → Platforms** — install the **iOS** runtime that matches your Xcode (e.g. **Xcode 27** with **iOS 27.0** simulator).
+2. **Window → Devices and Simulators → Simulators** — use an installed device such as **iPhone 18 Pro** (already available on maintainer Macs with Xcode 27). Create another model only if you need a different screen size.
+3. Open `ios/PortalEU.xcodeproj`, select scheme **PortalEU**, destination **iPhone 18 Pro**, press **Run** (⌘R).
+4. Smoke test: the Digital Platform login loads at `https://portal.gfelektro.com`, paste into a text field, and open a page that requests camera or microphone to see the system prompt.
 
-CLI (optional): `xcodebuild -downloadPlatform iOS`, then `xcrun simctl list devices available` to find the runtime identifier for `simctl create`.
+CLI (optional): `xcrun simctl list devices available` — look for `iPhone 18 Pro` under the iOS 27 runtime.
 
 ## Push notifications (APNs / Firebase)
 
