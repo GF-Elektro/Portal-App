@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.25] - 2026-09-30
+
+### Added
+
+- **GitHub Pages permission guide** — [`docs/permissions.html`](docs/permissions.html) explains camera, microphone, notifications, and clipboard for macOS, Windows, iOS, Android, and future Microsoft Store builds. [`docs/index.html`](docs/index.html) and [`docs/macos-install.html`](docs/macos-install.html) link to it. No Apple private keys are published.
+
+---
+
 ## [1.0.24] - 2026-09-30
 
 ### Added
