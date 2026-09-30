@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.37] - 2026-09-30
+
+### Added
+
+- **Microsoft Store permission notes** — [`docs/microsoft-store.md`](docs/microsoft-store.md) and [`docs/permissions.html`](docs/permissions.html) list planned MSIX capabilities (`internetClient`, `microphone`, `webcam`, optional `location`).
+
+---
+
 ## [1.0.36] - 2026-09-30
 
 ### Added
