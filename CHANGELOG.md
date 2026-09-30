@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.30] - 2026-09-30
+
+### Added
+
+- **iOS push setup documentation** — [`ios/README.md`](ios/README.md) lists APNs, Firebase, and `GoogleService-Info.plist` steps. Root [`.gitignore`](.gitignore) ignores Firebase plist and `google-services.json`.
+
+---
+
 ## [1.0.29] - 2026-09-30
 
 ### Added

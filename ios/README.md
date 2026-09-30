@@ -6,7 +6,7 @@ Native SwiftUI + WKWebView client for the employee portal at [https://portal.gfe
 | --- | --- |
 | Bundle ID | `com.gfelektro.portal.ios` |
 | Display name | G&F Portal EU |
-| Marketing version | 1.0.28 (see Xcode **General**) |
+| Marketing version | 1.0.30 (see Xcode **General**) |
 
 **Behavior (see `PortalEU/PortalWebView.swift`):** Portal and Google/Firebase auth hosts load inside the web view; other links open in Safari. MIME types the web view cannot preview (e.g. PDFs) are downloaded into the app **Documents** folder.
 
@@ -34,6 +34,18 @@ This target is **not** built by `electron-builder` or the repository’s GitHub 
 4. Smoke test: portal loads at `https://portal.gfelektro.com`, paste into a text field, and open a page that requests camera or microphone to see the system prompt.
 
 CLI (optional): `xcodebuild -downloadPlatform iOS`, then `xcrun simctl list devices available` to find the runtime identifier for `simctl create`.
+
+## Push notifications (APNs / Firebase)
+
+Remote push when the app is closed needs native FCM, not web push inside WKWebView.
+
+1. **Apple Developer** → Identifiers → `com.gfelektro.portal.ios` → enable **Push Notifications**.
+2. Create an **APNs Auth Key** (`.p8`). Upload it in **Firebase Console → Project settings → Cloud Messaging → Apple app configuration**. Never commit the `.p8` file.
+3. **Xcode** → target PortalEU → **Signing & Capabilities** → add **Push Notifications** and **Background Modes → Remote notifications** when you are ready to ship push.
+4. Download **`GoogleService-Info.plist`** from Firebase for this iOS app. Place it in `ios/PortalEU/` locally. The file is **gitignored** (see root `.gitignore`).
+5. Add the **Firebase iOS SDK** (Swift Package: `https://github.com/firebase/firebase-ios-sdk`, product **FirebaseMessaging**) only after the plist is on your Mac. Wire `Messaging.messaging().token` into `portalNativeAPI.push.getNativeToken` in [`PortalNativeBridge.swift`](PortalEU/PortalNativeBridge.swift).
+
+Until Firebase is configured, `getNativeToken` returns `null` and the portal still receives in-app and local notifications via the bridge from 1.0.29.
 
 ## Clipboard
 

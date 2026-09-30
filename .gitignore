@@ -36,3 +36,5 @@ _archive/
 *.p8
 *.mobileprovision
 build/embedded.provisionprofile
+**/GoogleService-Info.plist
+**/google-services.json
