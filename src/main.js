@@ -687,6 +687,16 @@ function handleToastClicked(event) {
 }
 
 /**
+ * Unsigned dev runs cannot reliably post to Notification Center.
+ * Packaged builds (Developer ID or Mac App Store) use the native API.
+ *
+ * @returns {boolean} True when the in-window toast should be used
+ */
+function shouldUseMacToastFallback() {
+  return process.platform === 'darwin' && !app.isPackaged;
+}
+
+/**
  * Shows the macOS unsigned-build toast fallback.
  *
  * @param {string} title - Notification title
@@ -796,7 +806,7 @@ function registerIpcHandlers() {
 
   ipcMain.on('notification:show', (event, title, options = {}) => {
     if (!isTrustedNotificationSender(event)) return;
-    if (process.platform === 'darwin') {
+    if (shouldUseMacToastFallback()) {
       showMacToastNotification(title, options);
       return;
     }

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.19] - 2026-09-30
+
+### Changed
+
+- **macOS notifications** — packaged builds post to Notification Center. The custom toast remains only for unpackaged local runs, where an unsigned dev build cannot show native notifications.
+
+---
+
 ## [1.0.18] - 2026-09-30
 
 ### Added
