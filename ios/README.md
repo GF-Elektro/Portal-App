@@ -6,7 +6,7 @@ Native SwiftUI + WKWebView client for the employee portal at [https://portal.gfe
 | --- | --- |
 | Bundle ID | `com.gfelektro.portal.ios` |
 | Display name | G&F Portal EU |
-| Marketing version | 1.0.26 (see Xcode **General**) |
+| Marketing version | 1.0.27 (see Xcode **General**) |
 
 **Behavior (see `PortalEU/PortalWebView.swift`):** Portal and Google/Firebase auth hosts load inside the web view; other links open in Safari. MIME types the web view cannot preview (e.g. PDFs) are downloaded into the app **Documents** folder.
 
@@ -23,6 +23,15 @@ This target is **not** built by `electron-builder` or the repository’s GitHub 
 5. **TestFlight & review** — **Product → Archive**, upload to App Store Connect, distribute via TestFlight, then submit for review.
    - **Guideline 4.2:** Position this as the company **employee portal client** (camera/microphone for field workflows, file downloads)—not a generic browser bookmark to a website. App Review may need a **demo login**; provide test credentials in App Store Connect notes if required.
 6. **Out of scope for CI here** — Do not expect `npm run build` or `.github/workflows/release.yml` to produce an iOS `.ipa`.
+
+## Simulator
+
+1. **Xcode → Settings → Platforms** — install the **iOS** runtime that matches your Xcode (e.g. Xcode 27 with the current iOS simulator platform).
+2. **Window → Devices and Simulators → Simulators → +** — choose **iPhone 17** (or the newest iPhone model listed if “iPhone 17” is not available yet).
+3. Open `ios/PortalEU.xcodeproj`, select scheme **PortalEU**, pick the simulator, press **Run** (⌘R).
+4. Smoke test: portal loads at `https://portal.gfelektro.com`, paste into a text field, and open a page that requests camera or microphone to see the system prompt.
+
+CLI (optional): `xcodebuild -downloadPlatform iOS`, then `xcrun simctl list devices available` to find the runtime identifier for `simctl create`.
 
 ## Clipboard
 

@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.27] - 2026-09-30
+
+### Added
+
+- **iPhone 17 simulator runbook** — [`ios/README.md`](ios/README.md) documents installing the iOS simulator runtime, creating an iPhone 17 (or newest) simulator, and smoke-testing the portal shell.
+
+### Changed
+
+- **Ignore Xcode user state** — `xcuserdata` is gitignored; local `UserInterfaceState.xcuserstate` is not tracked.
+
+---
+
 ## [1.0.26] - 2026-09-30
 
 ### Added

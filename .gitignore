@@ -18,6 +18,7 @@ Desktop.ini
 # IDE
 .vscode/
 .idea/
+**/xcuserdata/
 .continue/
 .kilo/
 *.swp
