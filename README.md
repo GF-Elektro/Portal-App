@@ -92,7 +92,7 @@ This repository is **public and auditable** ([Apache 2.0](LICENSE)). Installers 
 2. Compare **SHA256** with the hash in the release notes.
 3. Open the **VirusTotal report link** in the same release and review all engines.
 
-> **Note:** Builds are **unsigned** today (no Apple Developer ID / Windows Authenticode). Some AV engines flag new Electron apps heuristically — read the **full** VirusTotal report, not a single engine. VirusTotal free API is for release transparency; see [SECURITY.md](SECURITY.md) for quota and usage notes.
+> **Note:** macOS DMGs are **Developer ID signed and notarized** when the Apple secrets in [docs/apple-signing.md](docs/apple-signing.md) are set on GitHub Actions. Without those secrets the macOS job still publishes an unsigned DMG. Windows Authenticode is not configured. Some AV engines flag new Electron apps heuristically — read the **full** VirusTotal report, not a single engine. VirusTotal free API is for release transparency; see [SECURITY.md](SECURITY.md) for quota and usage notes.
 
 ---
 
@@ -113,7 +113,7 @@ brew upgrade --cask gfe-portal-eu
 
 Or use the tray menu item **Nach Updates suchen** / **Check for Update**.
 
-The cask installs `/Applications/G&F Portal EU.app` and clears Gatekeeper quarantine (`xattr` / `chmod`) in a postflight step (unsigned builds without an Apple Developer ID).
+The cask installs `/Applications/G&F Portal EU.app`. Older unsigned DMGs cleared Gatekeeper quarantine in a cask postflight step. Notarized Developer ID builds do not need that workaround; install steps are on [docs.gfelektro.com/macos-install.html](https://docs.gfelektro.com/macos-install.html).
 
 If you previously installed **G&F Elektro Portal**, delete the old app from Applications after installing the new name.
 
@@ -203,6 +203,7 @@ The app automatically bridges web notifications from the portal to your operatin
 - **Branch protection** — `main` should block force-push and deletion ([setup guide](.github/BRANCH_PROTECTION.md) · `scripts/apply-branch-protection.sh`; requires **repo admin**)
 - **`VT_API_KEY`** — VirusTotal free API key ([my-apikey](https://www.virustotal.com/gui/my-apikey)); respect **4/min** and **500/day** limits (see [SECURITY.md](SECURITY.md))
 - **`HOMEBREW_TAP_TOKEN`** — fine-grained PAT (Contents: Read and write on `GF-Elektro/homebrew-tap`) for the *Bump Homebrew Cask* workflow
+- **Apple signing secrets** — `APPLE_CERTIFICATE_BASE64`, `APPLE_CERTIFICATE_PASSWORD`, `APPLE_TEAM_ID`, `APPLE_API_KEY_BASE64`, `APPLE_API_KEY_ID`, `APPLE_API_ISSUER` ([docs/apple-signing.md](docs/apple-signing.md))
 - Re-scan a past release: **Actions → VirusTotal scan → Run workflow** (tag e.g. `v1.0.12`)
 - Staff install: `brew tap GF-Elektro/tap` then `brew install --cask gfe-portal-eu`
 

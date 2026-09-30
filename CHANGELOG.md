@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.20] - 2026-09-30
+
+### Added
+
+- **Release workflow signs the macOS DMG** when `APPLE_CERTIFICATE_BASE64`, `APPLE_CERTIFICATE_PASSWORD`, `APPLE_TEAM_ID`, `APPLE_API_KEY_BASE64`, `APPLE_API_KEY_ID`, and `APPLE_API_ISSUER` are set. Missing secrets still publish an unsigned DMG so Windows and Linux releases are unaffected.
+
+---
+
 ## [1.0.19] - 2026-09-30
 
 ### Changed
