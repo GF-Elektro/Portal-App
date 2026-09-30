@@ -6,9 +6,11 @@ Native SwiftUI + WKWebView client for the employee portal at [https://portal.gfe
 | --- | --- |
 | Bundle ID | `com.gfelektro.portal.ios` |
 | Display name | G&F Portal EU |
-| Marketing version | 1.0.27 (see Xcode **General**) |
+| Marketing version | 1.0.28 (see Xcode **General**) |
 
 **Behavior (see `PortalEU/PortalWebView.swift`):** Portal and Google/Firebase auth hosts load inside the web view; other links open in Safari. MIME types the web view cannot preview (e.g. PDFs) are downloaded into the app **Documents** folder.
+
+**Notifications:** [`src/portal-native-bridge.js`](../src/portal-native-bridge.js) is injected at document start once `window.portalNativeAPI` is wired in Swift (see release notes from 1.0.29 onward).
 
 **Privacy:** `PortalEU/Info.plist` includes German usage strings for camera, microphone, and location (when-in-use). `PortalEU/PrivacyInfo.xcprivacy` declares no tracking (`NSPrivacyTracking` = false).
 

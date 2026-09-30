@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.28] - 2026-09-30
+
+### Added
+
+- **Native shell notification bridge** — [`src/portal-native-bridge.js`](src/portal-native-bridge.js) patches `window.Notification` and `ServiceWorkerRegistration.prototype.showNotification` to call `window.portalNativeAPI.notifications`, with click events on `portal-notification-clicked`.
+
+---
+
 ## [1.0.27] - 2026-09-30
 
 ### Added
