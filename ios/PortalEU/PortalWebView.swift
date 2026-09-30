@@ -13,6 +13,8 @@ struct PortalWebView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> WKWebView {
         let configuration = WKWebViewConfiguration()
+        configuration.defaultWebpagePreferences.allowsContentJavaScript = true
+        configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.navigationDelegate = context.coordinator
         webView.uiDelegate = context.coordinator
@@ -97,6 +99,22 @@ struct PortalWebView: UIViewRepresentable {
             let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
             let safeName = suggestedFilename.isEmpty ? "download.bin" : suggestedFilename
             completionHandler(documents?.appendingPathComponent(safeName))
+        }
+
+        @available(iOS 15.0, *)
+        func webView(
+            _ webView: WKWebView,
+            requestMediaCapturePermissionFor origin: WKSecurityOrigin,
+            initiatedByFrame frame: WKFrameInfo,
+            type: WKMediaCaptureType,
+            decisionHandler: @escaping (WKPermissionDecision) -> Void
+        ) {
+            let originURL = URL(string: "\(origin.protocol)://\(origin.host)")
+            if let originURL, shouldKeepInApp(originURL) {
+                decisionHandler(.grant)
+            } else {
+                decisionHandler(.deny)
+            }
         }
 
         func webView(

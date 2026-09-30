@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.26] - 2026-09-30
+
+### Added
+
+- **iOS media capture for portal hosts** — [`ios/PortalEU/PortalWebView.swift`](ios/PortalEU/PortalWebView.swift) grants camera and microphone capture for in-app origins and enables JavaScript window opening for auth popups. [`ios/README.md`](ios/README.md) documents clipboard testing.
+
+---
+
 ## [1.0.25] - 2026-09-30
 
 ### Added
