@@ -1,0 +1,34 @@
+pkgname=gfe-portal-eu
+pkgver=1.0.17
+pkgrel=1
+pkgdesc="G&F Portal EU desktop app"
+arch=('x86_64')
+url="https://github.com/GF-Elektro/Portal-App"
+license=('Apache-2.0')
+depends=('fuse2')
+options=('!strip')
+source=(
+  "https://github.com/GF-Elektro/Portal-App/releases/download/v${pkgver}/GFElektroPortal-${pkgver}.AppImage"
+  "https://raw.githubusercontent.com/GF-Elektro/Portal-App/main/icon-512.png"
+)
+sha256sums=('SKIP' 'SKIP')
+
+package() {
+  install -Dm755 "${srcdir}/GFElektroPortal-${pkgver}.AppImage" \
+    "${pkgdir}/opt/gfe-portal-eu/GFElektroPortal.AppImage"
+  install -d "${pkgdir}/usr/bin"
+  printf '%s\n' '#!/bin/sh' 'exec /opt/gfe-portal-eu/GFElektroPortal.AppImage "$@"' \
+    > "${pkgdir}/usr/bin/gfe-portal-eu"
+  chmod 755 "${pkgdir}/usr/bin/gfe-portal-eu"
+  install -Dm644 "${srcdir}/icon-512.png" \
+    "${pkgdir}/usr/share/icons/hicolor/512x512/apps/gfe-portal-eu.png"
+  install -d "${pkgdir}/usr/share/applications"
+  cat > "${pkgdir}/usr/share/applications/gfe-portal-eu.desktop" << EOF
+[Desktop Entry]
+Name=G&F Portal EU
+Exec=/usr/bin/gfe-portal-eu
+Icon=gfe-portal-eu
+Type=Application
+Categories=Office;
+EOF
+}

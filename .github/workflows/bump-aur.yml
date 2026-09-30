@@ -1,0 +1,90 @@
+name: Bump AUR package
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.44)'
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  aur:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip when AUR key is unset
+        id: gate
+        env:
+          AUR_SSH_PRIVATE_KEY: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+        run: |
+          if [ -z "$AUR_SSH_PRIVATE_KEY" ]; then
+            echo "AUR_SSH_PRIVATE_KEY is unset; skipping AUR push."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v7
+        if: steps.gate.outputs.run == 'true'
+
+      - name: Resolve version
+        if: steps.gate.outputs.run == 'true'
+        id: ver
+        env:
+          INPUT_TAG: ${{ github.event.inputs.tag }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          TAG="${INPUT_TAG:-$RELEASE_TAG}"
+          VERSION="${TAG#v}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Fill checksums
+        if: steps.gate.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p /tmp/aur-src
+          gh release download "${{ steps.ver.outputs.tag }}" \
+            --repo GF-Elektro/Portal-App \
+            --pattern "GFElektroPortal-${{ steps.ver.outputs.version }}.AppImage" \
+            --dir /tmp/aur-src
+          curl -fsSL -o /tmp/aur-src/icon-512.png \
+            https://raw.githubusercontent.com/GF-Elektro/Portal-App/main/icon-512.png
+          APP_SHA=$(sha256sum "/tmp/aur-src/GFElektroPortal-${{ steps.ver.outputs.version }}.AppImage" | awk '{print $1}')
+          ICON_SHA=$(sha256sum /tmp/aur-src/icon-512.png | awk '{print $1}')
+          python3 - << PY
+          from pathlib import Path
+          path = Path("packaging/arch/PKGBUILD")
+          text = path.read_text()
+          text = text.replace("pkgver=1.0.17", "pkgver=${{ steps.ver.outputs.version }}", 1)
+          text = text.replace("sha256sums=('SKIP' 'SKIP')", "sha256sums=('$APP_SHA' '$ICON_SHA')", 1)
+          if "SKIP" in text:
+              raise SystemExit("SKIP checksum remains")
+          path.write_text(text)
+          PY
+
+      - name: Push to AUR
+        if: steps.gate.outputs.run == 'true'
+        env:
+          AUR_SSH_PRIVATE_KEY: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$AUR_SSH_PRIVATE_KEY" > ~/.ssh/aur
+          chmod 600 ~/.ssh/aur
+          ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
+          git clone "ssh://aur@aur.archlinux.org/gfe-portal-eu.git" /tmp/aur-pkg
+          cp packaging/arch/PKGBUILD /tmp/aur-pkg/PKGBUILD
+          docker run --rm -v /tmp/aur-pkg:/pkg -w /pkg archlinux:base-devel \
+            bash -lc 'useradd -m builder && chown -R builder /pkg && su builder -c "makepkg --printsrcinfo > .SRCINFO"'
+          cd /tmp/aur-pkg
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add PKGBUILD .SRCINFO
+          git diff --cached --quiet && exit 0
+          git commit -m "gfe-portal-eu ${{ steps.ver.outputs.version }}"
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/aur -o IdentitiesOnly=yes" git push origin master

@@ -15,6 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.43] - 2026-09-30
+
+### Added
+
+- **Arch package** — [`packaging/arch/PKGBUILD`](packaging/arch/PKGBUILD) builds `gfe-portal-eu` from the AppImage. [`scripts/stage-hosting.sh`](scripts/stage-hosting.sh) adds a `gf-elektro` pacman database under Firebase Hosting when the build succeeds. [`.github/workflows/bump-aur.yml`](.github/workflows/bump-aur.yml) updates the AUR only when `AUR_SSH_PRIVATE_KEY` is set.
+
+---
+
 ## [1.0.42] - 2026-09-30
 
 ### Added
