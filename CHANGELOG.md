@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.36] - 2026-09-30
+
+### Added
+
+- **Native shell bridge contract** — [`docs/native-shell-bridge.md`](docs/native-shell-bridge.md) documents `window.portalNativeAPI` for iOS/Android and points Digital-Platform integrators to the correct files. Linked from [`docs/permissions.html`](docs/permissions.html).
+
+---
+
 ## [1.0.35] - 2026-09-30
 
 ### Added
