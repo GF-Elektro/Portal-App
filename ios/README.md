@@ -14,17 +14,47 @@ Native SwiftUI + WKWebView client for the employee portal at [https://portal.gfe
 
 **Privacy:** `PortalEU/Info.plist` includes German usage strings for camera, microphone, and location (when-in-use). `PortalEU/PrivacyInfo.xcprivacy` declares no tracking (`NSPrivacyTracking` = false).
 
-This target is **not** built by `electron-builder` or the repository’s GitHub release workflow (those produce the Electron desktop app). iOS builds and App Store uploads are done manually in Xcode.
+The Electron **`release.yml`** workflow still builds only the desktop app. On each `v*` tag it also runs an **`ios-testflight`** job when GitHub Actions has the App Store Connect API key secrets (see [`docs/apple-signing.md`](../docs/apple-signing.md)). On a maintainer Mac, put `AuthKey_<KeyID>.p8` in gitignored `_archive/`, copy [`.env.local.example`](../.env.local.example) to `.env.local`, then run `source scripts/load-apple-env.sh && ./scripts/ios-testflight.sh`.
 
 ## Maintainer checklist
 
 1. **Open the project** — On a Mac, open `ios/PortalEU.xcodeproj` in Xcode.
 2. **Signing** — In **Signing & Capabilities**, select the **G&F Elektro** Apple Developer team. Do **not** commit certificates, private keys, or `.mobileprovision` files.
-3. **App icon** — Add an **App Icon** asset before App Store submission; the current scaffold has no icon set.
+3. **App icon** — Brand source is [`icon-512.png`](../icon-512.png) (same as the desktop app). Regenerate `PortalEU/Assets.xcassets` with `./scripts/sync-app-icons.sh`, then rebuild in Xcode or the simulator to confirm the home-screen icon matches the macOS dock icon.
 4. **App Store Connect** — Create a new iOS app with bundle ID `com.gfelektro.portal.ios`. This is separate from the macOS app (`com.gfelektro.portal`).
 5. **TestFlight & review** — **Product → Archive**, upload to App Store Connect, distribute via TestFlight, then submit for review.
    - **Guideline 4.2:** Position this as the company **employee portal client** (camera/microphone for field workflows, file downloads)—not a generic browser bookmark to a website. App Review may need a **demo login**; provide test credentials in App Store Connect notes if required.
-6. **Out of scope for CI here** — Do not expect `npm run build` or `.github/workflows/release.yml` to produce an iOS `.ipa`.
+6. **CLI upload (maintainer Mac or CI)** — After App Store Connect has an app for `com.gfelektro.portal.ios`, create an **Apple Distribution** certificate (Xcode → Settings → Accounts → Manage Certificates → **+**). Export the `.p12` into `APPLE_IOS_CERTIFICATE_BASE64` if CI cannot provision alone. Then:
+
+   ```bash
+   export APPLE_API_KEY="$HOME/AuthKey_XXXXXXXXXX.p8"
+   export APPLE_API_KEY_ID="XXXXXXXXXX"
+   export APPLE_API_ISSUER="issuer-uuid"
+   export MARKETING_VERSION=1.0.30
+   export CURRENT_PROJECT_VERSION=2
+   ./scripts/ios-testflight.sh
+   ```
+
+## Signing errors in Xcode
+
+### “Your team has no devices…” / “No profiles for com.gfelektro.portal.ios”
+
+Xcode is trying to create an **iOS App Development** profile (certificate **Apple Development**). Apple requires **at least one physical iPhone or iPad** registered for your team. **Simulators do not count** and will not clear this warning.
+
+**Fix (pick one):**
+
+1. **USB iPhone/iPad (easiest)** — Connect the device, unlock it, tap **Trust** on the device. In Xcode: **Window → Devices and Simulators → Devices** — Xcode registers the UDID with Apple. Return to **Signing & Capabilities** and click **Try Again**.
+2. **Manual UDID** — On the phone: **Settings → General → About** (or Finder sidebar when connected). On the web: [Register a device](https://developer.apple.com/account/resources/devices/add) → **iPhone** → paste the UDID → save. Then **Try Again** in Xcode.
+
+The app can still **Run** on the **iPhone 18 Pro simulator** even while this warning shows; the warning matters for a **real device** and for some archive flows until profiles exist.
+
+### TestFlight / Archive
+
+Uploading to TestFlight needs **Apple Distribution** in your Mac keychain, not only Apple Development:
+
+**Xcode → Settings → Accounts → G&F Elektro s.r.o. → Manage Certificates → + → Apple Distribution**
+
+Then **Product → Archive** (destination **Any iOS Device**, not a simulator). Or use `scripts/ios-testflight.sh` with `.env.local` (see [`docs/apple-signing.md`](../docs/apple-signing.md)).
 
 ## Simulator
 
