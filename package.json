@@ -1,7 +1,7 @@
 {
   "name": "gf-elektro-portal",
   "productName": "G&F Portal EU",
-  "version": "1.0.38",
+  "version": "1.0.39",
   "description": "Desktop app for G&F Portal EU – Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {
@@ -122,6 +122,10 @@
       "category": "Office",
       "icon": "icon-512.png",
       "executableName": "GFElektroPortal"
+    },
+    "deb": {
+      "packageName": "gfe-portal-eu",
+      "maintainer": "G&F Elektro s.r.o. <info@gfelektro.com>"
     },
     "publish": {
       "provider": "github",

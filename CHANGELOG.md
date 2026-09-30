@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.39] - 2026-09-30
+
+### Added
+
+- **Debian package name** — electron-builder `.deb` packages install as `gfe-portal-eu` (`build.deb.packageName` in [`package.json`](package.json)).
+
+---
+
 ## [1.0.37] - 2026-09-30
 
 ### Added
