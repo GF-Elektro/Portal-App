@@ -1,7 +1,7 @@
 {
   "name": "gf-elektro-portal",
   "productName": "G&F Portal EU",
-  "version": "1.0.40",
+  "version": "1.0.41",
   "description": "Desktop app for G&F Portal EU – Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {
@@ -21,6 +21,7 @@
     "build:win": "electron-builder build --win",
     "build:mac": "electron-builder build --mac dmg",
     "build:mac:mas": "electron-builder build --mac mas",
+    "verify:mas-signing": "bash scripts/verify-mas-signing.sh",
     "build:linux": "electron-builder build --linux",
     "smoke:electron": "node scripts/run-electron.js scripts/smoke-electron-api.js"
   },
@@ -50,6 +51,7 @@
       "target": [
         "dmg"
       ],
+      "executableName": "GF Portal EU",
       "icon": "build/icon.icns",
       "category": "public.app-category.business",
       "hardenedRuntime": true,
@@ -85,6 +87,8 @@
       ]
     },
     "mas": {
+      "identity": "Apple Distribution: G&F Elektro s.r.o. (3DKACDD8PH)",
+      "forceCodeSigning": true,
       "entitlements": "build/entitlements.mas.plist",
       "entitlementsInherit": "build/entitlements.mas.inherit.plist",
       "provisioningProfile": "build/embedded.provisionprofile"

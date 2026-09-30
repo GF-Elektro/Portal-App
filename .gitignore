@@ -30,6 +30,7 @@ Desktop.ini
 
 release
 _archive/
+hosting-dist/
 
 # Apple signing material (private keys and profiles stay off git and GitHub Pages)
 *.p12

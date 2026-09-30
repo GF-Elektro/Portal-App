@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.41] - 2026-09-30
+
+### Added
+
+- **Firebase Hosting for packages** — new project `gfe-portal-packages` (Hosting only, Workload Identity from GitHub, no service-account key). [`scripts/stage-hosting.sh`](scripts/stage-hosting.sh) builds an unsigned apt index into `hosting-dist/` and [`.github/workflows/publish-firebase-hosting.yml`](.github/workflows/publish-firebase-hosting.yml) deploys it on a published release.
+
+---
+
 ## [1.0.40] - 2026-09-30
 
 ### Changed

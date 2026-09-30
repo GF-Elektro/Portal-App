@@ -1,0 +1,38 @@
+name: Publish Firebase Hosting packages
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.44)'
+        required: true
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  hosting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install apt index tools
+        run: sudo apt-get update && sudo apt-get install -y dpkg-dev apt-utils
+
+      - name: Stage hosting directory
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/stage-hosting.sh
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: gfe-portal-packages
+          workload_identity_provider: projects/17403236372/locations/global/workloadIdentityPools/github/providers/github
+          service_account: github-deploy@gfe-portal-packages.iam.gserviceaccount.com
+
+      - name: Deploy Hosting
+        run: npx --yes firebase-tools@latest deploy --only hosting --project gfe-portal-packages --non-interactive
