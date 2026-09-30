@@ -15,7 +15,25 @@ struct PortalWebView: UIViewRepresentable {
         let configuration = WKWebViewConfiguration()
         configuration.defaultWebpagePreferences.allowsContentJavaScript = true
         configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
+
+        let userContent = configuration.userContentController
+        let prelude = WKUserScript(
+            source: PortalNativeBridge.portalAPIPreludeScript(),
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        )
+        userContent.addUserScript(prelude)
+        if let bridgeSource = PortalNativeBridge.loadBridgeScript() {
+            let bridge = WKUserScript(
+                source: bridgeSource,
+                injectionTime: .atDocumentStart,
+                forMainFrameOnly: true
+            )
+            userContent.addUserScript(bridge)
+        }
+
         let webView = WKWebView(frame: .zero, configuration: configuration)
+        PortalNativeBridge.shared.attach(to: webView, userContentController: userContent)
         webView.navigationDelegate = context.coordinator
         webView.uiDelegate = context.coordinator
         webView.allowsBackForwardNavigationGestures = true

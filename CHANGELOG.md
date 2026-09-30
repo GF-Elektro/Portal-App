@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.29] - 2026-09-30
+
+### Added
+
+- **iOS Notification Center bridge** — [`ios/PortalEU/PortalNativeBridge.swift`](ios/PortalEU/PortalNativeBridge.swift) wires `window.portalNativeAPI` to `UNUserNotificationCenter`, injects [`src/portal-native-bridge.js`](src/portal-native-bridge.js) at document start, and shows banners while the app is in the foreground.
+
+---
+
 ## [1.0.28] - 2026-09-30
 
 ### Added

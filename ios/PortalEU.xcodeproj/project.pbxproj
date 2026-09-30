@@ -11,6 +11,8 @@
 		A10000000000000000000011 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000021 /* ContentView.swift */; };
 		A10000000000000000000012 /* PortalWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000022 /* PortalWebView.swift */; };
 		A10000000000000000000013 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000023 /* PrivacyInfo.xcprivacy */; };
+		A10000000000000000000014 /* PortalNativeBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000026 /* PortalNativeBridge.swift */; };
+		A10000000000000000000015 /* portal-native-bridge.js in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000027 /* portal-native-bridge.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,8 @@
 		A10000000000000000000023 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A10000000000000000000024 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A10000000000000000000025 /* PortalEU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PortalEU.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000026 /* PortalNativeBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalNativeBridge.swift; sourceTree = "<group>"; };
+		A10000000000000000000027 /* portal-native-bridge.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = portal-native-bridge.js; path = ../../src/portal-native-bridge.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +43,8 @@
 				A10000000000000000000020 /* PortalEUApp.swift */,
 				A10000000000000000000021 /* ContentView.swift */,
 				A10000000000000000000022 /* PortalWebView.swift */,
+				A10000000000000000000026 /* PortalNativeBridge.swift */,
+				A10000000000000000000027 /* portal-native-bridge.js */,
 				A10000000000000000000024 /* Info.plist */,
 				A10000000000000000000023 /* PrivacyInfo.xcprivacy */,
 			);
@@ -120,6 +126,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000013 /* PrivacyInfo.xcprivacy in Resources */,
+				A10000000000000000000015 /* portal-native-bridge.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +140,7 @@
 				A10000000000000000000010 /* PortalEUApp.swift in Sources */,
 				A10000000000000000000011 /* ContentView.swift in Sources */,
 				A10000000000000000000012 /* PortalWebView.swift in Sources */,
+				A10000000000000000000014 /* PortalNativeBridge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,7 +189,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.27;
+				MARKETING_VERSION = 1.0.29;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gfelektro.portal.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -201,7 +209,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.27;
+				MARKETING_VERSION = 1.0.29;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gfelektro.portal.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
