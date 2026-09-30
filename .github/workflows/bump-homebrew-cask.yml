@@ -74,6 +74,9 @@ jobs:
           text = path.read_text()
           text = re.sub(r'version "[^"]+"', f'version "{version}"', text, count=1)
           text = re.sub(r'sha256 "[^"]+"', f'sha256 "{sha}"', text, count=1)
+          text = re.sub(r"\n  postflight do\n(?:.*\n)*?  end\n", "\n", text, count=1)
+          if "postflight" in text:
+              raise SystemExit("postflight block still present")
           path.write_text(text)
           print(path.read_text())
           PY

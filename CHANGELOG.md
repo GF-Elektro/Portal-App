@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.40] - 2026-09-30
+
+### Changed
+
+- **Homebrew cask bump** — [`.github/workflows/bump-homebrew-cask.yml`](.github/workflows/bump-homebrew-cask.yml) still updates version and SHA256, and now removes the quarantine-stripping `postflight` block on the next bump.
+
+---
+
 ## [1.0.39] - 2026-09-30
 
 ### Added
