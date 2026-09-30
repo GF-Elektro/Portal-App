@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.24] - 2026-09-30
+
+### Added
+
+- **Windows camera privacy settings link** — when Windows blocks camera access for the desktop app, a one-time German dialog offers to open `ms-settings:privacy-webcam`, matching the existing microphone flow in [`src/main.js`](src/main.js).
+
+---
+
 ## [1.0.23] - 2026-09-30
 
 ### Added

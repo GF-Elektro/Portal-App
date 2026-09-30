@@ -105,7 +105,7 @@ let customToastClickData = null;
 let notificationIdCounter = 0;
 let ipcHandlersRegistered = false;
 let downloadHandlerRegistered = false;
-let micDeniedDialogShown = false;
+const mediaDeniedDialogShown = { microphone: false, camera: false };
 let activeWindowPresetId = DEFAULT_WINDOW_PRESET_ID;
 let activeTrayIconPresetId = DEFAULT_TRAY_ICON_PRESET_ID;
 let activeTrayLanguageId = DEFAULT_TRAY_LANGUAGE_ID;
@@ -1322,24 +1322,30 @@ app.on('browser-window-created', (event, childWindow) => {
 });
 
 /**
- * Shows a one-time Windows dialog when microphone access is denied at the OS level.
+ * Shows a one-time Windows dialog when microphone or camera access is denied at the OS level.
+ *
+ * @param {'microphone' | 'camera'} mediaType
  */
-async function showMicDeniedHintIfNeeded() {
-  if (micDeniedDialogShown || process.platform !== 'win32') return;
-  micDeniedDialogShown = true;
+async function showMediaDeniedHintIfNeeded(mediaType) {
+  if (process.platform !== 'win32') return;
+  if (mediaDeniedDialogShown[mediaType]) return;
+  mediaDeniedDialogShown[mediaType] = true;
 
+  const isMic = mediaType === 'microphone';
   const result = await dialog.showMessageBox(mainWindow || undefined, {
     type: 'warning',
     title: APP_NAME,
-    message: 'Mikrofonzugriff ist blockiert',
-    detail: 'Windows hat den Mikrofonzugriff für diese App verweigert. Öffnen Sie die Datenschutzeinstellungen, um den Zugriff zu erlauben.',
+    message: isMic ? 'Mikrofonzugriff ist blockiert' : 'Kamerazugriff ist blockiert',
+    detail: isMic
+      ? 'Windows hat den Mikrofonzugriff für diese App verweigert. Öffnen Sie die Datenschutzeinstellungen, um den Zugriff zu erlauben.'
+      : 'Windows hat den Kamerazugriff für diese App verweigert. Öffnen Sie die Datenschutzeinstellungen, um den Zugriff zu erlauben.',
     buttons: ['Einstellungen öffnen', 'Abbrechen'],
     defaultId: 0,
     cancelId: 1,
   });
 
   if (result.response === 0) {
-    shell.openExternal('ms-settings:privacy-microphone');
+    shell.openExternal(isMic ? 'ms-settings:privacy-microphone' : 'ms-settings:privacy-webcam');
   }
 }
 
@@ -1359,8 +1365,8 @@ async function resolveOsMediaAccess(mediaType) {
 
     if (process.platform === 'win32') {
       const status = systemPreferences.getMediaAccessStatus(mediaType);
-      if (mediaType === 'microphone' && status === 'denied') {
-        await showMicDeniedHintIfNeeded();
+      if ((mediaType === 'microphone' || mediaType === 'camera') && status === 'denied') {
+        await showMediaDeniedHintIfNeeded(mediaType);
         return false;
       }
       return status !== 'denied';
