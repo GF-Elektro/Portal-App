@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.33] - 2026-09-30
+
+### Added
+
+- **Android runtime permissions** — camera, microphone, photos, notifications, and optional location in [`mobile/portal_android/android/app/src/main/AndroidManifest.xml`](mobile/portal_android/android/app/src/main/AndroidManifest.xml). WebView grants media requests and image file selection via `file_picker`.
+
+---
+
 ## [1.0.32] - 2026-09-30
 
 ### Added

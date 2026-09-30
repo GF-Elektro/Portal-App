@@ -26,6 +26,10 @@ flutter build apk --release
 flutter build appbundle
 ```
 
+## Clipboard
+
+Pasting into text fields uses the Android system clipboard (long-press → Paste). No custom API is required.
+
 ## Firebase
 
 Place `google-services.json` in `android/app/` locally. It is **gitignored** at the repo root. Without it, push token registration stays a stub until you add the Google Services Gradle plugin (see release notes in the root `CHANGELOG.md`).
