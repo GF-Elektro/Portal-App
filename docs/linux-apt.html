@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux-Installation (apt) – G&#38;F Portal EU</title>
+    <meta name="description" content="So installierst du G&#38;F Portal EU auf Debian und Ubuntu mit apt.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://docs.gfelektro.com/linux-apt.html">
+    <meta property="og:title" content="Linux-Installation (apt) – G&#38;F Portal EU">
+    <meta property="og:description" content="apt-Installation der G&#38;F Portal EU Desktop App.">
+    <meta property="og:image" content="https://docs.gfelektro.com/assets/icon-512.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Linux-Installation (apt) – G&#38;F Portal EU">
+    <meta name="twitter:description" content="apt-Installation der G&#38;F Portal EU Desktop App.">
+    <meta name="twitter:image" content="https://docs.gfelektro.com/assets/icon-512.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="assets/icon-512.png">
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <img src="assets/logo.png" alt="G&F Elektro Logo" class="brand-logo">
+            <a href="https://www.gfelektro.com" class="nav-link" target="_blank" rel="noopener">Zur Webseite</a>
+        </div>
+    </nav>
+
+    <main class="container hero-section">
+        <div class="hero-content" style="max-width: 720px;">
+            <h1 class="hero-title" style="font-size: 2.75rem;">Installation mit apt</h1>
+            <h2 class="hero-subtitle">Debian und Ubuntu</h2>
+            <p class="hero-description">
+                Das Paket-Repository ist unsigniert. Deshalb steht <strong>trusted=yes</strong> in der Quelle.
+            </p>
+            <pre>echo "deb [trusted=yes] https://gfe-portal-packages.web.app/apt stable main" | sudo tee /etc/apt/sources.list.d/gfe-portal-eu.list
+sudo apt update
+sudo apt install gfe-portal-eu</pre>
+            <p class="hero-description">
+                <a href="index.html">Zurück zur Übersicht</a>
+            </p>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

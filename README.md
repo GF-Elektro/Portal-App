@@ -134,6 +134,40 @@ If Homebrew asks you to trust a third-party cask:
 brew trust --cask GF-Elektro/tap/gfe-portal-eu
 ```
 
+### Windows (Chocolatey)
+
+```powershell
+choco install gfe-portal-eu
+```
+
+### Debian and Ubuntu (apt)
+
+The apt index is unsigned (`trusted=yes`):
+
+```bash
+echo "deb [trusted=yes] https://gfe-portal-packages.web.app/apt stable main" | sudo tee /etc/apt/sources.list.d/gfe-portal-eu.list
+sudo apt update
+sudo apt install gfe-portal-eu
+```
+
+### Arch Linux
+
+The pacman repo uses `SigLevel = Optional TrustAll`. Add this to `/etc/pacman.conf`:
+
+```bash
+# [gf-elektro]
+# SigLevel = Optional TrustAll
+# Server = https://gfe-portal-packages.web.app/arch/
+sudo pacman -Sy
+sudo pacman -S gfe-portal-eu
+```
+
+After a maintainer publishes the AUR package:
+
+```bash
+yay -S gfe-portal-eu
+```
+
 ### Pre-built Installers
 
 Download the latest release from the [Releases](https://github.com/GF-Elektro/Portal-App/releases) page:
@@ -214,6 +248,8 @@ The app automatically bridges web notifications from the portal to your operatin
 - **Branch protection** — `main` should block force-push and deletion ([setup guide](.github/BRANCH_PROTECTION.md) · `scripts/apply-branch-protection.sh`; requires **repo admin**)
 - **`VT_API_KEY`** — VirusTotal free API key ([my-apikey](https://www.virustotal.com/gui/my-apikey)); respect **4/min** and **500/day** limits (see [SECURITY.md](SECURITY.md))
 - **`HOMEBREW_TAP_TOKEN`** — fine-grained PAT (Contents: Read and write on `GF-Elektro/homebrew-tap`) for the *Bump Homebrew Cask* workflow
+- **`CHOCOLATEY_API_KEY`** — Chocolatey push key. Without it, Publish Chocolatey package skips.
+- **`AUR_SSH_PRIVATE_KEY`** — AUR SSH private key for `gfe-portal-eu`. Without it, Bump AUR package skips.
 - **Apple signing secrets** — `APPLE_CERTIFICATE_BASE64`, `APPLE_CERTIFICATE_PASSWORD`, `APPLE_TEAM_ID`, `APPLE_API_KEY_BASE64`, `APPLE_API_KEY_ID`, `APPLE_API_ISSUER` ([docs/apple-signing.md](docs/apple-signing.md))
 - Re-scan a past release: **Actions → VirusTotal scan → Run workflow** (tag e.g. `v1.0.12`)
 - Staff install: `brew tap GF-Elektro/tap` then `brew install --cask gfe-portal-eu`

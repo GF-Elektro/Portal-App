@@ -7,11 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.43] - 2026-09-30
+## [1.0.45] - 2026-09-30
 
 ### Added
 
-- **Mobile app icons** — [`scripts/sync-app-icons.sh`](scripts/sync-app-icons.sh) builds PortalEU (`ios/PortalEU/Assets.xcassets`) and Flutter iOS/Android icons from [`icon-512.png`](icon-512.png), matching desktop branding. App Store marketing icons are flattened to an opaque white background.
+- **Install docs** — README plus [`docs/linux-apt.html`](docs/linux-apt.html), [`docs/linux-arch.html`](docs/linux-arch.html), and [`docs/windows-chocolatey.html`](docs/windows-chocolatey.html). Docs download fallbacks match this version.
 
 ---
 
@@ -20,6 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **Arch package** — [`packaging/arch/PKGBUILD`](packaging/arch/PKGBUILD) builds `gfe-portal-eu` from the AppImage. [`scripts/stage-hosting.sh`](scripts/stage-hosting.sh) adds a `gf-elektro` pacman database under Firebase Hosting when the build succeeds. [`.github/workflows/bump-aur.yml`](.github/workflows/bump-aur.yml) updates the AUR only when `AUR_SSH_PRIVATE_KEY` is set.
+
+---
+
+## [1.0.43] - 2026-09-30
+
+### Added
+
+- **Mobile app icons** — [`scripts/sync-app-icons.sh`](scripts/sync-app-icons.sh) builds PortalEU (`ios/PortalEU/Assets.xcassets`) and Flutter iOS/Android icons from [`icon-512.png`](icon-512.png), matching desktop branding. App Store marketing icons are flattened to an opaque white background.
 
 ---
 
