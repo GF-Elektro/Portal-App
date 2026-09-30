@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.35] - 2026-09-30
+
+### Added
+
+- **Android FCM token stub** — `portalNativeAPI.push.getNativeToken()` returns `null` until `google-services.json` is added locally; [`mobile/portal_android/README.md`](mobile/portal_android/README.md) documents the Gradle steps.
+
+---
+
 ## [1.0.34] - 2026-09-30
 
 ### Added

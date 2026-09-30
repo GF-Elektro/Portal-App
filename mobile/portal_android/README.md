@@ -30,6 +30,15 @@ flutter build appbundle
 
 Pasting into text fields uses the Android system clipboard (long-press → Paste). No custom API is required.
 
-## Firebase
+## Firebase (FCM push)
 
-Place `google-services.json` in `android/app/` locally. It is **gitignored** at the repo root. Without it, push token registration stays a stub until you add the Google Services Gradle plugin (see release notes in the root `CHANGELOG.md`).
+`portalNativeAPI.push.getNativeToken()` intentionally returns `null` until Firebase is configured.
+
+When `google-services.json` is available locally (never commit it):
+
+1. Place the file in `android/app/google-services.json`.
+2. In `android/settings.gradle.kts`, apply the Google Services plugin per [Firebase Flutter setup](https://firebase.google.com/docs/flutter/setup).
+3. In `android/app/build.gradle.kts`, add `id("com.google.gms.google-services")` and dependencies `firebase_core` / `firebase_messaging`.
+4. Replace the stub in `lib/portal_webview_screen.dart` prelude with a call to `FirebaseMessaging.instance.getToken()`.
+
+Until then, background push uses only the web stack inside the portal; local notifications from 1.0.34 still work while the app is open.
