@@ -232,7 +232,7 @@ gf-elektro-portal/
 │   ├── tray-*.png                # Windows tray icons
 │   └── flags/                    # Tray language flags
 ├── icon-192.png
-├── icon-512.png                  # macOS / Linux app icon
+├── icon-512.png                  # macOS / Linux / mobile app icon (run ./scripts/sync-app-icons.sh after changes)
 ├── icon.png
 ├── scripts/
 │   └── create-ico.js             # PNG to ICO converter

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.43] - 2026-09-30
+
+### Added
+
+- **Mobile app icons** — [`scripts/sync-app-icons.sh`](scripts/sync-app-icons.sh) builds PortalEU (`ios/PortalEU/Assets.xcassets`) and Flutter iOS/Android icons from [`icon-512.png`](icon-512.png), matching desktop branding. App Store marketing icons are flattened to an opaque white background.
+
+---
+
 ## [1.0.42] - 2026-09-30
 
 ### Added

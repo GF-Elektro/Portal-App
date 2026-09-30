@@ -11,6 +11,8 @@ Flutter WebView shell for [https://portal.gfelektro.com](https://portal.gfelektr
 
 - Flutter stable (3.24+). Install from [flutter.dev](https://docs.flutter.dev/get-started/install).
 
+**App icon:** iOS and Android launcher icons are generated from the repo root [`icon-512.png`](../../icon-512.png). After changing that file, run `./scripts/sync-app-icons.sh` from the Portal-App root.
+
 ## Run
 
 ```bash
