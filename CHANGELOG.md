@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.34] - 2026-09-30
+
+### Added
+
+- **Android notification bridge** — high-importance channel `gf_portal_alerts`, `portalNative` JavaScript channel, and [`assets/portal-native-bridge.js`](mobile/portal_android/assets/portal-native-bridge.js) for OS-level portal alerts.
+
+---
+
 ## [1.0.33] - 2026-09-30
 
 ### Added
