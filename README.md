@@ -248,6 +248,7 @@ gf-elektro-portal/
 | `npm run build`      | Build executables for the current platform |
 | `npm run build:win`  | Build Windows NSIS and portable packages   |
 | `npm run build:mac`  | Build the macOS DMG on a Mac               |
+| `npm run build:mac:mas` | Build the Mac App Store package         |
 | `npm run build:linux` | Build Linux AppImage and deb packages     |
 | `npm run create-ico` | Regenerate the Windows icon from PNG       |
 

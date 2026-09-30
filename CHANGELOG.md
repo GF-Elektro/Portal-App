@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.21] - 2026-09-30
+
+### Added
+
+- **Mac App Store build** — `npm run build:mac:mas` packages a sandboxed app (`build/entitlements.mas.plist`). Place the Mac provisioning profile at `build/embedded.provisionprofile` (gitignored) before building. The Homebrew update tray item is hidden when `process.mas` is set, because App Store builds update through Apple.
+
+---
+
 ## [1.0.20] - 2026-09-30
 
 ### Added

@@ -1,7 +1,7 @@
 {
   "name": "gf-elektro-portal",
   "productName": "G&F Portal EU",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "Desktop app for G&F Portal EU – Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {
@@ -19,7 +19,8 @@
     "create-ico": "node scripts/create-ico.js",
     "build": "electron-builder build",
     "build:win": "electron-builder build --win",
-    "build:mac": "electron-builder build --mac",
+    "build:mac": "electron-builder build --mac dmg",
+    "build:mac:mas": "electron-builder build --mac mas",
     "build:linux": "electron-builder build --linux",
     "smoke:electron": "node scripts/run-electron.js scripts/smoke-electron-api.js"
   },
@@ -82,6 +83,11 @@
           "path": "/Applications"
         }
       ]
+    },
+    "mas": {
+      "entitlements": "build/entitlements.mas.plist",
+      "entitlementsInherit": "build/entitlements.mas.inherit.plist",
+      "provisioningProfile": "build/embedded.provisionprofile"
     },
     "win": {
       "target": [

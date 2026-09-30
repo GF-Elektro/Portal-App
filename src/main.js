@@ -1189,7 +1189,7 @@ function buildTrayContextMenu() {
     },
   ];
 
-  if (process.platform === 'darwin') {
+  if (process.platform === 'darwin' && !process.mas) {
     template.push({
       label: labels.checkForUpdate,
       click: () => checkForBrewCaskUpdate(),
