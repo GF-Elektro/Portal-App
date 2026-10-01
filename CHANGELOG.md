@@ -13,7 +13,8 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ### Added
 
-- **Docs site logo (transparent)** — [`docs/assets/logo.png`](docs/assets/logo.png) without the white plate; master [`docs/assets/logo-white-bg.png`](docs/assets/logo-white-bg.png). Regenerate: `npm run logo:docs-transparent` ([`Brewfile`](Brewfile)).
+- **Docs site logo (transparent)** — [`docs/assets/brand-logo.png`](docs/assets/brand-logo.png) (new URL avoids CDN cache on old `logo.png`); master [`docs/assets/logo-white-bg.png`](docs/assets/logo-white-bg.png). Regenerate: `npm run logo:docs-transparent` ([`Brewfile`](Brewfile)).
+- **Docs version label** — [`docs/assets/desktop-version.json`](docs/assets/desktop-version.json) tracks `package.json` via `npm run sync:docs-version`; the download page no longer overwrites it with GitHub *latest* (which lagged at 1.0.49).
 
 ### Changed
 

@@ -18,6 +18,7 @@
     "start": "node scripts/run-electron.js .",
     "create-ico": "node scripts/create-ico.js",
     "logo:docs-transparent": "bash scripts/make-docs-logo-transparent.sh",
+    "sync:docs-version": "node scripts/sync-docs-version.js",
     "build": "electron-builder build",
     "build:win": "electron-builder build --win",
     "build:mac": "electron-builder build --mac dmg",

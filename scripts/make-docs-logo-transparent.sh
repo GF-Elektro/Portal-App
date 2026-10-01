@@ -6,6 +6,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SOURCE="${ROOT}/docs/assets/logo-white-bg.png"
 OUTPUT="${ROOT}/docs/assets/logo.png"
+BRAND_OUTPUT="${ROOT}/docs/assets/brand-logo.png"
 FUZZ="${LOGO_FUZZ:-3}"
 
 require_cmd() {
@@ -30,9 +31,11 @@ trap 'rm -f "$TMP"' EXIT
 
 magick "$SOURCE" -fuzz "${FUZZ}%" -transparent white "$TMP"
 mv "$TMP" "$OUTPUT"
+cp "$OUTPUT" "$BRAND_OUTPUT"
 trap - EXIT
 
 oxipng -o 4 --strip safe "$OUTPUT"
+cp "$OUTPUT" "$BRAND_OUTPUT"
 
 if command -v pngquant >/dev/null 2>&1; then
   pngquant --quality=85-100 --skip-if-larger --force --output "$OUTPUT" "$OUTPUT" || true
@@ -42,4 +45,5 @@ if command -v optipng >/dev/null 2>&1; then
   optipng -quiet -o2 "$OUTPUT" || true
 fi
 
-echo "Wrote $OUTPUT (${FUZZ}% white fuzz, $(magick identify -format '%wx%h' "$OUTPUT"))"
+cp "$OUTPUT" "$BRAND_OUTPUT"
+echo "Wrote $OUTPUT and $BRAND_OUTPUT (${FUZZ}% white fuzz, $(magick identify -format '%wx%h' "$OUTPUT"))"

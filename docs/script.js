@@ -28,8 +28,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    loadDesktopVersionLabel();
     loadLatestReleaseAssets();
 });
+
+function loadDesktopVersionLabel() {
+    fetch('assets/desktop-version.json')
+        .then((response) => (response.ok ? response.json() : null))
+        .then((data) => {
+            const version = document.getElementById('app-version');
+            if (version && data && typeof data.version === 'string') {
+                version.textContent = 'Version ' + data.version;
+            }
+        })
+        .catch(() => {
+            // Keep the hardcoded fallback in index.html.
+        });
+}
 
 function loadLatestReleaseAssets() {
     fetch('https://api.github.com/repos/GF-Elektro/Portal-App/releases/latest')
@@ -46,11 +61,6 @@ function loadLatestReleaseAssets() {
             setDownloadHref('btn-linux-appimage', bySuffix('.AppImage'));
             setDownloadHref('btn-linux-deb', bySuffix('.deb'));
             setDownloadHref('btn-latest-dmg', bySuffix('.dmg'));
-
-            const version = document.getElementById('app-version');
-            if (version && typeof release.tag_name === 'string') {
-                version.textContent = 'Version ' + release.tag_name.replace(/^v/, '');
-            }
         })
         .catch(() => {
             // Keep the hardcoded release links already in the HTML.
