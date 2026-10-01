@@ -9,6 +9,9 @@ node_modules/
 # Build output
 out/
 dist/
+build/ios-derived/
+ios/build/
+*.xcarchive
 
 # OS files
 .DS_Store
@@ -21,6 +24,7 @@ Desktop.ini
 **/xcuserdata/
 .continue/
 .kilo/
+.cursor/
 *.swp
 *.swo
 
