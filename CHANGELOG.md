@@ -16,6 +16,10 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 - **Docs site logo (transparent)** — [`docs/assets/brand-logo.png`](docs/assets/brand-logo.png) (new URL avoids CDN cache on old `logo.png`); master [`docs/assets/logo-white-bg.png`](docs/assets/logo-white-bg.png). Regenerate: `npm run logo:docs-transparent` ([`Brewfile`](Brewfile)).
 - **Docs version label** — [`docs/assets/desktop-version.json`](docs/assets/desktop-version.json) tracks `package.json` via `npm run sync:docs-version`; the download page no longer overwrites it with GitHub *latest* (which lagged at 1.0.49).
 
+### Changed
+
+- **Docs landing page** — [docs.gfelektro.com](https://docs.gfelektro.com) redesign: on-brand link styling (no default blue), download panel, install chips, and refreshed feature section ([`docs/index.html`](docs/index.html), [`docs/styles.css`](docs/styles.css)).
+
 ### Fixed
 
 - **Post-release tag resolution** — [`post-release-distribution.yml`](.github/workflows/post-release-distribution.yml) `gh api --jq` no longer passes jq’s `-r` (failed with “accepts 1 arg(s), received 2”).

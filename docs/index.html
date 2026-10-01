@@ -20,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
     <link rel="icon" type="image/png" href="assets/icon-512.png">
 </head>
 <body>
@@ -34,15 +34,17 @@
         </div>
     </nav>
 
-    <main class="container hero-section">
+    <main class="hero-section">
         <div class="hero-content">
+            <p class="hero-eyebrow">Offizieller Desktop-Client</p>
             <h1 class="hero-title">G&#38;F Portal EU</h1>
             <h2 class="hero-subtitle">Jetzt als rasante Desktop App.</h2>
             <p class="hero-description">
-                Schneller Zugriff, Native Benachrichtigungen und absolut ablenkungsfrei. <br>
+                Schneller Zugriff, native Benachrichtigungen und absolut ablenkungsfrei.
                 Installiere das Portal direkt auf deinem Desktop.
             </p>
 
+            <div class="download-panel">
             <div class="download-section">
                 <a href="https://github.com/GF-Elektro/Portal-App/releases/download/v1.0.45/GFElektroPortal-1.0.45-Setup.exe" class="btn btn-primary" id="btn-win">
                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M0 93.7l210.7-29.7v167.4H0V93.7zm0 324.6l210.7 29.7V268.4H0v149.9zm227.3 32.1L448 480V268.4H227.3v182zm0-394.2V231.4H448V32L227.3 56.2z"></path></svg>
@@ -65,9 +67,21 @@
                 </a>
             </div>
             <p class="os-hint" id="os-hint">Wähle deine Plattform</p>
-            <p class="os-hint"><a href="macos-install.html">macOS: DMG öffnen und nach Programme ziehen. Die App wird mit dem Apple Developer Account von G&amp;F Elektro signiert — es gibt keine Zertifikatsdatei zum Installieren.</a></p>
-            <p class="os-hint"><a href="linux-apt.html">Debian/Ubuntu (apt)</a> · <a href="linux-arch.html">Arch Linux</a> · <a href="windows-chocolatey.html">Windows (Chocolatey)</a></p>
-            <p class="os-hint"><a href="permissions.html">Welche Berechtigungen die App braucht (Kamera, Mikrofon, Benachrichtigungen)</a></p>
+            </div>
+
+            <nav class="install-resources" aria-label="Installation und Hilfe">
+                <span class="install-resources__title">Installation &amp; Hilfe</span>
+                <a href="macos-install.html" class="resource-card">
+                    <span class="resource-card__label">macOS</span>
+                    <span class="resource-card__desc">DMG öffnen und in Programme ziehen. Signiert mit dem Apple Developer Account von G&amp;F Elektro — keine Zertifikatsdatei nötig.</span>
+                </a>
+                <div class="resource-chips">
+                    <a href="linux-apt.html" class="chip-link">Debian / Ubuntu</a>
+                    <a href="linux-arch.html" class="chip-link">Arch Linux</a>
+                    <a href="windows-chocolatey.html" class="chip-link">Windows (Chocolatey)</a>
+                    <a href="permissions.html" class="chip-link">Berechtigungen</a>
+                </div>
+            </nav>
         </div>
 
         <div class="hero-image-wrapper">
@@ -75,14 +89,19 @@
                 <img src="assets/icon-512.png" alt="G&F Portal EU App Icon" class="app-icon-large">
                 <div class="card-text">
                     <h3>G&#38;F Portal EU</h3>
-                    <p id="app-version">Version 1.0.50</p>
+                    <p id="app-version" class="version-pill">Version 1.0.50</p>
                 </div>
             </div>
         </div>
     </main>
 
     <section class="features">
-        <div class="container features-grid">
+        <div class="container">
+            <div class="features-intro">
+                <h2>Warum die Desktop App?</h2>
+                <p>Alles, was du im Browser kennst — mit dem Komfort einer nativen Anwendung.</p>
+            </div>
+        <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">🚀</div>
                 <h3>Ablenkungsfrei</h3>
@@ -104,11 +123,17 @@
                 <p>Belegfotos, Sprachdiktat und optionale GPS-Koordinaten für Tagesberichte – nur wenn du sie im Portal nutzt.</p>
             </div>
         </div>
+        </div>
     </section>
 
     <footer>
         <div class="container footer-content">
-            <p>&copy; 2026 G&F Elektro s.r.o. - Alle Rechte vorbehalten.</p>
+            <div class="footer-links">
+                <a href="https://www.gfelektro.com" target="_blank" rel="noopener">gfelektro.com</a>
+                <a href="https://github.com/GF-Elektro/Portal-App" target="_blank" rel="noopener">Quellcode</a>
+                <a href="permissions.html">Berechtigungen</a>
+            </div>
+            <p>&copy; 2026 G&F Elektro s.r.o. — Alle Rechte vorbehalten.</p>
         </div>
     </footer>
 
