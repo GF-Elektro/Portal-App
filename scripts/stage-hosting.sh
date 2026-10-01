@@ -117,8 +117,8 @@ PY
     rm -rf "$arch_dir"
     return 0
   fi
-  if ! docker run --rm -v "$arch_dir:/pkg" archlinux:base-devel \
-    bash -lc 'pacman -Sy --noconfirm base-devel fuse2 && useradd -m builder && chown -R builder /pkg && sudo -u builder env PKGDEST=/pkg BUILDDIR=/pkg/build SRCDEST=/pkg/src makepkg -C /pkg -f --noconfirm --noprogressbar'; then
+  if ! docker run --rm -v "$arch_dir:/pkg" -w /pkg archlinux:base-devel \
+    bash -lc 'pacman -Sy --noconfirm base-devel fuse2 && useradd -m builder && chown -R builder /pkg && su builder -c "cd /pkg && env PKGDEST=/pkg makepkg -f --noconfirm --noprogressbar"'; then
     echo "makepkg failed; skipping pacman database."
     rm -rf "$arch_dir"
     return 0
