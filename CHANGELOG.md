@@ -9,6 +9,25 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.50] - 2026-10-01
+
+### Added
+
+- **Docs site logo (transparent)** — [`docs/assets/brand-logo.png`](docs/assets/brand-logo.png) (new URL avoids CDN cache on old `logo.png`); master [`docs/assets/logo-white-bg.png`](docs/assets/logo-white-bg.png). Regenerate: `npm run logo:docs-transparent` ([`Brewfile`](Brewfile)).
+- **Docs version label** — [`docs/assets/desktop-version.json`](docs/assets/desktop-version.json) tracks `package.json` via `npm run sync:docs-version`; the download page no longer overwrites it with GitHub *latest* (which lagged at 1.0.49).
+
+### Changed
+
+- **Docs landing page** — [docs.gfelektro.com](https://docs.gfelektro.com) redesign: on-brand link styling (no default blue), download panel, install chips, and refreshed feature section ([`docs/index.html`](docs/index.html), [`docs/styles.css`](docs/styles.css)).
+- **Firebase packages landing** — [gfe-portal-packages.web.app](https://gfe-portal-packages.web.app/) shows a branded visit card ([`hosting/`](hosting/)), copied into `hosting-dist/` by [`scripts/stage-hosting.sh`](scripts/stage-hosting.sh) on each Hosting deploy.
+- **Electron 43 → 44** — Chromium/Node stack update. Verified with `npm run smoke:electron`.
+
+### Fixed
+
+- **Post-release tag resolution** — [`post-release-distribution.yml`](.github/workflows/post-release-distribution.yml) `gh api --jq` no longer passes jq’s `-r` (failed with “accepts 1 arg(s), received 2”).
+
+---
+
 ## [1.0.49] - 2026-10-01
 
 ### Added

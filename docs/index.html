@@ -15,31 +15,44 @@
     <meta name="twitter:description" content="Lade die offizielle G&#38;F Portal EU Desktop App für Windows, macOS und Linux herunter.">
     <meta name="twitter:image" content="https://docs.gfelektro.com/assets/icon-512.png">
     
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="styles.css?v=4">
+    <link rel="stylesheet" href="styles.css?v=7">
     <link rel="icon" type="image/png" href="assets/icon-512.png">
 </head>
-<body>
+<body data-docs-page="index">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
 
     <nav class="navbar">
         <div class="container nav-content">
             <img src="assets/brand-logo.png" alt="G&F Elektro Logo" class="brand-logo">
-            <a href="https://www.gfelektro.com" class="nav-link" target="_blank" rel="noopener">Zur Webseite</a>
+            <div class="nav-actions">
+                <div class="lang-switcher-wrap">
+                    <span class="lang-switcher-label" data-i18n="shared.langSwitcherLabel">Sprache</span>
+                    <div class="lang-switcher" id="lang-switcher" role="group" aria-label="Sprache">
+                        <button type="button" data-lang="sk" title="Slovenčina" aria-label="Slovenčina"><img src="assets/flags/sk.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="cz" title="Čeština" aria-label="Čeština"><img src="assets/flags/cz.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="pl" title="Polski" aria-label="Polski"><img src="assets/flags/pl.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="hu" title="Magyar" aria-label="Magyar"><img src="assets/flags/hu.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="de" title="Deutsch" aria-label="Deutsch" aria-pressed="true"><img src="assets/flags/de.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="uk" title="Українська" aria-label="Українська"><img src="assets/flags/uk.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="en" title="English" aria-label="English"><img src="assets/flags/en.svg" alt="" width="26" height="18" decoding="async"></button>
+                    </div>
+                </div>
+                <a href="https://www.gfelektro.com" class="nav-link" data-i18n="shared.navWebsite" target="_blank" rel="noopener">Zur Webseite</a>
+            </div>
         </div>
     </nav>
 
     <main class="hero-section">
         <div class="hero-content">
-            <p class="hero-eyebrow">Offizieller Desktop-Client</p>
+            <p class="hero-eyebrow" data-i18n="index.heroEyebrow">Offizieller Desktop-Client</p>
             <h1 class="hero-title">G&#38;F Portal EU</h1>
-            <h2 class="hero-subtitle">Jetzt als rasante Desktop App.</h2>
-            <p class="hero-description">
+            <h2 class="hero-subtitle" data-i18n="index.heroSubtitle">Jetzt als rasante Desktop App.</h2>
+            <p class="hero-description" data-i18n="index.heroDescription">
                 Schneller Zugriff, native Benachrichtigungen und absolut ablenkungsfrei.
                 Installiere das Portal direkt auf deinem Desktop.
             </p>
@@ -64,41 +77,41 @@
                     </button>
                 </div>
                 <div class="linux-options" id="linux-options-panel" hidden>
-                    <p class="linux-options__lead">Direkt laden oder Paketquelle nutzen:</p>
+                    <p class="linux-options__lead" data-i18n="index.linuxLead">Direkt laden oder Paketquelle nutzen:</p>
                     <div class="linux-options__grid">
                         <a href="https://github.com/GF-Elektro/Portal-App/releases/download/v1.0.45/GFElektroPortal-1.0.45.AppImage" class="linux-option" id="btn-linux-appimage">
                             <span class="linux-option__title">AppImage</span>
-                            <span class="linux-option__desc">Universell, ohne Installation</span>
+                            <span class="linux-option__desc" data-i18n="index.linuxAppImageDesc">Universell, ohne Installation</span>
                         </a>
                         <a href="https://github.com/GF-Elektro/Portal-App/releases/download/v1.0.45/GFElektroPortal-1.0.45.deb" class="linux-option" id="btn-linux-deb">
                             <span class="linux-option__title">.deb</span>
-                            <span class="linux-option__desc">Debian-Paket zum Installieren</span>
+                            <span class="linux-option__desc" data-i18n="index.linuxDebDesc">Debian-Paket zum Installieren</span>
                         </a>
                         <a href="linux-apt.html" class="linux-option linux-option--guide">
-                            <span class="linux-option__title">Debian / Ubuntu</span>
-                            <span class="linux-option__desc">apt-Repository einrichten</span>
+                            <span class="linux-option__title" data-i18n="index.chipDebian">Debian / Ubuntu</span>
+                            <span class="linux-option__desc" data-i18n="index.linuxAptDesc">apt-Repository einrichten</span>
                         </a>
                         <a href="linux-arch.html" class="linux-option linux-option--guide">
-                            <span class="linux-option__title">Arch Linux</span>
-                            <span class="linux-option__desc">pacman-Repository</span>
+                            <span class="linux-option__title" data-i18n="index.chipArch">Arch Linux</span>
+                            <span class="linux-option__desc" data-i18n="index.linuxArchDesc">pacman-Repository</span>
                         </a>
                     </div>
                 </div>
             </div>
-            <p class="os-hint" id="os-hint">Wähle deine Plattform</p>
+            <p class="os-hint" id="os-hint" data-i18n="index.osHintDefault">Wähle deine Plattform</p>
             </div>
 
             <nav class="install-resources" aria-label="Installation und Hilfe">
-                <span class="install-resources__title">Installation &amp; Hilfe</span>
+                <span class="install-resources__title" data-i18n="index.installResourcesTitle">Installation &amp; Hilfe</span>
                 <a href="macos-install.html" class="resource-card">
                     <span class="resource-card__label">macOS</span>
-                    <span class="resource-card__desc">DMG öffnen und in Programme ziehen. Signiert mit dem Apple Developer Account von G&amp;F Elektro — keine Zertifikatsdatei nötig.</span>
+                    <span class="resource-card__desc" data-i18n="index.macosCardDesc">DMG öffnen und in Programme ziehen. Signiert mit dem Apple Developer Account von G&amp;F Elektro — keine Zertifikatsdatei nötig.</span>
                 </a>
                 <div class="resource-chips">
-                    <a href="linux-apt.html" class="chip-link">Debian / Ubuntu</a>
-                    <a href="linux-arch.html" class="chip-link">Arch Linux</a>
-                    <a href="windows-chocolatey.html" class="chip-link">Windows (Chocolatey)</a>
-                    <a href="permissions.html" class="chip-link">Berechtigungen</a>
+                    <a href="linux-apt.html" class="chip-link" data-i18n="index.chipDebian">Debian / Ubuntu</a>
+                    <a href="linux-arch.html" class="chip-link" data-i18n="index.chipArch">Arch Linux</a>
+                    <a href="windows-chocolatey.html" class="chip-link" data-i18n="index.chipWindows">Windows (Chocolatey)</a>
+                    <a href="permissions.html" class="chip-link" data-i18n="index.chipPermissions">Berechtigungen</a>
                 </div>
             </nav>
         </div>
@@ -114,32 +127,95 @@
         </div>
     </main>
 
+    <section class="roadmap" aria-labelledby="roadmap-heading">
+        <div class="container">
+            <div class="roadmap-header">
+                <span class="roadmap-eyebrow" data-i18n="index.roadmapEyebrow">Aktuelles</span>
+                <h2 id="roadmap-heading" data-i18n="index.roadmapTitle">Portal überall — Schritt für Schritt</h2>
+                <p class="roadmap-intro" data-i18n="index.roadmapIntro">
+                    Die Desktop-Apps für Windows, macOS und Linux sind da. Parallel bauen wir die nativen Mobile-Clients und bereiten die Microsoft-Store-Version vor — damit du das Portal bald auf jedem Gerät nutzen kannst.
+                </p>
+            </div>
+
+            <div class="roadmap-grid">
+                <article class="roadmap-card roadmap-card--live">
+                    <div class="roadmap-card__head">
+                        <span class="roadmap-icon roadmap-icon--desktop" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="4" width="20" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 20h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </span>
+                        <span class="roadmap-badge roadmap-badge--live" data-i18n="index.roadmapBadgeLive">Verfügbar</span>
+                    </div>
+                    <h3 data-i18n="index.roadmapDesktopTitle">Desktop</h3>
+                    <p data-i18n="index.roadmapDesktopDesc">Electron-Client mit Tray, Updates und nativen Benachrichtigungen — jetzt per Download, apt, pacman oder Chocolatey.</p>
+                </article>
+
+                <article class="roadmap-card roadmap-card--review roadmap-card--spotlight">
+                    <div class="roadmap-card__glow" aria-hidden="true"></div>
+                    <div class="roadmap-card__head">
+                        <span class="roadmap-icon roadmap-icon--ios" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16.83 13.13c-.02-2.31 1.89-3.42 1.97-3.47-1.07-1.56-2.74-1.77-3.33-1.8-1.42-.14-2.77.84-3.49.84-.73 0-1.84-.82-3.03-.8-1.56.02-3 .91-3.8 2.31-1.62 2.81-.41 6.97 1.16 9.25.77 1.12 1.69 2.38 2.9 2.33 1.17-.05 1.61-.75 3.02-.75 1.4 0 1.79.75 3.01.73 1.24-.02 2.03-1.13 2.78-2.26.88-1.28 1.24-2.52 1.26-2.58-.03-.01-2.42-.93-2.44-3.69l.04-.01zM14.58 4.2c.64-.78 1.07-1.87.95-2.95-.92.04-2.03.61-2.69 1.39-.59.69-1.11 1.8-.97 2.86 1.03.08 2.08-.53 2.71-1.3z"/></svg>
+                        </span>
+                        <span class="roadmap-badge roadmap-badge--review"><span class="roadmap-badge__dot" aria-hidden="true"></span><span data-i18n="index.roadmapBadgeReview">In Prüfung</span></span>
+                    </div>
+                    <h3 data-i18n="index.roadmapIosTitle">iOS (Swift)</h3>
+                    <p data-i18n="index.roadmapIosDesc">Native App für iPhone und iPad in Swift. Build und Upload laufen; External TestFlight und App-Store-Review sind eingereicht — Release folgt in Kürze.</p>
+                </article>
+
+                <article class="roadmap-card roadmap-card--soon">
+                    <div class="roadmap-card__head">
+                        <span class="roadmap-icon roadmap-icon--android" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84 1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 1.23 12.95 1 12 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.97 3.3 6 5.03 6 7h12c0-1.97-.97-3.7-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>
+                        </span>
+                        <span class="roadmap-badge roadmap-badge--soon" data-i18n="index.roadmapBadgeSoon">Demnächst</span>
+                    </div>
+                    <h3 data-i18n="index.roadmapAndroidTitle">Android</h3>
+                    <p data-i18n="index.roadmapAndroidDesc">Der Android-Client ist in aktiver Entwicklung — gleiche Portal-Funktionen, optimiert für Baustelle und unterwegs.</p>
+                </article>
+
+                <article class="roadmap-card roadmap-card--soon">
+                    <div class="roadmap-card__head">
+                        <span class="roadmap-icon roadmap-icon--store" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h7l2 3h7a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 14l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span class="roadmap-badge roadmap-badge--soon" data-i18n="index.roadmapBadgeSoon">Demnächst</span>
+                    </div>
+                    <h3 data-i18n="index.roadmapStoreTitle">Microsoft Store</h3>
+                    <p data-i18n="index.roadmapStoreDesc">Dieselbe Windows-Desktop-App als MSIX für einfache Firmen-Rollouts — Paket und Store-Einreichung sind in Vorbereitung.</p>
+                </article>
+            </div>
+
+            <p class="roadmap-footnote" data-i18n-html="index.roadmapNote">
+                Mehr zu Kamera, Mikrofon und Benachrichtigungen auf allen Plattformen: <a href="permissions.html">Berechtigungen</a>.
+            </p>
+        </div>
+    </section>
+
     <section class="features">
         <div class="container">
             <div class="features-intro">
-                <h2>Warum die Desktop App?</h2>
-                <p>Alles, was du im Browser kennst — mit dem Komfort einer nativen Anwendung.</p>
+                <h2 data-i18n="index.featuresTitle">Warum die Desktop App?</h2>
+                <p data-i18n="index.featuresIntro">Alles, was du im Browser kennst — mit dem Komfort einer nativen Anwendung.</p>
             </div>
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">🚀</div>
-                <h3>Ablenkungsfrei</h3>
-                <p>Keine Browser-Tabs, keine Lesezeichenleiste. Fokussiere dich zu 100% auf das Portal und deine Projekte.</p>
+                <h3 data-i18n="index.feature1Title">Ablenkungsfrei</h3>
+                <p data-i18n="index.feature1Desc">Keine Browser-Tabs, keine Lesezeichenleiste. Fokussiere dich zu 100% auf das Portal und deine Projekte.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🔔</div>
-                <h3>Native Benachrichtigungen</h3>
-                <p>Erhalte wichtige Portal-Updates direkt über das Info-Center von Windows oder macOS.</p>
+                <h3 data-i18n="index.feature2Title">Native Benachrichtigungen</h3>
+                <p data-i18n="index.feature2Desc">Erhalte wichtige Portal-Updates direkt über das Info-Center von Windows oder macOS.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">⚡</div>
-                <h3>Immer griffbereit</h3>
-                <p>Die App minimiert sich in den System-Tray und ist jederzeit mit nur einem Klick wieder geöffnet.</p>
+                <h3 data-i18n="index.feature3Title">Immer griffbereit</h3>
+                <p data-i18n="index.feature3Desc">Die App minimiert sich in den System-Tray und ist jederzeit mit nur einem Klick wieder geöffnet.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">📷</div>
-                <h3>Kamera, Mikrofon &amp; Standort</h3>
-                <p>Belegfotos, Sprachdiktat und optionale GPS-Koordinaten für Tagesberichte – nur wenn du sie im Portal nutzt.</p>
+                <h3 data-i18n="index.feature4Title">Kamera, Mikrofon &amp; Standort</h3>
+                <p data-i18n="index.feature4Desc">Belegfotos, Sprachdiktat und optionale GPS-Koordinaten für Tagesberichte – nur wenn du sie im Portal nutzt.</p>
             </div>
         </div>
         </div>
@@ -149,13 +225,15 @@
         <div class="container footer-content">
             <div class="footer-links">
                 <a href="https://www.gfelektro.com" target="_blank" rel="noopener">gfelektro.com</a>
-                <a href="https://github.com/GF-Elektro/Portal-App" target="_blank" rel="noopener">Quellcode</a>
-                <a href="permissions.html">Berechtigungen</a>
+                <a href="https://github.com/GF-Elektro/Portal-App" target="_blank" rel="noopener" data-i18n="index.footerSource">Quellcode</a>
+                <a href="permissions.html" data-i18n="index.footerPermissions">Berechtigungen</a>
             </div>
-            <p>&copy; 2026 G&F Elektro s.r.o. — Alle Rechte vorbehalten.</p>
+            <p data-i18n="shared.footerRights">&copy; 2026 G&F Elektro s.r.o. — Alle Rechte vorbehalten.</p>
         </div>
     </footer>
 
-    <script src="script.js?v=2"></script>
+    <script src="i18n/locales.js?v=2"></script>
+    <script src="i18n.js?v=2"></script>
+    <script src="script.js?v=3"></script>
 </body>
 </html>

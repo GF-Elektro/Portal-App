@@ -8,92 +8,109 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=4">
+    <link rel="stylesheet" href="styles.css?v=7">
     <link rel="icon" type="image/png" href="assets/icon-512.png">
 </head>
-<body>
+<body data-docs-page="permissions">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
 
     <nav class="navbar">
         <div class="container nav-content">
             <img src="assets/brand-logo.png" alt="G&F Elektro Logo" class="brand-logo">
-            <a href="https://www.gfelektro.com" class="nav-link" target="_blank" rel="noopener">Zur Webseite</a>
+            <div class="nav-actions">
+                <div class="lang-switcher-wrap">
+                    <span class="lang-switcher-label" data-i18n="shared.langSwitcherLabel">Sprache</span>
+                    <div class="lang-switcher" id="lang-switcher" role="group" aria-label="Sprache">
+                        <button type="button" data-lang="sk" title="Slovenčina" aria-label="Slovenčina"><img src="assets/flags/sk.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="cz" title="Čeština" aria-label="Čeština"><img src="assets/flags/cz.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="pl" title="Polski" aria-label="Polski"><img src="assets/flags/pl.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="hu" title="Magyar" aria-label="Magyar"><img src="assets/flags/hu.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="de" title="Deutsch" aria-label="Deutsch" aria-pressed="true"><img src="assets/flags/de.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="uk" title="Українська" aria-label="Українська"><img src="assets/flags/uk.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="en" title="English" aria-label="English"><img src="assets/flags/en.svg" alt="" width="26" height="18" decoding="async"></button>
+                    </div>
+                </div>
+                <a href="https://www.gfelektro.com" class="nav-link" data-i18n="shared.navWebsite" target="_blank" rel="noopener">Zur Webseite</a>
+            </div>
         </div>
     </nav>
 
     <main class="container hero-section">
         <div class="hero-content" style="max-width: 720px;">
-            <h1 class="hero-title" style="font-size: 2.75rem;">App-Berechtigungen</h1>
-            <h2 class="hero-subtitle">Warum G&#38;F Portal EU auf deinem Gerät fragt</h2>
-            <p class="hero-description">
+            <h1 class="hero-title" style="font-size: 2.75rem;" data-i18n="permissions.h1">App-Berechtigungen</h1>
+            <h2 class="hero-subtitle" data-i18n="permissions.h2">Warum G&#38;F Portal EU auf deinem Gerät fragt</h2>
+            <p class="hero-description" data-i18n-html="permissions.intro">
                 Die Portal-Apps sind Hüllen um <strong>portal.gfelektro.com</strong> – das Mitarbeiterportal von G&#38;F Elektro.
                 Für Baustellenfotos, Diktat, Chat-Benachrichtigungen und Einfügen aus der Zwischenablage braucht das Betriebssystem deine Zustimmung.
             </p>
 
             <div class="feature-card" style="margin-bottom: 24px; text-align: left;">
-                <h3 style="margin-bottom: 12px;">macOS-App</h3>
+                <h3 style="margin-bottom: 12px;" data-i18n="permissions.macTitle">macOS-App</h3>
                 <ul style="padding-left: 1.25rem; color: var(--color-text-muted);">
-                    <li style="margin-bottom: 8px;"><strong>Kamera</strong> – Belegfotos und Fotodokumentation auf der Baustelle.</li>
-                    <li style="margin-bottom: 8px;"><strong>Mikrofon</strong> – Sprachnachrichten, Diktat und Audiofunktionen (z.&nbsp;B. für Admins).</li>
-                    <li style="margin-bottom: 8px;"><strong>Standort (optional)</strong> – nur wenn du GPS in Tagesberichten aktivierst.</li>
-                    <li style="margin-bottom: 8px;"><strong>Benachrichtigungen</strong> – neue Nachrichten und Hinweise wie bei E-Mail oder SMS.</li>
-                    <li style="margin-bottom: 8px;"><strong>Zwischenablage</strong> – Text einfügen in Formularen im Portal.</li>
+                    <li style="margin-bottom: 8px;" data-i18n-html="permissions.macLi1"><strong>Kamera</strong> – Belegfotos und Fotodokumentation auf der Baustelle.</li>
+                    <li style="margin-bottom: 8px;" data-i18n-html="permissions.macLi2"><strong>Mikrofon</strong> – Sprachnachrichten, Diktat und Audiofunktionen (z.&nbsp;B. für Admins).</li>
+                    <li style="margin-bottom: 8px;" data-i18n-html="permissions.macLi3"><strong>Standort (optional)</strong> – nur wenn du GPS in Tagesberichten aktivierst.</li>
+                    <li style="margin-bottom: 8px;" data-i18n-html="permissions.macLi4"><strong>Benachrichtigungen</strong> – neue Nachrichten und Hinweise wie bei E-Mail oder SMS.</li>
+                    <li style="margin-bottom: 8px;" data-i18n-html="permissions.macLi5"><strong>Zwischenablage</strong> – Text einfügen in Formularen im Portal.</li>
                 </ul>
-                <p style="color: var(--color-text-muted); margin-top: 12px;">
+                <p style="color: var(--color-text-muted); margin-top: 12px;" data-i18n-html="permissions.macFooter">
                     Installation nur über die <strong>DMG</strong> – siehe <a href="macos-install.html">macOS-Installationsanleitung</a>.
                     Du lädst <strong>kein</strong> Apple-Zertifikat und <strong>keinen</strong> privaten Schlüssel herunter; die App ist signiert und notarisiert.
                 </p>
             </div>
 
             <div class="feature-card" style="margin-bottom: 24px; text-align: left;">
-                <h3 style="margin-bottom: 12px;">Windows-App</h3>
+                <h3 style="margin-bottom: 12px;" data-i18n="permissions.winTitle">Windows-App</h3>
                 <ul style="padding-left: 1.25rem; color: var(--color-text-muted);">
-                    <li style="margin-bottom: 8px;">Gleiche Zwecke: Kamera, Mikrofon, Benachrichtigungen, Zwischenablage.</li>
-                    <li style="margin-bottom: 8px;">Wenn Windows Mikrofon oder Kamera blockiert, bietet die App einen Dialog mit Link zu den <strong>Datenschutz-Einstellungen</strong>.</li>
-                    <li>Benachrichtigungen laufen über die Windows-Mitteilungszentrale (App-ID <code>com.gfelektro.portal</code>).</li>
+                    <li style="margin-bottom: 8px;" data-i18n="permissions.winLi1">Gleiche Zwecke: Kamera, Mikrofon, Benachrichtigungen, Zwischenablage.</li>
+                    <li style="margin-bottom: 8px;" data-i18n-html="permissions.winLi2">Wenn Windows Mikrofon oder Kamera blockiert, bietet die App einen Dialog mit Link zu den <strong>Datenschutz-Einstellungen</strong>.</li>
+                    <li data-i18n-html="permissions.winLi3">Benachrichtigungen laufen über die Windows-Mitteilungszentrale (App-ID <code>com.gfelektro.portal</code>).</li>
                 </ul>
             </div>
 
             <div class="feature-card" style="margin-bottom: 24px; text-align: left;">
-                <h3 style="margin-bottom: 12px;">iOS-App (TestFlight / App Store)</h3>
-                <p style="color: var(--color-text-muted);">
+                <h3 style="margin-bottom: 12px;" data-i18n="permissions.iosTitle">iOS-App (TestFlight / App Store)</h3>
+                <p style="color: var(--color-text-muted);" data-i18n-html="permissions.iosBody">
                     Dieselben Funktionen über die Systemdialoge von Apple. Benachrichtigungen erscheinen in der <strong>Mitteilungszentrale</strong>.
                     Die App ist kein generischer Browser, sondern der offizielle Mitarbeiter-Client für das Portal.
                 </p>
             </div>
 
             <div class="feature-card" style="margin-bottom: 24px; text-align: left;">
-                <h3 style="margin-bottom: 12px;">Android-App</h3>
-                <p style="color: var(--color-text-muted);">
+                <h3 style="margin-bottom: 12px;" data-i18n="permissions.androidTitle">Android-App</h3>
+                <p style="color: var(--color-text-muted);" data-i18n="permissions.androidBody">
                     Kamera und Fotos für Baustellen-Uploads, Mikrofon für Diktat, Benachrichtigungen ab Android&nbsp;13 mit expliziter Erlaubnis.
                     Wichtige Hinweise werden als System-Benachrichtigungen angezeigt.
                 </p>
             </div>
 
             <div class="feature-card" style="margin-bottom: 32px; text-align: left;">
-                <h3 style="margin-bottom: 12px;">Microsoft Store (geplant)</h3>
-                <p style="color: var(--color-text-muted);">
+                <h3 style="margin-bottom: 12px;" data-i18n="permissions.storeTitle">Microsoft Store (geplant)</h3>
+                <p style="color: var(--color-text-muted);" data-i18n-html="permissions.storeBody">
                     Dieselbe Windows-Desktop-App, später über den Store verteilt. Das MSIX-Paket braucht u.&nbsp;a.
                     <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> und optional <code>location</code>.
                     Details: <a href="microsoft-store.md">microsoft-store.md</a>.
                 </p>
             </div>
 
-            <p class="hero-description" style="font-size: 0.95rem;">
+            <p class="hero-description" style="font-size: 0.95rem;" data-i18n-html="permissions.devNote">
                 Technische Details zur nativen Schnittstelle (Entwickler): <a href="native-shell-bridge.md">native-shell-bridge.md</a>.
             </p>
 
             <div class="download-section">
-                <a href="index.html" class="btn btn-secondary">Zurück zum Download</a>
+                <a href="index.html" class="btn btn-secondary" data-i18n="permissions.backBtn">Zurück zum Download</a>
             </div>
         </div>
     </main>
 
     <footer>
         <div class="container footer-content">
-            <p>&copy; 2026 G&F Elektro s.r.o. - Alle Rechte vorbehalten.</p>
+            <p data-i18n="shared.footerRights">&copy; 2026 G&F Elektro s.r.o. - Alle Rechte vorbehalten.</p>
         </div>
     </footer>
+    <script src="i18n/locales.js?v=1"></script>
+    <script src="i18n.js?v=2"></script>
+    <script src="script.js?v=3"></script>
 </body>
 </html>
