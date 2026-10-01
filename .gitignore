@@ -9,6 +9,9 @@ node_modules/
 # Build output
 out/
 dist/
+build/ios-derived/
+ios/build/
+*.xcarchive
 
 # OS files
 .DS_Store
@@ -21,12 +24,18 @@ Desktop.ini
 **/xcuserdata/
 .continue/
 .kilo/
+.cursor/
 *.swp
 *.swo
 
 # Environment
 .env
 .env.local
+
+# Local certificate decode scratch (never commit)
+/00
+/01
+/02
 
 release
 _archive/

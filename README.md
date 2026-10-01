@@ -252,6 +252,7 @@ The app automatically bridges web notifications from the portal to your operatin
 - **`AUR_SSH_PRIVATE_KEY`** — AUR SSH private key for `gfe-portal-eu`. Without it, Bump AUR package skips.
 - **Apple signing secrets** — `APPLE_CERTIFICATE_BASE64`, `APPLE_CERTIFICATE_PASSWORD`, `APPLE_TEAM_ID`, `APPLE_API_KEY_BASE64`, `APPLE_API_KEY_ID`, `APPLE_API_ISSUER` ([docs/apple-signing.md](docs/apple-signing.md))
 - Re-scan a past release: **Actions → VirusTotal scan → Run workflow** (tag e.g. `v1.0.12`)
+- **Post-release distribution** — After *Build and Release*, [`.github/workflows/post-release-distribution.yml`](.github/workflows/post-release-distribution.yml) dispatches Firebase Hosting, Homebrew, Chocolatey, VirusTotal, and AUR (GitHub does not run `release: published` workflows for releases created by `GITHUB_TOKEN`). Re-run manually: **Actions → Post-release distribution** with the tag.
 - Staff install: `brew tap GF-Elektro/tap` then `brew install --cask gfe-portal-eu`
 
 ## Development

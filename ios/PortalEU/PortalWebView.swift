@@ -13,6 +13,8 @@ struct PortalWebView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> WKWebView {
         let configuration = WKWebViewConfiguration()
+        configuration.processPool = Coordinator.sharedProcessPool
+        configuration.websiteDataStore = .default()
         configuration.defaultWebpagePreferences.allowsContentJavaScript = true
         configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
 
@@ -33,10 +35,12 @@ struct PortalWebView: UIViewRepresentable {
         }
 
         let webView = WKWebView(frame: .zero, configuration: configuration)
+        context.coordinator.mainWebView = webView
         PortalNativeBridge.shared.attach(to: webView, userContentController: userContent)
         webView.navigationDelegate = context.coordinator
         webView.uiDelegate = context.coordinator
-        webView.allowsBackForwardNavigationGestures = true
+        // Swiping back to Google/login after OAuth drops Firebase session in the shell.
+        webView.allowsBackForwardNavigationGestures = false
         webView.load(URLRequest(url: url))
         return webView
     }
@@ -44,6 +48,14 @@ struct PortalWebView: UIViewRepresentable {
     func updateUIView(_ uiView: WKWebView, context: Context) {}
 
     final class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate, WKDownloadDelegate {
+        static let sharedProcessPool = WKProcessPool()
+
+        weak var mainWebView: WKWebView?
+
+        private var auxiliaryWebViews: [WKWebView] = []
+
+        private let portalAuthPathPrefix = "/__/auth"
+
         private let portalHosts: Set<String> = [
             "portal.gfelektro.com",
             "gfelektro.com",
@@ -52,13 +64,34 @@ struct PortalWebView: UIViewRepresentable {
             "accounts.google.com",
             "accounts.youtube.com",
             "apis.google.com",
+            "appleid.apple.com",
         ]
         private let authSuffixes = [
+            ".google.com",
             ".googleapis.com",
+            ".googleusercontent.com",
             ".gstatic.com",
             ".firebaseapp.com",
             ".firebaseauth.com",
+            ".linkedin.com",
+            ".licdn.com",
         ]
+
+        func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+            print("[PORTAL-NAV] didStart: \(webView.url?.absoluteString ?? "")")
+        }
+
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            print("[PORTAL-NAV] didFinish: \(webView.url?.absoluteString ?? "")")
+        }
+
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+            print("[PORTAL-NAV] didFail: \(error.localizedDescription) url=\(webView.url?.absoluteString ?? "")")
+        }
+
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            print("[PORTAL-NAV] didFailProvisionalNavigation: \(error.localizedDescription) url=\(webView.url?.absoluteString ?? "")")
+        }
 
         func webView(
             _ webView: WKWebView,
@@ -67,10 +100,13 @@ struct PortalWebView: UIViewRepresentable {
             decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void
         ) {
             guard let target = navigationAction.request.url else {
+                print("[PORTAL-NAV] decidePolicy: nil url -> cancel")
                 decisionHandler(.cancel, preferences)
                 return
             }
-            if shouldKeepInApp(target) {
+            let keep = shouldKeepInApp(target)
+            print("[PORTAL-NAV] decidePolicy: \(target.absoluteString) [keep=\(keep), navType=\(navigationAction.navigationType.rawValue)]")
+            if keep {
                 decisionHandler(.allow, preferences)
                 return
             }
@@ -141,13 +177,51 @@ struct PortalWebView: UIViewRepresentable {
             for navigationAction: WKNavigationAction,
             windowFeatures: WKWindowFeatures
         ) -> WKWebView? {
-            guard let target = navigationAction.request.url else { return nil }
-            if shouldKeepInApp(target) {
+            let target = navigationAction.request.url
+            let isAuth = target == nil || isGenuineAuthPopupURL(target!)
+            print("[PORTAL-NAV] createWebViewWith url=\(target?.absoluteString ?? "nil") isAuth=\(isAuth)")
+            if isAuth {
+                let root = mainWebView ?? webView
+                configuration.processPool = root.configuration.processPool
+                configuration.websiteDataStore = root.configuration.websiteDataStore
+                let popup = WKWebView(frame: webView.bounds, configuration: configuration)
+                popup.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                popup.navigationDelegate = self
+                popup.uiDelegate = self
+                auxiliaryWebViews.append(popup)
+                webView.addSubview(popup)
+                return popup
+            }
+            if let target, shouldKeepInApp(target) {
                 webView.load(URLRequest(url: target))
-            } else {
+                return nil
+            }
+            if let target {
                 UIApplication.shared.open(target)
             }
             return nil
+        }
+
+        func webViewDidClose(_ webView: WKWebView) {
+            dismissAuxiliaryWebView(webView)
+        }
+
+        /// OAuth / Firebase popup targets (aligned with Electron `isGenuineAuthURL`).
+        private func isGenuineAuthPopupURL(_ url: URL) -> Bool {
+            guard let scheme = url.scheme?.lowercased() else { return false }
+            if scheme == "about" || url.absoluteString == "about:blank" { return true }
+            guard scheme == "https", let host = url.host?.lowercased() else { return false }
+            if portalHosts.contains(host) {
+                return url.path.hasPrefix(portalAuthPathPrefix)
+            }
+            if authHosts.contains(host) { return true }
+            return authSuffixes.contains { host.hasSuffix($0) }
+        }
+
+        private func dismissAuxiliaryWebView(_ popup: WKWebView) {
+            popup.stopLoading()
+            popup.removeFromSuperview()
+            auxiliaryWebViews.removeAll { $0 === popup }
         }
 
         private func shouldKeepInApp(_ url: URL) -> Bool {

@@ -1,0 +1,71 @@
+# electron-builder publishes releases with GITHUB_TOKEN, which does not fire `release: published`
+# for other workflows. After Build and Release succeeds, dispatch package jobs here.
+
+name: Post-release distribution
+
+on:
+  workflow_run:
+    workflows: [Build and Release]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.48)'
+        required: true
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  dispatch:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve release tag
+        id: tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_TAG: ${{ github.event.inputs.tag }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          if [ -n "$INPUT_TAG" ]; then
+            echo "tag=$INPUT_TAG" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          SHA=$(gh api "repos/${{ github.repository }}/actions/runs/${RUN_ID}" --jq -r .head_sha)
+          BRANCH=$(gh api "repos/${{ github.repository }}/actions/runs/${RUN_ID}" --jq -r '.head_branch // empty')
+          if [[ "$BRANCH" == v* ]]; then
+            echo "tag=$BRANCH" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          TAG=$(gh api "repos/${{ github.repository }}/releases" --paginate \
+            --jq '.[] | select(.target_commitish=="'"$SHA"'") | .tag_name' | head -n 1)
+          if [ -z "$TAG" ]; then
+            TAG=$(gh release view --repo "${{ github.repository }}" --json tagName -q .tagName)
+          fi
+          if [ -z "$TAG" ]; then
+            echo "Could not resolve release tag for commit $SHA" >&2
+            exit 1
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger package and scan workflows
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          set -euo pipefail
+          workflows=(
+            "Publish Firebase Hosting packages"
+            "Bump Homebrew Cask"
+            "Publish Chocolatey package"
+            "VirusTotal scan"
+            "Bump AUR package"
+          )
+          for name in "${workflows[@]}"; do
+            echo "Dispatching $name for $TAG"
+            gh workflow run "$name" --repo "${{ github.repository }}" --ref main -f "tag=${TAG}"
+          done
