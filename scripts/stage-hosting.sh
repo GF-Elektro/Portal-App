@@ -117,13 +117,13 @@ PY
     rm -rf "$arch_dir"
     return 0
   fi
-  if ! docker run --rm -v "$arch_dir:/pkg" -w /pkg archlinux:base-devel \
-    bash -lc 'pacman -Sy --noconfirm base-devel fuse2 && cd /pkg && makepkg -f --noconfirm --noprogressbar --asroot'; then
+  if ! docker run --rm -v "$arch_dir:/pkg" archlinux:base-devel \
+    bash -lc 'pacman -Sy --noconfirm base-devel fuse2 && useradd -m builder && chown -R builder /pkg && sudo -u builder env PKGDEST=/pkg BUILDDIR=/pkg/build SRCDEST=/pkg/src makepkg -C /pkg -f --noconfirm --noprogressbar'; then
     echo "makepkg failed; skipping pacman database."
     rm -rf "$arch_dir"
     return 0
   fi
-  pkg_file="$(find "$arch_dir" -maxdepth 1 -type f \( -name 'gfe-portal-eu-*.pkg.tar.zst' -o -name 'gfe-portal-eu-*.pkg.tar' \) | head -n 1 || true)"
+  pkg_file="$(find "$arch_dir" -maxdepth 2 -type f \( -name 'gfe-portal-eu-*.pkg.tar.zst' -o -name 'gfe-portal-eu-*.pkg.tar' \) | head -n 1 || true)"
   if [ -z "${pkg_file:-}" ] || [ ! -f "$pkg_file" ]; then
     echo "Package file missing after makepkg; skipping pacman database."
     rm -rf "$arch_dir"
