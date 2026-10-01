@@ -11,6 +11,8 @@ const SHARED_DE = {
   backToDownload: 'Zur\u00fcck zum Download',
   backToOverview: 'Zur\u00fcck zur \u00dcbersicht',
   versionPrefix: 'Version ',
+  copyCode: 'Kopieren',
+  copyDone: 'Kopiert!',
 };
 
 const INDEX_DE = {
@@ -199,7 +201,9 @@ const SHARED_CZ = {
   "langSwitcherLabel": "Jazyk",
   "backToDownload": "Zpět na stažení",
   "backToOverview": "Zpět na přehled",
-  "versionPrefix": "Verze "
+  "versionPrefix": "Verze ",
+  "copyCode": "Kopírovat",
+  "copyDone": "Zkopírováno!"
 };
 const INDEX_CZ = {
   "metaDescription": "Stáhni si oficiální desktopovou aplikaci G&F Portal EU pro Windows, macOS a Linux.",
@@ -331,7 +335,9 @@ const SHARED_EN = {
   "langSwitcherLabel": "Language",
   "backToDownload": "Back to download",
   "backToOverview": "Back to overview",
-  "versionPrefix": "Version "
+  "versionPrefix": "Version ",
+  "copyCode": "Copy",
+  "copyDone": "Copied!"
 };
 const INDEX_EN = {
   "metaDescription": "Download the official G&F Portal EU desktop app for Windows, macOS, and Linux.",
@@ -463,7 +469,9 @@ const SHARED_HU = {
   "langSwitcherLabel": "Nyelv",
   "backToDownload": "Vissza a letöltéshez",
   "backToOverview": "Vissza az áttekintéshez",
-  "versionPrefix": "Verzió "
+  "versionPrefix": "Verzió ",
+  "copyCode": "Másolás",
+  "copyDone": "Másolva!"
 };
 const INDEX_HU = {
   "metaDescription": "Töltsd le a hivatalos G&F Portal EU asztali alkalmazást Windowsra, macOS-re és Linuxra.",
@@ -595,7 +603,9 @@ const SHARED_PL = {
   "langSwitcherLabel": "Język",
   "backToDownload": "Wróć do pobierania",
   "backToOverview": "Wróć do przeglądu",
-  "versionPrefix": "Wersja "
+  "versionPrefix": "Wersja ",
+  "copyCode": "Kopiuj",
+  "copyDone": "Skopiowano!"
 };
 const INDEX_PL = {
   "metaDescription": "Pobierz oficjalną aplikację desktopową G&F Portal EU na Windows, macOS i Linux.",
@@ -727,7 +737,9 @@ const SHARED_SK = {
   "langSwitcherLabel": "Jazyk",
   "backToDownload": "Späť na stiahnutie",
   "backToOverview": "Späť na prehľad",
-  "versionPrefix": "Verzia "
+  "versionPrefix": "Verzia ",
+  "copyCode": "Kopírovať",
+  "copyDone": "Skopírované!"
 };
 const INDEX_SK = {
   "metaDescription": "Stiahni si oficiálnu desktopovú aplikáciu G&F Portal EU pre Windows, macOS a Linux.",
@@ -859,7 +871,9 @@ const SHARED_UK = {
   "langSwitcherLabel": "Мова",
   "backToDownload": "Назад до завантаження",
   "backToOverview": "Назад до огляду",
-  "versionPrefix": "Версія "
+  "versionPrefix": "Версія ",
+  "copyCode": "Копіювати",
+  "copyDone": "Скопійовано!"
 };
 const INDEX_UK = {
   "metaDescription": "Завантаж офіційний десктопний додаток G&F Portal EU для Windows, macOS і Linux.",

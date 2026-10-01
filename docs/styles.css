@@ -296,6 +296,57 @@ a {
 }
 
 /* Install guide subpages (linux-apt, arch, chocolatey, …) */
+.hero-content--guide {
+    max-width: min(920px, 100%) !important;
+}
+
+.code-block {
+    margin: 0 0 1rem;
+    border-radius: var(--radius-sm);
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+}
+
+.code-block + .code-block {
+    margin-top: 0.75rem;
+}
+
+.code-block__bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: #252525;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.code-block__copy {
+    font: inherit;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.1);
+    color: #f9fafb;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.code-block__copy:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.code-block__copy.is-done {
+    border-color: rgba(34, 197, 94, 0.5);
+    background: rgba(34, 197, 94, 0.15);
+}
+
+.code-block pre,
 .hero-content pre {
     margin: 0 0 1rem;
     padding: 16px 18px;
@@ -304,7 +355,18 @@ a {
     border-radius: var(--radius-sm);
     font-size: 0.85rem;
     line-height: 1.55;
-    overflow-x: auto;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    overflow-x: visible;
+    tab-size: 4;
+}
+
+.code-block pre {
+    margin: 0;
+    padding: 14px 18px 16px;
+    border-radius: 0;
+    background: transparent;
 }
 
 .hero-content pre + pre {
@@ -312,7 +374,8 @@ a {
     margin-bottom: 1rem;
 }
 
-.hero-content .hero-description + pre {
+.hero-content .hero-description + pre,
+.hero-content .hero-description + .code-block {
     margin-top: 0.5rem;
 }
 

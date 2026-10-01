@@ -82,7 +82,90 @@ function applyInstallHelpHighlight() {
     }
 }
 
+function copyCodeLabel() {
+    if (window.DocsI18n && typeof window.DocsI18n.t === 'function') {
+        return window.DocsI18n.t('shared.copyCode') || 'Copy';
+    }
+    return 'Kopieren';
+}
+
+function copyDoneLabel() {
+    if (window.DocsI18n && typeof window.DocsI18n.t === 'function') {
+        return window.DocsI18n.t('shared.copyDone') || 'Copied!';
+    }
+    return 'Kopiert!';
+}
+
+function copyTextToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+    }
+    return new Promise((resolve, reject) => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            resolve();
+        } catch (error) {
+            reject(error);
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    });
+}
+
+function refreshCodeCopyButtons() {
+    document.querySelectorAll('.code-block__copy').forEach((button) => {
+        if (!button.classList.contains('is-done')) {
+            button.textContent = copyCodeLabel();
+        }
+    });
+}
+
+function initCodeBlocks() {
+    document.querySelectorAll('.hero-content pre').forEach((pre) => {
+        if (pre.closest('.code-block')) return;
+
+        const block = document.createElement('div');
+        block.className = 'code-block';
+
+        const bar = document.createElement('div');
+        bar.className = 'code-block__bar';
+
+        const copyButton = document.createElement('button');
+        copyButton.type = 'button';
+        copyButton.className = 'code-block__copy';
+        copyButton.textContent = copyCodeLabel();
+
+        copyButton.addEventListener('click', async () => {
+            const text = pre.textContent.replace(/\u00a0/g, ' ').trimEnd();
+            try {
+                await copyTextToClipboard(text);
+                copyButton.classList.add('is-done');
+                copyButton.textContent = copyDoneLabel();
+                window.setTimeout(() => {
+                    copyButton.classList.remove('is-done');
+                    copyButton.textContent = copyCodeLabel();
+                }, 2000);
+            } catch {
+                copyButton.textContent = '…';
+            }
+        });
+
+        bar.appendChild(copyButton);
+        pre.parentNode.insertBefore(block, pre);
+        block.appendChild(bar);
+        block.appendChild(pre);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    initCodeBlocks();
     initOsDownloadUi();
     loadDesktopVersionLabel();
     loadLatestReleaseAssets();
@@ -91,6 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('docs:language-changed', () => {
     applyOsHint();
     loadDesktopVersionLabel();
+    refreshCodeCopyButtons();
 });
 
 function setLinuxPanelOpen(open) {
