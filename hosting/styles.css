@@ -107,6 +107,17 @@ body {
     margin-bottom: 0;
 }
 
+.notes a {
+    color: var(--gf-red);
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(230, 0, 0, 0.35);
+}
+
+.notes a:hover {
+    border-bottom-color: var(--gf-red);
+}
+
 .notes code {
     font-size: 0.8em;
     font-weight: 600;
