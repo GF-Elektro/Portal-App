@@ -295,6 +295,50 @@ a {
     max-width: 34ch;
 }
 
+/* Install guide subpages (linux-apt, arch, chocolatey, …) */
+.hero-content pre {
+    margin: 0 0 1rem;
+    padding: 16px 18px;
+    background: #1a1a1a;
+    color: #f3f4f6;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    line-height: 1.55;
+    overflow-x: auto;
+}
+
+.hero-content pre + pre {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.hero-content .hero-description + pre {
+    margin-top: 0.5rem;
+}
+
+.hero-content .doc-back-link {
+    margin-top: 2rem;
+    margin-bottom: 0;
+    max-width: none;
+}
+
+.hero-content .doc-back-link a {
+    font-weight: 600;
+    color: var(--color-link);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.hero-content .doc-back-link a:hover {
+    color: var(--color-link-hover);
+    border-bottom-color: var(--color-primary);
+}
+
+.hero-content .download-section {
+    margin-top: 2rem;
+}
+
 .download-panel {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
