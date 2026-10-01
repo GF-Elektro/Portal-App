@@ -19,12 +19,29 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Resolve release tag
+        id: ver
+        env:
+          INPUT_TAG: ${{ github.event.inputs.tag }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          TAG="${INPUT_TAG:-$RELEASE_TAG}"
+          if [ -z "$TAG" ]; then
+            echo "No tag provided" >&2
+            exit 1
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
       - name: Install apt index tools
         run: sudo apt-get update && sudo apt-get install -y dpkg-dev apt-utils
+
+      - name: Pull Arch builder image
+        run: docker pull archlinux:base-devel
 
       - name: Stage hosting directory
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ steps.ver.outputs.tag }}
         run: bash scripts/stage-hosting.sh
 
       - name: Authenticate to Google Cloud

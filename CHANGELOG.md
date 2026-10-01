@@ -9,6 +9,15 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.49] - 2026-10-01
+
+### Fixed
+
+- **Package CI after release** — [`.github/workflows/post-release-distribution.yml`](.github/workflows/post-release-distribution.yml) runs when *Build and Release* succeeds and dispatches Firebase Hosting, Homebrew, Chocolatey, VirusTotal, and AUR with the release tag (workflows triggered only by `release: published` did not run for electron-builder releases).
+- **Arch pacman index on Hosting** — [`scripts/stage-hosting.sh`](scripts/stage-hosting.sh) builds the pacman repo from local AppImage sources, uses `pacman-contrib`/`repo-add`, and honors `RELEASE_TAG` for staging a specific GitHub release.
+
+---
+
 ## [1.0.48] - 2026-10-01
 
 ### Fixed
