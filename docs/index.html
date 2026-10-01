@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="styles.css?v=8">
+    <link rel="stylesheet" href="styles.css?v=9">
     <link rel="icon" type="image/png" href="assets/icon-512.png">
 </head>
 <body data-docs-page="index">
@@ -103,15 +103,40 @@
 
             <nav class="install-resources" aria-label="Installation und Hilfe">
                 <span class="install-resources__title" data-i18n="index.installResourcesTitle">Installation &amp; Hilfe</span>
-                <a href="macos-install.html" class="resource-card">
-                    <span class="resource-card__label">macOS</span>
+                <a href="macos-install.html" class="resource-card" id="resource-card-macos">
+                    <div class="resource-card__header">
+                        <span class="resource-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 384 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+                        </span>
+                        <span class="resource-card__label">macOS</span>
+                    </div>
                     <span class="resource-card__desc" data-i18n="index.macosCardDesc">DMG öffnen und in Programme ziehen. Signiert mit dem Apple Developer Account von G&amp;F Elektro — keine Zertifikatsdatei nötig.</span>
                 </a>
                 <div class="resource-chips">
-                    <a href="linux-apt.html" class="chip-link" data-i18n="index.chipDebian">Debian / Ubuntu</a>
-                    <a href="linux-arch.html" class="chip-link" data-i18n="index.chipArch">Arch Linux</a>
-                    <a href="windows-chocolatey.html" class="chip-link" data-i18n="index.chipWindows">Windows (Chocolatey)</a>
-                    <a href="permissions.html" class="chip-link" data-i18n="index.chipPermissions">Berechtigungen</a>
+                    <a href="linux-apt.html" class="chip-link" data-install-os="linux-deb" id="chip-debian">
+                        <span class="chip-link__icon chip-link__icon--debian" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 12c0-2.2 1.6-4 3.6-4.3.3 1.4-.2 2.8-1 3.8 1.1-.3 2.2-1 2.8-2.1.8 1.5.5 3.5-.7 4.8 1.4-.4 2.5-1.5 2.8-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                        </span>
+                        <span class="chip-link__text" data-i18n="index.chipDebian">Debian / Ubuntu</span>
+                    </a>
+                    <a href="linux-arch.html" class="chip-link" data-install-os="linux-arch" id="chip-arch">
+                        <span class="chip-link__icon chip-link__icon--arch" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 3 4 21h3.5l1.2-3h6.6l1.2 3H20L12 3zm0 6.2 2.4 6.3H9.6L12 9.2z"/></svg>
+                        </span>
+                        <span class="chip-link__text" data-i18n="index.chipArch">Arch Linux</span>
+                    </a>
+                    <a href="windows-chocolatey.html" class="chip-link" data-install-os="win" id="chip-chocolatey">
+                        <span class="chip-link__icon chip-link__icon--choco" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="3" fill="#4D9ACD"/><path d="M8 9h8v2H8V9zm0 4h5v2H8v-2z" fill="#fff"/><circle cx="17" cy="8" r="2.5" fill="#2B6CB0"/></svg>
+                        </span>
+                        <span class="chip-link__text" data-i18n="index.chipWindows">Windows (Chocolatey)</span>
+                    </a>
+                    <a href="permissions.html" class="chip-link" data-install-os="permissions" id="chip-permissions">
+                        <span class="chip-link__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3 5 6v6c0 4.2 3 7.9 7 9 4-1.1 7-4.8 7-9V6l-7-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span class="chip-link__text" data-i18n="index.chipPermissions">Berechtigungen</span>
+                    </a>
                 </div>
             </nav>
         </div>
@@ -234,6 +259,6 @@
 
     <script src="i18n/locales.js?v=2"></script>
     <script src="i18n.js?v=2"></script>
-    <script src="script.js?v=3"></script>
+    <script src="script.js?v=4"></script>
 </body>
 </html>

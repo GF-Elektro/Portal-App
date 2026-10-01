@@ -59,6 +59,27 @@ function initOsDownloadUi() {
         const defaultHint = window.DocsI18n.t('index.osHintDefault');
         if (defaultHint) osHint.textContent = defaultHint;
     }
+
+    applyInstallHelpHighlight();
+}
+
+function applyInstallHelpHighlight() {
+    const macCard = document.getElementById('resource-card-macos');
+    const chips = document.querySelectorAll('.chip-link[data-install-os]');
+    if (!macCard && chips.length === 0) return;
+
+    macCard?.classList.remove('resource-card--active');
+    chips.forEach((chip) => chip.classList.remove('active'));
+
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    if (userAgent.indexOf('mac') !== -1 || userAgent.indexOf('darwin') !== -1) {
+        macCard?.classList.add('resource-card--active');
+    } else if (userAgent.indexOf('win') !== -1) {
+        document.getElementById('chip-chocolatey')?.classList.add('active');
+    } else if (userAgent.indexOf('linux') !== -1) {
+        document.getElementById('chip-debian')?.classList.add('active');
+        document.getElementById('chip-arch')?.classList.add('active');
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
