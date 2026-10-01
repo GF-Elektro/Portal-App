@@ -5,6 +5,40 @@ All notable changes to the **G&F Portal EU** desktop application will be documen
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+From **1.0.19** onward, each release tag matches one section below (one logical change set per patch). Sections are newest-first.
+
+---
+
+## [1.0.48] - 2026-10-01
+
+### Fixed
+
+- **iOS OAuth popups** — [`ios/PortalEU/PortalWebView.swift`](ios/PortalEU/PortalWebView.swift) opens Firebase/Google/Apple auth in embedded popups with a shared `WKProcessPool` and data store, aligned with Electron auth allowlists (including LinkedIn hosts). Back-forward gestures are disabled so swiping back does not drop the Firebase session after login.
+
+### Added
+
+- **iOS web console forwarding** — [`ios/PortalEU/PortalNativeBridge.swift`](ios/PortalEU/PortalNativeBridge.swift) mirrors `console.log` / `warn` / `error` and uncaught errors to Xcode logs as `[PORTAL-WEB]` for TestFlight debugging.
+
+---
+
+## [1.0.47] - 2026-10-01
+
+### Added
+
+- **iOS TestFlight CI** — [`.github/workflows/release.yml`](.github/workflows/release.yml) job `ios-testflight` archives `ios/PortalEU.xcodeproj` on each `v*` tag and uploads via App Store Connect API when secrets are set. [`scripts/ios-testflight.sh`](scripts/ios-testflight.sh), [`ios/ExportOptions.plist`](ios/ExportOptions.plist), [`scripts/load-apple-env.sh`](scripts/load-apple-env.sh), and [`.env.local.example`](.env.local.example) support local maintainer runs.
+
+---
+
+## [1.0.46] - 2026-10-01
+
+### Fixed
+
+- **Mac App Store code signing** — [`package.json`](package.json) `build.mas.identity` uses the team suffix only so electron-builder selects **Apple Distribution** for the app and the Mac App Store installer certificate for the `.pkg` (avoids ITMS-90284 when a full certificate string breaks installer lookup).
+
+### Added
+
+- **MAS signing verification** — [`scripts/verify-mas-signing.sh`](scripts/verify-mas-signing.sh) (`npm run verify:mas-signing`), [`scripts/check-mas-provisionprofile.sh`](scripts/check-mas-provisionprofile.sh), and [`scripts/mac-mas-transporter.sh`](scripts/mac-mas-transporter.sh). [`docs/apple-signing.md`](docs/apple-signing.md) documents certificates, `GF Portal EU.app` bundle paths, CSC pitfalls, and profile/certificate fingerprint checks.
+
 ---
 
 ## [1.0.45] - 2026-09-30
@@ -63,14 +97,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.37] - 2026-09-30
-
-### Added
-
-- **Microsoft Store permission notes** — [`docs/microsoft-store.md`](docs/microsoft-store.md) and [`docs/permissions.html`](docs/permissions.html) list planned MSIX capabilities (`internetClient`, `microphone`, `webcam`, optional `location`).
-
----
-
 ## [1.0.38] - 2026-09-30
 
 ### Added
@@ -80,6 +106,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **Desktop package version** — `package.json` version aligned to **1.0.37** after the Microsoft Store docs release.
+
+---
+
+## [1.0.37] - 2026-09-30
+
+### Added
+
+- **Microsoft Store permission notes** — [`docs/microsoft-store.md`](docs/microsoft-store.md) and [`docs/permissions.html`](docs/permissions.html) list planned MSIX capabilities (`internetClient`, `microphone`, `webcam`, optional `location`).
 
 ---
 
