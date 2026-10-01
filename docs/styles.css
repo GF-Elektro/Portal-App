@@ -130,47 +130,48 @@ a {
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
     flex-shrink: 0;
 }
 
 .lang-switcher-wrap {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 6px 10px 6px 12px;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-sm);
+    gap: 6px;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
 }
 
 .lang-switcher-label {
-    font-size: 0.72rem;
+    font-size: 0.65rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--color-text-muted);
     white-space: nowrap;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
 }
 
 .lang-switcher {
     display: flex;
     align-items: center;
-    gap: 3px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    max-width: min(100%, 220px);
+    gap: 2px;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
 }
 
 .lang-switcher button {
-    padding: 3px;
-    border: 2px solid transparent;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.6);
+    padding: 1px;
+    margin: 0;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background: transparent;
     cursor: pointer;
     line-height: 0;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    transition: border-color 0.15s ease;
 }
 
 .lang-switcher button:hover {
@@ -179,36 +180,38 @@ a {
 
 .lang-switcher button[aria-pressed='true'] {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 1px var(--color-primary-soft);
 }
 
 .lang-switcher img {
     display: block;
-    width: 26px;
-    height: auto;
-    border-radius: 3px;
-    box-shadow: var(--shadow-sm);
+    width: 22px;
+    height: 15px;
+    object-fit: cover;
+    border-radius: 2px;
+    box-shadow: none;
 }
 
 @media (max-width: 900px) {
     .nav-content {
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 8px;
     }
 
     .nav-actions {
         width: 100%;
-        justify-content: space-between;
-        flex-wrap: wrap;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+        gap: 10px;
     }
 
     .lang-switcher-wrap {
-        flex: 1 1 auto;
-        min-width: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
     }
 
-    .lang-switcher {
-        max-width: none;
+    .lang-switcher-wrap::-webkit-scrollbar {
+        display: none;
     }
 }
 
