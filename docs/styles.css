@@ -313,6 +313,21 @@ a {
     max-width: min(920px, 100%) !important;
 }
 
+/* Inner docs (install guides, permissions, bridge, …) */
+.hero-section--page {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    align-items: start;
+    min-height: auto;
+    padding: 40px 24px 72px;
+}
+
+.hero-section--page .hero-content {
+    width: 100%;
+    max-width: min(920px, 100%);
+    margin: 0 auto;
+}
+
 .code-block {
     margin: 0 0 1rem;
     border-radius: var(--radius-sm);
