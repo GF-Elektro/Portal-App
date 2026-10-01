@@ -9,11 +9,24 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.50] - 2026-10-01
+
+### Changed
+
+- **Electron 43 → 44** — Chromium/Node stack update. Verified with `npm run smoke:electron`.
+
+---
+
 ## [1.0.49] - 2026-10-01
+
+### Added
+
+- **Docs site logo (transparent)** — [`docs/assets/logo.png`](docs/assets/logo.png) drops the white plate; master with background kept as [`docs/assets/logo-white-bg.png`](docs/assets/logo-white-bg.png). Regenerate with `npm run logo:docs-transparent` (ImageMagick + oxipng; optional tools in [`Brewfile`](Brewfile)).
 
 ### Fixed
 
 - **Package CI after release** — [`.github/workflows/post-release-distribution.yml`](.github/workflows/post-release-distribution.yml) runs when *Build and Release* succeeds and dispatches Firebase Hosting, Homebrew, Chocolatey, VirusTotal, and AUR with the release tag (workflows triggered only by `release: published` did not run for electron-builder releases).
+- **Post-release tag resolution** — `gh api --jq` no longer passes jq’s `-r` flag (GitHub CLI treats it as a second argument and the job failed in ~6s with “accepts 1 arg(s), received 2”).
 - **Arch pacman index on Hosting** — [`scripts/stage-hosting.sh`](scripts/stage-hosting.sh) builds the pacman repo from local AppImage sources, uses `pacman-contrib`/`repo-add`, `MAKEPKGCONF`, and honors `RELEASE_TAG` for staging a specific GitHub release (including Docker volume permissions in CI).
 - **Firebase Hosting CI** — retries `docker pull` for the Arch builder image when the registry returns transient errors.
 
