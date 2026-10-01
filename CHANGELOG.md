@@ -13,11 +13,18 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ### Fixed
 
+- **iOS TestFlight upload** — [`scripts/ios-testflight.sh`](scripts/ios-testflight.sh) uses `altool --upload-app` with `--p8-file-path` (the previous `--auth-string` path failed on Xcode 27).
+
 - **iOS OAuth popups** — [`ios/PortalEU/PortalWebView.swift`](ios/PortalEU/PortalWebView.swift) opens Firebase/Google/Apple auth in embedded popups with a shared `WKProcessPool` and data store, aligned with Electron auth allowlists (including LinkedIn hosts). Back-forward gestures are disabled so swiping back does not drop the Firebase session after login.
 
 ### Added
 
 - **iOS web console forwarding** — [`ios/PortalEU/PortalNativeBridge.swift`](ios/PortalEU/PortalNativeBridge.swift) mirrors `console.log` / `warn` / `error` and uncaught errors to Xcode logs as `[PORTAL-WEB]` for TestFlight debugging.
+
+### Released (App Store Connect)
+
+- **macOS (TestFlight / Mac App Store)** — **G&F Portal EU Mac** (`com.gfelektro.portal`) built with [`scripts/mac-mas-transporter.sh`](scripts/mac-mas-transporter.sh), uploaded via Transporter, and submitted for **beta / App Store review** (2026-10-01).
+- **iOS (TestFlight)** — **PortalEU** (`com.gfelektro.portal.ios`) **1.0.48** archived with [`scripts/ios-testflight.sh`](scripts/ios-testflight.sh), uploaded to App Store Connect, TestFlight beta metadata in seven locales (de-DE, en-US, cs, sk, pl, hu, uk), and **external beta review** submitted (2026-10-01). Xcode [`MARKETING_VERSION`](ios/PortalEU.xcodeproj/project.pbxproj) matches **1.0.48**.
 
 ---
 

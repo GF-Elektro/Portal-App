@@ -80,10 +80,10 @@ fi
 
 if [[ -n "${APPLE_API_KEY:-}" && -n "${APPLE_API_KEY_ID:-}" && -n "${APPLE_API_ISSUER:-}" ]]; then
   echo "Uploading $IPA to App Store Connect (TestFlight) ..."
-  xcrun altool --upload-app -f "$IPA" \
-    --api-key "$APPLE_API_KEY_ID" \
-    --api-issuer "$APPLE_API_ISSUER" \
-    --auth-string "$(cat "$APPLE_API_KEY")"
+  xcrun altool --upload-app -f "$IPA" -t ios \
+    --apiKey "$APPLE_API_KEY_ID" \
+    --apiIssuer "$APPLE_API_ISSUER" \
+    --p8-file-path "$APPLE_API_KEY"
   echo "Upload finished. Processing in App Store Connect usually takes a few minutes."
 else
   echo "Exported $IPA (set APPLE_API_KEY* to upload automatically, or use Transporter / Xcode Organizer)."
