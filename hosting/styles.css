@@ -26,6 +26,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 100vh;
+    min-height: 100dvh;
     padding: 24px;
     background:
         radial-gradient(ellipse 70% 55% at 15% 0%, rgba(230, 0, 0, 0.14), transparent 58%),
@@ -64,6 +66,18 @@ body {
     display: flex;
     justify-content: center;
     margin-bottom: 24px;
+}
+
+.logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+.logo-link:focus-visible {
+    outline: 2px solid var(--gf-red);
+    outline-offset: 4px;
 }
 
 .brand-logo {
