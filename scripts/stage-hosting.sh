@@ -82,8 +82,11 @@ stage_arch() {
     }
   fi
   cp "$ROOT/packaging/arch/PKGBUILD" "$arch_dir/PKGBUILD"
-  cp "$appimage" "$arch_dir/GFElektroPortal-${version}.AppImage"
-  app_sha="$(sha256sum "$arch_dir/GFElektroPortal-${version}.AppImage" | awk '{print $1}')"
+  dest_app="$arch_dir/GFElektroPortal-${version}.AppImage"
+  if [ "$appimage" != "$dest_app" ]; then
+    cp "$appimage" "$dest_app"
+  fi
+  app_sha="$(sha256sum "$dest_app" | awk '{print $1}')"
   icon_sha="$(sha256sum "$arch_dir/icon-512.png" | awk '{print $1}')"
   if ! python3 - "$arch_dir/PKGBUILD" "$version" "$app_sha" "$icon_sha" << 'PY'
 import re
@@ -115,7 +118,7 @@ PY
     return 0
   fi
   if ! docker run --rm -v "$arch_dir:/pkg" -w /pkg archlinux:base-devel \
-    bash -lc 'pacman -Sy --noconfirm base-devel && useradd -m builder && chown -R builder /pkg && su builder -c "makepkg -sf --noconfirm --noprogressbar"'; then
+    bash -lc 'pacman -Sy --noconfirm base-devel fuse2 && useradd -m builder && chown -R builder /pkg && su builder -c "makepkg -f --noconfirm --noprogressbar"'; then
     echo "makepkg failed; skipping pacman database."
     rm -rf "$arch_dir"
     return 0

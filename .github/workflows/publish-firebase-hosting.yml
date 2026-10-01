@@ -36,7 +36,15 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y dpkg-dev apt-utils
 
       - name: Pull Arch builder image
-        run: docker pull archlinux:base-devel
+        run: |
+          for attempt in 1 2 3 4 5; do
+            if docker pull archlinux:base-devel; then
+              exit 0
+            fi
+            echo "docker pull failed (attempt $attempt); retrying..."
+            sleep 15
+          done
+          exit 1
 
       - name: Stage hosting directory
         env:
