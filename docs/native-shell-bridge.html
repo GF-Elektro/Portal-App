@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=13">
+    <link rel="stylesheet" href="styles.css?v=14">
     <link rel="icon" type="image/png" href="assets/icon-512.png">
 </head>
 <body>
@@ -40,8 +40,8 @@
 
     <main class="container hero-section hero-section--page">
         <div class="hero-content hero-content--guide doc-article">
-            <h1 class="hero-title" style="font-size: 2.75rem;">Native shell bridge</h1>
-            <p class="hero-description" style="max-width: none;">
+            <h1 class="hero-title">Native shell bridge</h1>
+            <p class="hero-description">
                 Maintainer reference. The hosted portal at <code>https://portal.gfelektro.com</code> runs inside
                 <strong>Electron</strong> (desktop), <strong>iOS</strong> (<code>ios/PortalEU</code>), or
                 <strong>Android</strong> (<code>mobile/portal_android</code>). Each shell exposes a small JavaScript API for
@@ -103,24 +103,24 @@
             </ol>
 
             <h2 class="doc-article__h2"><code>window.electronNotificationAPI</code> (desktop)</h2>
-            <p class="hero-description" style="max-width: none;">
+            <p class="hero-description">
                 Electron uses <a href="https://github.com/GF-Elektro/Portal-App/blob/main/src/preload.js" target="_blank" rel="noopener"><code>preload.js</code></a> and <code>electron-notification-clicked</code>. Do not remove it.
             </p>
 
             <h2 class="doc-article__h2">Digital-Platform (web app repo)</h2>
-            <p class="hero-description" style="max-width: none;">
+            <p class="hero-description">
                 Implement in the separate Digital-Platform repository: <code>openExternalUrl.ts</code>, <code>pushSubscriptionService.ts</code>,
                 <code>browserNotifications.ts</code>, <code>notificationCapability.ts</code>. Server:
                 <code>functions/src/webPushNotify.ts</code> multicasts to all tokens in <code>fcmTokens</code>.
             </p>
 
             <h2 class="doc-article__h2">Security</h2>
-            <p class="hero-description" style="max-width: none;">
+            <p class="hero-description">
                 Never commit <code>GoogleService-Info.plist</code>, <code>google-services.json</code>, <code>.p8</code>, or <code>.p12</code> files.
                 Users install the macOS app from the <strong>DMG</strong> only — see <a href="macos-install.html">macOS install guide</a>.
             </p>
 
-            <p class="hero-description doc-back-link" style="max-width: none;">
+            <p class="hero-description doc-back-link">
                 <a href="permissions.html">Back to permissions</a>
                 ·
                 <a href="index.html">Download overview</a>
