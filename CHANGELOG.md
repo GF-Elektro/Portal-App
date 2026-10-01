@@ -18,6 +18,7 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ### Changed
 
+- **Docs landing page** — [docs.gfelektro.com](https://docs.gfelektro.com) redesign: on-brand link styling (no default blue), download panel, install chips, and refreshed feature section ([`docs/index.html`](docs/index.html), [`docs/styles.css`](docs/styles.css)).
 - **Electron 43 → 44** — Chromium/Node stack update. Verified with `npm run smoke:electron`.
 
 ### Fixed
