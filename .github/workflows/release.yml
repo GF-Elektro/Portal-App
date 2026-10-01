@@ -65,3 +65,40 @@ jobs:
             unset APPLE_API_KEY APPLE_API_KEY_ID APPLE_API_ISSUER APPLE_TEAM_ID
           fi
           npx electron-builder build --mac dmg --publish always
+
+  ios-testflight:
+    name: Upload iOS to TestFlight
+    runs-on: macos-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Upload to TestFlight
+        env:
+          APPLE_API_KEY_BASE64: ${{ secrets.APPLE_API_KEY_BASE64 }}
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+          APPLE_IOS_CERTIFICATE_BASE64: ${{ secrets.APPLE_IOS_CERTIFICATE_BASE64 }}
+          APPLE_IOS_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_IOS_CERTIFICATE_PASSWORD }}
+        run: |
+          if [ -z "$APPLE_API_KEY_BASE64" ]; then
+            echo "APPLE_API_KEY_BASE64 is unset; skipping TestFlight upload."
+            exit 0
+          fi
+          if [ -n "$APPLE_IOS_CERTIFICATE_BASE64" ]; then
+            CERT_PATH="$RUNNER_TEMP/ios_distribution.p12"
+            printf '%s' "$APPLE_IOS_CERTIFICATE_BASE64" | base64 -D > "$CERT_PATH"
+            KEYCHAIN_PATH="$RUNNER_TEMP/app-signing.keychain-db"
+            security create-keychain -p actions "$KEYCHAIN_PATH"
+            security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+            security unlock-keychain -p actions "$KEYCHAIN_PATH"
+            security import "$CERT_PATH" -P "$APPLE_IOS_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k "$KEYCHAIN_PATH"
+            security list-keychain -d user -s "$KEYCHAIN_PATH"
+            security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k actions "$KEYCHAIN_PATH"
+          else
+            echo "APPLE_IOS_CERTIFICATE_BASE64 is unset; relying on App Store Connect API + -allowProvisioningUpdates."
+          fi
+          export APPLE_API_KEY_BASE64
+          export MARKETING_VERSION="${GITHUB_REF_NAME#v}"
+          export CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER"
+          bash scripts/ios-testflight.sh

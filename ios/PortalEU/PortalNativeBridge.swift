@@ -56,6 +56,38 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
               }
             }
           };
+
+          // Forward web console and uncaught errors to native logs
+          var _origLog = console.log, _origWarn = console.warn, _origError = console.error;
+          function formatArg(x) {
+            if (x instanceof Error) return (x.stack || x.message);
+            if (typeof x === 'object' && x !== null) {
+              try { return JSON.stringify(x); } catch(e) { return String(x); }
+            }
+            return String(x);
+          }
+          console.log = function() {
+            var str = Array.prototype.slice.call(arguments).map(formatArg).join(' ');
+            post('log', { level: 'LOG', message: str, url: location.href });
+            _origLog.apply(console, arguments);
+          };
+          console.warn = function() {
+            var str = Array.prototype.slice.call(arguments).map(formatArg).join(' ');
+            post('log', { level: 'WARN', message: str, url: location.href });
+            _origWarn.apply(console, arguments);
+          };
+          console.error = function() {
+            var str = Array.prototype.slice.call(arguments).map(formatArg).join(' ');
+            post('log', { level: 'ERROR', message: str, url: location.href });
+            _origError.apply(console, arguments);
+          };
+          window.addEventListener('error', function(e) {
+            post('log', { level: 'UNCAUGHT', message: e.message + ' at ' + e.filename + ':' + e.lineno, url: location.href });
+          });
+          window.addEventListener('unhandledrejection', function(e) {
+            var r = e.reason;
+            post('log', { level: 'UNHANDLED_REJECTION', message: r ? (r.stack || r.message || String(r)) : 'unknown', url: location.href });
+          });
         })();
         """
     }
@@ -92,6 +124,11 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
         case "checkPermission":
             let requestId = body["requestId"] as? String ?? ""
             resolvePermissionStatus(requestId: requestId)
+        case "log":
+            let level = body["level"] as? String ?? "LOG"
+            let message = body["message"] as? String ?? ""
+            let url = body["url"] as? String ?? ""
+            print("[PORTAL-WEB][\(level)][\(url)] \(message)")
         default:
             break
         }
