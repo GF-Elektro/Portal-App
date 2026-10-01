@@ -216,9 +216,99 @@ a {
 }
 
 .download-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.download-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.download-row .btn {
+    flex: 1 1 calc(50% - 6px);
+    min-width: 0;
+}
+
+.download-row--linux .btn-linux-toggle {
+    flex: 1 1 100%;
+    font: inherit;
+    width: 100%;
+}
+
+.btn-linux-toggle .btn-chevron {
+    display: inline-block;
+    width: 0.45em;
+    height: 0.45em;
+    margin-left: auto;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.2s ease;
+}
+
+.btn-linux-toggle[aria-expanded='true'] .btn-chevron {
+    transform: rotate(-135deg) translateY(2px);
+}
+
+.linux-options {
+    margin-top: 4px;
+    padding: 14px 14px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: #fafafa;
+}
+
+.linux-options__lead {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: 10px;
+}
+
+.linux-options__grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    gap: 8px;
+}
+
+.linux-option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+    background: #fff;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.linux-option:hover {
+    border-color: rgba(230, 0, 0, 0.35);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.linux-option__title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+}
+
+.linux-option__desc {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    line-height: 1.35;
+}
+
+.linux-option--guide .linux-option__title {
+    color: var(--color-primary);
 }
 
 .btn {
@@ -226,15 +316,14 @@ a {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 14px 20px;
-    border-radius: var(--radius-sm);
+    padding: 16px 24px;
+    border-radius: 8px;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1rem;
     text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
     border: none;
-    min-height: 52px;
 }
 
 .btn svg {
@@ -245,32 +334,30 @@ a {
 .btn-primary {
     background-color: var(--color-primary);
     color: #fff;
-    box-shadow: 0 8px 20px rgba(230, 0, 0, 0.28);
-    grid-column: 1 / -1;
+    box-shadow: 0 4px 12px rgba(230, 0, 0, 0.25);
 }
 
 .btn-primary:hover {
     background-color: var(--color-primary-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 10px 24px rgba(230, 0, 0, 0.32);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(230, 0, 0, 0.35);
 }
 
 .btn-secondary {
     background-color: #fff;
     color: var(--color-text-main);
     border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .btn-secondary:hover {
-    background-color: #fafafa;
-    border-color: rgba(20, 20, 20, 0.14);
-    transform: translateY(-1px);
+    background-color: #f0f0f0;
+    border-color: rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
 }
 
 .btn.active {
-    outline: 2px solid var(--color-text-main);
-    outline-offset: 1px;
+    border: 2px solid var(--color-text-main);
 }
 
 .os-hint {
@@ -584,12 +671,17 @@ footer {
         margin-right: auto;
     }
 
-    .download-section {
-        grid-template-columns: 1fr;
+    .download-row {
+        flex-direction: column;
     }
 
-    .btn-primary {
-        grid-column: auto;
+    .download-row .btn {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .linux-options__grid {
+        grid-template-columns: 1fr;
     }
 
     .hero-image-wrapper {
