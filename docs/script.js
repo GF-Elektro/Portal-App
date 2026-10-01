@@ -12,8 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnMac.classList.add('active', 'btn-primary');
             btnMac.classList.remove('btn-secondary');
             btnWin.classList.replace('btn-primary', 'btn-secondary');
-            btnAppImage.classList.add('btn-secondary');
-            btnDeb.classList.add('btn-secondary');
+            btnWin.classList.remove('active');
             osHint.textContent = 'Es sieht so aus, als würdest du macOS nutzen. Lade das DMG herunter.';
         } else if (userAgent.indexOf('win') !== -1) {
             btnWin.classList.add('active');
@@ -22,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnAppImage.classList.add('active', 'btn-primary');
             btnAppImage.classList.remove('btn-secondary');
             btnWin.classList.replace('btn-primary', 'btn-secondary');
+            btnWin.classList.remove('active');
             osHint.textContent = 'Es sieht so aus, als würdest du Linux nutzen. Wähle AppImage oder Debian-Paket.';
         } else {
             osHint.textContent = 'Bitte lade die für dein Betriebssystem passende Datei herunter.';
