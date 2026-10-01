@@ -19,6 +19,7 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 ### Changed
 
 - **Docs landing page** — [docs.gfelektro.com](https://docs.gfelektro.com) redesign: on-brand link styling (no default blue), download panel, install chips, and refreshed feature section ([`docs/index.html`](docs/index.html), [`docs/styles.css`](docs/styles.css)).
+- **Firebase packages landing** — [gfe-portal-packages.web.app](https://gfe-portal-packages.web.app/) shows a branded visit card ([`hosting/`](hosting/)), copied into `hosting-dist/` by [`scripts/stage-hosting.sh`](scripts/stage-hosting.sh) on each Hosting deploy.
 
 ### Fixed
 
