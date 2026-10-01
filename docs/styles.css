@@ -215,6 +215,19 @@ a {
     }
 }
 
+.brand-logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.brand-logo-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
 .brand-logo {
     height: 44px;
     width: auto;
