@@ -18,7 +18,22 @@ download_release() {
 
 rm -rf "$SITE"
 mkdir -p "$SITE"
-printf '%s\n' 'G&F Portal EU packages' > "$SITE/index.html"
+
+stage_landing_page() {
+  if [ ! -d "$ROOT/hosting" ]; then
+    printf '%s\n' 'G&F Portal EU packages' > "$SITE/index.html"
+    return
+  fi
+  cp -R "$ROOT/hosting/." "$SITE/"
+  mkdir -p "$SITE/assets"
+  if [ -f "$ROOT/docs/assets/brand-logo.png" ]; then
+    cp "$ROOT/docs/assets/brand-logo.png" "$SITE/assets/brand-logo.png"
+  elif [ -f "$ROOT/docs/assets/logo-white-bg.png" ]; then
+    cp "$ROOT/docs/assets/logo-white-bg.png" "$SITE/assets/brand-logo.png"
+  fi
+}
+
+stage_landing_page
 
 TMP="$(mktemp -d)"
 if ! download_release 'GFElektroPortal-*.deb' "$TMP"; then
