@@ -118,14 +118,21 @@ PY
     return 0
   fi
   if ! docker run --rm -v "$arch_dir:/pkg" -w /pkg archlinux:base-devel \
-    bash -lc 'pacman -Sy --noconfirm base-devel fuse2 && useradd -m builder && chown -R builder /pkg && su builder -c "cd /pkg && env PKGDEST=/pkg makepkg -f --noconfirm --noprogressbar"'; then
+    bash -lc 'pacman -Sy --noconfirm base-devel fuse2 && useradd -m builder && chown -R builder /pkg && cat > /pkg/ci-makepkg.conf << "EOF"
+source /etc/makepkg.conf
+PKGDEST="/pkg"
+BUILDDIR="/pkg/build"
+SRCDEST="/pkg/src"
+EOF
+chown builder /pkg/ci-makepkg.conf && su builder -c "cd /pkg && MAKEPKGCONF=/pkg/ci-makepkg.conf makepkg -f --noconfirm --noprogressbar"'; then
     echo "makepkg failed; skipping pacman database."
     rm -rf "$arch_dir"
     return 0
   fi
   pkg_file="$(find "$arch_dir" -maxdepth 2 -type f \( -name 'gfe-portal-eu-*.pkg.tar.zst' -o -name 'gfe-portal-eu-*.pkg.tar' \) | head -n 1 || true)"
   if [ -z "${pkg_file:-}" ] || [ ! -f "$pkg_file" ]; then
-    echo "Package file missing after makepkg; skipping pacman database."
+    echo "Package file missing after makepkg; listing $arch_dir:"
+    find "$arch_dir" -type f || true
     rm -rf "$arch_dir"
     return 0
   fi
