@@ -233,6 +233,84 @@ a {
     min-width: 0;
 }
 
+.download-row--linux .btn-linux-toggle {
+    flex: 1 1 100%;
+    font: inherit;
+    width: 100%;
+}
+
+.btn-linux-toggle .btn-chevron {
+    display: inline-block;
+    width: 0.45em;
+    height: 0.45em;
+    margin-left: auto;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.2s ease;
+}
+
+.btn-linux-toggle[aria-expanded='true'] .btn-chevron {
+    transform: rotate(-135deg) translateY(2px);
+}
+
+.linux-options {
+    margin-top: 4px;
+    padding: 14px 14px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: #fafafa;
+}
+
+.linux-options__lead {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: 10px;
+}
+
+.linux-options__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.linux-option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+    background: #fff;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.linux-option:hover {
+    border-color: rgba(230, 0, 0, 0.35);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.linux-option__title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+}
+
+.linux-option__desc {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    line-height: 1.35;
+}
+
+.linux-option--guide .linux-option__title {
+    color: var(--color-primary);
+}
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -600,6 +678,10 @@ footer {
     .download-row .btn {
         flex: 1 1 auto;
         width: 100%;
+    }
+
+    .linux-options__grid {
+        grid-template-columns: 1fr;
     }
 
     .hero-image-wrapper {

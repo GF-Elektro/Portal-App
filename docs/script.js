@@ -1,11 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const btnWin = document.getElementById('btn-win');
     const btnMac = document.getElementById('btn-mac');
-    const btnAppImage = document.getElementById('btn-linux-appimage');
-    const btnDeb = document.getElementById('btn-linux-deb');
+    const btnLinux = document.getElementById('btn-linux');
+    const linuxPanel = document.getElementById('linux-options-panel');
     const osHint = document.getElementById('os-hint');
 
-    if (btnWin && btnMac && btnAppImage && btnDeb && osHint) {
+    if (btnLinux && linuxPanel) {
+        btnLinux.addEventListener('click', () => {
+            const open = btnLinux.getAttribute('aria-expanded') === 'true';
+            setLinuxPanelOpen(!open);
+        });
+    }
+
+    if (btnWin && btnMac && btnLinux && linuxPanel && osHint) {
         const userAgent = window.navigator.userAgent.toLowerCase();
 
         if (userAgent.indexOf('mac') !== -1 || userAgent.indexOf('darwin') !== -1) {
@@ -18,11 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
             btnWin.classList.add('active');
             osHint.textContent = 'Es sieht so aus, als würdest du Windows nutzen. Lade das Setup herunter.';
         } else if (userAgent.indexOf('linux') !== -1) {
-            btnAppImage.classList.add('active', 'btn-primary');
-            btnAppImage.classList.remove('btn-secondary');
             btnWin.classList.replace('btn-primary', 'btn-secondary');
             btnWin.classList.remove('active');
-            osHint.textContent = 'Es sieht so aus, als würdest du Linux nutzen. Wähle AppImage oder Debian-Paket.';
+            btnLinux.classList.add('active', 'btn-primary');
+            btnLinux.classList.remove('btn-secondary');
+            setLinuxPanelOpen(true);
+            osHint.textContent = 'Linux erkannt — wähle AppImage, .deb, apt oder Arch pacman.';
         } else {
             osHint.textContent = 'Bitte lade die für dein Betriebssystem passende Datei herunter.';
         }
@@ -31,6 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
     loadDesktopVersionLabel();
     loadLatestReleaseAssets();
 });
+
+function setLinuxPanelOpen(open) {
+    const btnLinux = document.getElementById('btn-linux');
+    const linuxPanel = document.getElementById('linux-options-panel');
+    if (!btnLinux || !linuxPanel) return;
+
+    btnLinux.setAttribute('aria-expanded', open ? 'true' : 'false');
+    linuxPanel.hidden = !open;
+}
 
 function loadDesktopVersionLabel() {
     fetch('assets/desktop-version.json')
