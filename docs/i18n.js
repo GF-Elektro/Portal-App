@@ -29,7 +29,7 @@ const PAGE_DESC_KEYS = {
   permissions: 'permissions.metaDescription',
 };
 
-let activeLang = DOCS_DEFAULT_LANG;
+let activeLang = typeof DOCS_DEFAULT_LANG !== 'undefined' ? DOCS_DEFAULT_LANG : 'de';
 
 function resolveLangId(candidate) {
   if (candidate && DOCS_LANG_IDS.includes(candidate)) return candidate;
@@ -119,30 +119,46 @@ function setDocsLanguage(langId) {
   applyTranslations();
 }
 
+function bindLangButton(btn) {
+  const langId = btn.getAttribute('data-lang');
+  if (!langId) return;
+  btn.addEventListener('click', () => setDocsLanguage(langId));
+}
+
 function buildLangSwitcher() {
   const container = document.getElementById('lang-switcher');
   if (!container) return;
 
-  DOCS_LANG_IDS.forEach((langId) => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.setAttribute('data-lang', langId);
-    btn.setAttribute('title', DOCS_LANG_TITLES[langId] || langId);
-    btn.setAttribute('aria-label', DOCS_LANG_TITLES[langId] || langId);
+  const langIds =
+    typeof DOCS_LANG_IDS !== 'undefined'
+      ? DOCS_LANG_IDS
+      : ['sk', 'cz', 'pl', 'hu', 'de', 'uk', 'en'];
 
-    const img = document.createElement('img');
-    img.src = `assets/flags/${langId}.svg`;
-    img.alt = '';
-    img.width = 28;
-    img.height = 19;
-    img.decoding = 'async';
-    btn.appendChild(img);
+  const existing = container.querySelectorAll('button[data-lang]');
+  if (existing.length === 0) {
+    langIds.forEach((langId) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('data-lang', langId);
+      btn.setAttribute('title', DOCS_LANG_TITLES[langId] || langId);
+      btn.setAttribute('aria-label', DOCS_LANG_TITLES[langId] || langId);
 
-    btn.addEventListener('click', () => setDocsLanguage(langId));
-    container.appendChild(btn);
-  });
+      const img = document.createElement('img');
+      img.src = `assets/flags/${langId}.svg`;
+      img.alt = '';
+      img.width = 26;
+      img.height = 18;
+      img.decoding = 'async';
+      btn.appendChild(img);
 
-  container.hidden = false;
+      bindLangButton(btn);
+      container.appendChild(btn);
+    });
+  } else {
+    existing.forEach(bindLangButton);
+  }
+
+  container.removeAttribute('hidden');
 }
 
 function initDocsI18n() {
