@@ -31,6 +31,11 @@ stage_landing_page() {
   elif [ -f "$ROOT/docs/assets/logo-white-bg.png" ]; then
     cp "$ROOT/docs/assets/logo-white-bg.png" "$SITE/assets/brand-logo.png"
   fi
+  if [ -f "$ROOT/docs/assets/icon-512.png" ]; then
+    cp "$ROOT/docs/assets/icon-512.png" "$SITE/assets/icon-512.png"
+  elif [ -f "$ROOT/icon-512.png" ]; then
+    cp "$ROOT/icon-512.png" "$SITE/assets/icon-512.png"
+  fi
 }
 
 stage_landing_page
