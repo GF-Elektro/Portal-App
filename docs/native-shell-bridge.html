@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Native shell bridge – G&#38;F Portal EU</title>
+    <meta name="description" content="window.portalNativeAPI and electronNotificationAPI for iOS, Android, and Electron shells around portal.gfelektro.com.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=12">
+    <link rel="icon" type="image/png" href="assets/icon-512.png">
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <img src="assets/brand-logo.png" alt="G&F Elektro Logo" class="brand-logo">
+            <div class="nav-actions">
+                <div class="lang-switcher-wrap">
+                    <span class="lang-switcher-label" data-i18n="shared.langSwitcherLabel">Sprache</span>
+                    <div class="lang-switcher" id="lang-switcher" role="group" aria-label="Sprache">
+                        <button type="button" data-lang="sk" title="Slovenčina" aria-label="Slovenčina"><img src="assets/flags/sk.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="cz" title="Čeština" aria-label="Čeština"><img src="assets/flags/cz.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="pl" title="Polski" aria-label="Polski"><img src="assets/flags/pl.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="hu" title="Magyar" aria-label="Magyar"><img src="assets/flags/hu.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="de" title="Deutsch" aria-label="Deutsch" aria-pressed="true"><img src="assets/flags/de.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="uk" title="Українська" aria-label="Українська"><img src="assets/flags/uk.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="en" title="English" aria-label="English"><img src="assets/flags/en.svg" alt="" width="26" height="18" decoding="async"></button>
+                    </div>
+                </div>
+                <a href="https://www.gfelektro.com" class="nav-link" data-i18n="shared.navWebsite" target="_blank" rel="noopener">Zur Webseite</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container hero-section">
+        <div class="hero-content hero-content--guide doc-article">
+            <h1 class="hero-title" style="font-size: 2.75rem;">Native shell bridge</h1>
+            <p class="hero-description" style="max-width: none;">
+                Maintainer reference. The hosted portal at <code>https://portal.gfelektro.com</code> runs inside
+                <strong>Electron</strong> (desktop), <strong>iOS</strong> (<code>ios/PortalEU</code>), or
+                <strong>Android</strong> (<code>mobile/portal_android</code>). Each shell exposes a small JavaScript API for
+                OS notifications and FCM device tokens.
+            </p>
+
+            <h2 class="doc-article__h2"><code>window.portalNativeAPI</code> (iOS / Android)</h2>
+            <div class="doc-table-wrap">
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Member</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>platform</code></td>
+                            <td><code>'ios' | 'android'</code></td>
+                            <td>Shell identifier</td>
+                        </tr>
+                        <tr>
+                            <td><code>isNativeShell</code></td>
+                            <td><code>true</code></td>
+                            <td>Detection flag for the web app</td>
+                        </tr>
+                        <tr>
+                            <td><code>notifications.requestPermission()</code></td>
+                            <td><code>Promise</code></td>
+                            <td>Ask the user for notification permission</td>
+                        </tr>
+                        <tr>
+                            <td><code>notifications.checkPermission()</code></td>
+                            <td><code>Promise</code></td>
+                            <td>Current permission state</td>
+                        </tr>
+                        <tr>
+                            <td><code>notifications.show(title, options?)</code></td>
+                            <td><code>void</code></td>
+                            <td>OS notification; <code>options</code> may include <code>body</code>, <code>tag</code>, <code>id</code>, <code>data</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>push.getNativeToken()</code></td>
+                            <td><code>Promise&lt;string | null&gt;</code></td>
+                            <td>FCM registration token for Firestore, or <code>null</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="doc-article__h3">Injection order</h3>
+            <ol class="doc-list">
+                <li>Native prelude defines <code>portalNativeAPI</code> (Swift:
+                    <a href="https://github.com/GF-Elektro/Portal-App/blob/main/ios/PortalEU/PortalNativeBridge.swift" target="_blank" rel="noopener"><code>PortalNativeBridge.swift</code></a>,
+                    Android prelude in <code>portal_webview_screen.dart</code>).</li>
+                <li><a href="https://github.com/GF-Elektro/Portal-App/blob/main/src/portal-native-bridge.js" target="_blank" rel="noopener"><code>portal-native-bridge.js</code></a> patches <code>window.Notification</code> and <code>ServiceWorkerRegistration.prototype.showNotification</code>.</li>
+                <li>Clicks are delivered via <code>portal-notification-clicked</code> <code>CustomEvent</code> on <code>window</code>.</li>
+            </ol>
+
+            <h2 class="doc-article__h2"><code>window.electronNotificationAPI</code> (desktop)</h2>
+            <p class="hero-description" style="max-width: none;">
+                Electron uses <a href="https://github.com/GF-Elektro/Portal-App/blob/main/src/preload.js" target="_blank" rel="noopener"><code>preload.js</code></a> and <code>electron-notification-clicked</code>. Do not remove it.
+            </p>
+
+            <h2 class="doc-article__h2">Digital-Platform (web app repo)</h2>
+            <p class="hero-description" style="max-width: none;">
+                Implement in the separate Digital-Platform repository: <code>openExternalUrl.ts</code>, <code>pushSubscriptionService.ts</code>,
+                <code>browserNotifications.ts</code>, <code>notificationCapability.ts</code>. Server:
+                <code>functions/src/webPushNotify.ts</code> multicasts to all tokens in <code>fcmTokens</code>.
+            </p>
+
+            <h2 class="doc-article__h2">Security</h2>
+            <p class="hero-description" style="max-width: none;">
+                Never commit <code>GoogleService-Info.plist</code>, <code>google-services.json</code>, <code>.p8</code>, or <code>.p12</code> files.
+                Users install the macOS app from the <strong>DMG</strong> only — see <a href="macos-install.html">macOS install guide</a>.
+            </p>
+
+            <p class="hero-description doc-back-link" style="max-width: none;">
+                <a href="permissions.html">Back to permissions</a>
+                ·
+                <a href="index.html">Download overview</a>
+            </p>
+        </div>
+    </main>
+
+    <script src="i18n/locales.js?v=3"></script>
+    <script src="i18n.js?v=2"></script>
+    <script src="script.js?v=5"></script>
+</body>
+</html>

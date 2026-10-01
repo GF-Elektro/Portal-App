@@ -1,5 +1,7 @@
 # Native shell bridge (maintainers)
 
+**Public docs:** [native-shell-bridge.html](https://docs.gfelektro.com/native-shell-bridge.html)
+
 The hosted portal at `https://portal.gfelektro.com` can run inside **Electron** (desktop), **iOS** (`ios/PortalEU`), or **Android** (`mobile/portal_android`). Each shell exposes a small JavaScript API so the web app can show **OS notifications** and register **FCM device tokens**.
 
 ## `window.portalNativeAPI` (iOS / Android)

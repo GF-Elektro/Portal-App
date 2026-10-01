@@ -176,9 +176,9 @@ const PERMISSIONS_DE = {
     'Kamera und Fotos f\u00fcr Baustellen-Uploads, Mikrofon f\u00fcr Diktat, Benachrichtigungen ab Android\u00a013 mit expliziter Erlaubnis. Wichtige Hinweise werden als System-Benachrichtigungen angezeigt.',
   storeTitle: 'Microsoft Store (geplant)',
   storeBody:
-    'Dieselbe Windows-Desktop-App, sp\u00e4ter \u00fcber den Store verteilt. Das MSIX-Paket braucht u.&nbsp;a. <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> und optional <code>location</code>. Details: <a href="microsoft-store.md">microsoft-store.md</a>.',
+    'Dieselbe Windows-Desktop-App, sp\u00e4ter \u00fcber den Store verteilt. Das MSIX-Paket braucht u.&nbsp;a. <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> und optional <code>location</code>. Details: <a href="microsoft-store.html">Microsoft Store</a>.',
   devNote:
-    'Technische Details zur nativen Schnittstelle (Entwickler): <a href="native-shell-bridge.md">native-shell-bridge.md</a>.',
+    'Technische Details zur nativen Schnittstelle (Entwickler): <a href="native-shell-bridge.html">Native Shell Bridge</a>.',
   backBtn: 'Zur\u00fcck zum Download',
 };
 
@@ -324,8 +324,8 @@ const PERMISSIONS_CZ = {
   "androidTitle": "Android aplikace",
   "androidBody": "Kamera a fotky pro nahrávání ze stavby, mikrofon pro diktování, od Androidu 13 oznámení s výslovným souhlasem. Důležité zprávy jako systémová oznámení.",
   "storeTitle": "Microsoft Store (plánováno)",
-  "storeBody": "Stejná Windows desktopová aplikace, později přes Store. Balíček MSIX potřebuje mimo jiné <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> a volitelně <code>location</code>. Podrobnosti: <a href=\"microsoft-store.md\">microsoft-store.md</a>.",
-  "devNote": "Technické detaily nativního mostu (vývojáři): <a href=\"native-shell-bridge.md\">native-shell-bridge.md</a>.",
+  "storeBody": "Stejná Windows desktopová aplikace, později přes Store. Balíček MSIX potřebuje mimo jiné <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> a volitelně <code>location</code>. Podrobnosti: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  "devNote": "Technické detaily nativního mostu (vývojáři): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   "backBtn": "Zpět na stažení"
 };
 const SHARED_EN = {
@@ -458,8 +458,8 @@ const PERMISSIONS_EN = {
   "androidTitle": "Android app",
   "androidBody": "Camera and photos for site uploads, microphone for dictation, notifications from Android 13 onward with explicit permission. Important alerts appear as system notifications.",
   "storeTitle": "Microsoft Store (planned)",
-  "storeBody": "The same Windows desktop app, distributed via the Store later. The MSIX package requires <code>internetClient</code>, <code>microphone</code>, <code>webcam</code>, and optionally <code>location</code>. Details: <a href=\"microsoft-store.md\">microsoft-store.md</a>.",
-  "devNote": "Technical details on the native bridge (developers): <a href=\"native-shell-bridge.md\">native-shell-bridge.md</a>.",
+  "storeBody": "The same Windows desktop app, distributed via the Store later. The MSIX package requires <code>internetClient</code>, <code>microphone</code>, <code>webcam</code>, and optionally <code>location</code>. Details: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  "devNote": "Technical details on the native bridge (developers): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   "backBtn": "Back to download"
 };
 const SHARED_HU = {
@@ -592,8 +592,8 @@ const PERMISSIONS_HU = {
   "androidTitle": "Android alkalmazás",
   "androidBody": "Kamera és fotók helyszíni feltöltésekhez, mikrofon diktáláshoz, Android 13-tól értesítések kifejezett engedéllyel. Fontos üzenetek rendszerértesítésként.",
   "storeTitle": "Microsoft Store (tervezett)",
-  "storeBody": "Ugyanaz a Windows asztali alkalmazás, később a Store-on keresztül. Az MSIX csomagnak többek között <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> és opcionálisan <code>location</code> kell. Részletek: <a href=\"microsoft-store.md\">microsoft-store.md</a>.",
-  "devNote": "Technikai részletek a natív hídról (fejlesztőknek): <a href=\"native-shell-bridge.md\">native-shell-bridge.md</a>.",
+  "storeBody": "Ugyanaz a Windows asztali alkalmazás, később a Store-on keresztül. Az MSIX csomagnak többek között <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> és opcionálisan <code>location</code> kell. Részletek: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  "devNote": "Technikai részletek a natív hídról (fejlesztőknek): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   "backBtn": "Vissza a letöltéshez"
 };
 const SHARED_PL = {
@@ -726,8 +726,8 @@ const PERMISSIONS_PL = {
   "androidTitle": "Aplikacja Android",
   "androidBody": "Aparat i zdjęcia do uploadów z budowy, mikrofon do dyktowania, od Androida 13 powiadomienia z wyraźną zgodą. Ważne komunikaty jako powiadomienia systemowe.",
   "storeTitle": "Microsoft Store (planowane)",
-  "storeBody": "Ta sama aplikacja desktopowa Windows, później przez Store. Pakiet MSIX wymaga m.in. <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> i opcjonalnie <code>location</code>. Szczegóły: <a href=\"microsoft-store.md\">microsoft-store.md</a>.",
-  "devNote": "Szczegóły techniczne mostu natywnego (dla deweloperów): <a href=\"native-shell-bridge.md\">native-shell-bridge.md</a>.",
+  "storeBody": "Ta sama aplikacja desktopowa Windows, później przez Store. Pakiet MSIX wymaga m.in. <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> i opcjonalnie <code>location</code>. Szczegóły: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  "devNote": "Szczegóły techniczne mostu natywnego (dla deweloperów): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   "backBtn": "Wróć do pobierania"
 };
 const SHARED_SK = {
@@ -860,8 +860,8 @@ const PERMISSIONS_SK = {
   "androidTitle": "Android aplikácia",
   "androidBody": "Kamera a fotky na nahrávanie zo stavby, mikrofón na diktovanie, od Androidu 13 upozornenia s výslovným súhlasom. Dôležité správy ako systémové upozornenia.",
   "storeTitle": "Microsoft Store (plánované)",
-  "storeBody": "Rovnaká Windows desktopová aplikácia, neskôr cez Store. Balík MSIX potrebuje okrem iného <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> a voliteľne <code>location</code>. Podrobnosti: <a href=\"microsoft-store.md\">microsoft-store.md</a>.",
-  "devNote": "Technické detaily natívneho mostu (vývojári): <a href=\"native-shell-bridge.md\">native-shell-bridge.md</a>.",
+  "storeBody": "Rovnaká Windows desktopová aplikácia, neskôr cez Store. Balík MSIX potrebuje okrem iného <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> a voliteľne <code>location</code>. Podrobnosti: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  "devNote": "Technické detaily natívneho mostu (vývojári): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   "backBtn": "Späť na stiahnutie"
 };
 const SHARED_UK = {
@@ -994,8 +994,8 @@ const PERMISSIONS_UK = {
   "androidTitle": "Додаток Android",
   "androidBody": "Камера й фото для завантажень з об’єкта, мікрофон для диктування, від Android 13 — сповіщення з явним дозволом. Важливі повідомлення як системні сповіщення.",
   "storeTitle": "Microsoft Store (заплановано)",
-  "storeBody": "Той самий десктопний додаток Windows, згодом через Store. Пакет MSIX потребує зокрема <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> та опційно <code>location</code>. Деталі: <a href=\"microsoft-store.md\">microsoft-store.md</a>.",
-  "devNote": "Технічні деталі нативного мосту (для розробників): <a href=\"native-shell-bridge.md\">native-shell-bridge.md</a>.",
+  "storeBody": "Той самий десктопний додаток Windows, згодом через Store. Пакет MSIX потребує зокрема <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> та опційно <code>location</code>. Деталі: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  "devNote": "Технічні деталі нативного мосту (для розробників): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   "backBtn": "Назад до завантаження"
 };
 

@@ -402,6 +402,71 @@ a {
     margin-top: 2rem;
 }
 
+.doc-article__h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 1.75rem 0 0.75rem;
+    letter-spacing: -0.02em;
+}
+
+.doc-article__h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 1.25rem 0 0.5rem;
+}
+
+.doc-article .hero-description {
+    margin-bottom: 1rem;
+}
+
+.doc-table-wrap {
+    overflow-x: auto;
+    margin: 0 0 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+}
+
+.doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.doc-table th,
+.doc-table td {
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.doc-table th {
+    font-weight: 700;
+    background: rgba(20, 20, 20, 0.03);
+    color: var(--color-text-main);
+}
+
+.doc-table tr:last-child td {
+    border-bottom: none;
+}
+
+.doc-table code {
+    font-size: 0.82em;
+}
+
+.doc-list {
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+}
+
+.doc-list li {
+    margin-bottom: 0.5rem;
+}
+
 .download-panel {
     background: var(--color-surface);
     border: 1px solid var(--color-border);

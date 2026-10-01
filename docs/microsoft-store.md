@@ -2,6 +2,8 @@
 
 The **G&F Portal EU** Windows desktop app is the same Electron build as the NSIS/portable installers on [GitHub Releases](https://github.com/GF-Elektro/Portal-App/releases). A future **Microsoft Store** listing will wrap that build (MSIX) via Partner Center.
 
+**Public docs:** [microsoft-store.html](https://docs.gfelektro.com/microsoft-store.html)
+
 ## Permissions
 
 The Store package must declare the same capabilities the Electron app already uses:

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft Store (geplant) – G&#38;F Portal EU</title>
+    <meta name="description" content="Geplante Microsoft-Store-Version von G&#38;F Portal EU: MSIX-Berechtigungen und Installation heute über Download oder Chocolatey.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=12">
+    <link rel="icon" type="image/png" href="assets/icon-512.png">
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <img src="assets/brand-logo.png" alt="G&F Elektro Logo" class="brand-logo">
+            <div class="nav-actions">
+                <div class="lang-switcher-wrap">
+                    <span class="lang-switcher-label" data-i18n="shared.langSwitcherLabel">Sprache</span>
+                    <div class="lang-switcher" id="lang-switcher" role="group" aria-label="Sprache">
+                        <button type="button" data-lang="sk" title="Slovenčina" aria-label="Slovenčina"><img src="assets/flags/sk.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="cz" title="Čeština" aria-label="Čeština"><img src="assets/flags/cz.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="pl" title="Polski" aria-label="Polski"><img src="assets/flags/pl.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="hu" title="Magyar" aria-label="Magyar"><img src="assets/flags/hu.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="de" title="Deutsch" aria-label="Deutsch" aria-pressed="true"><img src="assets/flags/de.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="uk" title="Українська" aria-label="Українська"><img src="assets/flags/uk.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="en" title="English" aria-label="English"><img src="assets/flags/en.svg" alt="" width="26" height="18" decoding="async"></button>
+                    </div>
+                </div>
+                <a href="https://www.gfelektro.com" class="nav-link" data-i18n="shared.navWebsite" target="_blank" rel="noopener">Zur Webseite</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container hero-section">
+        <div class="hero-content hero-content--guide doc-article">
+            <h1 class="hero-title" style="font-size: 2.75rem;">Microsoft Store (geplant)</h1>
+            <p class="hero-description" style="max-width: none;">
+                Die <strong>G&amp;F Portal EU</strong> Windows-Desktop-App ist derselbe Electron-Build wie die NSIS- und Portable-Installer auf
+                <a href="https://github.com/GF-Elektro/Portal-App/releases" target="_blank" rel="noopener">GitHub Releases</a>.
+                Eine spätere <strong>Microsoft Store</strong>-Listung verpackt diesen Build (MSIX) über das Partner Center.
+            </p>
+
+            <h2 class="doc-article__h2">Berechtigungen</h2>
+            <p class="hero-description" style="max-width: none;">
+                Das Store-Paket muss dieselben Fähigkeiten deklarieren, die die Electron-App bereits nutzt:
+            </p>
+            <div class="doc-table-wrap">
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Capability</th>
+                            <th scope="col">Zweck</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>internetClient</code></td>
+                            <td>Laden von <code>https://portal.gfelektro.com</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>microphone</code></td>
+                            <td>Diktat und Audio im Portal</td>
+                        </tr>
+                        <tr>
+                            <td><code>webcam</code></td>
+                            <td>Baustellenfotos und Kamera</td>
+                        </tr>
+                        <tr>
+                            <td><code>location</code> (optional)</td>
+                            <td>GPS in Tagesberichten, wenn im Portal aktiviert</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="hero-description" style="max-width: none;">
+                Lade <strong>keine</strong> Apple-Signierdateien (<code>.p12</code>, <code>.p8</code>, Provisioning Profiles) ins Microsoft Partner Center hoch.
+            </p>
+
+            <h2 class="doc-article__h2">Heute</h2>
+            <p class="hero-description" style="max-width: none;">
+                Windows-Builds installierst du über die <a href="index.html">Download-Seite</a> oder GitHub Releases.
+                Kamera- und Mikrofon-Abfragen steuert die App in
+                <a href="https://github.com/GF-Elektro/Portal-App/blob/main/src/main.js" target="_blank" rel="noopener"><code>src/main.js</code></a>
+                (inkl. Link zu den Windows-Datenschutz-Einstellungen bei verweigertem Zugriff).
+            </p>
+
+            <p class="hero-description doc-back-link" style="max-width: none;">
+                <a href="permissions.html">Zurück zu den Berechtigungen</a>
+                ·
+                <a href="index.html">Zur Download-Übersicht</a>
+            </p>
+        </div>
+    </main>
+
+    <script src="i18n/locales.js?v=3"></script>
+    <script src="i18n.js?v=2"></script>
+    <script src="script.js?v=5"></script>
+</body>
+</html>
