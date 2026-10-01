@@ -117,14 +117,17 @@ PY
     rm -rf "$arch_dir"
     return 0
   fi
-  if ! docker run --rm -v "$arch_dir:/pkg" -w /pkg archlinux:base-devel \
+  local host_uid host_gid
+  host_uid="$(id -u)"
+  host_gid="$(id -g)"
+  if ! docker run --rm -v "$arch_dir:/pkg" -w /pkg -e HOST_UID="$host_uid" -e HOST_GID="$host_gid" archlinux:base-devel \
     bash -lc 'pacman -Sy --noconfirm base-devel fuse2 && useradd -m builder && chown -R builder /pkg && cat > /pkg/ci-makepkg.conf << "EOF"
 source /etc/makepkg.conf
 PKGDEST="/pkg"
 BUILDDIR="/pkg/build"
 SRCDEST="/pkg/src"
 EOF
-chown builder /pkg/ci-makepkg.conf && su builder -c "cd /pkg && MAKEPKGCONF=/pkg/ci-makepkg.conf makepkg -f --noconfirm --noprogressbar"'; then
+chown builder /pkg/ci-makepkg.conf && su builder -c "cd /pkg && MAKEPKGCONF=/pkg/ci-makepkg.conf makepkg -f --noconfirm --noprogressbar" && chown -R "$HOST_UID:$HOST_GID" /pkg'; then
     echo "makepkg failed; skipping pacman database."
     rm -rf "$arch_dir"
     return 0
@@ -138,8 +141,8 @@ chown builder /pkg/ci-makepkg.conf && su builder -c "cd /pkg && MAKEPKGCONF=/pkg
   fi
   mkdir -p "$SITE/arch"
   cp "$pkg_file" "$SITE/arch/"
-  if ! docker run --rm -v "$SITE/arch:/pkg-out" -w /pkg-out archlinux:base-devel \
-    bash -lc 'pacman -Sy --noconfirm pacman-contrib && repo-add gf-elektro.db.tar.zst gfe-portal-eu-*.pkg.tar.zst'; then
+  if ! docker run --rm -v "$SITE/arch:/pkg-out" -w /pkg-out -e HOST_UID="$host_uid" -e HOST_GID="$host_gid" archlinux:base-devel \
+    bash -lc 'pacman -Sy --noconfirm pacman-contrib && repo-add gf-elektro.db.tar.zst gfe-portal-eu-*.pkg.tar.zst && chown -R "$HOST_UID:$HOST_GID" /pkg-out'; then
     echo "repo-add failed; removing incomplete arch index."
     rm -rf "$SITE/arch"
     rm -rf "$arch_dir"
