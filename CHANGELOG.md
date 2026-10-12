@@ -9,6 +9,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.53] - 2026-10-12
+
+### Fixed
+
+- **Mac App Store upload** — [`scripts/mac-mas-transporter.sh`](scripts/mac-mas-transporter.sh) stages the App Store Connect API key where iTMSTransporter looks for it (`private_keys/AuthKey_<id>.p8`). The previous command passed only the key id, so Transporter exited before the signed 1.0.52 package was sent.
+
+---
+
 ## [1.0.52] - 2026-10-12
 
 ### Added

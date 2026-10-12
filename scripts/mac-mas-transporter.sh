@@ -47,10 +47,19 @@ if [[ "${1:-}" == "--upload-cli" ]]; then
     exit 1
   fi
   ITMS="$(xcrun --find iTMSTransporter)"
+  # Transporter only loads AuthKey_<id>.p8 from a private_keys directory
+  # (cwd, ~/private_keys, ~/.private_keys, or ~/.appstoreconnect/private_keys).
+  STAGE="$(mktemp -d)"
+  mkdir -p "$STAGE/private_keys"
+  cp "$APPLE_API_KEY" "$STAGE/private_keys/AuthKey_${APPLE_API_KEY_ID}.p8"
   echo "Uploading via iTMSTransporter ..."
-  "$ITMS" -m upload -assetFile "$PKG" \
-    -apiKey "$APPLE_API_KEY_ID" \
-    -apiIssuer "$APPLE_API_ISSUER"
+  (
+    cd "$STAGE"
+    "$ITMS" -m upload -assetFile "$PKG" \
+      -apiKey "$APPLE_API_KEY_ID" \
+      -apiIssuer "$APPLE_API_ISSUER"
+  )
+  rm -rf "$STAGE"
   echo "Upload submitted. Processing in App Store Connect usually takes a few minutes."
 else
   echo "Opening Transporter ..."
