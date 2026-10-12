@@ -9,6 +9,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.54] - 2026-10-12
+
+### Fixed
+
+- **Chocolatey checksum source** — [`.github/workflows/bump-chocolatey.yml`](.github/workflows/bump-chocolatey.yml) hashes `Setup.exe` with Python. GNU `sha256sum` on the Windows runner prefixes `\` when the path contains backslashes. The 1.0.48 installer hash starts with `b`, so the published checksum was `\b…` and verification failed. The 1.0.51 script rewrite correctly refused that value; this release fixes the hash itself.
+
+---
+
 ## [1.0.53] - 2026-10-12
 
 ### Fixed

@@ -60,7 +60,14 @@ jobs:
             --repo GF-Elektro/Portal-App \
             --pattern "GFElektroPortal-${{ steps.ver.outputs.version }}-Setup.exe" \
             --dir "$RUNNER_TEMP/choco"
-          HASH=$(sha256sum "$RUNNER_TEMP/choco/GFElektroPortal-${{ steps.ver.outputs.version }}-Setup.exe" | awk '{print $1}')
+          # GNU sha256sum prefixes "\" when the Windows path contains backslashes.
+          # This installer's hash starts with "b", so that prefix became the "\b…" checksum Chocolatey rejected.
+          export SETUP="$RUNNER_TEMP/choco/GFElektroPortal-${{ steps.ver.outputs.version }}-Setup.exe"
+          HASH=$(python -c 'import hashlib, os, pathlib; print(hashlib.sha256(pathlib.Path(os.environ["SETUP"]).read_bytes()).hexdigest())')
+          if ! printf '%s' "$HASH" | grep -Eq '^[0-9a-f]{64}$'; then
+            echo "Refusing to publish a non-hex checksum: $HASH" >&2
+            exit 1
+          fi
           echo "sha256=$HASH" >> "$GITHUB_ENV"
 
       - name: Fill nuspec and install script
