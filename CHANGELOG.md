@@ -9,6 +9,15 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.52] - 2026-10-12
+
+### Added
+
+- **Mac App Store location** — [`build/entitlements.mas.plist`](build/entitlements.mas.plist) includes `com.apple.security.personal-information.location` so the sandboxed desktop app can use the portal’s optional GPS for daily reports. Camera, microphone, and notification usage strings stay on the Mac target.
+- **iOS Geolocation prompt** — [`ios/PortalEU/PortalWebView.swift`](ios/PortalEU/PortalWebView.swift) grants the location permission request for portal and sign-in origins, matching camera and microphone. Export compliance is declared with `ITSAppUsesNonExemptEncryption` = false on the Mac build, same as iOS.
+
+---
+
 ## [1.0.51] - 2026-10-12
 
 ### Fixed

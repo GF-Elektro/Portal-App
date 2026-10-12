@@ -1,7 +1,7 @@
 {
   "name": "gf-elektro-portal",
   "productName": "G&F Portal EU",
-  "version": "1.0.51",
+  "version": "1.0.52",
   "description": "Desktop app for G&F Portal EU – Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {
@@ -63,7 +63,8 @@
       "extendInfo": {
         "NSMicrophoneUsageDescription": "Das G&F Portal EU benötigt Mikrofonzugriff für Sprachnachrichten, Diktat und Audiofunktionen.",
         "NSCameraUsageDescription": "Das G&F Portal EU benötigt Kamerazugriff für Belegfotos und Fotodokumentation auf der Baustelle.",
-        "NSLocationWhenInUseUsageDescription": "Das G&F Portal EU kann optional den Standort für Tagesberichte speichern, wenn du die GPS-Erfassung aktivierst."
+        "NSLocationWhenInUseUsageDescription": "Das G&F Portal EU kann optional den Standort für Tagesberichte speichern, wenn du die GPS-Erfassung aktivierst.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "dmg": {

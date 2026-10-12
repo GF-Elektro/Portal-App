@@ -171,6 +171,22 @@ struct PortalWebView: UIViewRepresentable {
             }
         }
 
+        /// Portal pages call the Geolocation API for optional GPS on daily reports.
+        @available(iOS 15.0, *)
+        func webView(
+            _ webView: WKWebView,
+            requestGeolocationPermissionFor origin: WKSecurityOrigin,
+            initiatedByFrame frame: WKFrameInfo,
+            decisionHandler: @escaping (WKPermissionDecision) -> Void
+        ) {
+            let originURL = URL(string: "\(origin.protocol)://\(origin.host)")
+            if let originURL, shouldKeepInApp(originURL) {
+                decisionHandler(.grant)
+            } else {
+                decisionHandler(.deny)
+            }
+        }
+
         func webView(
             _ webView: WKWebView,
             createWebViewWith configuration: WKWebViewConfiguration,
