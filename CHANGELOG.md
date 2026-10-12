@@ -9,6 +9,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.51] - 2026-10-12
+
+### Fixed
+
+- **Chocolatey verification** — [`.github/workflows/bump-chocolatey.yml`](.github/workflows/bump-chocolatey.yml) writes the installer SHA256 with Python instead of PowerShell `-replace`. The old substitution treated `$checksum64` as a .NET replacement token and published a hash prefixed with `\b`, so Chocolatey verification rejected `gfe-portal-eu` 1.0.48. The workflow now refuses to pack unless the script contains the 64-character hash of the downloaded Setup.exe.
+
+---
+
 ## [1.0.50] - 2026-10-01
 
 ### Added
