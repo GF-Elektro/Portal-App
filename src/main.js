@@ -1271,23 +1271,6 @@ function createTray() {
 
 // ── App Lifecycle ───────────────────────────────────────────
 app.on('ready', () => {
-  // Set macOS specific dock icon
-  if (process.platform === 'darwin') {
-    const highResIconPath = path.join(__dirname, '..', 'icon-512.png');
-    const prodHighResIconPath = path.join(process.resourcesPath, 'icon-512.png');
-    let dockIconPath = getIconPath(); // fallback
-    try {
-      require('fs').accessSync(highResIconPath);
-      dockIconPath = highResIconPath;
-    } catch {
-      try {
-        require('fs').accessSync(prodHighResIconPath);
-        dockIconPath = prodHighResIconPath;
-      } catch {}
-    }
-    app.dock.setIcon(dockIconPath);
-  }
-
   registerIpcHandlers();
   registerDownloadHandler();
   createWindow();

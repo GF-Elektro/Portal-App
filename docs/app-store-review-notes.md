@@ -14,14 +14,15 @@ Both are thin native shells that load **only** `https://portal.gfelektro.com`. T
 ## 1. What the reviewer should do
 
 1. Launch the app (iOS or Mac).
-2. Sign in with the demo account credentials provided in App Store Connect (see copy-paste block below).
+2. Sign in with email and password. Use the account saved in App Store Connect for that platform:
+   - iOS: `demo.ios@gfelektro.com`
+   - Mac: `demo.macos@gfelektro.com`
+   - General spare account: `demo@gfelektro.com`
 3. When the portal or the system prompts, **allow**:
    - **Notifications** (portal may ask after sign-in or when enabling alerts).
    - **Camera** and **Microphone** (e.g. photo attachments, voice notes — only requested in context).
    - **Location** (optional GPS on daily reports — portal may request when using that feature).
-4. Browse core flows as a signed-in user (dashboard, typical work items). No special “hidden” screens are required for approval.
-
-If sign-in uses Google, complete Google Sign-In inside the in-app web view / popup (not an external browser requirement for the demo account unless your test account is email/password only).
+4. Open the three tools this role can use: **Whiteboard**, **Aufmaßblatt**, and **Calculator**, on the project **App Review Demo**. The password stays in App Store Connect, not in this file.
 
 ---
 
@@ -73,8 +74,8 @@ The app does not load arbitrary third-party websites; it is scoped to the G&F Po
 
 | Placeholder | Set to |
 | --- | --- |
-| `REVIEWER_EMAIL` | Dedicated App Review demo user (create in portal admin; no shared production admin). |
-| `REVIEWER_PASSWORD` | Strong password stored only in App Store Connect notes (rotate after review if policy requires). |
+| `REVIEWER_EMAIL` | iOS `demo.ios@gfelektro.com`, Mac `demo.macos@gfelektro.com`. Both are role `demo` on project `demo-app-review`. |
+| `REVIEWER_PASSWORD` | Stored only in App Store Connect (Beta App Review Information). Not committed here. |
 | `CONTACT_EMAIL` | e.g. `info@gfelektro.com` |
 
 ---
@@ -112,7 +113,7 @@ Align marketing version, build numbers, and these notes before each submission.
 
 ## Maintainer quick checklist
 
-- [ ] Demo account works on production portal URL.
+- [x] Demo accounts exist and email/password sign-in succeeds (`demo@`, `demo.ios@`, `demo.macos@`). Passwords are in App Store Connect only.
 - [ ] Notes block pasted; placeholders replaced; contact email set.
 - [ ] iOS native bridge and permission scoping mentioned if rejection was “minimum functionality” / web wrapper.
 - [ ] Mac MAS build verified (`process.mas`: no Homebrew update menu item).

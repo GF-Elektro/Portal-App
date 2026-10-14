@@ -1,7 +1,7 @@
 {
   "name": "gf-elektro-portal",
   "productName": "G&F Portal EU",
-  "version": "1.0.54",
+  "version": "1.0.57",
   "description": "Desktop app for G&F Portal EU – Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {
@@ -22,7 +22,7 @@
     "build": "electron-builder build",
     "build:win": "electron-builder build --win",
     "build:mac": "electron-builder build --mac dmg",
-    "build:mac:mas": "electron-builder build --mac mas",
+    "build:mac:mas": "bash scripts/build-mac-icon.sh && electron-builder build --mac mas",
     "verify:mas-signing": "bash scripts/verify-mas-signing.sh",
     "build:linux": "electron-builder build --linux",
     "smoke:electron": "node scripts/run-electron.js scripts/smoke-electron-api.js"
@@ -64,8 +64,20 @@
         "NSMicrophoneUsageDescription": "Das G&F Portal EU benötigt Mikrofonzugriff für Sprachnachrichten, Diktat und Audiofunktionen.",
         "NSCameraUsageDescription": "Das G&F Portal EU benötigt Kamerazugriff für Belegfotos und Fotodokumentation auf der Baustelle.",
         "NSLocationWhenInUseUsageDescription": "Das G&F Portal EU kann optional den Standort für Tagesberichte speichern, wenn du die GPS-Erfassung aktivierst.",
-        "ITSAppUsesNonExemptEncryption": false
-      }
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleIconFile": "AppIcon",
+        "CFBundleIconName": "AppIcon"
+      },
+      "extraResources": [
+        {
+          "from": "build/macos/Assets.car",
+          "to": "Assets.car"
+        },
+        {
+          "from": "build/macos/AppIcon.icns",
+          "to": "AppIcon.icns"
+        }
+      ]
     },
     "dmg": {
       "background": "build/dmg-background.png",

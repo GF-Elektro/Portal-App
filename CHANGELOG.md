@@ -9,6 +9,31 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.57] - 2026-10-14
+
+### Fixed
+
+- **Mac App Store icon** — App Store Connect lists the Mac app from the asset catalog, so an `.icns` file alone stayed the empty placeholder. The build now includes `Assets.car` with the same red G&F icon as iOS.
+
+---
+
+## [1.0.56] - 2026-10-14
+
+### Fixed
+
+- **Mac App Store blank window** — Renderer helpers still need the JIT entitlements. Without them the page process dies in `v8::Isolate::Initialize` and the window stays empty. `com.apple.security.cs.allow-dyld-environment-variables` stays off the helpers so sandbox inheritance keeps working.
+- **Mac icon** — The Dock no longer swaps in `icon-512.png` (red bolt) after launch. The bundle icon is the same red G&F mark as the iOS app.
+
+---
+
+## [1.0.55] - 2026-10-14
+
+### Fixed
+
+- **Mac App Store launch** — Helper processes were signed with JIT entitlements plus `com.apple.security.inherit`. On this macOS that combination stops sandbox inheritance, so TestFlight quits as soon as the helpers start. Child entitlements are now sandbox inheritance only.
+
+---
+
 ## [1.0.54] - 2026-10-12
 
 ### Fixed
