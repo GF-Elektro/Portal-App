@@ -158,5 +158,8 @@
     "electron-builder": "^26.15.3",
     "png-to-ico": "^3.0.2",
     "sharp": "^0.35.5"
+  },
+  "allowScripts": {
+    "electron-winstaller@5.4.0": true
   }
 }

@@ -28,9 +28,13 @@ Desktop.ini
 *.swp
 *.swo
 
-# Environment
+# Environment & API keys (repo is public — never commit secrets)
 .env
+.env.*
+!.env.local.example
 .env.local
+*.pem
+secrets/
 
 # Local certificate decode scratch (never commit)
 /00
@@ -49,7 +53,32 @@ build/embedded.provisionprofile
 **/GoogleService-Info.plist
 **/google-services.json
 
-# Flutter (portal_android)
+# Maintainer tooling (loads gitignored .env.local; keep only on your machine)
+scripts/
+
+# Local AI / graph tooling
+graphify-out/
+
+# Agent & IDE extras (not app source)
+.agent/
+plans/
+
+# Docs site, hosting payload, and package recipes (published elsewhere)
+docs/
+hosting/
+packaging/
+firebase.json
+.firebaserc
+Brewfile
+
+# Mobile / iOS shells (separate from Electron desktop core)
+mobile/
+ios/
+
+# macOS icon build scratch
+build/macos/actool-out/
+
+# Flutter (portal_android) — covered by mobile/ when untracked; keep if mobile/ is force-added
 mobile/portal_android/.dart_tool/
 mobile/portal_android/build/
 mobile/portal_android/.flutter-plugins-dependencies
