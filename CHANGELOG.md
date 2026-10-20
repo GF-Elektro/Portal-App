@@ -9,6 +9,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.58] - 2026-10-20
+
+### Added
+
+- **Mac App Store screenshots** — German product-page images for the portal, notifications, menu bar, and receipts, at 2880×1800 in [`store-screenshots/`](store-screenshots/).
+
+---
+
 ## [1.0.57] - 2026-10-14
 
 ### Fixed
