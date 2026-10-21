@@ -9,6 +9,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [Unreleased]
+
+### Changed
+
+- **Chocolatey package text** — `gfe-portal-eu` now describes the electrical-installation portal, states that an existing G&amp;F Portal account is required, and includes a copyright line. The resubmitted package is 1.0.59.
+
+---
+
 ## [1.0.59] - 2026-10-21
 
 ### Added
