@@ -22,7 +22,7 @@ The profile issues a short-lived certificate and replaces it automatically. A si
 
 Signing needs the **Artifact Signing Certificate Profile Signer** role on `gfelektro-signing`. Azure does not export a `.pfx` for this profile, so `CSC_LINK` stays unused until a separate PKCS#12 certificate exists. Sign the NSIS `Setup.exe` and the portable `.exe` with [jsign](https://ebourg.github.io/jsign/) (`--storetype TRUSTEDSIGNING`) or `signtool` on Windows, using alias `gfelektro-signing/portal-eu-public`.
 
-Release `v1.0.58` carries signed `GFElektroPortal-1.0.58-Setup.exe` and `GFElektroPortal-1.0.58.exe` (subject **G&F Elektro s. r. o.**, Stropkov, timestamped). [docs.gfelektro.com](https://docs.gfelektro.com) links to the Setup.exe on GitHub. Firebase Hosting also serves both files under `https://gfe-portal-packages.web.app/windows/`.
+Release `v1.0.59` ships signed `GFElektroPortal-1.0.59-Setup.exe` and `GFElektroPortal-1.0.59.exe` (subject **G&F Elektro s. r. o.**, Stropkov, timestamped). The `v1.0.58` Windows assets were signed in place as well. [docs.gfelektro.com](https://docs.gfelektro.com) links to the current Setup.exe on GitHub. Firebase Hosting serves the current files under `https://gfe-portal-packages.web.app/windows/`.
 
 ## Get a code signing certificate
 

@@ -9,7 +9,7 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
-## [Unreleased]
+## [1.0.59] - 2026-10-21
 
 ### Added
 
@@ -17,7 +17,8 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ### Changed
 
-- **Signed Windows 1.0.58 installers** — `GFElektroPortal-1.0.58-Setup.exe` and the portable `GFElektroPortal-1.0.58.exe` are Authenticode-signed with profile `portal-eu-public`. The certificate subject is **G&F Elektro s. r. o.**, Stropkov, Prešovský, SK, issued by Microsoft ID Verified CS EOC CA 03 and timestamped by Microsoft. Those two files replace the unsigned assets on GitHub release `v1.0.58`. [docs.gfelektro.com](https://docs.gfelektro.com) downloads the signed Setup.exe. The same installers are hosted at [gfe-portal-packages.web.app/windows/](https://gfe-portal-packages.web.app/windows/).
+- **Signed Windows installers** — `GFElektroPortal-1.0.59-Setup.exe` and the portable `GFElektroPortal-1.0.59.exe` are Authenticode-signed with profile `portal-eu-public`. The certificate subject is **G&F Elektro s. r. o.**, Stropkov, Prešovský, SK, issued by Microsoft ID Verified CS EOC CA 03 and timestamped by Microsoft. [docs.gfelektro.com](https://docs.gfelektro.com) downloads that Setup.exe. The same installers are hosted at [gfe-portal-packages.web.app/windows/](https://gfe-portal-packages.web.app/windows/).
+- **Signed 1.0.58 Windows assets** — the unsigned `v1.0.58` Setup.exe and portable exe on the GitHub release were replaced with signed builds of that same version.
 
 ---
 
