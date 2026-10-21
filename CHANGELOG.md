@@ -13,6 +13,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.64] - 2026-10-21
+
+### Fixed
+
+- **Store AppX manifest** — `v1.0.63` `makeappx` rejected the package because the executable is `G&F Portal EU.exe`. Store builds now set `win.executableName=GFPortalEU` (same idea as the MAS name override) so the AppxManifest is valid XML.
+
+---
+
 ## [1.0.63] - 2026-10-21
 
 ### Fixed
