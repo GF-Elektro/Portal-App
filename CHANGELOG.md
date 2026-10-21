@@ -13,6 +13,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.65] - 2026-10-21
+
+### Added
+
+- **Microsoft Store listing copy** — Partner Center description (EN/DE/SK), privacy URL, `runFullTrust` justification, and certification notes in [`docs/microsoft-store.md`](docs/microsoft-store.md).
+
+---
+
 ## [1.0.64] - 2026-10-21
 
 ### Fixed
