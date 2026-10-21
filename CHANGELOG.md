@@ -11,8 +11,17 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ## [Unreleased]
 
+---
+
+## [1.0.60] - 2026-10-21
+
+### Fixed
+
+- **macOS DMG / Homebrew cask** — removed the default `mac.executableName` override so Developer ID DMGs ship `G&F Portal EU.app` and match the tap’s `app "G&F Portal EU.app"` (fixes failed `brew upgrade --cask gfe-portal-eu`). MAS builds still pass `executableName` only via `npm run build:mac:mas`.
+
 ### Changed
 
+- **Windows signing in CI** — `release.yml` builds unsigned Windows installers, signs `release/*.exe` with Azure Artifact Signing when `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID` are set, then publishes to GitHub Releases. Falls back to PFX (`WINDOWS_CERTIFICATE_*`) or unsigned when Azure secrets are missing. Documented in [`docs/windows-signing.md`](docs/windows-signing.md).
 - **Chocolatey package text** — `gfe-portal-eu` now describes the electrical-installation portal, states that an existing G&amp;F Portal account is required, and includes a copyright line. Chocolatey still has 1.0.48 in moderation and rejects a newer version until that one is approved, so this text is resubmitted as 1.0.48.
 
 ---

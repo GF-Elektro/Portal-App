@@ -44,8 +44,8 @@ npm run build:mac
 Check a signed app:
 
 ```bash
-codesign -dv --verbose=4 "release/mac-arm64/GF Portal EU.app"
-spctl -a -vv "release/mac-arm64/GF Portal EU.app"
+codesign -dv --verbose=4 "release/mac-arm64/G&F Portal EU.app"
+spctl -a -vv "release/mac-arm64/G&F Portal EU.app"
 ```
 
 ## GitHub Actions secrets
@@ -85,7 +85,7 @@ Create or refresh the profile in [Certificates, Identifiers & Profiles](https://
 
 Install the **Apple Distribution** (Mac) and **Mac Installer Distribution** certificates in the login keychain (Xcode → Settings → Accounts → Manage Certificates, or download `.p12` from the developer portal and double-click). `security find-identity -v -p codesigning` must list `Apple Distribution: G&F Elektro s.r.o. (3DKACDD8PH)` before building. With `forceCodeSigning: true` on the MAS target, the build **stops** if that identity is missing instead of signing with **Apple Development** (which causes ITMS-90284 on upload).
 
-[`package.json`](../package.json) pins `build.mas.identity` to the team suffix `G&F Elektro s.r.o. (3DKACDD8PH)` so electron-builder picks **Apple Distribution** for the app and **3rd Party Mac Developer Installer** for the `.pkg` (a full `Apple Distribution: …` string breaks installer lookup). It still avoids falling back to **Apple Development** or **Developer ID** when both exist. `build.mac.executableName` is **GF Portal EU** (no `&`) so electron-builder’s MAS packaging step can run shell commands safely; `CFBundleDisplayName` stays **G&F Portal EU**. The `.app` on disk is `GF Portal EU.app` for both DMG and MAS builds.
+[`package.json`](../package.json) pins `build.mas.identity` to the team suffix `G&F Elektro s.r.o. (3DKACDD8PH)` so electron-builder picks **Apple Distribution** for the app and **3rd Party Mac Developer Installer** for the `.pkg` (a full `Apple Distribution: …` string breaks installer lookup). It still avoids falling back to **Apple Development** or **Developer ID** when both exist. **Developer ID DMGs** use `build.productName` (**G&F Portal EU**) so the bundle is `G&F Portal EU.app` and matches the Homebrew cask. **`npm run build:mac:mas`** passes `--config.mac.executableName='GF Portal EU'` (no `&`) so electron-builder’s MAS packaging step can run shell commands safely; that build’s `.app` on disk is `GF Portal EU.app`.
 
 ### Build (clean shell)
 

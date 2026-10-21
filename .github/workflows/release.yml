@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   release:
@@ -14,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v7
@@ -39,24 +40,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx electron-builder build --linux --publish always
-
-      - name: Build and Publish (Windows)
-        if: matrix.os == 'windows-latest'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CSC_LINK: ${{ secrets.WINDOWS_CERTIFICATE_BASE64 }}
-          CSC_KEY_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
-        shell: pwsh
-        run: |
-          if (-not $env:CSC_LINK) {
-            Write-Host "WINDOWS_CERTIFICATE_BASE64 is unset; publishing unsigned Windows installers."
-            Remove-Item Env:CSC_LINK -ErrorAction SilentlyContinue
-            Remove-Item Env:CSC_KEY_PASSWORD -ErrorAction SilentlyContinue
-          } else {
-            Write-Host "Authenticode signing enabled for NSIS and portable targets."
-          }
-          npx electron-builder build --win --publish always
 
       - name: Build and Publish (macOS DMG)
         if: matrix.os == 'macos-latest'

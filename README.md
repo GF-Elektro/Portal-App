@@ -92,7 +92,7 @@ This repository is **public and auditable** ([Apache 2.0](LICENSE)). Installers 
 2. Compare **SHA256** with the hash in the release notes.
 3. Open the **VirusTotal report link** in the same release and review all engines.
 
-> **Note:** macOS DMGs are **Developer ID signed and notarized** when the Apple secrets in [docs/apple-signing.md](docs/apple-signing.md) are set on GitHub Actions. Windows **Setup.exe** and the portable exe are **Authenticode signed** with Azure Artifact Signing, profile `portal-eu-public` ([docs/windows-signing.md](docs/windows-signing.md)). That service does not export a `.pfx`, so `WINDOWS_CERTIFICATE_BASE64` stays unused. Some AV engines flag new Electron apps heuristically — read the **full** VirusTotal report, not a single engine. VirusTotal free API is for release transparency; see [SECURITY.md](SECURITY.md) for quota and usage notes.
+> **Note:** macOS DMGs are **Developer ID signed and notarized** when the Apple secrets in [docs/apple-signing.md](docs/apple-signing.md) are set on GitHub Actions. Windows **Setup.exe** and the portable exe are **Authenticode signed** with Azure Artifact Signing, profile `portal-eu-public`, when `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID` are set ([docs/windows-signing.md](docs/windows-signing.md)). Some AV engines flag new Electron apps heuristically — read the **full** VirusTotal report, not a single engine. VirusTotal free API is for release transparency; see [SECURITY.md](SECURITY.md) for quota and usage notes.
 
 ---
 
@@ -124,7 +124,7 @@ brew upgrade --cask gfe-portal-eu
 
 Or use the tray menu item **Nach Updates suchen** / **Check for Update**.
 
-The cask installs `/Applications/G&F Portal EU.app`. Older unsigned DMGs cleared Gatekeeper quarantine in a cask postflight step. Notarized Developer ID builds do not need that workaround; install steps are on [docs.gfelektro.com/macos-install.html](https://docs.gfelektro.com/macos-install.html).
+The cask installs `/Applications/G&F Portal EU.app` (must match `build.productName` in [`package.json`](package.json); the tap cask uses `app "G&F Portal EU.app"`). Older unsigned DMGs cleared Gatekeeper quarantine in a cask postflight step. Notarized Developer ID builds do not need that workaround; install steps are on [docs.gfelektro.com/macos-install.html](https://docs.gfelektro.com/macos-install.html).
 
 If you previously installed **G&F Elektro Portal**, delete the old app from Applications after installing the new name.
 
@@ -251,7 +251,7 @@ The app automatically bridges web notifications from the portal to your operatin
 - **`CHOCOLATEY_API_KEY`** — Chocolatey push key. Without it, Publish Chocolatey package skips.
 - **`AUR_SSH_PRIVATE_KEY`** — AUR SSH private key for `gfe-portal-eu`. Without it, Bump AUR package skips.
 - **Apple signing secrets** — `APPLE_CERTIFICATE_BASE64`, `APPLE_CERTIFICATE_PASSWORD`, `APPLE_TEAM_ID`, `APPLE_API_KEY_BASE64`, `APPLE_API_KEY_ID`, `APPLE_API_ISSUER` ([docs/apple-signing.md](docs/apple-signing.md))
-- **Windows signing** — Azure Artifact Signing profile `portal-eu-public` ([docs/windows-signing.md](docs/windows-signing.md)). The PFX secrets `WINDOWS_CERTIFICATE_BASE64` and `WINDOWS_CERTIFICATE_PASSWORD` are unused.
+- **Windows signing** — `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID` (optional `AZURE_CLIENT_SECRET`); profile `portal-eu-public` ([docs/windows-signing.md](docs/windows-signing.md)). Optional legacy PFX: `WINDOWS_CERTIFICATE_BASE64`, `WINDOWS_CERTIFICATE_PASSWORD`.
 - Re-scan a past release: **Actions → VirusTotal scan → Run workflow** (tag e.g. `v1.0.12`)
 - **Post-release distribution** — After *Build and Release*, [`.github/workflows/post-release-distribution.yml`](.github/workflows/post-release-distribution.yml) dispatches Firebase Hosting, Homebrew, Chocolatey, VirusTotal, and AUR (GitHub does not run `release: published` workflows for releases created by `GITHUB_TOKEN`). Re-run manually: **Actions → Post-release distribution** with the tag.
 - Staff install: `brew tap GF-Elektro/tap` then `brew install --cask gfe-portal-eu`
