@@ -13,7 +13,7 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ### Changed
 
-- **Chocolatey package text** — `gfe-portal-eu` now describes the electrical-installation portal, states that an existing G&amp;F Portal account is required, and includes a copyright line. The resubmitted package is 1.0.59.
+- **Chocolatey package text** — `gfe-portal-eu` now describes the electrical-installation portal, states that an existing G&amp;F Portal account is required, and includes a copyright line. Chocolatey still has 1.0.48 in moderation and rejects a newer version until that one is approved, so this text is resubmitted as 1.0.48.
 
 ---
 
