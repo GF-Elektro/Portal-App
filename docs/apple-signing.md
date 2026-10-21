@@ -17,9 +17,15 @@ A public `.cer` file on a website does not do this. macOS checks the notarizatio
 
 | Use | Certificate | Where it is used |
 | --- | --- | --- |
-| DMG / direct download | Developer ID Application | Local Mac and GitHub Actions `CSC_LINK` |
+| DMG / direct download | **Developer ID Application** | Local Mac and GitHub Actions `APPLE_CERTIFICATE_*` |
 | Mac App Store | Apple Distribution (Mac) + Mac App Store provisioning profile | `npm run build:mac:mas` only |
 | iOS | Apple Development and Apple Distribution (iOS) | `ios/PortalEU.xcodeproj` |
+
+**Apple Distribution** (Mac App Store) does **not** replace Developer ID for DMG or Homebrew installs. If `security find-identity -v -p codesigning` lists only *Apple Distribution* and *Apple Development*, create **Developer ID Application** in [Certificates](https://developer.apple.com/account/resources/certificates/list) (or Xcode → Settings → Accounts → Manage Certificates → **+** → Developer ID Application), install it, export a `.p12` from Keychain Access, then:
+
+```bash
+P12_PASSWORD='…' ./scripts/set-github-apple-dmg-secrets.sh ~/path/to/DeveloperID.p12
+```
 
 Bundle IDs:
 
