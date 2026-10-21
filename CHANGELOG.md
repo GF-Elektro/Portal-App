@@ -13,6 +13,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.62] - 2026-10-21
+
+### Added
+
+- **Microsoft Store MSIX packaging** — `npm run build:win:store` builds an unsigned electron-builder `msix` package with Partner Center identity `GFElektro.GFPortalEU` / `CN=A13AD157-0238-4037-901B-C007A13489C7`. Tile assets live in `build/appx/`. GitHub NSIS/portable targets are unchanged.
+
+---
+
 ## [1.0.61] - 2026-10-21
 
 ### Added
