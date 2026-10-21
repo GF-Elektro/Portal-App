@@ -176,4 +176,37 @@ if ! stage_arch; then
   echo "Arch staging failed; apt index remains."
   rm -rf "$SITE/arch"
 fi
+
+stage_windows() {
+  local win_dir
+  win_dir="$(mktemp -d)"
+  if ! download_release 'GFElektroPortal-*-Setup.exe' "$win_dir"; then
+    echo "No Setup.exe; skipping Windows installers."
+    rm -rf "$win_dir"
+    return 0
+  fi
+  download_release 'GFElektroPortal-*.exe' "$win_dir" || true
+  mkdir -p "$SITE/windows"
+  find "$win_dir" -maxdepth 1 -type f -name 'GFElektroPortal-*.exe' -exec cp {} "$SITE/windows/" \;
+  setup_file="$(find "$SITE/windows" -maxdepth 1 -type f -name 'GFElektroPortal-*-Setup.exe' | head -n 1 || true)"
+  portable_file="$(find "$SITE/windows" -maxdepth 1 -type f -name 'GFElektroPortal-*.exe' ! -name '*-Setup.exe' | head -n 1 || true)"
+  if [ -n "${setup_file:-}" ]; then
+    cp "$setup_file" "$SITE/windows/GFElektroPortal-Setup.exe"
+  fi
+  if [ -n "${portable_file:-}" ]; then
+    cp "$portable_file" "$SITE/windows/GFElektroPortal.exe"
+  fi
+  rm -rf "$win_dir"
+  if ! find "$SITE/windows" -maxdepth 1 -type f -name 'GFElektroPortal-*-Setup.exe' | grep -q .; then
+    echo "Setup.exe missing after copy; removing Windows directory."
+    rm -rf "$SITE/windows"
+    return 0
+  fi
+  echo "Staged Windows installers."
+}
+
+if ! stage_windows; then
+  echo "Windows staging failed; other package indexes remain."
+  rm -rf "$SITE/windows"
+fi
 exit 0

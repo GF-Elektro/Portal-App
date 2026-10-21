@@ -4,9 +4,29 @@ G&F Portal EU Windows installers are **NSIS Setup.exe** and **portable .exe** fr
 
 Do **not** commit or publish `.pfx`, `.p12`, or private keys. Keep them in gitignored `.env.local` or GitHub Actions secrets only.
 
+## Live signing identity
+
+These resources exist in the **G&F Elektro s.r.o.** Azure tenant (`meetgfelektro.com`). Do not put tenant secrets, client secrets, or access tokens in the repo.
+
+| Resource | Value |
+| --- | --- |
+| Subscription | Azure subscription |
+| Resource group | `rg-gfe-signing` |
+| Account | `gfelektro-signing` (Basic, East US) |
+| Endpoint | `https://eus.codesigning.azure.net` |
+| Public identity | **G&F Elektro s. r. o.**, completed, valid until 16 January 2029 (`ddceef00-cc85-40ec-b657-df51d7f6dc7e`) |
+| Certificate profile | `portal-eu-public` (Public Trust, active) |
+| Subject | `CN=G&F Elektro s. r. o.`, `O=G&F Elektro s. r. o.`, `L=Stropkov`, `S=Prešovský`, `C=SK` |
+
+The profile issues a short-lived certificate and replaces it automatically. A signature made with a timestamp stays valid after that certificate expires. The identity itself lasts until 16 January 2029. Street address and postal code are not included.
+
+Signing needs the **Artifact Signing Certificate Profile Signer** role on `gfelektro-signing`. Azure does not export a `.pfx` for this profile, so `CSC_LINK` stays unused until a separate PKCS#12 certificate exists. Sign the NSIS `Setup.exe` and the portable `.exe` with [jsign](https://ebourg.github.io/jsign/) (`--storetype TRUSTEDSIGNING`) or `signtool` on Windows, using alias `gfelektro-signing/portal-eu-public`.
+
+Release `v1.0.58` carries signed `GFElektroPortal-1.0.58-Setup.exe` and `GFElektroPortal-1.0.58.exe` (subject **G&F Elektro s. r. o.**, Stropkov, timestamped). [docs.gfelektro.com](https://docs.gfelektro.com) links to the Setup.exe on GitHub. Firebase Hosting also serves both files under `https://gfe-portal-packages.web.app/windows/`.
+
 ## Get a code signing certificate
 
-electron-builder expects a **PKCS#12** file (`.pfx`) plus its password via `CSC_LINK` and `CSC_KEY_PASSWORD`.
+electron-builder expects a **PKCS#12** file (`.pfx`) plus its password via `CSC_LINK` and `CSC_KEY_PASSWORD`. Artifact Signing does not provide that file.
 
 | Option | Register / buy | Notes |
 | --- | --- | --- |

@@ -9,6 +9,18 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- **Windows Authenticode identity** — Azure Artifact Signing account `gfelektro-signing` (Basic, East US) in resource group `rg-gfe-signing`. The public identity **G&F Elektro s. r. o.** is completed and valid until 16 January 2029. Certificate profile `portal-eu-public` (Public Trust) is active. The certificate subject is the company name, Stropkov, and the Prešov region. Street and postal code stay off the certificate. A second public identity request is still in progress and is not used for signing. Details are in [`docs/windows-signing.md`](docs/windows-signing.md).
+
+### Changed
+
+- **Signed Windows 1.0.58 installers** — `GFElektroPortal-1.0.58-Setup.exe` and the portable `GFElektroPortal-1.0.58.exe` are Authenticode-signed with profile `portal-eu-public`. The certificate subject is **G&F Elektro s. r. o.**, Stropkov, Prešovský, SK, issued by Microsoft ID Verified CS EOC CA 03 and timestamped by Microsoft. Those two files replace the unsigned assets on GitHub release `v1.0.58`. [docs.gfelektro.com](https://docs.gfelektro.com) downloads the signed Setup.exe. The same installers are hosted at [gfe-portal-packages.web.app/windows/](https://gfe-portal-packages.web.app/windows/).
+
+---
+
 ## [1.0.58] - 2026-10-20
 
 ### Added
