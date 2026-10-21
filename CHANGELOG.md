@@ -13,6 +13,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.61] - 2026-10-21
+
+### Added
+
+- **Microsoft Store name reservation** — Partner Center product **G&F Portal EU** (`9MXWQW7F7XPT`, MSIX or PWA app). Package identity is `GFElektro.GFPortalEU` / `CN=A13AD157-0238-4037-901B-C007A13489C7` / publisher display name **G&F Elektro**. Documented in [`docs/microsoft-store.md`](docs/microsoft-store.md).
+
+---
+
 ## [1.0.60] - 2026-10-21
 
 ### Fixed

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft Store (geplant) – G&#38;F Portal EU</title>
-    <meta name="description" content="Geplante Microsoft-Store-Version von G&#38;F Portal EU: MSIX-Berechtigungen und Installation heute über Download oder Chocolatey.">
+    <title>Microsoft Store – G&#38;F Portal EU</title>
+    <meta name="description" content="Microsoft-Store-Identität von G&#38;F Portal EU (MSIX): reservierter Name, Package Identity und Berechtigungen.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -40,12 +40,41 @@
 
     <main class="container hero-section hero-section--page">
         <div class="hero-content hero-content--guide doc-article">
-            <h1 class="hero-title">Microsoft Store (geplant)</h1>
+            <h1 class="hero-title">Microsoft Store</h1>
             <p class="hero-description">
                 Die <strong>G&amp;F Portal EU</strong> Windows-Desktop-App ist derselbe Electron-Build wie die NSIS- und Portable-Installer auf
                 <a href="https://github.com/GF-Elektro/Portal-App/releases" target="_blank" rel="noopener">GitHub Releases</a>.
-                Eine spätere <strong>Microsoft Store</strong>-Listung verpackt diesen Build (MSIX) über das Partner Center.
+                Der Name <strong>G&amp;F Portal EU</strong> ist im Partner Center als MSIX-Produkt reserviert
+                (Store-ID <code>9MXWQW7F7XPT</code>,
+                <a href="https://apps.microsoft.com/detail/9MXWQW7F7XPT" target="_blank" rel="noopener">Store-Link</a>).
+                Das Store-Paket ist MSIX; Microsoft signiert es nach der Zertifizierung. Azure Artifact Signing gilt nur für die GitHub-<code>Setup.exe</code>.
             </p>
+
+            <h2 class="doc-article__h2">Paketidentität</h2>
+            <div class="doc-table-wrap">
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Feld</th>
+                            <th scope="col">Wert</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Package/Identity/Name</code></td>
+                            <td><code>GFElektro.GFPortalEU</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>Package/Identity/Publisher</code></td>
+                            <td><code>CN=A13AD157-0238-4037-901B-C007A13489C7</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>PublisherDisplayName</code></td>
+                            <td>G&amp;F Elektro</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <h2 class="doc-article__h2">Berechtigungen</h2>
             <p class="hero-description">
