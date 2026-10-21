@@ -26,28 +26,26 @@ Release `v1.0.59` ships signed `GFElektroPortal-1.0.59-Setup.exe` and `GFElektro
 
 ## GitHub Actions (recommended)
 
-On each `v*` tag, the **windows-latest** job in [`.github/workflows/release.yml`](../.github/workflows/release.yml):
+On each `v*` tag, the **Build and Release (Windows)** job in [`.github/workflows/release.yml`](../.github/workflows/release.yml):
 
 1. Builds Windows installers **unsigned** (`electron-builder build --win --publish never`).
-2. Signs top-level `release/*.exe` with [Azure Artifact Signing](https://github.com/Azure/trusted-signing-action) (`azure/artifact-signing-action@v2`).
-3. Publishes artifacts to the GitHub Release (`electron-builder publish -f …`).
+2. Signs in with Entra via GitHub OIDC (`azure/login@v2`, no client secret).
+3. Signs top-level `release/*.exe` with [Azure Artifact Signing](https://github.com/Azure/trusted-signing-action) (`azure/artifact-signing-action@v2`).
+4. Publishes artifacts to the GitHub Release (`electron-builder publish -f …`).
 
-If Azure secrets are missing, the job still publishes **unsigned** installers (same as before Azure CI was wired).
+### Entra app + secrets (live)
 
-### Entra app + secrets
+CI uses app registration **GF-Elektro Portal-App GitHub Signing**. The service principal has **Artifact Signing Certificate Profile Signer** on `gfelektro-signing` and **Reader** on the subscription (needed for `azure/login` to select the subscription). Trust is a **flexible federated credential** (`github-actions-release-tags`) that matches `v*` tags of `.github/workflows/release.yml` only. There is no client secret.
 
-Create a Microsoft Entra **app registration** and service principal for CI. Assign **Artifact Signing Certificate Profile Signer** on the `gfelektro-signing` account (or on `rg-gfe-signing` / the subscription). Microsoft’s OIDC setup for GitHub is documented in [trusted-signing-action OIDC](https://github.com/Azure/trusted-signing-action/blob/main/docs/OIDC.md).
-
-Add these on **GF-Elektro/Portal-App** → [Settings → Secrets and variables → Actions](https://github.com/GF-Elektro/Portal-App/settings/secrets/actions):
+These are set on **GF-Elektro/Portal-App** → [Settings → Secrets and variables → Actions](https://github.com/GF-Elektro/Portal-App/settings/secrets/actions):
 
 | Secret | Value |
 | --- | --- |
-| `AZURE_CLIENT_ID` | App (client) ID |
+| `AZURE_CLIENT_ID` | App (client) ID of **GF-Elektro Portal-App GitHub Signing** |
 | `AZURE_TENANT_ID` | Directory (tenant) ID |
 | `AZURE_SUBSCRIPTION_ID` | Subscription that contains `rg-gfe-signing` |
-| `AZURE_CLIENT_SECRET` | **Optional** — only if you use client-secret auth instead of federated OIDC for `azure/login` |
 
-The workflow requests `id-token: write` so `azure/login@v2` can use **federated credentials** (no long-lived secret). If you use a client secret, set `AZURE_CLIENT_SECRET` and configure the app accordingly.
+Do **not** add `AZURE_CLIENT_SECRET`. The workflow requests `id-token: write` so `azure/login@v2` exchanges the GitHub OIDC token.
 
 Signing inputs in the workflow (change only if Azure resources move):
 
@@ -59,7 +57,7 @@ Signing inputs in the workflow (change only if Azure resources move):
 
 ### Legacy PFX path (optional)
 
-If you later obtain a classic **OV/EV** `.pfx`, you can set `WINDOWS_CERTIFICATE_BASE64` and `WINDOWS_CERTIFICATE_PASSWORD` instead of the Azure secrets. The workflow signs via electron-builder `CSC_LINK` in a single build+publish step. Do **not** set Azure and PFX secrets at the same time.
+If you later obtain a classic **OV/EV** `.pfx`, local builds can still use `CSC_LINK` / `CSC_KEY_PASSWORD` (see below). GitHub Release signing is Azure OIDC, not `WINDOWS_CERTIFICATE_*`.
 
 ## Local signed build (Artifact Signing)
 
