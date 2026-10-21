@@ -13,11 +13,19 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.66] - 2026-10-21
+
+### Added
+
+- **Microsoft Store maintainer runbook** — [`docs/microsoft-store.md`](docs/microsoft-store.md) documents `npm run build:win:store`, the do-not-Azure-sign rule versus NSIS Authenticode, CI AppX artifacts, and Partner Center Submission 1 **in certification** (`GFElektroPortal-1.0.65.appx`).
+
+---
+
 ## [1.0.65] - 2026-10-21
 
 ### Added
 
-- **Microsoft Store listing copy** — Partner Center description (EN/DE/SK), privacy URL, `runFullTrust` justification, and certification notes in [`docs/microsoft-store.md`](docs/microsoft-store.md).
+- **Microsoft Store listing copy** — Partner Center description (EN/DE/SK), privacy URL, `runFullTrust` justification, certification notes, and 1920×1080 screenshots in [`docs/microsoft-store.md`](docs/microsoft-store.md) and [`docs/assets/store/`](docs/assets/store/).
 
 ---
 

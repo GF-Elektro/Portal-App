@@ -112,9 +112,38 @@
                 Lade <strong>keine</strong> Apple-Signierdateien (<code>.p12</code>, <code>.p8</code>, Provisioning Profiles) ins Microsoft Partner Center hoch.
             </p>
 
+            <h2 class="doc-article__h2">Store-Listing</h2>
+            <p class="hero-description">
+                Kategorie Business, Preis kostenlos, nur Desktop.
+                Datenschutzerklärung:
+                <a href="permissions.html">permissions.html</a>.
+                Store-Beschreibungen liegen auf Deutsch, Slowakisch und Englisch in
+                <a href="https://github.com/GF-Elektro/Portal-App/blob/main/docs/microsoft-store.md" target="_blank" rel="noopener"><code>docs/microsoft-store.md</code></a>.
+            </p>
+            <p class="hero-description">
+                Desktop-Screenshots (1920×1080) für Partner Center:
+            </p>
+            <ul class="hero-description">
+                <li><a href="assets/store/01-dashboard.png">Dashboard</a></li>
+                <li><a href="assets/store/02-news.png">Neuigkeiten</a></li>
+                <li><a href="assets/store/03-ideas.png">Ideen</a></li>
+                <li><a href="assets/store/04-hours.png">Stundenerfassung</a></li>
+            </ul>
+
+            <h2 class="doc-article__h2">Pakete bauen</h2>
+            <p class="hero-description">
+                Store-Paket (unsigned AppX, Microsoft signiert nach Zertifizierung):
+                <code>npm run build:win:store</code>
+                (<code>--win appx</code>, <code>executableName=GFPortalEU</code>).
+                Nicht mit Azure Artifact Signing signieren — das gilt nur für GitHub-<code>Setup.exe</code>
+                (<a href="https://github.com/GF-Elektro/Portal-App/blob/main/docs/windows-signing.md" target="_blank" rel="noopener">windows-signing.md</a>).
+                CI hängt <code>GFElektroPortal-*.appx</code> an das GitHub Release.
+            </p>
+
             <h2 class="doc-article__h2">Heute</h2>
             <p class="hero-description">
-                Windows-Builds installierst du über die <a href="index.html">Download-Seite</a> oder GitHub Releases.
+                Submission 1 ist im Partner Center in Zertifizierung (Paket 1.0.65, Desktop).
+                Windows-Builds installierst du weiterhin über die <a href="index.html">Download-Seite</a> oder GitHub Releases, bis der Store-Eintrag veröffentlicht ist.
                 Kamera- und Mikrofon-Abfragen steuert die App in
                 <a href="https://github.com/GF-Elektro/Portal-App/blob/main/src/main.js" target="_blank" rel="noopener"><code>src/main.js</code></a>
                 (inkl. Link zu den Windows-Datenschutz-Einstellungen bei verweigertem Zugriff).
