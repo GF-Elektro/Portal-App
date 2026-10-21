@@ -13,6 +13,18 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.63] - 2026-10-21
+
+### Fixed
+
+- **electron-builder Store config** — `build.msix` is not in electron-builder 26.17’s schema and broke every platform build on `v1.0.62`. Store packaging now uses the supported `appx` target (`npm run build:win:store`) with the same Partner Center identity.
+
+### Added
+
+- **Windows Store CI job** — `release.yml` builds an unsigned `.appx` on `windows-latest`, uploads it as a workflow artifact, and attaches it to the GitHub Release. Azure Artifact Signing is not applied to Store packages.
+
+---
+
 ## [1.0.62] - 2026-10-21
 
 ### Added

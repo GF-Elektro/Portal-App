@@ -1,7 +1,7 @@
 {
   "name": "gf-elektro-portal",
   "productName": "G&F Portal EU",
-  "version": "1.0.62",
+  "version": "1.0.63",
   "description": "Desktop app for G&F Portal EU – Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {
@@ -21,7 +21,7 @@
     "sync:docs-version": "node scripts/sync-docs-version.js",
     "build": "electron-builder build",
     "build:win": "electron-builder build --win",
-    "build:win:store": "electron-builder build --win msix --publish never",
+    "build:win:store": "electron-builder build --win appx --publish never",
     "build:mac": "electron-builder build --mac dmg",
     "build:mac:mas": "bash scripts/build-mac-icon.sh && electron-builder build --mac mas --config.mac.executableName='GF Portal EU'",
     "verify:mas-signing": "bash scripts/verify-mas-signing.sh",
@@ -34,9 +34,6 @@
     "artifactName": "GFElektroPortal-${version}.${ext}",
     "directories": {
       "output": "release"
-    },
-    "toolsets": {
-      "winCodeSign": "1.1.0"
     },
     "files": [
       "src/**/*",
@@ -136,13 +133,12 @@
       "uninstallerIcon": "build/icon.ico",
       "artifactName": "GFElektroPortal-${version}-Setup.${ext}"
     },
-    "msix": {
+    "appx": {
       "identityName": "GFElektro.GFPortalEU",
       "publisher": "CN=A13AD157-0238-4037-901B-C007A13489C7",
       "publisherDisplayName": "G&F Elektro",
       "applicationId": "GFPortalEU",
       "displayName": "G&F Portal EU",
-      "createMsixupload": true,
       "addAutoLaunchExtension": false,
       "languages": [
         "en-US",

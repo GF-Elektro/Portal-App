@@ -129,6 +129,66 @@ jobs:
           }
           npx electron-builder publish -f $files -p always
 
+  release-windows-store:
+    name: Build Windows Store AppX
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: |
+          npm ci || npm install
+
+      - name: Build unsigned AppX for Partner Center
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+        shell: pwsh
+        run: |
+          Remove-Item Env:CSC_LINK -ErrorAction SilentlyContinue
+          Remove-Item Env:CSC_KEY_PASSWORD -ErrorAction SilentlyContinue
+          Remove-Item Env:WIN_CSC_LINK -ErrorAction SilentlyContinue
+          Remove-Item Env:WIN_CSC_KEY_PASSWORD -ErrorAction SilentlyContinue
+          npx electron-builder build --win appx --publish never
+
+      - name: Upload AppX to GitHub Actions
+        uses: actions/upload-artifact@v4
+        with:
+          name: GFElektroPortal-appx
+          path: |
+            release/*.appxupload
+            release/*.appx
+          if-no-files-found: error
+
+      - name: Attach AppX to GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          $uploads = Get-ChildItem -Path release -File | Where-Object { $_.Extension -in '.appxupload', '.appx' }
+          if (-not $uploads) {
+            throw "No .appx / .appxupload in release/"
+          }
+          $tag = $env:GITHUB_REF_NAME
+          $ready = $false
+          for ($i = 0; $i -lt 24; $i++) {
+            gh release view $tag --repo ${{ github.repository }} | Out-Null
+            if ($LASTEXITCODE -eq 0) { $ready = $true; break }
+            Start-Sleep -Seconds 15
+          }
+          if (-not $ready) {
+            throw "GitHub Release $tag does not exist yet; cannot attach AppX."
+          }
+          gh release upload $tag --repo ${{ github.repository }} --clobber @($uploads | ForEach-Object { $_.FullName })
+
   ios-testflight:
     name: Upload iOS to TestFlight
     runs-on: macos-latest
