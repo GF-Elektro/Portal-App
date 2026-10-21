@@ -63,7 +63,8 @@ graphify-out/
 .agent/
 plans/
 
-# Docs site, hosting payload, and package recipes (published elsewhere)
+# Docs site HTML is force-tracked for GitHub Pages. Maintainer markdown
+# (signing, Partner Center, review notes) must stay untracked — repo is public.
 docs/
 hosting/
 packaging/

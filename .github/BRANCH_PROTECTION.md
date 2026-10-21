@@ -27,13 +27,6 @@ GitHub shows **“Your main branch isn't protected”** when `main` allows force
 Requires a token with **admin** on `GF-Elektro/Portal-App`:
 
 ```bash
-chmod +x scripts/apply-branch-protection.sh
-./scripts/apply-branch-protection.sh
-```
-
-Or one-shot:
-
-```bash
 gh api --method PUT repos/GF-Elektro/Portal-App/branches/main/protection \
   --input - <<'EOF'
 {

@@ -92,7 +92,7 @@ This repository is **public and auditable** ([Apache 2.0](LICENSE)). Installers 
 2. Compare **SHA256** with the hash in the release notes.
 3. Open the **VirusTotal report link** in the same release and review all engines.
 
-> **Note:** macOS DMGs are **Developer ID signed and notarized** when the Apple secrets in [docs/apple-signing.md](docs/apple-signing.md) are set on GitHub Actions. Windows **Setup.exe** and the portable exe are **Authenticode signed** with Azure Artifact Signing, profile `portal-eu-public`, when `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID` are set ([docs/windows-signing.md](docs/windows-signing.md)). Some AV engines flag new Electron apps heuristically — read the **full** VirusTotal report, not a single engine. VirusTotal free API is for release transparency; see [SECURITY.md](SECURITY.md) for quota and usage notes.
+> **Note:** macOS DMGs are **Developer ID signed and notarized** when Apple signing secrets are set on GitHub Actions. Windows **Setup.exe** and the portable exe are **Authenticode signed** with Azure Artifact Signing, profile `portal-eu-public`, when `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID` are set. Private keys stay in GitHub Actions secrets, not in this repository. Some AV engines flag new Electron apps heuristically — read the **full** VirusTotal report, not a single engine. VirusTotal free API is for release transparency; see [SECURITY.md](SECURITY.md) for quota and usage notes.
 
 ---
 
@@ -245,13 +245,13 @@ The app automatically bridges web notifications from the portal to your operatin
 
 ## Maintainers
 
-- **Branch protection** — `main` should block force-push and deletion ([setup guide](.github/BRANCH_PROTECTION.md) · `scripts/apply-branch-protection.sh`; requires **repo admin**)
+- **Branch protection** — `main` should block force-push and deletion ([setup guide](.github/BRANCH_PROTECTION.md); requires **repo admin**)
 - **`VT_API_KEY`** — VirusTotal free API key ([my-apikey](https://www.virustotal.com/gui/my-apikey)); respect **4/min** and **500/day** limits (see [SECURITY.md](SECURITY.md))
 - **`HOMEBREW_TAP_TOKEN`** — fine-grained PAT (Contents: Read and write on `GF-Elektro/homebrew-tap`) for the *Bump Homebrew Cask* workflow
 - **`CHOCOLATEY_API_KEY`** — Chocolatey push key. Without it, Publish Chocolatey package skips.
 - **`AUR_SSH_PRIVATE_KEY`** — AUR SSH private key for `gfe-portal-eu`. Without it, Bump AUR package skips.
-- **Apple signing secrets** — `APPLE_CERTIFICATE_BASE64`, `APPLE_CERTIFICATE_PASSWORD`, `APPLE_TEAM_ID`, `APPLE_API_KEY_BASE64`, `APPLE_API_KEY_ID`, `APPLE_API_ISSUER` ([docs/apple-signing.md](docs/apple-signing.md))
-- **Windows signing** — `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID` (OIDC, no client secret); profile `portal-eu-public` ([docs/windows-signing.md](docs/windows-signing.md)).
+- **Apple signing secrets** — `APPLE_CERTIFICATE_BASE64`, `APPLE_CERTIFICATE_PASSWORD`, `APPLE_TEAM_ID`, `APPLE_API_KEY_BASE64`, `APPLE_API_KEY_ID`, `APPLE_API_ISSUER` (GitHub Actions secrets only)
+- **Windows signing** — `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID` (OIDC, no client secret); profile `portal-eu-public`
 - Re-scan a past release: **Actions → VirusTotal scan → Run workflow** (tag e.g. `v1.0.12`)
 - **Post-release distribution** — After *Build and Release*, [`.github/workflows/post-release-distribution.yml`](.github/workflows/post-release-distribution.yml) dispatches Firebase Hosting, Homebrew, Chocolatey, VirusTotal, and AUR (GitHub does not run `release: published` workflows for releases created by `GITHUB_TOKEN`). Re-run manually: **Actions → Post-release distribution** with the tag.
 - Staff install: `brew tap GF-Elektro/tap` then `brew install --cask gfe-portal-eu`
@@ -270,10 +270,8 @@ gf-elektro-portal/
 │   ├── tray-*.png                # Windows tray icons
 │   └── flags/                    # Tray language flags
 ├── icon-192.png
-├── icon-512.png                  # macOS / Linux / mobile app icon (run ./scripts/sync-app-icons.sh after changes)
+├── icon-512.png                  # macOS / Linux / mobile app icon
 ├── icon.png
-├── scripts/
-│   └── create-ico.js             # PNG to ICO converter
 ├── src/
 │   ├── main.js                   # Electron main process
 │   ├── preload.js

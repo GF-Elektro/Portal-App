@@ -11,6 +11,9 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ## [Unreleased]
 
+### Changed
+- Stopped tracking maintainer signing runbooks, Cursor plans, and local helper scripts. The public tree keeps the Electron shell, GitHub Pages HTML, and CI scripts.
+
 ---
 
 ## [1.0.66] - 2026-10-21

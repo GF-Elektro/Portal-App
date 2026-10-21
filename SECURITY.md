@@ -95,7 +95,7 @@ We intentionally stay within the **standard free public API** limits:
 | Files scanned | 4 primary installers | Skips `.blockmap`, `latest*.yml`, portable `.exe` duplicate |
 | Calls per release | **~8** (typical) | Each installer is **>32 MB** → 2 VT API calls per file (upload URL + submit) |
 
-- macOS release DMGs are signed with Developer ID and notarized when `APPLE_CERTIFICATE_BASE64` and `APPLE_API_KEY_BASE64` are configured ([docs/apple-signing.md](docs/apple-signing.md)). Windows installers are Authenticode-signed with Azure Artifact Signing, profile `portal-eu-public` ([docs/windows-signing.md](docs/windows-signing.md)). Private keys are not published. New publishers can still trigger heuristic detections on one engine; compare full VirusTotal reports and SHA256 hashes before treating a hit as malware
+- macOS release DMGs are signed with Developer ID and notarized when `APPLE_CERTIFICATE_BASE64` and `APPLE_API_KEY_BASE64` are configured in GitHub Actions. Windows installers are Authenticode-signed with Azure Artifact Signing, profile `portal-eu-public`. Private keys are not published. New publishers can still trigger heuristic detections on one engine; compare full VirusTotal reports and SHA256 hashes before treating a hit as malware
 - To re-scan an existing release: **Actions → VirusTotal scan → Run workflow** (enter tag, e.g. `v1.0.12`)
 
 ---
