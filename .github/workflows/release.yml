@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-24.04]
 
     steps:
       - uses: actions/checkout@v7
@@ -31,11 +31,20 @@ jobs:
           npm ci || npm install
 
       - name: Install Linux System Dependencies
-        if: matrix.os == 'ubuntu-latest'
-        run: sudo apt-get update && sudo apt-get install -y libfuse2
+        if: matrix.os == 'ubuntu-24.04'
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3 4 5; do
+            if sudo apt-get update && sudo apt-get install -y libfuse2; then
+              exit 0
+            fi
+            echo "apt failed (attempt $attempt); retrying..."
+            sleep 15
+          done
+          exit 1
 
       - name: Build and Publish (Linux)
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-24.04'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

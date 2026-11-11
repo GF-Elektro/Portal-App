@@ -177,6 +177,56 @@ if ! stage_arch; then
   rm -rf "$SITE/arch"
 fi
 
+# A deb-only release has no AppImage, so stage_arch leaves no pacman repo.
+# Copy the live Arch index forward; otherwise Firebase Hosting would delete it.
+preserve_live_arch() {
+  local base arch_dir filename
+  base="https://gfe-portal-packages.web.app/arch"
+  arch_dir="$(mktemp -d)"
+  if ! curl -fsSL -o "$arch_dir/gf-elektro.db.tar.zst" "$base/gf-elektro.db.tar.zst"; then
+    echo "No live pacman database to preserve."
+    rm -rf "$arch_dir"
+    return 0
+  fi
+  if ! zstd -d -c "$arch_dir/gf-elektro.db.tar.zst" | tar -xO --wildcards '*/desc' > "$arch_dir/desc"; then
+    echo "Could not read the live pacman database; arch index will be omitted."
+    rm -rf "$arch_dir"
+    return 0
+  fi
+  filename="$(python3 - "$arch_dir/desc" << 'PY'
+import sys
+from pathlib import Path
+lines = Path(sys.argv[1]).read_text().splitlines()
+for index, line in enumerate(lines):
+    if line.strip() == "%FILENAME%" and index + 1 < len(lines):
+        print(lines[index + 1].strip())
+        break
+PY
+)"
+  if [ -z "${filename:-}" ]; then
+    echo "Live pacman database has no package filename; arch index will be omitted."
+    rm -rf "$arch_dir"
+    return 0
+  fi
+  mkdir -p "$SITE/arch"
+  cp "$arch_dir/gf-elektro.db.tar.zst" "$SITE/arch/gf-elektro.db.tar.zst"
+  curl -fsSL -o "$SITE/arch/gf-elektro.db" "$base/gf-elektro.db"
+  curl -fsSL -o "$SITE/arch/gf-elektro.files.tar.zst" "$base/gf-elektro.files.tar.zst"
+  curl -fsSL -o "$SITE/arch/gf-elektro.files" "$base/gf-elektro.files"
+  if ! curl -fsSL -o "$SITE/arch/$filename" "$base/${filename}"; then
+    echo "Could not download ${filename}; removing incomplete arch index."
+    rm -rf "$SITE/arch"
+    rm -rf "$arch_dir"
+    return 0
+  fi
+  rm -rf "$arch_dir"
+  echo "Preserved live pacman repository (${filename})."
+}
+
+if [ ! -d "$SITE/arch" ]; then
+  preserve_live_arch
+fi
+
 stage_windows() {
   local win_dir
   win_dir="$(mktemp -d)"
