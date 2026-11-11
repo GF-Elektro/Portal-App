@@ -11,6 +11,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ## [Unreleased]
 
+---
+
+## [1.0.67] - 2026-11-11
+
+### Fixed
+
+- **macOS Developer ID signing** — restored `APPLE_CERTIFICATE_BASE64` / `APPLE_CERTIFICATE_PASSWORD` so CI signs and notarizes the DMG with **Developer ID Application** (fixes Gatekeeper “damaged” apps from Homebrew / direct download).
+
 ### Changed
 - Stopped tracking maintainer signing runbooks, Cursor plans, and local helper scripts. The public tree keeps the Electron shell, GitHub Pages HTML, and CI scripts.
 
