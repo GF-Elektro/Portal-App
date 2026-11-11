@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>macOS Homebrew – G&#38;F Portal EU</title>
+    <meta name="description" content="So installierst du G&#38;F Portal EU auf dem Mac mit Homebrew.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://docs.gfelektro.com/macos-homebrew.html">
+    <meta property="og:title" content="macOS Homebrew – G&#38;F Portal EU">
+    <meta property="og:description" content="Homebrew-Installation der G&#38;F Portal EU Desktop App.">
+    <meta property="og:image" content="https://docs.gfelektro.com/assets/icon-512.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="macOS Homebrew – G&#38;F Portal EU">
+    <meta name="twitter:description" content="Homebrew-Installation der G&#38;F Portal EU Desktop App.">
+    <meta name="twitter:image" content="https://docs.gfelektro.com/assets/icon-512.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css?v=14">
+    <link rel="icon" type="image/png" href="assets/icon-512.png">
+</head>
+<body data-docs-page="macosHomebrew">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="brand-logo-link" aria-label="G&amp;F Portal EU – Startseite">
+                <img src="assets/brand-logo.png" alt="G&F Elektro Logo" class="brand-logo">
+            </a>
+            <div class="nav-actions">
+                <div class="lang-switcher-wrap">
+                    <span class="lang-switcher-label" data-i18n="shared.langSwitcherLabel">Sprache</span>
+                    <div class="lang-switcher" id="lang-switcher" role="group" aria-label="Sprache">
+                        <button type="button" data-lang="sk" title="Slovenčina" aria-label="Slovenčina"><img src="assets/flags/sk.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="cz" title="Čeština" aria-label="Čeština"><img src="assets/flags/cz.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="pl" title="Polski" aria-label="Polski"><img src="assets/flags/pl.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="hu" title="Magyar" aria-label="Magyar"><img src="assets/flags/hu.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="de" title="Deutsch" aria-label="Deutsch" aria-pressed="true"><img src="assets/flags/de.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="uk" title="Українська" aria-label="Українська"><img src="assets/flags/uk.svg" alt="" width="26" height="18" decoding="async"></button>
+                        <button type="button" data-lang="en" title="English" aria-label="English"><img src="assets/flags/en.svg" alt="" width="26" height="18" decoding="async"></button>
+                    </div>
+                </div>
+                <a href="https://www.gfelektro.com" class="nav-link" data-i18n="shared.navWebsite" target="_blank" rel="noopener">Zur Webseite</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container hero-section hero-section--page">
+        <div class="hero-content hero-content--guide doc-article">
+            <h1 class="hero-title" data-i18n="macosHomebrew.h1">Installation mit Homebrew</h1>
+            <h2 class="hero-subtitle" data-i18n="macosHomebrew.h2">Empfohlen für macOS</h2>
+            <p class="hero-description" data-i18n-html="macosHomebrew.intro">
+                Mit Homebrew installierst du die Desktop-App in wenigen Befehlen. Das Cask heißt <strong>gfe-portal-eu</strong> im Tap <strong>GF-Elektro/tap</strong>.
+            </p>
+            <pre>brew tap GF-Elektro/tap
+brew install --cask gfe-portal-eu</pre>
+            <p class="hero-description" data-i18n="macosHomebrew.upgradeLead">Später aktualisieren:</p>
+            <pre>brew upgrade --cask gfe-portal-eu</pre>
+            <p class="hero-description" data-i18n-html="macosHomebrew.trustNote">
+                Wenn Homebrew nach dem Vertrauen in ein Drittanbieter-Cask fragt:
+            </p>
+            <pre>brew trust --cask GF-Elektro/tap/gfe-portal-eu</pre>
+            <p class="hero-description" data-i18n-html="macosHomebrew.dmgLink">
+                Alternativ per DMG: <a href="macos-install.html">macOS-Installationsanleitung</a>.
+            </p>
+            <p class="hero-description doc-back-link">
+                <a href="index.html" data-i18n="macosHomebrew.backLink">Zurück zur Übersicht</a>
+            </p>
+        </div>
+    </main>
+    <script src="i18n/locales.js?v=5"></script>
+    <script src="i18n.js?v=3"></script>
+    <script src="script.js?v=5"></script>
+</body>
+</html>

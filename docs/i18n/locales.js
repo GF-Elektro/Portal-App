@@ -34,7 +34,8 @@ const INDEX_DE = {
   osHintOther: 'Bitte lade die f\u00fcr dein Betriebssystem passende Datei herunter.',
   installResourcesTitle: 'Installation & Hilfe',
   macosCardDesc:
-    'DMG \u00f6ffnen und in Programme ziehen. Signiert mit dem Apple Developer Account von G&F Elektro \u2014 keine Zertifikatsdatei n\u00f6tig.',
+    'Homebrew (empfohlen) oder DMG in Programme ziehen. Signiert mit dem Apple Developer Account von G&F Elektro \u2014 keine Zertifikatsdatei n\u00f6tig.',
+  chipHomebrew: 'macOS (Homebrew)',
   chipDebian: 'Debian / Ubuntu',
   chipArch: 'Arch Linux',
   chipWindows: 'Windows (Chocolatey)',
@@ -65,7 +66,7 @@ const INDEX_DE = {
   roadmapBadgeSoon: 'Demn\u00e4chst',
   roadmapDesktopTitle: 'Desktop',
   roadmapDesktopDesc:
-    'Electron-Client mit Tray, Updates und nativen Benachrichtigungen \u2014 jetzt per Download, apt, pacman oder Chocolatey.',
+    'Electron-Client mit Tray, Updates und nativen Benachrichtigungen \u2014 jetzt per Download, Homebrew, apt, pacman oder Chocolatey.',
   roadmapIosTitle: 'iOS (Swift)',
   roadmapIosDesc:
     'Native App f\u00fcr iPhone und iPad in Swift. Build und Upload laufen; External TestFlight und App-Store-Review sind eingereicht \u2014 Release folgt in K\u00fcrze.',
@@ -112,6 +113,24 @@ const MACOS_DE = {
     'Bitte <strong>deaktiviere Gatekeeper nicht</strong> und nutze keine Terminal-Befehle wie <code>xattr</code> als Standard-L\u00f6sung; bei aktuellen signierten Releases sind solche Workarounds nicht n\u00f6tig.',
   warningP3:
     'Hinweis: Sehr alte, unsignierte Test-Builds ben\u00f6tigten fr\u00fcher gelegentlich einen Quarant\u00e4ne-Workaround; ab den notarisierten Developer-ID-Releases entf\u00e4llt das.',
+  brewTitle: 'Empfohlen: Homebrew',
+  brewIntro:
+    'Mit Homebrew installierst und aktualisierst du die App am einfachsten. Ausf\u00fchrliche Schritte: <a href="macos-homebrew.html">Homebrew-Anleitung</a>.',
+  brewUpgradeLead: 'Aktualisieren:',
+};
+
+const MACOS_HOMEBREW_DE = {
+  pageTitle: 'macOS Homebrew \u2013 G&F Portal EU',
+  metaDescription: 'So installierst du G&F Portal EU auf dem Mac mit Homebrew.',
+  h1: 'Installation mit Homebrew',
+  h2: 'Empfohlen f\u00fcr macOS',
+  intro:
+    'Mit Homebrew installierst du die Desktop-App in wenigen Befehlen. Das Cask hei\u00dft <strong>gfe-portal-eu</strong> im Tap <strong>GF-Elektro/tap</strong>.',
+  upgradeLead: 'Sp\u00e4ter aktualisieren:',
+  trustNote: 'Wenn Homebrew nach dem Vertrauen in ein Drittanbieter-Cask fragt:',
+  dmgLink:
+    'Alternativ per DMG: <a href="macos-install.html">macOS-Installationsanleitung</a>.',
+  backLink: 'Zur\u00fcck zur \u00dcbersicht',
 };
 
 const LINUX_APT_DE = {
@@ -182,11 +201,12 @@ const PERMISSIONS_DE = {
   backBtn: 'Zur\u00fcck zum Download',
 };
 
-function buildLocale(shared, index, macos, linuxApt, linuxArch, windowsChoco, permissions) {
+function buildLocale(shared, index, macos, macosHomebrew, linuxApt, linuxArch, windowsChoco, permissions) {
   return {
     shared,
     index,
     macos,
+    macosHomebrew,
     linuxApt,
     linuxArch,
     windowsChoco,
@@ -221,7 +241,8 @@ const INDEX_CZ = {
   "osHintLinux": "Linux rozpoznán — vyber AppImage, .deb, apt nebo Arch pacman.",
   "osHintOther": "Stáhni soubor vhodný pro tvůj operační systém.",
   "installResourcesTitle": "Instalace a nápověda",
-  "macosCardDesc": "Otevři DMG a přetáhni do Aplikací. Podepsáno Apple Developer účtem G&F Elektro — není potřeba soubor certifikátu.",
+  "macosCardDesc": "Homebrew (doporučeno) nebo otevři DMG a přetáhni do Aplikací. Podepsáno Apple Developer účtem G&F Elektro — není potřeba soubor certifikátu.",
+  "chipHomebrew": "macOS (Homebrew)",
   "chipDebian": "Debian / Ubuntu",
   "chipArch": "Arch Linux",
   "chipWindows": "Windows (Chocolatey)",
@@ -245,7 +266,7 @@ const INDEX_CZ = {
   "roadmapBadgeReview": "V recenzi",
   "roadmapBadgeSoon": "Již brzy",
   "roadmapDesktopTitle": "Desktop",
-  "roadmapDesktopDesc": "Electron klient s tray, aktualizacemi a nativními oznámeními — stáhni přes instalátor, apt, pacman nebo Chocolatey.",
+  "roadmapDesktopDesc": "Electron klient s tray, aktualizacemi a nativními oznámeními — stáhni přes instalátor, Homebrew, apt, pacman nebo Chocolatey.",
   "roadmapIosTitle": "iOS (Swift)",
   "roadmapIosDesc": "Nativní aplikace pro iPhone a iPad ve Swiftu. Buildy běží; external TestFlight a App Store review jsou odeslané — vydání brzy.",
   "roadmapAndroidTitle": "Android",
@@ -275,7 +296,21 @@ const MACOS_CZ = {
   "warningTitle": "Varování od macOS?",
   "warningP1": "Pokud macOS při otevírání stále varuje, často máš <strong>starší, nepodepsanou</strong> verzi. <strong>Stáhni nejnovější verzi</strong> z GitHub release (odkaz výše) a znovu nainstaluj — to je doporučený postup.",
   "warningP2": "Prosím <strong>nevypínej Gatekeeper</strong> a nepoužívej příkazy jako <code>xattr</code> jako standardní řešení; u aktuálních podepsaných verzí to není potřeba.",
-  "warningP3": "Poznámka: Velmi staré nepodepsané testovací buildy občas potřebovaly obejití karantény; u notarizovaných Developer ID verzí to už neplatí."
+  "warningP3": "Poznámka: Velmi staré nepodepsané testovací buildy občas potřebovaly obejití karantény; u notarizovaných Developer ID verzí to už neplatí.",
+  "brewTitle": "Doporučeno: Homebrew",
+  "brewIntro": "S Homebrew nainstaluješ a aktualizuješ aplikaci nejjednodušeji. Podrobnosti: <a href=\"macos-homebrew.html\">návod Homebrew</a>.",
+  "brewUpgradeLead": "Aktualizace:"
+};
+const MACOS_HOMEBREW_CZ = {
+  "pageTitle": "macOS Homebrew – G&F Portal EU",
+  "metaDescription": "Jak nainstalovat G&F Portal EU na Mac pomocí Homebrew.",
+  "h1": "Instalace přes Homebrew",
+  "h2": "Doporučeno pro macOS",
+  "intro": "S Homebrew nainstaluješ desktopovou aplikaci několika příkazy. Cask se jmenuje <strong>gfe-portal-eu</strong> v tapu <strong>GF-Elektro/tap</strong>.",
+  "upgradeLead": "Pozdější aktualizace:",
+  "trustNote": "Pokud Homebrew žádá o důvěru třetí straně u casku:",
+  "dmgLink": "Alternativně přes DMG: <a href=\"macos-install.html\">návod pro macOS</a>.",
+  "backLink": "Zpět na přehled"
 };
 const LINUX_APT_CZ = {
   "pageTitle": "Instalace Linux (apt) – G&F Portal EU",
@@ -355,7 +390,8 @@ const INDEX_EN = {
   "osHintLinux": "Linux detected — choose AppImage, .deb, apt, or Arch pacman.",
   "osHintOther": "Please download the file that matches your operating system.",
   "installResourcesTitle": "Installation & help",
-  "macosCardDesc": "Open the DMG and drag to Applications. Signed with G&F Elektro’s Apple Developer account — no certificate file required.",
+  "macosCardDesc": "Homebrew (recommended) or open the DMG and drag to Applications. Signed with G&F Elektro’s Apple Developer account — no certificate file required.",
+  "chipHomebrew": "macOS (Homebrew)",
   "chipDebian": "Debian / Ubuntu",
   "chipArch": "Arch Linux",
   "chipWindows": "Windows (Chocolatey)",
@@ -379,7 +415,7 @@ const INDEX_EN = {
   "roadmapBadgeReview": "In review",
   "roadmapBadgeSoon": "Coming soon",
   "roadmapDesktopTitle": "Desktop",
-  "roadmapDesktopDesc": "Electron client with tray, updates, and native notifications — download now via direct installer, apt, pacman, or Chocolatey.",
+  "roadmapDesktopDesc": "Electron client with tray, updates, and native notifications — download now via direct installer, Homebrew, apt, pacman, or Chocolatey.",
   "roadmapIosTitle": "iOS (Swift)",
   "roadmapIosDesc": "Native iPhone and iPad app in Swift. Builds are shipping; external TestFlight and App Store review are submitted — release is coming soon.",
   "roadmapAndroidTitle": "Android",
@@ -409,7 +445,21 @@ const MACOS_EN = {
   "warningTitle": "Warning from macOS?",
   "warningP1": "If macOS still warns when opening, you often have an <strong>older, unsigned</strong> version. <strong>Download the latest version</strong> from the GitHub release page (link above) and install again — that is the recommended approach.",
   "warningP2": "Please do <strong>not disable Gatekeeper</strong> and do not use Terminal commands such as <code>xattr</code> as your default fix; current signed releases do not need such workarounds.",
-  "warningP3": "Note: Very old unsigned test builds occasionally needed a quarantine workaround; notarized Developer ID releases no longer require it."
+  "warningP3": "Note: Very old unsigned test builds occasionally needed a quarantine workaround; notarized Developer ID releases no longer require it.",
+  "brewTitle": "Recommended: Homebrew",
+  "brewIntro": "Homebrew is the easiest way to install and update the app. Full steps: <a href=\"macos-homebrew.html\">Homebrew guide</a>.",
+  "brewUpgradeLead": "Upgrade:"
+};
+const MACOS_HOMEBREW_EN = {
+  "pageTitle": "macOS Homebrew – G&F Portal EU",
+  "metaDescription": "How to install G&F Portal EU on Mac with Homebrew.",
+  "h1": "Install with Homebrew",
+  "h2": "Recommended for macOS",
+  "intro": "With Homebrew you install the desktop app in a few commands. The cask is <strong>gfe-portal-eu</strong> in the <strong>GF-Elektro/tap</strong> tap.",
+  "upgradeLead": "Upgrade later:",
+  "trustNote": "If Homebrew asks you to trust a third-party cask:",
+  "dmgLink": "Prefer a DMG instead? See the <a href=\"macos-install.html\">macOS install guide</a>.",
+  "backLink": "Back to overview"
 };
 const LINUX_APT_EN = {
   "pageTitle": "Linux installation (apt) – G&F Portal EU",
@@ -489,7 +539,8 @@ const INDEX_HU = {
   "osHintLinux": "Linux észlelve — válassz AppImage-et, .deb-et, apt-et vagy Arch pacman-et.",
   "osHintOther": "Töltsd le az operációs rendszerednek megfelelő fájlt.",
   "installResourcesTitle": "Telepítés és súgó",
-  "macosCardDesc": "Nyisd meg a DMG-t, és húzd az Alkalmazások mappába. A G&F Elektro Apple Developer fiókjával aláírva — nincs szükség tanúsítványfájlra.",
+  "macosCardDesc": "Homebrew (ajánlott) vagy nyisd meg a DMG-t, és húzd az Alkalmazások mappába. A G&F Elektro Apple Developer fiókjával aláírva — nincs szükség tanúsítványfájlra.",
+  "chipHomebrew": "macOS (Homebrew)",
   "chipDebian": "Debian / Ubuntu",
   "chipArch": "Arch Linux",
   "chipWindows": "Windows (Chocolatey)",
@@ -513,7 +564,7 @@ const INDEX_HU = {
   "roadmapBadgeReview": "Felülvizsgálat alatt",
   "roadmapBadgeSoon": "Hamarosan",
   "roadmapDesktopTitle": "Asztali",
-  "roadmapDesktopDesc": "Electron kliens tálcával, frissítésekkel és natív értesítésekkel — letöltés, apt, pacman vagy Chocolatey.",
+  "roadmapDesktopDesc": "Electron kliens tálcával, frissítésekkel és natív értesítésekkel — letöltés, Homebrew, apt, pacman vagy Chocolatey.",
   "roadmapIosTitle": "iOS (Swift)",
   "roadmapIosDesc": "Natív iPhone és iPad app Swiftben. A buildek futnak; external TestFlight és App Store felülvizsgálat benyújtva — a kiadás hamarosan.",
   "roadmapAndroidTitle": "Android",
@@ -543,7 +594,21 @@ const MACOS_HU = {
   "warningTitle": "Figyelmeztetés macOS-től?",
   "warningP1": "Ha macOS még mindig figyelmeztet megnyitáskor, gyakran egy <strong>régebbi, alá nem írt</strong> verziód van. <strong>Töltsd le a legújabb verziót</strong> a GitHub release oldalról (fenti link), és telepítsd újra — ez az ajánlott út.",
   "warningP2": "Kérjük, <strong>ne kapcsold ki a Gatekeeperet</strong>, és ne használj olyan terminálparancsokat, mint az <code>xattr</code> alapértelmezett megoldásként; a jelenlegi aláírt kiadásokhoz nincs szükség ilyen trükkökre.",
-  "warningP3": "Megjegyzés: Nagyon régi, alá nem írt teszt buildekhez néha karantén-megkerülés kellett; a notarizált Developer ID kiadásoktól kezdve ez már nem."
+  "warningP3": "Megjegyzés: Nagyon régi, alá nem írt teszt buildekhez néha karantén-megkerülés kellett; a notarizált Developer ID kiadásoktól kezdve ez már nem.",
+  "brewTitle": "Ajánlott: Homebrew",
+  "brewIntro": "Homebrew-val a legegyszerűbb telepíteni és frissíteni. Részletek: <a href=\"macos-homebrew.html\">Homebrew útmutató</a>.",
+  "brewUpgradeLead": "Frissítés:"
+};
+const MACOS_HOMEBREW_HU = {
+  "pageTitle": "macOS Homebrew – G&F Portal EU",
+  "metaDescription": "A G&F Portal EU telepítése Macen Homebrew-val.",
+  "h1": "Telepítés Homebrew-val",
+  "h2": "Ajánlott macOS-en",
+  "intro": "Homebrew-val néhány paranccsal telepítheted az asztali alkalmazást. A cask neve <strong>gfe-portal-eu</strong> a <strong>GF-Elektro/tap</strong> tapben.",
+  "upgradeLead": "Későbbi frissítés:",
+  "trustNote": "Ha a Homebrew harmadik féltől származó cask megbízhatóságát kéri:",
+  "dmgLink": "Alternatíva DMG-vel: <a href=\"macos-install.html\">macOS telepítési útmutató</a>.",
+  "backLink": "Vissza az áttekintéshez"
 };
 const LINUX_APT_HU = {
   "pageTitle": "Linux telepítés (apt) – G&F Portal EU",
@@ -623,7 +688,8 @@ const INDEX_PL = {
   "osHintLinux": "Wykryto Linux — wybierz AppImage, .deb, apt lub Arch pacman.",
   "osHintOther": "Pobierz plik odpowiedni dla swojego systemu operacyjnego.",
   "installResourcesTitle": "Instalacja i pomoc",
-  "macosCardDesc": "Otwórz DMG i przeciągnij do Aplikacje. Podpisane kontem Apple Developer G&F Elektro — bez pliku certyfikatu.",
+  "macosCardDesc": "Homebrew (zalecane) lub otwórz DMG i przeciągnij do Aplikacje. Podpisane kontem Apple Developer G&F Elektro — bez pliku certyfikatu.",
+  "chipHomebrew": "macOS (Homebrew)",
   "chipDebian": "Debian / Ubuntu",
   "chipArch": "Arch Linux",
   "chipWindows": "Windows (Chocolatey)",
@@ -647,7 +713,7 @@ const INDEX_PL = {
   "roadmapBadgeReview": "W recenzji",
   "roadmapBadgeSoon": "Wkrótce",
   "roadmapDesktopTitle": "Desktop",
-  "roadmapDesktopDesc": "Klient Electron z zasobnikiem, aktualizacjami i natywnymi powiadomieniami — pobierz przez instalator, apt, pacman lub Chocolatey.",
+  "roadmapDesktopDesc": "Klient Electron z zasobnikiem, aktualizacjami i natywnymi powiadomieniami — pobierz przez instalator, Homebrew, apt, pacman lub Chocolatey.",
   "roadmapIosTitle": "iOS (Swift)",
   "roadmapIosDesc": "Natywna aplikacja na iPhone i iPad w Swift. Buildy są wysyłane; external TestFlight i recenzja App Store złożone — premiera już wkrótce.",
   "roadmapAndroidTitle": "Android",
@@ -677,7 +743,21 @@ const MACOS_PL = {
   "warningTitle": "Ostrzeżenie od macOS?",
   "warningP1": "Jeśli macOS nadal ostrzega przy otwieraniu, często masz <strong>starszą, niepodpisaną</strong> wersję. <strong>Pobierz najnowszą wersję</strong> ze strony wydania GitHub (link powyżej) i zainstaluj ponownie — to zalecany sposób.",
   "warningP2": "Prosimy <strong>nie wyłączać Gatekeepera</strong> i nie używać poleceń terminala takich jak <code>xattr</code> jako standardowego rozwiązania; aktualne podpisane wydania nie wymagają takich obejść.",
-  "warningP3": "Uwaga: Bardzo stare niepodpisane buildy testowe czasem wymagały obejścia kwarantanny; przy notaryzowanych wydaniach Developer ID już nie."
+  "warningP3": "Uwaga: Bardzo stare niepodpisane buildy testowe czasem wymagały obejścia kwarantanny; przy notaryzowanych wydaniach Developer ID już nie.",
+  "brewTitle": "Zalecane: Homebrew",
+  "brewIntro": "Homebrew to najprostszy sposób instalacji i aktualizacji. Szczegóły: <a href=\"macos-homebrew.html\">przewodnik Homebrew</a>.",
+  "brewUpgradeLead": "Aktualizacja:"
+};
+const MACOS_HOMEBREW_PL = {
+  "pageTitle": "macOS Homebrew – G&F Portal EU",
+  "metaDescription": "Jak zainstalować G&F Portal EU na Macu przez Homebrew.",
+  "h1": "Instalacja przez Homebrew",
+  "h2": "Zalecane dla macOS",
+  "intro": "Z Homebrew instalujesz aplikację kilkoma komendami. Cask to <strong>gfe-portal-eu</strong> w tapie <strong>GF-Elektro/tap</strong>.",
+  "upgradeLead": "Późniejsza aktualizacja:",
+  "trustNote": "Jeśli Homebrew prosi o zaufanie do caska zewnętrznego:",
+  "dmgLink": "Alternatywnie przez DMG: <a href=\"macos-install.html\">instrukcja macOS</a>.",
+  "backLink": "Powrót do przeglądu"
 };
 const LINUX_APT_PL = {
   "pageTitle": "Instalacja Linux (apt) – G&F Portal EU",
@@ -757,7 +837,8 @@ const INDEX_SK = {
   "osHintLinux": "Linux rozpoznaný — vyber AppImage, .deb, apt alebo Arch pacman.",
   "osHintOther": "Stiahni si súbor vhodný pre tvoj operačný systém.",
   "installResourcesTitle": "Inštalácia a pomoc",
-  "macosCardDesc": "Otvor DMG a presuň do Aplikácie. Podpísané Apple Developer účtom G&F Elektro — netreba súbor certifikátu.",
+  "macosCardDesc": "Homebrew (odporúčané) alebo otvor DMG a presuň do Aplikácie. Podpísané Apple Developer účtom G&F Elektro — netreba súbor certifikátu.",
+  "chipHomebrew": "macOS (Homebrew)",
   "chipDebian": "Debian / Ubuntu",
   "chipArch": "Arch Linux",
   "chipWindows": "Windows (Chocolatey)",
@@ -781,7 +862,7 @@ const INDEX_SK = {
   "roadmapBadgeReview": "V recenzii",
   "roadmapBadgeSoon": "Čoskoro",
   "roadmapDesktopTitle": "Desktop",
-  "roadmapDesktopDesc": "Electron klient s tray, aktualizáciami a natívnymi upozorneniami — stiahni cez inštalátor, apt, pacman alebo Chocolatey.",
+  "roadmapDesktopDesc": "Electron klient s tray, aktualizáciami a natívnymi upozorneniami — stiahni cez inštalátor, Homebrew, apt, pacman alebo Chocolatey.",
   "roadmapIosTitle": "iOS (Swift)",
   "roadmapIosDesc": "Natívna aplikácia pre iPhone a iPad vo Swift. Buildy bežia; external TestFlight a App Store review sú odoslané — vydanie čoskoro.",
   "roadmapAndroidTitle": "Android",
@@ -811,7 +892,21 @@ const MACOS_SK = {
   "warningTitle": "Varovanie od macOS?",
   "warningP1": "Ak macOS pri otváraní stále varuje, často máš <strong>staršiu, nepodpísanú</strong> verziu. <strong>Stiahni najnovšiu verziu</strong> z GitHub release (odkaz vyššie) a znova nainštaluj — to je odporúčaný postup.",
   "warningP2": "Prosím <strong>nevypínaj Gatekeeper</strong> a nepoužívaj príkazy ako <code>xattr</code> ako štandardné riešenie; pri aktuálnych podpísaných verziách to netreba.",
-  "warningP3": "Poznámka: Veľmi staré nepodpísané testovacie buildy občas potrebovali obídenie karantény; pri notarizovaných Developer ID verziách to už neplatí."
+  "warningP3": "Poznámka: Veľmi staré nepodpísané testovacie buildy občas potrebovali obídenie karantény; pri notarizovaných Developer ID verziách to už neplatí.",
+  "brewTitle": "Odporúčané: Homebrew",
+  "brewIntro": "S Homebrew nainštaluješ a aktualizuješ aplikáciu najjednoduchšie. Podrobnosti: <a href=\"macos-homebrew.html\">návod Homebrew</a>.",
+  "brewUpgradeLead": "Aktualizácia:"
+};
+const MACOS_HOMEBREW_SK = {
+  "pageTitle": "macOS Homebrew – G&F Portal EU",
+  "metaDescription": "Ako nainštalovať G&F Portal EU na Mac cez Homebrew.",
+  "h1": "Inštalácia cez Homebrew",
+  "h2": "Odporúčané pre macOS",
+  "intro": "S Homebrew nainštaluješ desktopovú aplikáciu niekoľkými príkazmi. Cask sa volá <strong>gfe-portal-eu</strong> v tape <strong>GF-Elektro/tap</strong>.",
+  "upgradeLead": "Neskôr aktualizovať:",
+  "trustNote": "Ak Homebrew žiada dôveru k casku tretej strany:",
+  "dmgLink": "Alternatívne cez DMG: <a href=\"macos-install.html\">návod pre macOS</a>.",
+  "backLink": "Späť na prehľad"
 };
 const LINUX_APT_SK = {
   "pageTitle": "Inštalácia Linux (apt) – G&F Portal EU",
@@ -891,7 +986,8 @@ const INDEX_UK = {
   "osHintLinux": "Виявлено Linux — обери AppImage, .deb, apt або Arch pacman.",
   "osHintOther": "Завантаж файл, що підходить для твоєї операційної системи.",
   "installResourcesTitle": "Встановлення та допомога",
-  "macosCardDesc": "Відкрий DMG і перетягни в Програми. Підписано обліковим записом Apple Developer G&F Elektro — файл сертифіката не потрібен.",
+  "macosCardDesc": "Homebrew (рекомендовано) або відкрий DMG і перетягни в Програми. Підписано обліковим записом Apple Developer G&F Elektro — файл сертифіката не потрібен.",
+  "chipHomebrew": "macOS (Homebrew)",
   "chipDebian": "Debian / Ubuntu",
   "chipArch": "Arch Linux",
   "chipWindows": "Windows (Chocolatey)",
@@ -915,7 +1011,7 @@ const INDEX_UK = {
   "roadmapBadgeReview": "На перевірці",
   "roadmapBadgeSoon": "Незабаром",
   "roadmapDesktopTitle": "Десктоп",
-  "roadmapDesktopDesc": "Клієнт Electron із треєм, оновленнями та нативними сповіщеннями — завантаж через інсталятор, apt, pacman або Chocolatey.",
+  "roadmapDesktopDesc": "Клієнт Electron із треєм, оновленнями та нативними сповіщеннями — завантаж через інсталятор, Homebrew, apt, pacman або Chocolatey.",
   "roadmapIosTitle": "iOS (Swift)",
   "roadmapIosDesc": "Нативний застосунок для iPhone та iPad на Swift. Збірки виходять; external TestFlight і перевірка App Store подані — реліз незабаром.",
   "roadmapAndroidTitle": "Android",
@@ -945,7 +1041,21 @@ const MACOS_UK = {
   "warningTitle": "Попередження від macOS?",
   "warningP1": "Якщо macOS досі попереджає під час відкриття, часто це <strong>стара, непідписана</strong> версія. <strong>Завантаж найновішу версію</strong> зі сторінки релізу GitHub (посилання вище) й установи знову — це рекомендований шлях.",
   "warningP2": "Будь ласка, <strong>не вимикай Gatekeeper</strong> і не використовуй команди на кшталт <code>xattr</code> як стандартне рішення; для актуальних підписаних релізів обхідні шляхи не потрібні.",
-  "warningP3": "Примітка: Дуже старі непідписані тестові збірки іноді потребували обходу карантину; для нотаризованих релізів Developer ID це вже не актуально."
+  "warningP3": "Примітка: Дуже старі непідписані тестові збірки іноді потребували обходу карантину; для нотаризованих релізів Developer ID це вже не актуально.",
+  "brewTitle": "Рекомендовано: Homebrew",
+  "brewIntro": "Через Homebrew найпростіше встановити й оновити додаток. Подробиці: <a href=\"macos-homebrew.html\">інструкція Homebrew</a>.",
+  "brewUpgradeLead": "Оновлення:"
+};
+const MACOS_HOMEBREW_UK = {
+  "pageTitle": "macOS Homebrew – G&F Portal EU",
+  "metaDescription": "Як установити G&F Portal EU на Mac через Homebrew.",
+  "h1": "Встановлення через Homebrew",
+  "h2": "Рекомендовано для macOS",
+  "intro": "З Homebrew ти встановлюєш десктопний додаток кількома командами. Cask називається <strong>gfe-portal-eu</strong> у tap <strong>GF-Elektro/tap</strong>.",
+  "upgradeLead": "Оновити пізніше:",
+  "trustNote": "Якщо Homebrew просить довірити сторонній cask:",
+  "dmgLink": "Альтернатива через DMG: <a href=\"macos-install.html\">інструкція для macOS</a>.",
+  "backLink": "Назад до огляду"
 };
 const LINUX_APT_UK = {
   "pageTitle": "Встановлення Linux (apt) – G&F Portal EU",
@@ -1000,13 +1110,13 @@ const PERMISSIONS_UK = {
 };
 
 const DOCS_LOCALES = {
-  de: buildLocale(SHARED_DE, INDEX_DE, MACOS_DE, LINUX_APT_DE, LINUX_ARCH_DE, WINDOWS_CHOCO_DE, PERMISSIONS_DE),
-  en: buildLocale(SHARED_EN, INDEX_EN, MACOS_EN, LINUX_APT_EN, LINUX_ARCH_EN, WINDOWS_CHOCO_EN, PERMISSIONS_EN),
-  sk: buildLocale(SHARED_SK, INDEX_SK, MACOS_SK, LINUX_APT_SK, LINUX_ARCH_SK, WINDOWS_CHOCO_SK, PERMISSIONS_SK),
-  cz: buildLocale(SHARED_CZ, INDEX_CZ, MACOS_CZ, LINUX_APT_CZ, LINUX_ARCH_CZ, WINDOWS_CHOCO_CZ, PERMISSIONS_CZ),
-  pl: buildLocale(SHARED_PL, INDEX_PL, MACOS_PL, LINUX_APT_PL, LINUX_ARCH_PL, WINDOWS_CHOCO_PL, PERMISSIONS_PL),
-  hu: buildLocale(SHARED_HU, INDEX_HU, MACOS_HU, LINUX_APT_HU, LINUX_ARCH_HU, WINDOWS_CHOCO_HU, PERMISSIONS_HU),
-  uk: buildLocale(SHARED_UK, INDEX_UK, MACOS_UK, LINUX_APT_UK, LINUX_ARCH_UK, WINDOWS_CHOCO_UK, PERMISSIONS_UK),
+  de: buildLocale(SHARED_DE, INDEX_DE, MACOS_DE, MACOS_HOMEBREW_DE, LINUX_APT_DE, LINUX_ARCH_DE, WINDOWS_CHOCO_DE, PERMISSIONS_DE),
+  en: buildLocale(SHARED_EN, INDEX_EN, MACOS_EN, MACOS_HOMEBREW_EN, LINUX_APT_EN, LINUX_ARCH_EN, WINDOWS_CHOCO_EN, PERMISSIONS_EN),
+  sk: buildLocale(SHARED_SK, INDEX_SK, MACOS_SK, MACOS_HOMEBREW_SK, LINUX_APT_SK, LINUX_ARCH_SK, WINDOWS_CHOCO_SK, PERMISSIONS_SK),
+  cz: buildLocale(SHARED_CZ, INDEX_CZ, MACOS_CZ, MACOS_HOMEBREW_CZ, LINUX_APT_CZ, LINUX_ARCH_CZ, WINDOWS_CHOCO_CZ, PERMISSIONS_CZ),
+  pl: buildLocale(SHARED_PL, INDEX_PL, MACOS_PL, MACOS_HOMEBREW_PL, LINUX_APT_PL, LINUX_ARCH_PL, WINDOWS_CHOCO_PL, PERMISSIONS_PL),
+  hu: buildLocale(SHARED_HU, INDEX_HU, MACOS_HU, MACOS_HOMEBREW_HU, LINUX_APT_HU, LINUX_ARCH_HU, WINDOWS_CHOCO_HU, PERMISSIONS_HU),
+  uk: buildLocale(SHARED_UK, INDEX_UK, MACOS_UK, MACOS_HOMEBREW_UK, LINUX_APT_UK, LINUX_ARCH_UK, WINDOWS_CHOCO_UK, PERMISSIONS_UK),
 };
 
 

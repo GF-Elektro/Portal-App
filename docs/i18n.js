@@ -14,6 +14,7 @@ const DOCS_LANG_TITLES = {
 
 const PAGE_TITLE_KEYS = {
   macos: 'macos.pageTitle',
+  macosHomebrew: 'macosHomebrew.pageTitle',
   linuxApt: 'linuxApt.pageTitle',
   linuxArch: 'linuxArch.pageTitle',
   windowsChoco: 'windowsChoco.pageTitle',
@@ -23,6 +24,7 @@ const PAGE_TITLE_KEYS = {
 const PAGE_DESC_KEYS = {
   index: 'index.metaDescription',
   macos: 'macos.metaDescription',
+  macosHomebrew: 'macosHomebrew.metaDescription',
   linuxApt: 'linuxApt.metaDescription',
   linuxArch: 'linuxArch.metaDescription',
   windowsChoco: 'windowsChoco.metaDescription',

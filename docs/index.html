@@ -112,9 +112,15 @@
                         </span>
                         <span class="resource-card__label">macOS</span>
                     </div>
-                    <span class="resource-card__desc" data-i18n="index.macosCardDesc">DMG öffnen und in Programme ziehen. Signiert mit dem Apple Developer Account von G&amp;F Elektro — keine Zertifikatsdatei nötig.</span>
+                    <span class="resource-card__desc" data-i18n="index.macosCardDesc">Homebrew (empfohlen) oder DMG in Programme ziehen. Signiert mit dem Apple Developer Account von G&amp;F Elektro — keine Zertifikatsdatei nötig.</span>
                 </a>
                 <div class="resource-chips">
+                    <a href="macos-homebrew.html" class="chip-link" data-install-os="mac-brew" id="chip-homebrew">
+                        <span class="chip-link__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12.3 2.1c-.4-.5-1.2-.5-1.6 0L4.2 10.2c-.5.6-.1 1.5.7 1.5h2.1v7.2c0 .6.5 1.1 1.1 1.1h8c.6 0 1.1-.5 1.1-1.1v-7.2h2.1c.8 0 1.2-.9.7-1.5L12.3 2.1zM9.5 16.8H8.3v-5.1h1.2v5.1zm3.1 0h-1.2v-5.1h1.2v5.1zm3.1 0h-1.2v-5.1h1.2v5.1z"/></svg>
+                        </span>
+                        <span class="chip-link__text" data-i18n="index.chipHomebrew">macOS (Homebrew)</span>
+                    </a>
                     <a href="linux-apt.html" class="chip-link" data-install-os="linux-deb" id="chip-debian">
                         <span class="chip-link__icon chip-link__icon--debian" aria-hidden="true">
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 12c0-2.2 1.6-4 3.6-4.3.3 1.4-.2 2.8-1 3.8 1.1-.3 2.2-1 2.8-2.1.8 1.5.5 3.5-.7 4.8 1.4-.4 2.5-1.5 2.8-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
@@ -173,7 +179,7 @@
                         <span class="roadmap-badge roadmap-badge--live" data-i18n="index.roadmapBadgeLive">Verfügbar</span>
                     </div>
                     <h3 data-i18n="index.roadmapDesktopTitle">Desktop</h3>
-                    <p data-i18n="index.roadmapDesktopDesc">Electron-Client mit Tray, Updates und nativen Benachrichtigungen — jetzt per Download, apt, pacman oder Chocolatey.</p>
+                    <p data-i18n="index.roadmapDesktopDesc">Electron-Client mit Tray, Updates und nativen Benachrichtigungen — jetzt per Download, Homebrew, apt, pacman oder Chocolatey.</p>
                 </article>
 
                 <article class="roadmap-card roadmap-card--review roadmap-card--spotlight">
@@ -259,8 +265,8 @@
         </div>
     </footer>
 
-    <script src="i18n/locales.js?v=2"></script>
-    <script src="i18n.js?v=2"></script>
-    <script src="script.js?v=4"></script>
+    <script src="i18n/locales.js?v=5"></script>
+    <script src="i18n.js?v=3"></script>
+    <script src="script.js?v=5"></script>
 </body>
 </html>

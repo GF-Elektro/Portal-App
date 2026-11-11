@@ -83,3 +83,4 @@ build/macos/actool-out/
 mobile/portal_android/.dart_tool/
 mobile/portal_android/build/
 mobile/portal_android/.flutter-plugins-dependencies
+.tmp-homebrew-tap/
