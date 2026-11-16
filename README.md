@@ -269,9 +269,11 @@ gf-elektro-portal/
 │   ├── mac-tray-*Template.png    # macOS menu bar icons
 │   ├── tray-*.png                # Windows tray icons
 │   └── flags/                    # Tray language flags
+├── icon-1024.png                 # App icon master (sync source)
 ├── icon-192.png
-├── icon-512.png                  # macOS / Linux / mobile app icon
+├── icon-512.png                  # Desktop / Linux / docs icon (from master)
 ├── icon.png
+├── store/icons/                  # Square and wide store sizes from the master
 ├── src/
 │   ├── main.js                   # Electron main process
 │   ├── preload.js
@@ -297,7 +299,8 @@ gf-elektro-portal/
 | `npm run build:mac`  | Build the macOS DMG on a Mac               |
 | `npm run build:mac:mas` | Build the Mac App Store package         |
 | `npm run build:linux` | Build Linux AppImage and deb packages     |
-| `npm run create-ico` | Regenerate the Windows icon from PNG       |
+| `npm run sync:icons` | Regenerate non-Apple icons from `icon-1024.png` |
+| `npm run create-ico` | Regenerate the Windows icon from `icon-1024.png` |
 
 ---
 

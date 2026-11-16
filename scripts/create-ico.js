@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-// Generate a multi-resolution ICO from the 512x512 PNG source
+// Generate a multi-resolution ICO from icon-1024.png
 // Sizes: 16, 24, 32, 48, 64, 128, 256 – for crisp display at all DPI scales
 // ─────────────────────────────────────────────────────────────
 const sharp = require('sharp');
@@ -7,7 +7,7 @@ const { default: pngToIco } = require('png-to-ico');
 const fs = require('fs');
 const path = require('path');
 
-const SOURCE = path.join(__dirname, '..', 'icon-512.png');
+const SOURCE = path.join(__dirname, '..', 'icon-1024.png');
 const OUTPUT = path.join(__dirname, '..', 'build', 'icon.ico');
 const TEMP_DIR = path.join(__dirname, '..', 'build', '.icon-tmp');
 const SIZES = [16, 24, 32, 48, 64, 128, 256];
@@ -27,10 +27,12 @@ async function createMultiResIco() {
     await sharp(SOURCE)
       .resize(size, size, {
         kernel: sharp.kernel.lanczos3,
-        fit: 'contain',
-        background: { r: 0, g: 0, b: 0, alpha: 0 },
+        fit: 'cover',
+        position: 'centre',
+        background: '#ff0000',
       })
-      .png({ quality: 100, compressionLevel: 9 })
+      .flatten({ background: '#ff0000' })
+      .png({ compressionLevel: 9 })
       .toFile(tempPath);
     
     const stat = fs.statSync(tempPath);

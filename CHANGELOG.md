@@ -13,6 +13,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.68] - 2026-11-16
+
+### Changed
+
+- **App icon** — new G&F badger mascot (hard hat on red) for Windows Store tiles, NSIS/portable `icon.ico`, and `store/icons/` listing sizes. Source is `icon-1024.png` (`npm run sync:icons`). Tray icons are unchanged. The wide Store tile is letterboxed so the full bust stays visible.
+
+---
+
 ## [1.0.67] - 2026-11-11
 
 ### Fixed

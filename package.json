@@ -1,7 +1,7 @@
 {
   "name": "gf-elektro-portal",
   "productName": "G&F Portal EU",
-  "version": "1.0.67",
+  "version": "1.0.68",
   "description": "Desktop app for G&F Portal EU – Portal for managing electrical installation projects",
   "main": "src/main.js",
   "author": {
@@ -17,6 +17,7 @@
   "scripts": {
     "start": "node scripts/run-electron.js .",
     "create-ico": "node scripts/create-ico.js",
+    "sync:icons": "node scripts/sync-app-icons.js --skip-apple",
     "logo:docs-transparent": "bash scripts/make-docs-logo-transparent.sh",
     "sync:docs-version": "node scripts/sync-docs-version.js",
     "build": "electron-builder build",
