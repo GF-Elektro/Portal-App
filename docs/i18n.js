@@ -19,6 +19,7 @@ const PAGE_TITLE_KEYS = {
   linuxArch: 'linuxArch.pageTitle',
   windowsChoco: 'windowsChoco.pageTitle',
   permissions: 'permissions.pageTitle',
+  support: 'support.pageTitle',
 };
 
 const PAGE_DESC_KEYS = {
@@ -29,6 +30,7 @@ const PAGE_DESC_KEYS = {
   linuxArch: 'linuxArch.metaDescription',
   windowsChoco: 'windowsChoco.metaDescription',
   permissions: 'permissions.metaDescription',
+  support: 'support.metaDescription',
 };
 
 let activeLang = typeof DOCS_DEFAULT_LANG !== 'undefined' ? DOCS_DEFAULT_LANG : 'de';

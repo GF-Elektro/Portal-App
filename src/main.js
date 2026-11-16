@@ -44,6 +44,9 @@ const AUTH_EXACT_HOSTS = new Set([
   'accounts.google.com',
   'accounts.youtube.com',
   'apis.google.com',
+  'appleid.apple.com',
+  'idmsa.apple.com',
+  'appleid.cdn-apple.com',
 ]);
 const AUTH_HOST_SUFFIXES = [
   '.googleapis.com',
@@ -485,6 +488,9 @@ function isGenuineAuthURL(url) {
       'accounts.google.com',
       'accounts.youtube.com',
       'apis.google.com',
+      'appleid.apple.com',
+      'idmsa.apple.com',
+      'appleid.cdn-apple.com',
     ]);
     if (authOnlyHosts.has(hostname)) return true;
 

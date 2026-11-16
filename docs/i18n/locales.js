@@ -57,6 +57,7 @@ const INDEX_DE = {
     'Belegfotos, Sprachdiktat und optionale GPS-Koordinaten f\u00fcr Tagesberichte \u2013 nur wenn du sie im Portal nutzt.',
   footerSource: 'Quellcode',
   footerPermissions: 'Berechtigungen',
+  footerSupport: 'Support',
   roadmapEyebrow: 'Aktuelles',
   roadmapTitle: 'Portal \u00fcberall \u2014 Schritt f\u00fcr Schritt',
   roadmapIntro:
@@ -201,7 +202,29 @@ const PERMISSIONS_DE = {
   backBtn: 'Zur\u00fcck zum Download',
 };
 
-function buildLocale(shared, index, macos, macosHomebrew, linuxApt, linuxArch, windowsChoco, permissions) {
+const SUPPORT_DE = {
+  pageTitle: 'Support \u2013 G&F Portal EU',
+  metaDescription:
+    'Hilfe f\u00fcr G&F Portal EU: Fragen stellen und Support anfordern.',
+  h1: 'Support',
+  h2: 'Fragen und Hilfe zu G&F Portal EU',
+  intro:
+    'Hier erreichst du den Support von G&F Elektro. Die Apps laden das Portal unter <strong>portal.gfelektro.com</strong>.',
+  contactTitle: 'Kontakt',
+  contactBody:
+    'Schreib an <a href="mailto:info@gfelektro.com">info@gfelektro.com</a>. Nenne die Plattform (Windows, macOS, Linux, iOS oder Android), die App-Version und was nicht funktioniert.',
+  portalTitle: 'Portal',
+  portalBody:
+    'Anmeldung und t\u00e4gliche Arbeit: <a href="https://portal.gfelektro.com">portal.gfelektro.com</a>.',
+  companyTitle: 'Unternehmen',
+  companyBody: '<a href="https://www.gfelektro.com">www.gfelektro.com</a>',
+  deleteTitle: 'Konto l\u00f6schen',
+  deleteBody:
+    'Nach der Anmeldung im Portal: Einstellungen \u2192 Konto l\u00f6schen, dann die E-Mail-Adresse zur Best\u00e4tigung eingeben. Der Zugang wird gel\u00f6scht. Gesetzlich aufzubewahrende Arbeits- und Buchhaltungsunterlagen bleiben gespeichert.',
+  backBtn: 'Zur\u00fcck zum Download',
+};
+
+function buildLocale(shared, index, macos, macosHomebrew, linuxApt, linuxArch, windowsChoco, permissions, support) {
   return {
     shared,
     index,
@@ -211,6 +234,7 @@ function buildLocale(shared, index, macos, macosHomebrew, linuxApt, linuxArch, w
     linuxArch,
     windowsChoco,
     permissions,
+    support,
   };
 }
 
@@ -259,6 +283,7 @@ const INDEX_CZ = {
   "feature4Desc": "Fotky dokladů, hlasové diktování a volitelné GPS v denních výkazech — jen když je v portálu používáš.",
   "footerSource": "Zdrojový kód",
   "footerPermissions": "Oprávnění",
+  "footerSupport": "Podpora",
   "roadmapEyebrow": "Novinky",
   "roadmapTitle": "Portál všude — krok za krokem",
   "roadmapIntro": "Desktopové aplikace pro Windows, macOS a Linux už jsou tady. Paralelně vyvíjíme nativní mobilní klienty a připravujeme verzi pro Microsoft Store — brzy portál na každém zařízení.",
@@ -408,6 +433,7 @@ const INDEX_EN = {
   "feature4Desc": "Receipt photos, voice dictation, and optional GPS coordinates for daily reports — only when you use them in the portal.",
   "footerSource": "Source code",
   "footerPermissions": "Permissions",
+  "footerSupport": "Support",
   "roadmapEyebrow": "Latest",
   "roadmapTitle": "Portal everywhere — step by step",
   "roadmapIntro": "Desktop apps for Windows, macOS, and Linux are ready today. We are building native mobile clients and preparing the Microsoft Store release so you can use the portal on every device soon.",
@@ -557,6 +583,7 @@ const INDEX_HU = {
   "feature4Desc": "Bizonylatfotók, hangdiktálás és opcionális GPS a napi jelentésekhez — csak ha a portálban használod.",
   "footerSource": "Forráskód",
   "footerPermissions": "Engedélyek",
+  "footerSupport": "Támogatás",
   "roadmapEyebrow": "Hírek",
   "roadmapTitle": "Portál mindenhol — lépésről lépésre",
   "roadmapIntro": "A Windows, macOS és Linux asztali appok már elérhetők. Párhuzamosan készülnek a natív mobil kliensek és a Microsoft Store kiadás — hamarosan minden eszközön.",
@@ -706,6 +733,7 @@ const INDEX_PL = {
   "feature4Desc": "Zdjęcia dokumentów, dyktowanie głosowe i opcjonalne współrzędne GPS w raportach dziennych — tylko gdy używasz ich w portalu.",
   "footerSource": "Kod źródłowy",
   "footerPermissions": "Uprawnienia",
+  "footerSupport": "Pomoc",
   "roadmapEyebrow": "Aktualności",
   "roadmapTitle": "Portal wszędzie — krok po kroku",
   "roadmapIntro": "Aplikacje desktopowe na Windows, macOS i Linux są już dostępne. Równolegle budujemy natywne klienty mobilne i przygotowujemy wersję w Microsoft Store — wkrótce portal na każdym urządzeniu.",
@@ -855,6 +883,7 @@ const INDEX_SK = {
   "feature4Desc": "Fotky dokladov, hlasové diktovanie a voliteľné GPS v denných správach — len keď ich v portáli používaš.",
   "footerSource": "Zdrojový kód",
   "footerPermissions": "Povolenia",
+  "footerSupport": "Podpora",
   "roadmapEyebrow": "Novinky",
   "roadmapTitle": "Portál všade — krok za krokom",
   "roadmapIntro": "Desktopové aplikácie pre Windows, macOS a Linux už sú tu. Paralelne vyvíjame natívne mobilné klienty a pripravujeme Microsoft Store — čoskoro portál na každom zariadení.",
@@ -1004,6 +1033,7 @@ const INDEX_UK = {
   "feature4Desc": "Фото чеків, голосове диктування та опційні GPS-координати для щоденних звітів — лише коли ти користуєшся ними в порталі.",
   "footerSource": "Вихідний код",
   "footerPermissions": "Дозволи",
+  "footerSupport": "Підтримка",
   "roadmapEyebrow": "Новини",
   "roadmapTitle": "Портал скрізь — крок за кроком",
   "roadmapIntro": "Десктопні застосунки для Windows, macOS і Linux уже доступні. Паралельно робимо нативні мобільні клієнти та готуємо Microsoft Store — незабаром портал на кожному пристрої.",
@@ -1109,14 +1139,111 @@ const PERMISSIONS_UK = {
   "backBtn": "Назад до завантаження"
 };
 
+const SUPPORT_EN = {
+  pageTitle: 'Support – G&F Portal EU',
+  metaDescription: 'Help for G&F Portal EU: ask questions and request support.',
+  h1: 'Support',
+  h2: 'Questions and help for G&F Portal EU',
+  intro: 'Contact G&F Elektro support here. The apps load the portal at <strong>portal.gfelektro.com</strong>.',
+  contactTitle: 'Contact',
+  contactBody: 'Email <a href="mailto:info@gfelektro.com">info@gfelektro.com</a>. Include the platform (Windows, macOS, Linux, iOS, or Android), the app version, and what failed.',
+  portalTitle: 'Portal',
+  portalBody: 'Sign-in and daily work: <a href="https://portal.gfelektro.com">portal.gfelektro.com</a>.',
+  companyTitle: 'Company',
+  companyBody: '<a href="https://www.gfelektro.com">www.gfelektro.com</a>',
+  deleteTitle: 'Delete account',
+  deleteBody: 'After signing in to the portal: Settings → Delete account, then confirm with your email address. The login is deleted. Employment and accounting records that must be kept by law stay stored.',
+  backBtn: 'Back to download',
+};
+const SUPPORT_SK = {
+  pageTitle: 'Podpora – G&F Portal EU',
+  metaDescription: 'Pomoc pre G&F Portal EU: otázky a žiadosť o podporu.',
+  h1: 'Podpora',
+  h2: 'Otázky a pomoc ku G&F Portal EU',
+  intro: 'Tu kontaktuješ podporu G&F Elektro. Aplikácie načítavajú portál na <strong>portal.gfelektro.com</strong>.',
+  contactTitle: 'Kontakt',
+  contactBody: 'Napíš na <a href="mailto:info@gfelektro.com">info@gfelektro.com</a>. Uveď platformu (Windows, macOS, Linux, iOS alebo Android), verziu aplikácie a čo nefunguje.',
+  portalTitle: 'Portál',
+  portalBody: 'Prihlásenie a denná práca: <a href="https://portal.gfelektro.com">portal.gfelektro.com</a>.',
+  companyTitle: 'Spoločnosť',
+  companyBody: '<a href="https://www.gfelektro.com">www.gfelektro.com</a>',
+  deleteTitle: 'Zmazať účet',
+  deleteBody: 'Po prihlásení do portálu: Nastavenia → Zmazať účet a potvrdenie e-mailom. Prístup sa zmaže. Pracovné a účtovné záznamy, ktoré treba uchovať podľa zákona, zostávajú uložené.',
+  backBtn: 'Späť na stiahnutie',
+};
+const SUPPORT_CZ = {
+  pageTitle: 'Podpora – G&F Portal EU',
+  metaDescription: 'Pomoc pro G&F Portal EU: otázky a žádost o podporu.',
+  h1: 'Podpora',
+  h2: 'Otázky a pomoc ke G&F Portal EU',
+  intro: 'Tady kontaktuješ podporu G&F Elektro. Aplikace načítají portál na <strong>portal.gfelektro.com</strong>.',
+  contactTitle: 'Kontakt',
+  contactBody: 'Napiš na <a href="mailto:info@gfelektro.com">info@gfelektro.com</a>. Uveď platformu (Windows, macOS, Linux, iOS nebo Android), verzi aplikace a co nefunguje.',
+  portalTitle: 'Portál',
+  portalBody: 'Přihlášení a denní práce: <a href="https://portal.gfelektro.com">portal.gfelektro.com</a>.',
+  companyTitle: 'Společnost',
+  companyBody: '<a href="https://www.gfelektro.com">www.gfelektro.com</a>',
+  deleteTitle: 'Smazat účet',
+  deleteBody: 'Po přihlášení do portálu: Nastavení → Smazat účet a potvrzení e-mailem. Přístup se smaže. Pracovní a účetní záznamy, které je nutné uchovat podle zákona, zůstávají uložené.',
+  backBtn: 'Zpět na stažení',
+};
+const SUPPORT_PL = {
+  pageTitle: 'Pomoc – G&F Portal EU',
+  metaDescription: 'Pomoc dla G&F Portal EU: pytania i prośba o wsparcie.',
+  h1: 'Pomoc',
+  h2: 'Pytania i pomoc do G&F Portal EU',
+  intro: 'Tutaj kontaktujesz wsparcie G&F Elektro. Aplikacje ładują portal pod <strong>portal.gfelektro.com</strong>.',
+  contactTitle: 'Kontakt',
+  contactBody: 'Napisz na <a href="mailto:info@gfelektro.com">info@gfelektro.com</a>. Podaj platformę (Windows, macOS, Linux, iOS lub Android), wersję aplikacji i co nie działa.',
+  portalTitle: 'Portal',
+  portalBody: 'Logowanie i codzienna praca: <a href="https://portal.gfelektro.com">portal.gfelektro.com</a>.',
+  companyTitle: 'Firma',
+  companyBody: '<a href="https://www.gfelektro.com">www.gfelektro.com</a>',
+  deleteTitle: 'Usuń konto',
+  deleteBody: 'Po zalogowaniu do portalu: Ustawienia → Usuń konto, potem potwierdź adres e-mail. Dostęp zostanie usunięty. Dokumenty pracownicze i księgowe wymagane prawem pozostają zapisane.',
+  backBtn: 'Powrót do pobierania',
+};
+const SUPPORT_HU = {
+  pageTitle: 'Támogatás – G&F Portal EU',
+  metaDescription: 'Súgó a G&F Portal EU-hoz: kérdések és támogatási kérés.',
+  h1: 'Támogatás',
+  h2: 'Kérdések és segítség a G&F Portal EU-hoz',
+  intro: 'Itt éred el a G&F Elektro támogatását. Az alkalmazások a portált a <strong>portal.gfelektro.com</strong> címről töltik.',
+  contactTitle: 'Kapcsolat',
+  contactBody: 'Írj a <a href="mailto:info@gfelektro.com">info@gfelektro.com</a> címre. Add meg a platformot (Windows, macOS, Linux, iOS vagy Android), az alkalmazás verzióját és a hibát.',
+  portalTitle: 'Portál',
+  portalBody: 'Bejelentkezés és napi munka: <a href="https://portal.gfelektro.com">portal.gfelektro.com</a>.',
+  companyTitle: 'Cég',
+  companyBody: '<a href="https://www.gfelektro.com">www.gfelektro.com</a>',
+  deleteTitle: 'Fiók törlése',
+  deleteBody: 'Bejelentkezés után a portálon: Beállítások → Fiók törlése, majd erősítsd meg az e-mail-címeddel. A belépés törlődik. A törvény szerint megőrzendő munkaügyi és könyvelési adatok megmaradnak.',
+  backBtn: 'Vissza a letöltéshez',
+};
+const SUPPORT_UK = {
+  pageTitle: 'Підтримка – G&F Portal EU',
+  metaDescription: 'Допомога для G&F Portal EU: запитання та запит підтримки.',
+  h1: 'Підтримка',
+  h2: 'Запитання та допомога щодо G&F Portal EU',
+  intro: 'Тут можна звернутися до підтримки G&F Elektro. Застосунки завантажують портал з <strong>portal.gfelektro.com</strong>.',
+  contactTitle: 'Контакт',
+  contactBody: 'Напиши на <a href="mailto:info@gfelektro.com">info@gfelektro.com</a>. Вкажи платформу (Windows, macOS, Linux, iOS або Android), версію застосунку і що не працює.',
+  portalTitle: 'Портал',
+  portalBody: 'Вхід і щоденна робота: <a href="https://portal.gfelektro.com">portal.gfelektro.com</a>.',
+  companyTitle: 'Компанія',
+  companyBody: '<a href="https://www.gfelektro.com">www.gfelektro.com</a>',
+  deleteTitle: 'Видалити обліковий запис',
+  deleteBody: 'Після входу в портал: Налаштування → Видалити обліковий запис і підтвердження електронною поштою. Доступ буде видалено. Кадрові та бухгалтерські записи, які треба зберігати за законом, залишаються.',
+  backBtn: 'Назад до завантаження',
+};
+
 const DOCS_LOCALES = {
-  de: buildLocale(SHARED_DE, INDEX_DE, MACOS_DE, MACOS_HOMEBREW_DE, LINUX_APT_DE, LINUX_ARCH_DE, WINDOWS_CHOCO_DE, PERMISSIONS_DE),
-  en: buildLocale(SHARED_EN, INDEX_EN, MACOS_EN, MACOS_HOMEBREW_EN, LINUX_APT_EN, LINUX_ARCH_EN, WINDOWS_CHOCO_EN, PERMISSIONS_EN),
-  sk: buildLocale(SHARED_SK, INDEX_SK, MACOS_SK, MACOS_HOMEBREW_SK, LINUX_APT_SK, LINUX_ARCH_SK, WINDOWS_CHOCO_SK, PERMISSIONS_SK),
-  cz: buildLocale(SHARED_CZ, INDEX_CZ, MACOS_CZ, MACOS_HOMEBREW_CZ, LINUX_APT_CZ, LINUX_ARCH_CZ, WINDOWS_CHOCO_CZ, PERMISSIONS_CZ),
-  pl: buildLocale(SHARED_PL, INDEX_PL, MACOS_PL, MACOS_HOMEBREW_PL, LINUX_APT_PL, LINUX_ARCH_PL, WINDOWS_CHOCO_PL, PERMISSIONS_PL),
-  hu: buildLocale(SHARED_HU, INDEX_HU, MACOS_HU, MACOS_HOMEBREW_HU, LINUX_APT_HU, LINUX_ARCH_HU, WINDOWS_CHOCO_HU, PERMISSIONS_HU),
-  uk: buildLocale(SHARED_UK, INDEX_UK, MACOS_UK, MACOS_HOMEBREW_UK, LINUX_APT_UK, LINUX_ARCH_UK, WINDOWS_CHOCO_UK, PERMISSIONS_UK),
+  de: buildLocale(SHARED_DE, INDEX_DE, MACOS_DE, MACOS_HOMEBREW_DE, LINUX_APT_DE, LINUX_ARCH_DE, WINDOWS_CHOCO_DE, PERMISSIONS_DE, SUPPORT_DE),
+  en: buildLocale(SHARED_EN, INDEX_EN, MACOS_EN, MACOS_HOMEBREW_EN, LINUX_APT_EN, LINUX_ARCH_EN, WINDOWS_CHOCO_EN, PERMISSIONS_EN, SUPPORT_EN),
+  sk: buildLocale(SHARED_SK, INDEX_SK, MACOS_SK, MACOS_HOMEBREW_SK, LINUX_APT_SK, LINUX_ARCH_SK, WINDOWS_CHOCO_SK, PERMISSIONS_SK, SUPPORT_SK),
+  cz: buildLocale(SHARED_CZ, INDEX_CZ, MACOS_CZ, MACOS_HOMEBREW_CZ, LINUX_APT_CZ, LINUX_ARCH_CZ, WINDOWS_CHOCO_CZ, PERMISSIONS_CZ, SUPPORT_CZ),
+  pl: buildLocale(SHARED_PL, INDEX_PL, MACOS_PL, MACOS_HOMEBREW_PL, LINUX_APT_PL, LINUX_ARCH_PL, WINDOWS_CHOCO_PL, PERMISSIONS_PL, SUPPORT_PL),
+  hu: buildLocale(SHARED_HU, INDEX_HU, MACOS_HU, MACOS_HOMEBREW_HU, LINUX_APT_HU, LINUX_ARCH_HU, WINDOWS_CHOCO_HU, PERMISSIONS_HU, SUPPORT_HU),
+  uk: buildLocale(SHARED_UK, INDEX_UK, MACOS_UK, MACOS_HOMEBREW_UK, LINUX_APT_UK, LINUX_ARCH_UK, WINDOWS_CHOCO_UK, PERMISSIONS_UK, SUPPORT_UK),
 };
 
 

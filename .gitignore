@@ -63,9 +63,9 @@ graphify-out/
 .agent/
 plans/
 
-# Docs site HTML is force-tracked for GitHub Pages. Maintainer markdown
+# Docs site HTML is tracked for GitHub Pages. Maintainer markdown
 # (signing, Partner Center, review notes) must stay untracked — repo is public.
-docs/
+docs/**/*.md
 hosting/
 packaging/
 firebase.json
@@ -78,6 +78,18 @@ ios/
 
 # macOS icon build scratch
 build/macos/actool-out/
+
+# HarmonyOS NEXT signing material and local build output
+*.p7b
+*.cer
+*.jks
+**/key.properties
+harmony/**/signing.local.json
+harmony/**/local.properties
+harmony/**/build/
+harmony/**/.hvigor/
+harmony/**/oh_modules/
+harmony/**/oh-package-lock.json5
 
 # Flutter (portal_android) — covered by mobile/ when untracked; keep if mobile/ is force-added
 mobile/portal_android/.dart_tool/

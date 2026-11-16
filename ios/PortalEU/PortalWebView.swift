@@ -65,6 +65,8 @@ struct PortalWebView: UIViewRepresentable {
             "accounts.youtube.com",
             "apis.google.com",
             "appleid.apple.com",
+            "idmsa.apple.com",
+            "appleid.cdn-apple.com",
         ]
         private let authSuffixes = [
             ".google.com",

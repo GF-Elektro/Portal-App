@@ -8,6 +8,9 @@ class PortalHosts {
     'accounts.google.com',
     'accounts.youtube.com',
     'apis.google.com',
+    'appleid.apple.com',
+    'idmsa.apple.com',
+    'appleid.cdn-apple.com',
   };
 
   static const authSuffixes = [
