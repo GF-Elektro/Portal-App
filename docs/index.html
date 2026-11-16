@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="styles.css?v=18">
+    <link rel="stylesheet" href="styles.css?v=19">
     <link rel="icon" type="image/png" href="assets/icon-512.png">
 </head>
 <body data-docs-page="index">
@@ -196,56 +196,67 @@
     <section class="roadmap" aria-labelledby="roadmap-heading">
         <div class="container">
             <div class="roadmap-header">
-                <span class="roadmap-eyebrow" data-i18n="index.roadmapEyebrow">Aktuelles</span>
-                <h2 id="roadmap-heading" data-i18n="index.roadmapTitle">Portal überall — Schritt für Schritt</h2>
+                <span class="roadmap-eyebrow" data-i18n="index.roadmapEyebrow">Noch offen</span>
+                <h2 id="roadmap-heading" data-i18n="index.roadmapTitle">Noch nicht im Store</h2>
                 <p class="roadmap-intro" data-i18n="index.roadmapIntro">
-                    Die Desktop-Apps für Windows, macOS und Linux sind da, ebenso die App im Microsoft Store. iOS und macOS kannst du über TestFlight testen. Android folgt.
+                    Diese Auslieferungen sind noch in Prüfung oder in Vorbereitung. Was schon da ist, steht oben.
                 </p>
             </div>
 
             <div class="roadmap-grid">
-                <article class="roadmap-card roadmap-card--live">
-                    <div class="roadmap-card__head">
-                        <span class="roadmap-icon roadmap-icon--desktop" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="4" width="20" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 20h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                        </span>
-                        <span class="roadmap-badge roadmap-badge--live" data-i18n="index.roadmapBadgeLive">Verfügbar</span>
-                    </div>
-                    <h3 data-i18n="index.roadmapDesktopTitle">Desktop</h3>
-                    <p data-i18n="index.roadmapDesktopDesc">Electron-Client mit Tray, Updates und nativen Benachrichtigungen — jetzt per Download, Homebrew, apt, pacman oder Chocolatey. Die macOS-Beta läuft über TestFlight.</p>
-                </article>
-
-                <article class="roadmap-card roadmap-card--live">
+                <article class="roadmap-card roadmap-card--review">
                     <div class="roadmap-card__head">
                         <span class="roadmap-icon roadmap-icon--ios" aria-hidden="true">
                             <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16.83 13.13c-.02-2.31 1.89-3.42 1.97-3.47-1.07-1.56-2.74-1.77-3.33-1.8-1.42-.14-2.77.84-3.49.84-.73 0-1.84-.82-3.03-.8-1.56.02-3 .91-3.8 2.31-1.62 2.81-.41 6.97 1.16 9.25.77 1.12 1.69 2.38 2.9 2.33 1.17-.05 1.61-.75 3.02-.75 1.4 0 1.79.75 3.01.73 1.24-.02 2.03-1.13 2.78-2.26.88-1.28 1.24-2.52 1.26-2.58-.03-.01-2.42-.93-2.44-3.69l.04-.01zM14.58 4.2c.64-.78 1.07-1.87.95-2.95-.92.04-2.03.61-2.69 1.39-.59.69-1.11 1.8-.97 2.86 1.03.08 2.08-.53 2.71-1.3z"/></svg>
                         </span>
-                        <span class="roadmap-badge roadmap-badge--live" data-i18n="index.roadmapBadgeLive">Verfügbar</span>
+                        <span class="roadmap-badge roadmap-badge--review" data-i18n="index.roadmapBadgeReview">In Prüfung</span>
                     </div>
-                    <h3 data-i18n="index.roadmapIosTitle">iOS (Swift)</h3>
-                    <p data-i18n="index.roadmapIosDesc">Native App für iPhone und iPad. Zur Beta anmelden und mit TestFlight installieren.</p>
+                    <h3 data-i18n="index.roadmapIosStoreTitle">App Store · iOS</h3>
+                    <p data-i18n="index.roadmapIosStoreDesc">Die iPhone- und iPad-App liegt beim Apple App Store in Prüfung. Bis dahin läuft die Beta über TestFlight.</p>
                 </article>
 
-                <article class="roadmap-card roadmap-card--soon">
+                <article class="roadmap-card roadmap-card--review">
+                    <div class="roadmap-card__head">
+                        <span class="roadmap-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18.7 13.1c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.7-1.8-3.3-1.8-1.4-.1-2.8.8-3.5.8-.7 0-1.8-.8-3-.8-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.8 3-.8s1.8.8 3 .7c1.2 0 2-1.1 2.8-2.3.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.4-.9-2.6-3.6zM16.6 4.2c.6-.8 1.1-1.9 1-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.7-1.3z"/></svg>
+                        </span>
+                        <span class="roadmap-badge roadmap-badge--review" data-i18n="index.roadmapBadgeReview">In Prüfung</span>
+                    </div>
+                    <h3 data-i18n="index.roadmapMacStoreTitle">Mac App Store</h3>
+                    <p data-i18n="index.roadmapMacStoreDesc">Die Mac-App liegt beim Mac App Store in Prüfung. Die Beta gibt es über TestFlight.</p>
+                </article>
+
+                <article class="roadmap-card roadmap-card--review">
+                    <div class="roadmap-card__head">
+                        <span class="roadmap-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="3.2"/><circle cx="6.2" cy="8.2" r="2.1"/><circle cx="17.8" cy="8.2" r="2.1"/><circle cx="7.4" cy="16.6" r="2.1"/><circle cx="16.6" cy="16.6" r="2.1"/></svg>
+                        </span>
+                        <span class="roadmap-badge roadmap-badge--review" data-i18n="index.roadmapBadgeReview">In Prüfung</span>
+                    </div>
+                    <h3 data-i18n="index.roadmapUbuntuTitle">Ubuntu Store</h3>
+                    <p data-i18n="index.roadmapUbuntuDesc">Die Einreichung im Ubuntu Store ist in Prüfung.</p>
+                </article>
+
+                <article class="roadmap-card roadmap-card--next">
                     <div class="roadmap-card__head">
                         <span class="roadmap-icon roadmap-icon--android" aria-hidden="true">
                             <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84 1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 1.23 12.95 1 12 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.97 3.3 6 5.03 6 7h12c0-1.97-.97-3.7-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>
                         </span>
-                        <span class="roadmap-badge roadmap-badge--soon" data-i18n="index.roadmapBadgeSoon">Demnächst</span>
+                        <span class="roadmap-badge roadmap-badge--next" data-i18n="index.roadmapBadgeNext">Als Nächstes</span>
                     </div>
                     <h3 data-i18n="index.roadmapAndroidTitle">Android</h3>
-                    <p data-i18n="index.roadmapAndroidDesc">Der Android-Client ist in aktiver Entwicklung — gleiche Portal-Funktionen, optimiert für Baustelle und unterwegs.</p>
+                    <p data-i18n="index.roadmapAndroidDesc">Der Android-Client kommt als Nächstes — gleiche Portal-Funktionen, für Baustelle und unterwegs.</p>
                 </article>
 
-                <article class="roadmap-card roadmap-card--live">
+                <article class="roadmap-card roadmap-card--soon">
                     <div class="roadmap-card__head">
                         <span class="roadmap-icon roadmap-icon--store" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h7l2 3h7a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 14l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 9h16v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9V7a4 4 0 0 1 8 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
                         </span>
-                        <span class="roadmap-badge roadmap-badge--live" data-i18n="index.roadmapBadgeLive">Verfügbar</span>
+                        <span class="roadmap-badge roadmap-badge--soon" data-i18n="index.roadmapBadgeSoon">Demnächst</span>
                     </div>
-                    <h3 data-i18n="index.roadmapStoreTitle">Microsoft Store</h3>
-                    <p data-i18n="index.roadmapStoreDesc">Dieselbe Windows-Desktop-App ist im Microsoft Store.</p>
+                    <h3 data-i18n="index.roadmapHuaweiTitle">Huawei AppGallery</h3>
+                    <p data-i18n="index.roadmapHuaweiDesc">Die AppGallery-Version ist in Vorbereitung.</p>
                 </article>
             </div>
 
@@ -298,7 +309,7 @@
         </div>
     </footer>
 
-    <script src="i18n/locales.js?v=7"></script>
+    <script src="i18n/locales.js?v=8"></script>
     <script src="i18n.js?v=4"></script>
     <script src="script.js?v=5"></script>
 </body>
