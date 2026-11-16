@@ -54,14 +54,15 @@ mkdir -p "$EXPORT_DIR"
 cd "$IOS_DIR"
 
 echo "Archiving to $ARCHIVE ..."
+# bash 3.2 (macOS /bin/bash) errors on an empty "${array[@]}" under set -u.
 xcodebuild -project PortalEU.xcodeproj \
   -scheme PortalEU \
   -configuration Release \
   -destination 'generic/platform=iOS' \
   -archivePath "$ARCHIVE" \
   -allowProvisioningUpdates \
-  "${AUTH_ARGS[@]}" \
-  "${BUILD_SETTINGS[@]}" \
+  ${AUTH_ARGS[@]+"${AUTH_ARGS[@]}"} \
+  ${BUILD_SETTINGS[@]+"${BUILD_SETTINGS[@]}"} \
   archive
 
 echo "Exporting IPA to $EXPORT_DIR ..."
@@ -70,7 +71,7 @@ xcodebuild -exportArchive \
   -exportPath "$EXPORT_DIR" \
   -exportOptionsPlist "$IOS_DIR/ExportOptions.plist" \
   -allowProvisioningUpdates \
-  "${AUTH_ARGS[@]}"
+  ${AUTH_ARGS[@]+"${AUTH_ARGS[@]}"}
 
 IPA="$(find "$EXPORT_DIR" -maxdepth 1 -name '*.ipa' | head -1)"
 if [[ -z "$IPA" ]]; then

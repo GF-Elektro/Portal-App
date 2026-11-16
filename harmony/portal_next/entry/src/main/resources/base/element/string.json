@@ -1,0 +1,32 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "G&F Portal EU"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "G&F Elektro portal"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "G&F Portal EU"
+    },
+    {
+      "name": "camera_reason",
+      "value": "Used to take site photos in the G&F Portal EU."
+    },
+    {
+      "name": "microphone_reason",
+      "value": "Used for dictation and audio in the G&F Portal EU."
+    },
+    {
+      "name": "location_reason",
+      "value": "Used for optional GPS in daily reports in the G&F Portal EU."
+    },
+    {
+      "name": "approx_location_reason",
+      "value": "Used with precise location for optional GPS in daily reports."
+    }
+  ]
+}

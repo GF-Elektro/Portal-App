@@ -23,10 +23,7 @@ flutter run
 
 ## Release
 
-```bash
-flutter build apk --release
-flutter build appbundle
-```
+Production builds are signed with the upload key in `android/key.properties` and submitted by `tool/publish-play.sh`. The runbook is `docs/play-store.md`. Release builds fail when `android/key.properties` is missing.
 
 ## Clipboard
 

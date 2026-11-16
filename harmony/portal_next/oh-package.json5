@@ -1,0 +1,11 @@
+{
+  "modelVersion": "6.0.0",
+  "name": "portal_next",
+  "version": "1.0.0",
+  "description": "G&F Portal EU HarmonyOS NEXT shell",
+  "main": "",
+  "author": "G&F Elektro s.r.o.",
+  "license": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {}
+}

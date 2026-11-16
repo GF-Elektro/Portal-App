@@ -11,6 +11,23 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ## [Unreleased]
 
+### Added
+
+- **HarmonyOS NEXT shell** — ArkWeb app in `harmony/portal_next/` (`com.gfelektro.portal`, 1.0.0) loads the portal with the same host allowlist and notification bridge as the Android shell. `npm run build:harmony` builds a Release `.app` once DevEco Studio and AppGallery Connect signing files are on the machine.
+- **Android AppGallery signing** — release builds of `com.gfelektro.portal.android` use the upload key in `android/key.properties` instead of the debug key, with core library desugaring so `flutter_local_notifications` can package. Flutter version for that package is `1.0.67+10067`. The release APK is `mobile/portal_android/build/app/outputs/flutter-apk/app-release.apk`.
+- **Huawei runbook** — [`docs/huawei-appgallery.md`](docs/huawei-appgallery.md). Listings stay outside the Chinese mainland. Store submission still needs a signed-in HUAWEI ID; DevEco Studio is not installed on the build machine yet.
+- **Store listing screenshots** — portal shots under [`docs/assets/store/`](docs/assets/store/) and [`docs/assets/store-screenshots/`](docs/assets/store-screenshots/) for Play / AppGallery listings.
+
+### Changed
+
+- **App icon rollout** — badger mascot applied to the native iOS app icon, Flutter Android/iOS/macOS/web launchers, and macOS `Assets.car` / `.icns` (desktop Store tiles were already updated in 1.0.68).
+- **Android WebView permissions** — camera, microphone, location, and notification prompts go through `permission_handler` for allowlisted portal hosts only; broad media-library and `AD_ID` permissions are stripped from the manifest.
+- **iOS marketing version** — native `PortalEU` project bumped to `1.0.68` (build 68) to match the desktop release line.
+
+### Fixed
+
+- **iOS TestFlight archive on bash 3.2** — `scripts/ios-testflight.sh` no longer expands empty auth/build-setting arrays under `set -u` (macOS `/bin/bash`).
+
 ---
 
 ## [1.0.68] - 2026-11-16

@@ -27,6 +27,7 @@
     "build:mac:mas": "bash scripts/build-mac-icon.sh && electron-builder build --mac mas --config.mac.executableName='GF Portal EU'",
     "verify:mas-signing": "bash scripts/verify-mas-signing.sh",
     "build:linux": "electron-builder build --linux",
+    "build:harmony": "bash harmony/portal_next/build-app.sh release",
     "smoke:electron": "node scripts/run-electron.js scripts/smoke-electron-api.js"
   },
   "build": {

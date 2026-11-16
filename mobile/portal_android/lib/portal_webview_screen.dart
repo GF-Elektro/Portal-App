@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart' as fp;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -86,9 +88,13 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
     final webPlatform = _controller.platform;
     if (webPlatform is AndroidWebViewController) {
       await webPlatform.setMediaPlaybackRequiresUserGesture(false);
-      await webPlatform.setOnPlatformPermissionRequest((request) async {
-        await request.grant();
+      await webPlatform.setGeolocationEnabled(true);
+      await webPlatform.setOnPlatformPermissionRequest((request) {
+        unawaited(_onPlatformPermissionRequest(request));
       });
+      await webPlatform.setGeolocationPermissionsPromptCallbacks(
+        onShowPrompt: _onGeolocationPrompt,
+      );
       await webPlatform.setOnShowFileSelector((params) async {
         final files = await fp.FilePicker.pickFiles(type: fp.FileType.image);
         return files.map((file) => file.path).whereType<String>().toList();
@@ -154,12 +160,71 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
           Map<String, dynamic>.from(decoded['options'] as Map? ?? {}),
         );
       case 'requestPermission':
-      case 'checkPermission':
-        _resolvePermission(
+        unawaited(_resolveNotificationPermission(
           decoded['requestId'] as String? ?? '',
-          status: 'granted',
-        );
+          request: true,
+        ));
+      case 'checkPermission':
+        unawaited(_resolveNotificationPermission(
+          decoded['requestId'] as String? ?? '',
+          request: false,
+        ));
     }
+  }
+
+  Future<void> _onPlatformPermissionRequest(
+    PlatformWebViewPermissionRequest request,
+  ) async {
+    final current = await _controller.currentUrl();
+    final uri = current == null ? null : Uri.tryParse(current);
+    if (uri == null || !PortalHosts.shouldKeepInApp(uri)) {
+      await request.deny();
+      return;
+    }
+    final needed = <Permission>[];
+    for (final type in request.types) {
+      if (type == WebViewPermissionResourceType.camera) {
+        needed.add(Permission.camera);
+      } else if (type == WebViewPermissionResourceType.microphone) {
+        needed.add(Permission.microphone);
+      } else {
+        await request.deny();
+        return;
+      }
+    }
+    for (final permission in needed) {
+      final status = await permission.request();
+      if (!status.isGranted) {
+        await request.deny();
+        return;
+      }
+    }
+    await request.grant();
+  }
+
+  Future<GeolocationPermissionsResponse> _onGeolocationPrompt(
+    GeolocationPermissionsRequestParams request,
+  ) async {
+    final uri = Uri.tryParse(request.origin);
+    if (uri == null || !PortalHosts.shouldKeepInApp(uri)) {
+      return const GeolocationPermissionsResponse(allow: false, retain: false);
+    }
+    final status = await Permission.location.request();
+    final granted = status.isGranted;
+    return GeolocationPermissionsResponse(allow: granted, retain: granted);
+  }
+
+  Future<void> _resolveNotificationPermission(
+    String requestId, {
+    required bool request,
+  }) async {
+    final status = request
+        ? await Permission.notification.request()
+        : await Permission.notification.status;
+    await _resolvePermission(
+      requestId,
+      status: status.isGranted ? 'granted' : 'denied',
+    );
   }
 
   Future<void> _resolvePermission(String requestId, {required String status}) async {

@@ -1,0 +1,12 @@
+/oh_modules/
+/.hvigor/
+/build/
+/entry/build/
+/local.properties
+/signing.local.json
+/build-profile.json5.bak
+/oh-package-lock.json5
+.idea/
+*.p12
+*.p7b
+*.cer

@@ -1,0 +1,9 @@
+{
+  "storeFile": "/ABSOLUTE/PATH/portal-release.p12",
+  "storePassword": "keystore-password",
+  "keyAlias": "portal",
+  "keyPassword": "key-password",
+  "signAlg": "SHA256withECDSA",
+  "profile": "/ABSOLUTE/PATH/portal-release.p7b",
+  "certpath": "/ABSOLUTE/PATH/portal-release.cer"
+}
