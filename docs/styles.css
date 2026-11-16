@@ -264,6 +264,11 @@ a {
     margin: 0 auto;
 }
 
+.hero-section--landing {
+    min-height: auto;
+    padding-bottom: 28px;
+}
+
 .hero-content {
     max-width: 560px;
 }
@@ -642,6 +647,100 @@ a {
 
 .doc-list li {
     margin-bottom: 0.5rem;
+}
+
+.distribution {
+    padding: 0 0 72px;
+}
+
+.distribution-header {
+    max-width: 680px;
+    margin-bottom: 28px;
+}
+
+.distribution-header h2 {
+    font-size: clamp(1.7rem, 3vw, 2.15rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin: 8px 0 10px;
+    line-height: 1.15;
+}
+
+.distribution-header p {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.store-shelf {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.store-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 24px 22px 22px;
+    box-shadow: var(--shadow-sm);
+}
+
+.store-card--featured {
+    border-color: rgba(230, 0, 0, 0.28);
+    box-shadow: var(--shadow-md);
+    background: linear-gradient(180deg, #fff 0%, #fff7f7 100%);
+}
+
+.store-card h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+}
+
+.store-card p {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
+.store-card .ms-store-badge,
+.store-card .testflight-badge {
+    margin-top: auto;
+    padding-top: 18px;
+}
+
+.store-card .store-direct-link {
+    margin-top: 10px;
+}
+
+.direct-install {
+    border-top: 1px solid var(--color-border);
+    padding-top: 28px;
+}
+
+.direct-install > h2 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+
+.direct-install > p {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    margin: 8px 0 16px;
+}
+
+.direct-install .download-panel {
+    background: #fafafa;
+    box-shadow: none;
 }
 
 .download-panel {
@@ -1442,6 +1541,10 @@ footer {
 
 /* Responsive */
 @media (max-width: 900px) {
+    .store-shelf {
+        grid-template-columns: 1fr;
+    }
+
     .hero-section {
         grid-template-columns: 1fr;
         text-align: center;
