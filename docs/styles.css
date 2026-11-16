@@ -769,6 +769,15 @@ a {
     min-width: 0;
 }
 
+.download-row--platforms {
+    flex-wrap: nowrap;
+}
+
+.download-row--platforms .btn {
+    flex: 1 1 0;
+    width: auto;
+}
+
 .download-row--linux .btn-linux-toggle {
     flex: 1 1 100%;
     font: inherit;
