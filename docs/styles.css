@@ -893,21 +893,23 @@ a {
 }
 
 .resource-chips {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 8px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
 }
 
 .chip-link {
     display: flex;
+    flex: 1 0 auto;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 6px;
+    min-width: max-content;
     min-height: 76px;
     padding: 10px 6px;
     border-radius: var(--radius-sm);
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 600;
     line-height: 1.25;
     text-align: center;
@@ -922,7 +924,7 @@ a {
 .chip-link__text {
     display: block;
     max-width: 100%;
-    hyphens: auto;
+    white-space: nowrap;
 }
 
 .chip-link__icon {
@@ -963,7 +965,6 @@ a {
 
 @media (max-width: 520px) {
     .resource-chips {
-        grid-template-columns: repeat(4, minmax(72px, 1fr));
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
@@ -975,6 +976,7 @@ a {
     }
 
     .chip-link {
+        flex: 0 0 auto;
         min-height: 70px;
         font-size: 0.65rem;
     }
