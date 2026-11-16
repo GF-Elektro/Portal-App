@@ -166,7 +166,7 @@ a {
 .lang-switcher button {
     padding: 1px;
     margin: 0;
-    border: 1px solid transparent;
+    border: 1px solid #b5b5b5;
     border-radius: 4px;
     background: transparent;
     cursor: pointer;
@@ -175,7 +175,7 @@ a {
 }
 
 .lang-switcher button:hover {
-    border-color: var(--color-border);
+    border-color: #8a8a8a;
 }
 
 .lang-switcher button[aria-pressed='true'] {
