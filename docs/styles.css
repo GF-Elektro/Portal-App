@@ -1232,6 +1232,44 @@ a {
     line-height: 1.55;
 }
 
+.store-direct-link {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    word-break: break-all;
+}
+
+.testflight-badge,
+.ms-store-badge {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 14px;
+    text-decoration: none;
+}
+
+.testflight-badge {
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 8px;
+    background: #0a84ff;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.testflight-badge:hover {
+    background: #0071e3;
+    color: #fff;
+}
+
+.ms-store-badge img {
+    display: block;
+    height: 40px;
+    width: auto;
+}
+
 .roadmap-footnote {
     text-align: center;
     margin-top: 28px;

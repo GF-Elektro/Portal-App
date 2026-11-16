@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="styles.css?v=15">
+    <link rel="stylesheet" href="styles.css?v=16">
     <link rel="icon" type="image/png" href="assets/icon-512.png">
 </head>
 <body data-docs-page="index">
@@ -166,7 +166,7 @@
                 <span class="roadmap-eyebrow" data-i18n="index.roadmapEyebrow">Aktuelles</span>
                 <h2 id="roadmap-heading" data-i18n="index.roadmapTitle">Portal überall — Schritt für Schritt</h2>
                 <p class="roadmap-intro" data-i18n="index.roadmapIntro">
-                    Die Desktop-Apps für Windows, macOS und Linux sind da. Parallel bauen wir die nativen Mobile-Clients und bereiten die Microsoft-Store-Version vor — damit du das Portal bald auf jedem Gerät nutzen kannst.
+                    Die Desktop-Apps für Windows, macOS und Linux sind da, ebenso die App im Microsoft Store. iOS und macOS kannst du über TestFlight testen. Android folgt.
                 </p>
             </div>
 
@@ -179,19 +179,20 @@
                         <span class="roadmap-badge roadmap-badge--live" data-i18n="index.roadmapBadgeLive">Verfügbar</span>
                     </div>
                     <h3 data-i18n="index.roadmapDesktopTitle">Desktop</h3>
-                    <p data-i18n="index.roadmapDesktopDesc">Electron-Client mit Tray, Updates und nativen Benachrichtigungen — jetzt per Download, Homebrew, apt, pacman oder Chocolatey.</p>
+                    <p data-i18n="index.roadmapDesktopDesc">Electron-Client mit Tray, Updates und nativen Benachrichtigungen — jetzt per Download, Homebrew, apt, pacman oder Chocolatey. Die macOS-Beta läuft über TestFlight.</p>
+                    <a class="testflight-badge" href="https://testflight.apple.com/join/D7Ndxu4p" target="_blank" rel="noopener">TestFlight · macOS</a>
                 </article>
 
-                <article class="roadmap-card roadmap-card--review roadmap-card--spotlight">
-                    <div class="roadmap-card__glow" aria-hidden="true"></div>
+                <article class="roadmap-card roadmap-card--live">
                     <div class="roadmap-card__head">
                         <span class="roadmap-icon roadmap-icon--ios" aria-hidden="true">
                             <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16.83 13.13c-.02-2.31 1.89-3.42 1.97-3.47-1.07-1.56-2.74-1.77-3.33-1.8-1.42-.14-2.77.84-3.49.84-.73 0-1.84-.82-3.03-.8-1.56.02-3 .91-3.8 2.31-1.62 2.81-.41 6.97 1.16 9.25.77 1.12 1.69 2.38 2.9 2.33 1.17-.05 1.61-.75 3.02-.75 1.4 0 1.79.75 3.01.73 1.24-.02 2.03-1.13 2.78-2.26.88-1.28 1.24-2.52 1.26-2.58-.03-.01-2.42-.93-2.44-3.69l.04-.01zM14.58 4.2c.64-.78 1.07-1.87.95-2.95-.92.04-2.03.61-2.69 1.39-.59.69-1.11 1.8-.97 2.86 1.03.08 2.08-.53 2.71-1.3z"/></svg>
                         </span>
-                        <span class="roadmap-badge roadmap-badge--review"><span class="roadmap-badge__dot" aria-hidden="true"></span><span data-i18n="index.roadmapBadgeReview">In Prüfung</span></span>
+                        <span class="roadmap-badge roadmap-badge--live" data-i18n="index.roadmapBadgeLive">Verfügbar</span>
                     </div>
                     <h3 data-i18n="index.roadmapIosTitle">iOS (Swift)</h3>
-                    <p data-i18n="index.roadmapIosDesc">Native App für iPhone und iPad in Swift. Build und Upload laufen; External TestFlight und App-Store-Review sind eingereicht — Release folgt in Kürze.</p>
+                    <p data-i18n="index.roadmapIosDesc">Native App für iPhone und iPad. Zur Beta anmelden und mit TestFlight installieren.</p>
+                    <a class="testflight-badge" href="https://testflight.apple.com/join/FX9UNeGH" target="_blank" rel="noopener">TestFlight · iOS</a>
                 </article>
 
                 <article class="roadmap-card roadmap-card--soon">
@@ -205,15 +206,19 @@
                     <p data-i18n="index.roadmapAndroidDesc">Der Android-Client ist in aktiver Entwicklung — gleiche Portal-Funktionen, optimiert für Baustelle und unterwegs.</p>
                 </article>
 
-                <article class="roadmap-card roadmap-card--soon">
+                <article class="roadmap-card roadmap-card--live">
                     <div class="roadmap-card__head">
                         <span class="roadmap-icon roadmap-icon--store" aria-hidden="true">
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h7l2 3h7a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 14l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         </span>
-                        <span class="roadmap-badge roadmap-badge--soon" data-i18n="index.roadmapBadgeSoon">Demnächst</span>
+                        <span class="roadmap-badge roadmap-badge--live" data-i18n="index.roadmapBadgeLive">Verfügbar</span>
                     </div>
                     <h3 data-i18n="index.roadmapStoreTitle">Microsoft Store</h3>
-                    <p data-i18n="index.roadmapStoreDesc">Dieselbe Windows-Desktop-App als MSIX für einfache Firmen-Rollouts — Paket und Store-Einreichung sind in Vorbereitung.</p>
+                    <p data-i18n="index.roadmapStoreDesc">Dieselbe Windows-Desktop-App ist im Microsoft Store.</p>
+                    <a class="store-direct-link" href="https://apps.microsoft.com/detail/9MXWQW7F7XPT" target="_blank" rel="noopener">apps.microsoft.com/detail/9MXWQW7F7XPT</a>
+                    <a class="ms-store-badge" href="https://apps.microsoft.com/detail/9MXWQW7F7XPT" target="_blank" rel="noopener">
+                        <img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft" height="40" width="114">
+                    </a>
                 </article>
             </div>
 
