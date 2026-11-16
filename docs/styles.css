@@ -1389,6 +1389,7 @@ a {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    gap: 4px;
     line-height: 1.05;
 }
 
