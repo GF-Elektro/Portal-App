@@ -712,7 +712,15 @@ a {
 .store-card .ms-store-badge,
 .store-card .testflight-badge {
     margin-top: auto;
-    padding-top: 18px;
+}
+
+.store-card .testflight-badge {
+    width: 100%;
+    box-sizing: border-box;
+    height: 56px;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 18px;
 }
 
 .store-card .store-direct-link {
@@ -1366,18 +1374,18 @@ a {
 }
 
 .testflight-badge {
-    height: 40px;
-    gap: 8px;
-    padding: 0 14px 0 10px;
-    border-radius: 6px;
+    height: 56px;
+    gap: 12px;
+    padding: 0 18px;
+    border-radius: 8px;
     background: #111;
     color: #fff;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
 }
 
 .testflight-badge__icon {
-    width: 15px;
-    height: 18px;
+    width: 22px;
+    height: 26px;
     flex-shrink: 0;
 }
 
@@ -1389,14 +1397,14 @@ a {
 }
 
 .testflight-badge__kicker {
-    font-size: 0.58rem;
+    font-size: 0.72rem;
     font-weight: 500;
     letter-spacing: 0.01em;
     opacity: 0.78;
 }
 
 .testflight-badge__name {
-    font-size: 0.84rem;
+    font-size: 1.05rem;
     font-weight: 700;
     letter-spacing: -0.02em;
 }
