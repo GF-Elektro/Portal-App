@@ -1,5 +1,7 @@
 # electron-builder publishes releases with GITHUB_TOKEN, which does not fire `release: published`
-# for other workflows. After Build and Release succeeds, dispatch package jobs here.
+# for other workflows. After the desktop release jobs succeed, dispatch package jobs here.
+# Upload iOS to TestFlight does not gate this: a TestFlight failure must not skip Chocolatey,
+# Homebrew, AUR, Firebase Hosting, or VirusTotal.
 
 name: Post-release distribution
 
@@ -21,9 +23,26 @@ jobs:
   dispatch:
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      github.event.workflow_run.conclusion == 'success'
+      github.event.workflow_run.conclusion == 'success' ||
+      github.event.workflow_run.conclusion == 'failure'
     runs-on: ubuntu-latest
     steps:
+      - name: Require desktop release jobs
+        if: github.event_name == 'workflow_run'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          set -euo pipefail
+          failed=$(gh api "repos/${{ github.repository }}/actions/runs/${RUN_ID}/jobs" --paginate \
+            --jq '.jobs[] | select(.name != "Upload iOS to TestFlight") | select(.conclusion != "success" and .conclusion != "skipped") | .name')
+          if [ -n "$failed" ]; then
+            echo "Desktop release jobs did not succeed; not publishing packages:" >&2
+            echo "$failed" >&2
+            exit 1
+          fi
+          echo "Desktop release jobs succeeded. TestFlight is not required."
+
       - name: Resolve release tag
         id: tag
         env:
