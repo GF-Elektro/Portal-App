@@ -16,12 +16,19 @@ const {
   screen,
 } = require('electron');
 const fs = require('fs');
+const https = require('https');
 const path = require('path');
 const { execFile } = require('child_process');
 
-// Windows toast association must be set before app ready
+// Windows toast association must be set before app ready.
+// NSIS/portable shortcuts use com.gfelektro.portal. Microsoft Store AppX toasts
+// only appear when the id matches Package Family Name!Application Id.
+const WINDOWS_NSIS_APP_USER_MODEL_ID = 'com.gfelektro.portal';
+const WINDOWS_STORE_APP_USER_MODEL_ID = 'GFElektro.GFPortalEU_bmafrkax0y7g8!GFPortalEU';
 if (process.platform === 'win32') {
-  app.setAppUserModelId('com.gfelektro.portal');
+  app.setAppUserModelId(
+    process.windowsStore ? WINDOWS_STORE_APP_USER_MODEL_ID : WINDOWS_NSIS_APP_USER_MODEL_ID,
+  );
 }
 
 // ── Constants ───────────────────────────────────────────────
@@ -85,13 +92,13 @@ const TRAY_LANGUAGES = [
   { id: 'en', label: 'English' },
 ];
 const TRAY_TRANSLATIONS = {
-  de: { open: 'Portal öffnen', reload: 'Neu laden', checkForUpdate: 'Nach Updates suchen', updating: 'Update wird geprüft…', updateDone: 'Update abgeschlossen', updateLatest: 'Bereits auf dem neuesten Stand', updateFailed: 'Update fehlgeschlagen', brewMissing: 'Homebrew nicht gefunden. Bitte Brew installieren und GF-Elektro/tap hinzufügen.', relaunchPrompt: 'Eine neue Version wurde installiert. App jetzt neu starten?', relaunch: 'Neu starten', later: 'Später', trayIcon: 'Tray-Symbol', language: 'Sprache', windowSize: 'Fenstergröße', compact: 'Kompakt', standard: 'Standard', large: 'Groß', max: 'Maximal', testNotification: 'Benachrichtigung testen', quit: 'Beenden', bolt: 'Blitz' },
-  en: { open: 'Open portal', reload: 'Reload', checkForUpdate: 'Check for Update', updating: 'Checking for updates…', updateDone: 'Update complete', updateLatest: 'Already up to date', updateFailed: 'Update failed', brewMissing: 'Homebrew not found. Install Brew and tap GF-Elektro/tap.', relaunchPrompt: 'A new version was installed. Relaunch the app now?', relaunch: 'Relaunch', later: 'Later', trayIcon: 'Tray icon', language: 'Language', windowSize: 'Window size', compact: 'Compact', standard: 'Standard', large: 'Large', max: 'Maximum', testNotification: 'Test notification', quit: 'Quit', bolt: 'Lightning bolt' },
-  sk: { open: 'Otvoriť portál', reload: 'Obnoviť', checkForUpdate: 'Skontrolovať aktualizácie', updating: 'Kontrolujú sa aktualizácie…', updateDone: 'Aktualizácia dokončená', updateLatest: 'Už máte najnovšiu verziu', updateFailed: 'Aktualizácia zlyhala', brewMissing: 'Homebrew sa nenašiel. Nainštalujte Brew a pridajte GF-Elektro/tap.', relaunchPrompt: 'Bola nainštalovaná nová verzia. Reštartovať aplikáciu?', relaunch: 'Reštartovať', later: 'Neskôr', trayIcon: 'Ikona v lište', language: 'Jazyk', windowSize: 'Veľkosť okna', compact: 'Kompaktné', standard: 'Štandardné', large: 'Veľké', max: 'Maximálne', testNotification: 'Otestovať upozornenie', quit: 'Ukončiť', bolt: 'Blesk' },
-  cz: { open: 'Otevřít portál', reload: 'Obnovit', checkForUpdate: 'Zkontrolovat aktualizace', updating: 'Kontrola aktualizací…', updateDone: 'Aktualizace dokončena', updateLatest: 'Již máte nejnovější verzi', updateFailed: 'Aktualizace selhala', brewMissing: 'Homebrew nenalezen. Nainstalujte Brew a přidejte GF-Elektro/tap.', relaunchPrompt: 'Byla nainstalována nová verze. Restartovat aplikaci?', relaunch: 'Restartovat', later: 'Později', trayIcon: 'Ikona v liště', language: 'Jazyk', windowSize: 'Velikost okna', compact: 'Kompaktní', standard: 'Standardní', large: 'Velké', max: 'Maximální', testNotification: 'Otestovat oznámení', quit: 'Ukončit', bolt: 'Blesk' },
-  pl: { open: 'Otwórz portal', reload: 'Odśwież', checkForUpdate: 'Sprawdź aktualizacje', updating: 'Sprawdzanie aktualizacji…', updateDone: 'Aktualizacja zakończona', updateLatest: 'Masz już najnowszą wersję', updateFailed: 'Aktualizacja nie powiodła się', brewMissing: 'Nie znaleziono Homebrew. Zainstaluj Brew i dodaj GF-Elektro/tap.', relaunchPrompt: 'Zainstalowano nową wersję. Uruchomić aplikację ponownie?', relaunch: 'Uruchom ponownie', later: 'Później', trayIcon: 'Ikona w zasobniku', language: 'Język', windowSize: 'Rozmiar okna', compact: 'Kompaktowy', standard: 'Standardowy', large: 'Duży', max: 'Maksymalny', testNotification: 'Test powiadomienia', quit: 'Zakończ', bolt: 'Błyskawica' },
-  hu: { open: 'Portál megnyitása', reload: 'Újratöltés', checkForUpdate: 'Frissítések keresése', updating: 'Frissítések ellenőrzése…', updateDone: 'Frissítés kész', updateLatest: 'Már a legújabb verzió fut', updateFailed: 'A frissítés sikertelen', brewMissing: 'A Homebrew nem található. Telepítse a Brew-t és adja hozzá a GF-Elektro/tap-et.', relaunchPrompt: 'Új verzió telepítve. Újraindítja az alkalmazást?', relaunch: 'Újraindítás', later: 'Később', trayIcon: 'Tálcaikon', language: 'Nyelv', windowSize: 'Ablakméret', compact: 'Kompakt', standard: 'Normál', large: 'Nagy', max: 'Maximális', testNotification: 'Értesítés tesztelése', quit: 'Kilépés', bolt: 'Villám' },
-  uk: { open: 'Відкрити портал', reload: 'Перезавантажити', checkForUpdate: 'Перевірити оновлення', updating: 'Перевірка оновлень…', updateDone: 'Оновлення завершено', updateLatest: 'Вже найновіша версія', updateFailed: 'Помилка оновлення', brewMissing: 'Homebrew не знайдено. Встановіть Brew і додайте GF-Elektro/tap.', relaunchPrompt: 'Встановлено нову версію. Перезапустити застосунок?', relaunch: 'Перезапустити', later: 'Пізніше', trayIcon: 'Значок у треї', language: 'Мова', windowSize: 'Розмір вікна', compact: 'Компактний', standard: 'Стандартний', large: 'Великий', max: 'Максимальний', testNotification: 'Тест сповіщення', quit: 'Вийти', bolt: 'Блискавка' },
+  de: { open: 'Portal öffnen', reload: 'Neu laden', checkForUpdate: 'Nach Updates suchen', updating: 'Update wird geprüft…', updateDone: 'Update abgeschlossen', updateLatest: 'Bereits auf dem neuesten Stand', updateTapBehind: 'GitHub hat {latest}, das Homebrew-Cask ist noch {cask}. Das Update wird installiert, sobald das Tap diese Version enthält.', updateFailed: 'Update fehlgeschlagen', brewMissing: 'Homebrew nicht gefunden. Bitte Brew installieren und GF-Elektro/tap hinzufügen.', relaunchPrompt: 'Eine neue Version wurde installiert. App jetzt neu starten?', relaunch: 'Neu starten', later: 'Später', trayIcon: 'Tray-Symbol', language: 'Sprache', windowSize: 'Fenstergröße', compact: 'Kompakt', standard: 'Standard', large: 'Groß', max: 'Maximal', testNotification: 'Benachrichtigung testen', quit: 'Beenden', bolt: 'Blitz' },
+  en: { open: 'Open portal', reload: 'Reload', checkForUpdate: 'Check for Update', updating: 'Checking for updates…', updateDone: 'Update complete', updateLatest: 'Already up to date', updateTapBehind: 'GitHub has {latest}, but the Homebrew cask is still {cask}. The update installs once the tap publishes that version.', updateFailed: 'Update failed', brewMissing: 'Homebrew not found. Install Brew and tap GF-Elektro/tap.', relaunchPrompt: 'A new version was installed. Relaunch the app now?', relaunch: 'Relaunch', later: 'Later', trayIcon: 'Tray icon', language: 'Language', windowSize: 'Window size', compact: 'Compact', standard: 'Standard', large: 'Large', max: 'Maximum', testNotification: 'Test notification', quit: 'Quit', bolt: 'Lightning bolt' },
+  sk: { open: 'Otvoriť portál', reload: 'Obnoviť', checkForUpdate: 'Skontrolovať aktualizácie', updating: 'Kontrolujú sa aktualizácie…', updateDone: 'Aktualizácia dokončená', updateLatest: 'Už máte najnovšiu verziu', updateTapBehind: 'GitHub má {latest}, ale Homebrew cask je stále {cask}. Aktualizácia sa nainštaluje, keď tap túto verziu zverejní.', updateFailed: 'Aktualizácia zlyhala', brewMissing: 'Homebrew sa nenašiel. Nainštalujte Brew a pridajte GF-Elektro/tap.', relaunchPrompt: 'Bola nainštalovaná nová verzia. Reštartovať aplikáciu?', relaunch: 'Reštartovať', later: 'Neskôr', trayIcon: 'Ikona v lište', language: 'Jazyk', windowSize: 'Veľkosť okna', compact: 'Kompaktné', standard: 'Štandardné', large: 'Veľké', max: 'Maximálne', testNotification: 'Otestovať upozornenie', quit: 'Ukončiť', bolt: 'Blesk' },
+  cz: { open: 'Otevřít portál', reload: 'Obnovit', checkForUpdate: 'Zkontrolovat aktualizace', updating: 'Kontrola aktualizací…', updateDone: 'Aktualizace dokončena', updateLatest: 'Již máte nejnovější verzi', updateTapBehind: 'GitHub má {latest}, ale Homebrew cask je stále {cask}. Aktualizace se nainstaluje, až tap tuto verzi zveřejní.', updateFailed: 'Aktualizace selhala', brewMissing: 'Homebrew nenalezen. Nainstalujte Brew a přidejte GF-Elektro/tap.', relaunchPrompt: 'Byla nainstalována nová verze. Restartovat aplikaci?', relaunch: 'Restartovat', later: 'Později', trayIcon: 'Ikona v liště', language: 'Jazyk', windowSize: 'Velikost okna', compact: 'Kompaktní', standard: 'Standardní', large: 'Velké', max: 'Maximální', testNotification: 'Otestovat oznámení', quit: 'Ukončit', bolt: 'Blesk' },
+  pl: { open: 'Otwórz portal', reload: 'Odśwież', checkForUpdate: 'Sprawdź aktualizacje', updating: 'Sprawdzanie aktualizacji…', updateDone: 'Aktualizacja zakończona', updateLatest: 'Masz już najnowszą wersję', updateTapBehind: 'GitHub ma {latest}, ale cask Homebrew jest nadal {cask}. Aktualizacja zainstaluje się, gdy tap opublikuje tę wersję.', updateFailed: 'Aktualizacja nie powiodła się', brewMissing: 'Nie znaleziono Homebrew. Zainstaluj Brew i dodaj GF-Elektro/tap.', relaunchPrompt: 'Zainstalowano nową wersję. Uruchomić aplikację ponownie?', relaunch: 'Uruchom ponownie', later: 'Później', trayIcon: 'Ikona w zasobniku', language: 'Język', windowSize: 'Rozmiar okna', compact: 'Kompaktowy', standard: 'Standardowy', large: 'Duży', max: 'Maksymalny', testNotification: 'Test powiadomienia', quit: 'Zakończ', bolt: 'Błyskawica' },
+  hu: { open: 'Portál megnyitása', reload: 'Újratöltés', checkForUpdate: 'Frissítések keresése', updating: 'Frissítések ellenőrzése…', updateDone: 'Frissítés kész', updateLatest: 'Már a legújabb verzió fut', updateTapBehind: 'A GitHubon {latest} van, a Homebrew cask még {cask}. A frissítés akkor települ, ha a tap közzéteszi ezt a verziót.', updateFailed: 'A frissítés sikertelen', brewMissing: 'A Homebrew nem található. Telepítse a Brew-t és adja hozzá a GF-Elektro/tap-et.', relaunchPrompt: 'Új verzió telepítve. Újraindítja az alkalmazást?', relaunch: 'Újraindítás', later: 'Később', trayIcon: 'Tálcaikon', language: 'Nyelv', windowSize: 'Ablakméret', compact: 'Kompakt', standard: 'Normál', large: 'Nagy', max: 'Maximális', testNotification: 'Értesítés tesztelése', quit: 'Kilépés', bolt: 'Villám' },
+  uk: { open: 'Відкрити портал', reload: 'Перезавантажити', checkForUpdate: 'Перевірити оновлення', updating: 'Перевірка оновлень…', updateDone: 'Оновлення завершено', updateLatest: 'Вже найновіша версія', updateTapBehind: 'На GitHub є {latest}, а cask Homebrew досі {cask}. Оновлення встановиться, коли tap опублікує цю версію.', updateFailed: 'Помилка оновлення', brewMissing: 'Homebrew не знайдено. Встановіть Brew і додайте GF-Elektro/tap.', relaunchPrompt: 'Встановлено нову версію. Перезапустити застосунок?', relaunch: 'Перезапустити', later: 'Пізніше', trayIcon: 'Значок у треї', language: 'Мова', windowSize: 'Розмір вікна', compact: 'Компактний', standard: 'Стандартний', large: 'Великий', max: 'Максимальний', testNotification: 'Тест сповіщення', quit: 'Вийти', bolt: 'Блискавка' },
 };
 const DEFAULT_WINDOW_PRESET_ID = 'standard';
 const DEFAULT_TRAY_ICON_PRESET_ID = 'g-and-f';
@@ -131,17 +138,27 @@ if (!gotTheLock) {
 
 // ── Icon Helper ─────────────────────────────────────────────
 function getIconPath() {
-  // In packaged app, icons are in the resources directory
-  const iconName = process.platform === 'win32' ? 'icon.ico' : 'icon.png';
-  const devPath = path.join(__dirname, '..', 'build', iconName);
-  const prodPath = path.join(process.resourcesPath, iconName);
-
-  try {
-    require('fs').accessSync(devPath);
-    return devPath;
-  } catch {
-    return prodPath;
+  const names = process.platform === 'win32'
+    ? ['icon.ico']
+    : process.platform === 'darwin'
+      ? ['icon.icns', 'AppIcon.icns', 'icon.png']
+      : ['icon.png', 'icon-512.png'];
+  const roots = [];
+  if (process.resourcesPath) roots.push(process.resourcesPath);
+  roots.push(path.join(__dirname, '..', 'build'), path.join(__dirname, '..'));
+  for (const root of roots) {
+    for (const name of names) {
+      const candidate = path.join(root, name);
+      if (fs.existsSync(candidate)) return candidate;
+    }
   }
+  return '';
+}
+
+function withNotificationIcon(options) {
+  const iconPath = getIconPath();
+  if (iconPath) options.icon = iconPath;
+  return options;
 }
 
 /**
@@ -564,11 +581,10 @@ function registerDownloadHandler() {
       if (state === 'completed') {
         if (!Notification.isSupported()) return;
 
-        const notification = new Notification({
+        const notification = new Notification(withNotificationIcon({
           title: APP_NAME,
           body: `Download abgeschlossen – ${fileName}`,
-          icon: getIconPath(),
-        });
+        }));
         notification.on('click', () => {
           shell.showItemInFolder(savePath);
         });
@@ -579,11 +595,10 @@ function registerDownloadHandler() {
       if (state === 'cancelled') return;
 
       if (Notification.isSupported()) {
-        const notification = new Notification({
+        const notification = new Notification(withNotificationIcon({
           title: APP_NAME,
           body: `Download fehlgeschlagen – ${fileName}`,
-          icon: getIconPath(),
-        });
+        }));
         notification.show();
       }
     });
@@ -762,12 +777,11 @@ function showMacToastNotification(title, options = {}) {
  */
 function showNativeNotification(title, options = {}) {
   const notificationId = ++notificationIdCounter;
-  const notificationOptions = {
+  const notificationOptions = withNotificationIcon({
     title: title || APP_NAME,
     body: options.body || options.message || '',
-    icon: getIconPath(),
     silent: Boolean(options.silent),
-  };
+  });
 
   if (Array.isArray(options.actions)) {
     notificationOptions.actions = options.actions;
@@ -777,6 +791,9 @@ function showNativeNotification(title, options = {}) {
   }
 
   const notification = new Notification(notificationOptions);
+  notification.on('failed', (_event, error) => {
+    console.error('[Main] Native notification failed:', error || _event);
+  });
   activeNotifications.set(notificationId, { notification, data: options.data || {}, tag: options.tag });
 
   notification.on('click', () => {
@@ -834,12 +851,11 @@ function registerIpcHandlers() {
     }
 
     try {
-      const testNotification = new Notification({
+      const testNotification = new Notification(withNotificationIcon({
         title: APP_NAME,
         body: 'Notifications enabled',
-        icon: getIconPath(),
         silent: true,
-      });
+      }));
       setTimeout(() => testNotification.close(), 100);
       return 'granted';
     } catch (error) {
@@ -1038,11 +1054,11 @@ async function showTestNotification() {
   }
 
   try {
-    const notification = new Notification({
+    const testOptions = {
       title: APP_NAME,
       body: 'Benachrichtigungen funktionieren.',
-      icon: getIconPath(),
-    });
+    };
+    const notification = new Notification(withNotificationIcon(testOptions));
     notification.on('click', () => showWindowFromTray());
     notification.show();
   } catch (error) {
@@ -1081,15 +1097,116 @@ function getBrewEnv() {
     '/bin',
     process.env.PATH || '',
   ];
-  return { ...process.env, PATH: pathParts.join(':') };
+  return {
+    ...process.env,
+    PATH: pathParts.join(':'),
+    HOMEBREW_NO_ENV_HINTS: '1',
+    HOMEBREW_NO_AUTO_UPDATE: '1',
+    HOMEBREW_COLOR: '0',
+  };
+}
+
+function runBrew(brewPath, args) {
+  return new Promise((resolve) => {
+    execFile(
+      brewPath,
+      args,
+      { env: getBrewEnv(), timeout: 15 * 60 * 1000 },
+      (err, stdout, stderr) => {
+        resolve({
+          err,
+          stdout: `${stdout || ''}`.trim(),
+          stderr: `${stderr || ''}`.trim(),
+          output: `${stdout || ''}\n${stderr || ''}`.trim(),
+        });
+      },
+    );
+  });
+}
+
+function parseVersionParts(value) {
+  const match = String(value || '').match(/(\d+)\.(\d+)\.(\d+)/);
+  if (!match) return null;
+  return [Number(match[1]), Number(match[2]), Number(match[3])];
+}
+
+function compareVersions(left, right) {
+  const a = parseVersionParts(left);
+  const b = parseVersionParts(right);
+  if (!a || !b) return 0;
+  for (let index = 0; index < 3; index += 1) {
+    if (a[index] !== b[index]) return a[index] - b[index];
+  }
+  return 0;
+}
+
+/**
+ * Homebrew's own "Already up-to-date" line must not hide a cask upgrade.
+ *
+ * @param {string} output - Combined brew stdout and stderr
+ * @returns {'current' | 'upgraded' | 'unknown'}
+ */
+function classifyCaskUpgradeOutput(output) {
+  const caskLines = String(output || '')
+    .split('\n')
+    .filter((line) => /gfe-portal-eu/i.test(line));
+  const caskText = caskLines.join('\n');
+  if (/not upgrading gfe-portal-eu|latest version is already installed|already installed and up-to-date/i.test(caskText)) {
+    return 'current';
+  }
+  if (caskLines.some((line) => /->/.test(line) || /upgrading gfe-portal-eu/i.test(line))) {
+    return 'upgraded';
+  }
+  return 'unknown';
+}
+
+function fetchLatestReleaseTag() {
+  return new Promise((resolve) => {
+    const request = https.get(
+      'https://api.github.com/repos/GF-Elektro/Portal-App/releases/latest',
+      {
+        headers: {
+          'User-Agent': 'GF-Portal-EU',
+          Accept: 'application/vnd.github+json',
+        },
+      },
+      (response) => {
+        let body = '';
+        response.on('data', (chunk) => {
+          body += chunk;
+        });
+        response.on('end', () => {
+          try {
+            resolve(JSON.parse(body).tag_name || '');
+          } catch {
+            resolve('');
+          }
+        });
+      },
+    );
+    request.on('error', () => resolve(''));
+    request.setTimeout(15000, () => {
+      request.destroy();
+      resolve('');
+    });
+  });
+}
+
+function caskLinesFrom(output) {
+  return String(output || '')
+    .split('\n')
+    .filter((line) => /gfe-portal-eu/i.test(line))
+    .join('\n')
+    .trim();
 }
 
 let isCheckingForUpdate = false;
 
 /**
- * Runs `brew upgrade --cask gfe-portal-eu` and prompts to relaunch on success.
+ * Refreshes the GF-Elektro tap and installs a newer gfe-portal-eu cask.
+ * A newer GitHub release that the tap has not published is reported as such.
  */
-function checkForBrewCaskUpdate() {
+async function checkForBrewCaskUpdate() {
   const labels = getTrayLabels();
   if (isCheckingForUpdate) return;
 
@@ -1106,61 +1223,77 @@ function checkForBrewCaskUpdate() {
 
   isCheckingForUpdate = true;
   if (Notification.isSupported()) {
-    new Notification({ title: APP_NAME, body: labels.updating }).show();
+    new Notification(withNotificationIcon({ title: APP_NAME, body: labels.updating })).show();
   }
 
-  execFile(
-    brewPath,
-    ['upgrade', '--cask', 'gfe-portal-eu'],
-    { env: getBrewEnv(), timeout: 15 * 60 * 1000 },
-    (err, stdout, stderr) => {
-      isCheckingForUpdate = false;
-      const output = `${stdout || ''}\n${stderr || ''}`.trim();
-      const alreadyLatest = /already installed|already up-to-date|is the newest version/i.test(output)
-        || (!err && /gfe-portal-eu/i.test(output) && /already/i.test(output));
+  try {
+    await runBrew(brewPath, ['update', '--quiet']);
+    const info = await runBrew(brewPath, ['info', '--cask', '--json=v2', 'gfe-portal-eu']);
+    let caskVersion = '';
+    try {
+      const parsed = JSON.parse(info.stdout);
+      caskVersion = parsed?.casks?.[0]?.version || '';
+    } catch {
+      caskVersion = '';
+    }
+    const installedVersion = app.getVersion();
+    const latestTag = await fetchLatestReleaseTag();
+    const releaseIsNewer = latestTag && compareVersions(latestTag, installedVersion) > 0;
+    const caskIsNewer = caskVersion && compareVersions(caskVersion, installedVersion) > 0;
 
-      if (err) {
-        const missingCask = /No available cask|No Casks available|is not installed/i.test(output);
+    if (!caskIsNewer) {
+      if (releaseIsNewer && (!caskVersion || compareVersions(latestTag, caskVersion) > 0)) {
         dialog.showMessageBox({
-          type: 'error',
+          type: 'warning',
           title: APP_NAME,
           message: labels.updateFailed,
-          detail: missingCask
-            ? `${labels.brewMissing}\n\n${output.slice(0, 800)}`
-            : (output.slice(0, 800) || err.message),
+          detail: labels.updateTapBehind
+            .replace('{latest}', latestTag.replace(/^v/, ''))
+            .replace('{cask}', caskVersion || installedVersion),
           buttons: ['OK'],
         });
         return;
       }
-
-      if (alreadyLatest || /already installed/i.test(output)) {
-        dialog.showMessageBox({
-          type: 'info',
-          title: APP_NAME,
-          message: labels.updateLatest,
-          detail: output.slice(0, 800) || undefined,
-          buttons: ['OK'],
-        });
-        return;
-      }
-
       dialog.showMessageBox({
-        type: 'question',
+        type: 'info',
         title: APP_NAME,
-        message: labels.updateDone,
-        detail: labels.relaunchPrompt,
-        buttons: [labels.relaunch, labels.later],
-        defaultId: 0,
-        cancelId: 1,
-      }).then(({ response }) => {
-        if (response !== 0) return;
-        isQuitting = true;
-        execFile('/usr/bin/open', ['-a', 'G&F Portal EU'], () => {
-          app.quit();
-        });
+        message: labels.updateLatest,
+        detail: `${installedVersion}`,
+        buttons: ['OK'],
       });
-    },
-  );
+      return;
+    }
+
+    const upgrade = await runBrew(brewPath, ['upgrade', '--cask', 'gfe-portal-eu']);
+    const status = classifyCaskUpgradeOutput(upgrade.output);
+    if (upgrade.err && status !== 'upgraded') {
+      dialog.showMessageBox({
+        type: 'error',
+        title: APP_NAME,
+        message: labels.updateFailed,
+        detail: caskLinesFrom(upgrade.output).slice(0, 800) || upgrade.err.message,
+        buttons: ['OK'],
+      });
+      return;
+    }
+
+    const { response } = await dialog.showMessageBox({
+      type: 'question',
+      title: APP_NAME,
+      message: labels.updateDone,
+      detail: labels.relaunchPrompt,
+      buttons: [labels.relaunch, labels.later],
+      defaultId: 0,
+      cancelId: 1,
+    });
+    if (response !== 0) return;
+    isQuitting = true;
+    execFile('/usr/bin/open', ['-a', 'G&F Portal EU'], () => {
+      app.quit();
+    });
+  } finally {
+    isCheckingForUpdate = false;
+  }
 }
 
 // ── Create System Tray ──────────────────────────────────────

@@ -9,7 +9,13 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
-## [Unreleased]
+## [1.0.69] - 2026-11-18
+
+### Fixed
+
+- **macOS Notification Center** — packaged builds passed a missing `icon.png` into Electron's `Notification`, so the tray test never reached Notification Center. The app now uses the shipped `icon.icns`.
+- **Homebrew update check** — `brew upgrade` treated Homebrew's own "Already up-to-date" line as the app being current and showed the brew auto-update log. The check now compares the cask with the GitHub release.
+- **Microsoft Store toasts** — Store installs use `GFElektro.GFPortalEU_bmafrkax0y7g8!GFPortalEU`. NSIS and portable builds keep `com.gfelektro.portal`.
 
 ### Added
 
