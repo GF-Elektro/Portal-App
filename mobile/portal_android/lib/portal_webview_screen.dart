@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:file_picker/file_picker.dart' as fp;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,11 +28,13 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
   static const _channelId = 'gf_portal_alerts';
   static const _channelName = 'G&F Portal EU';
   bool _scriptsInjected = false;
+  String? _fcmToken;
 
   @override
   void initState() {
     super.initState();
     _initNotifications();
+    unawaited(_initFirebaseMessaging());
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
@@ -56,6 +60,24 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
       ..loadRequest(Uri.parse(PortalHosts.portalUrl));
 
     _configureAndroid();
+  }
+
+  Future<void> _initFirebaseMessaging() async {
+    try {
+      await Firebase.initializeApp();
+      final messaging = FirebaseMessaging.instance;
+      await messaging.requestPermission();
+      _fcmToken = await messaging.getToken();
+    } catch (_) {
+      _fcmToken = null;
+    }
+  }
+
+  Future<void> _resolveNativeToken(String requestId) async {
+    if (_fcmToken == null) {
+      await _initFirebaseMessaging();
+    }
+    await _resolvePermission(requestId, status: _fcmToken ?? '');
   }
 
   Future<void> _initNotifications() async {
@@ -139,7 +161,14 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
       }
     },
     push: {
-      getNativeToken: function() { return Promise.resolve(null); }
+      getNativeToken: function() {
+        return new Promise(function(resolve) {
+          var id = 't' + Math.random().toString(36).slice(2);
+          window.__portalNativeResolvers = window.__portalNativeResolvers || {};
+          window.__portalNativeResolvers[id] = function(value) { resolve(value || null); };
+          post('getNativeToken', { requestId: id });
+        });
+      }
     }
   };
 })();
@@ -175,6 +204,8 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
           decoded['requestId'] as String? ?? '',
           request: false,
         ));
+      case 'getNativeToken':
+        unawaited(_resolveNativeToken(decoded['requestId'] as String? ?? ''));
     }
   }
 

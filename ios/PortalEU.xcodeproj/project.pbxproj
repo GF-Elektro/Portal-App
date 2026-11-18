@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		38C5BF24030ED98BE5218CB8 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = "TEMP_F5201D6E-BB3C-4518-A0AE-A2BCF6B4C852" /* FirebaseCore */; };
+		4EBAE48627168F0E6B49AABF /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 95637AE6CEE7E02D4039CA04 /* FirebaseCore */; };
+		581EECC5E15EA9DBC7534EFE /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 6C637B5BF435640C49765484 /* FirebaseMessaging */; };
 		A10000000000000000000010 /* PortalEUApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000020 /* PortalEUApp.swift */; };
 		A10000000000000000000011 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000021 /* ContentView.swift */; };
 		A10000000000000000000012 /* PortalWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000022 /* PortalWebView.swift */; };
@@ -14,9 +17,11 @@
 		A10000000000000000000014 /* PortalNativeBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000026 /* PortalNativeBridge.swift */; };
 		A10000000000000000000015 /* portal-native-bridge.js in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000027 /* portal-native-bridge.js */; };
 		A10000000000000000000016 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000028 /* Assets.xcassets */; };
+		DAA50B2E18CC3333449A987F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F22597800982442B51CEBB6 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5F22597800982442B51CEBB6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A10000000000000000000020 /* PortalEUApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalEUApp.swift; sourceTree = "<group>"; };
 		A10000000000000000000021 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A10000000000000000000022 /* PortalWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalWebView.swift; sourceTree = "<group>"; };
@@ -33,6 +38,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38C5BF24030ED98BE5218CB8 /* FirebaseCore in Frameworks */,
+				4EBAE48627168F0E6B49AABF /* FirebaseCore in Frameworks */,
+				581EECC5E15EA9DBC7534EFE /* FirebaseMessaging in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +58,7 @@
 				A10000000000000000000024 /* Info.plist */,
 				A10000000000000000000023 /* PrivacyInfo.xcprivacy */,
 				A10000000000000000000028 /* Assets.xcassets */,
+				5F22597800982442B51CEBB6 /* GoogleService-Info.plist */,
 			);
 			path = PortalEU;
 			sourceTree = "<group>";
@@ -86,6 +95,10 @@
 			dependencies = (
 			);
 			name = PortalEU;
+			packageProductDependencies = (
+				95637AE6CEE7E02D4039CA04 /* FirebaseCore */,
+				6C637B5BF435640C49765484 /* FirebaseMessaging */,
+			);
 			productName = PortalEU;
 			productReference = A10000000000000000000025 /* PortalEU.app */;
 			productType = "com.apple.product-type.application";
@@ -114,6 +127,9 @@
 				de,
 			);
 			mainGroup = A10000000000000000000032;
+			packageReferences = (
+				2D8870D8F1D3DE8163416CA1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = A10000000000000000000031 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -131,6 +147,7 @@
 				A10000000000000000000013 /* PrivacyInfo.xcprivacy in Resources */,
 				A10000000000000000000015 /* portal-native-bridge.js in Resources */,
 				A10000000000000000000016 /* Assets.xcassets in Resources */,
+				DAA50B2E18CC3333449A987F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +263,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = "PortalEU/PortalEU-Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 71;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -256,6 +274,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.71;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gfelektro.portal.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -268,6 +289,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = "PortalEU/PortalEU-Release.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 71;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -278,6 +300,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.71;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gfelektro.portal.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -307,6 +332,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2D8870D8F1D3DE8163416CA1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6C637B5BF435640C49765484 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2D8870D8F1D3DE8163416CA1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		95637AE6CEE7E02D4039CA04 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2D8870D8F1D3DE8163416CA1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		"TEMP_F5201D6E-BB3C-4518-A0AE-A2BCF6B4C852" /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2D8870D8F1D3DE8163416CA1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A10000000000000000000050 /* Project object */;
 }

@@ -75,7 +75,7 @@ Remote push when the app is closed needs native FCM, not web push inside WKWebVi
 4. Download **`GoogleService-Info.plist`** from Firebase for this iOS app. Place it in `ios/PortalEU/` locally. The file is **gitignored** (see root `.gitignore`).
 5. Add the **Firebase iOS SDK** (Swift Package: `https://github.com/firebase/firebase-ios-sdk`, product **FirebaseMessaging**) only after the plist is on your Mac. Wire `Messaging.messaging().token` into `portalNativeAPI.push.getNativeToken` in [`PortalNativeBridge.swift`](PortalEU/PortalNativeBridge.swift).
 
-Until Firebase is configured, `getNativeToken` returns `null` and the portal still receives in-app and local notifications via the bridge from 1.0.29.
+`getNativeToken` returns the Firebase Messaging token when `GoogleService-Info.plist` is in the app bundle. Without that file it returns `null`, and local notifications still work.
 
 ## Clipboard
 

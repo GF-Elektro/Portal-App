@@ -1,3 +1,5 @@
+import FirebaseCore
+import FirebaseMessaging
 import Foundation
 import UserNotifications
 import WebKit
@@ -57,7 +59,12 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
             },
             push: {
               getNativeToken: function() {
-                return Promise.resolve(null);
+                return new Promise(function(resolve) {
+                  var id = 't' + Math.random().toString(36).slice(2);
+                  window.__portalNativeResolvers = window.__portalNativeResolvers || {};
+                  window.__portalNativeResolvers[id] = function(value) { resolve(value ? value : null); };
+                  post('getNativeToken', { requestId: id });
+                });
               }
             }
           };
@@ -130,6 +137,9 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
         case "checkPermission":
             let requestId = body["requestId"] as? String ?? ""
             resolvePermissionStatus(requestId: requestId)
+        case "getNativeToken":
+            let requestId = body["requestId"] as? String ?? ""
+            resolveNativeToken(requestId: requestId)
         case "log":
             let level = body["level"] as? String ?? "LOG"
             let message = body["message"] as? String ?? ""
@@ -137,6 +147,16 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
             print("[PORTAL-WEB][\(level)][\(url)] \(message)")
         default:
             break
+        }
+    }
+
+    private func resolveNativeToken(requestId: String) {
+        guard FirebaseApp.app() != nil else {
+            completeResolver(requestId: requestId, value: "")
+            return
+        }
+        Messaging.messaging().token { token, _ in
+            self.completeResolver(requestId: requestId, value: token ?? "")
         }
     }
 
