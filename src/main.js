@@ -92,13 +92,13 @@ const TRAY_LANGUAGES = [
   { id: 'en', label: 'English' },
 ];
 const TRAY_TRANSLATIONS = {
-  de: { open: 'Portal öffnen', reload: 'Neu laden', checkForUpdate: 'Nach Updates suchen', updating: 'Update wird geprüft…', updateDone: 'Update abgeschlossen', updateLatest: 'Bereits auf dem neuesten Stand', updateTapBehind: 'GitHub hat {latest}, das Homebrew-Cask ist noch {cask}. Das Update wird installiert, sobald das Tap diese Version enthält.', updateFailed: 'Update fehlgeschlagen', brewMissing: 'Homebrew nicht gefunden. Bitte Brew installieren und GF-Elektro/tap hinzufügen.', relaunchPrompt: 'Eine neue Version wurde installiert. App jetzt neu starten?', relaunch: 'Neu starten', later: 'Später', trayIcon: 'Tray-Symbol', language: 'Sprache', windowSize: 'Fenstergröße', compact: 'Kompakt', standard: 'Standard', large: 'Groß', max: 'Maximal', testNotification: 'Benachrichtigung testen', quit: 'Beenden', bolt: 'Blitz' },
-  en: { open: 'Open portal', reload: 'Reload', checkForUpdate: 'Check for Update', updating: 'Checking for updates…', updateDone: 'Update complete', updateLatest: 'Already up to date', updateTapBehind: 'GitHub has {latest}, but the Homebrew cask is still {cask}. The update installs once the tap publishes that version.', updateFailed: 'Update failed', brewMissing: 'Homebrew not found. Install Brew and tap GF-Elektro/tap.', relaunchPrompt: 'A new version was installed. Relaunch the app now?', relaunch: 'Relaunch', later: 'Later', trayIcon: 'Tray icon', language: 'Language', windowSize: 'Window size', compact: 'Compact', standard: 'Standard', large: 'Large', max: 'Maximum', testNotification: 'Test notification', quit: 'Quit', bolt: 'Lightning bolt' },
-  sk: { open: 'Otvoriť portál', reload: 'Obnoviť', checkForUpdate: 'Skontrolovať aktualizácie', updating: 'Kontrolujú sa aktualizácie…', updateDone: 'Aktualizácia dokončená', updateLatest: 'Už máte najnovšiu verziu', updateTapBehind: 'GitHub má {latest}, ale Homebrew cask je stále {cask}. Aktualizácia sa nainštaluje, keď tap túto verziu zverejní.', updateFailed: 'Aktualizácia zlyhala', brewMissing: 'Homebrew sa nenašiel. Nainštalujte Brew a pridajte GF-Elektro/tap.', relaunchPrompt: 'Bola nainštalovaná nová verzia. Reštartovať aplikáciu?', relaunch: 'Reštartovať', later: 'Neskôr', trayIcon: 'Ikona v lište', language: 'Jazyk', windowSize: 'Veľkosť okna', compact: 'Kompaktné', standard: 'Štandardné', large: 'Veľké', max: 'Maximálne', testNotification: 'Otestovať upozornenie', quit: 'Ukončiť', bolt: 'Blesk' },
-  cz: { open: 'Otevřít portál', reload: 'Obnovit', checkForUpdate: 'Zkontrolovat aktualizace', updating: 'Kontrola aktualizací…', updateDone: 'Aktualizace dokončena', updateLatest: 'Již máte nejnovější verzi', updateTapBehind: 'GitHub má {latest}, ale Homebrew cask je stále {cask}. Aktualizace se nainstaluje, až tap tuto verzi zveřejní.', updateFailed: 'Aktualizace selhala', brewMissing: 'Homebrew nenalezen. Nainstalujte Brew a přidejte GF-Elektro/tap.', relaunchPrompt: 'Byla nainstalována nová verze. Restartovat aplikaci?', relaunch: 'Restartovat', later: 'Později', trayIcon: 'Ikona v liště', language: 'Jazyk', windowSize: 'Velikost okna', compact: 'Kompaktní', standard: 'Standardní', large: 'Velké', max: 'Maximální', testNotification: 'Otestovat oznámení', quit: 'Ukončit', bolt: 'Blesk' },
-  pl: { open: 'Otwórz portal', reload: 'Odśwież', checkForUpdate: 'Sprawdź aktualizacje', updating: 'Sprawdzanie aktualizacji…', updateDone: 'Aktualizacja zakończona', updateLatest: 'Masz już najnowszą wersję', updateTapBehind: 'GitHub ma {latest}, ale cask Homebrew jest nadal {cask}. Aktualizacja zainstaluje się, gdy tap opublikuje tę wersję.', updateFailed: 'Aktualizacja nie powiodła się', brewMissing: 'Nie znaleziono Homebrew. Zainstaluj Brew i dodaj GF-Elektro/tap.', relaunchPrompt: 'Zainstalowano nową wersję. Uruchomić aplikację ponownie?', relaunch: 'Uruchom ponownie', later: 'Później', trayIcon: 'Ikona w zasobniku', language: 'Język', windowSize: 'Rozmiar okna', compact: 'Kompaktowy', standard: 'Standardowy', large: 'Duży', max: 'Maksymalny', testNotification: 'Test powiadomienia', quit: 'Zakończ', bolt: 'Błyskawica' },
-  hu: { open: 'Portál megnyitása', reload: 'Újratöltés', checkForUpdate: 'Frissítések keresése', updating: 'Frissítések ellenőrzése…', updateDone: 'Frissítés kész', updateLatest: 'Már a legújabb verzió fut', updateTapBehind: 'A GitHubon {latest} van, a Homebrew cask még {cask}. A frissítés akkor települ, ha a tap közzéteszi ezt a verziót.', updateFailed: 'A frissítés sikertelen', brewMissing: 'A Homebrew nem található. Telepítse a Brew-t és adja hozzá a GF-Elektro/tap-et.', relaunchPrompt: 'Új verzió telepítve. Újraindítja az alkalmazást?', relaunch: 'Újraindítás', later: 'Később', trayIcon: 'Tálcaikon', language: 'Nyelv', windowSize: 'Ablakméret', compact: 'Kompakt', standard: 'Normál', large: 'Nagy', max: 'Maximális', testNotification: 'Értesítés tesztelése', quit: 'Kilépés', bolt: 'Villám' },
-  uk: { open: 'Відкрити портал', reload: 'Перезавантажити', checkForUpdate: 'Перевірити оновлення', updating: 'Перевірка оновлень…', updateDone: 'Оновлення завершено', updateLatest: 'Вже найновіша версія', updateTapBehind: 'На GitHub є {latest}, а cask Homebrew досі {cask}. Оновлення встановиться, коли tap опублікує цю версію.', updateFailed: 'Помилка оновлення', brewMissing: 'Homebrew не знайдено. Встановіть Brew і додайте GF-Elektro/tap.', relaunchPrompt: 'Встановлено нову версію. Перезапустити застосунок?', relaunch: 'Перезапустити', later: 'Пізніше', trayIcon: 'Значок у треї', language: 'Мова', windowSize: 'Розмір вікна', compact: 'Компактний', standard: 'Стандартний', large: 'Великий', max: 'Максимальний', testNotification: 'Тест сповіщення', quit: 'Вийти', bolt: 'Блискавка' },
+  de: { open: 'Portal öffnen', reload: 'Neu laden', checkForUpdate: 'Nach Updates suchen', updating: 'Update wird geprüft…', updateDone: 'Update abgeschlossen', updateLatest: 'Bereits auf dem neuesten Stand', updateTapBehind: 'GitHub hat {latest}, das Homebrew-Cask ist noch {cask}. Das Update wird installiert, sobald das Tap diese Version enthält.', updateFailed: 'Update fehlgeschlagen', brewMissing: 'Homebrew nicht gefunden. Bitte Brew installieren und GF-Elektro/tap hinzufügen.', relaunchPrompt: 'Eine neue Version wurde installiert. App jetzt neu starten?', relaunch: 'Neu starten', later: 'Später', trayIcon: 'Tray-Symbol', language: 'Sprache', windowSize: 'Fenstergröße', compact: 'Kompakt', standard: 'Standard', large: 'Groß', max: 'Maximal', testNotification: 'Benachrichtigung testen', notificationBlocked: 'Mitteilungen sind blockiert', notificationBlockedDetail: 'macOS hat die Testmitteilung nicht angenommen. Erlauben Sie Mitteilungen für G&F Portal EU in den Systemeinstellungen.', openSettings: 'Einstellungen öffnen', quit: 'Beenden', bolt: 'Blitz' },
+  en: { open: 'Open portal', reload: 'Reload', checkForUpdate: 'Check for Update', updating: 'Checking for updates…', updateDone: 'Update complete', updateLatest: 'Already up to date', updateTapBehind: 'GitHub has {latest}, but the Homebrew cask is still {cask}. The update installs once the tap publishes that version.', updateFailed: 'Update failed', brewMissing: 'Homebrew not found. Install Brew and tap GF-Elektro/tap.', relaunchPrompt: 'A new version was installed. Relaunch the app now?', relaunch: 'Relaunch', later: 'Later', trayIcon: 'Tray icon', language: 'Language', windowSize: 'Window size', compact: 'Compact', standard: 'Standard', large: 'Large', max: 'Maximum', testNotification: 'Test notification', notificationBlocked: 'Notifications are blocked', notificationBlockedDetail: 'macOS did not accept the test notification. Allow notifications for G&F Portal EU in System Settings.', openSettings: 'Open Settings', quit: 'Quit', bolt: 'Lightning bolt' },
+  sk: { open: 'Otvoriť portál', reload: 'Obnoviť', checkForUpdate: 'Skontrolovať aktualizácie', updating: 'Kontrolujú sa aktualizácie…', updateDone: 'Aktualizácia dokončená', updateLatest: 'Už máte najnovšiu verziu', updateTapBehind: 'GitHub má {latest}, ale Homebrew cask je stále {cask}. Aktualizácia sa nainštaluje, keď tap túto verziu zverejní.', updateFailed: 'Aktualizácia zlyhala', brewMissing: 'Homebrew sa nenašiel. Nainštalujte Brew a pridajte GF-Elektro/tap.', relaunchPrompt: 'Bola nainštalovaná nová verzia. Reštartovať aplikáciu?', relaunch: 'Reštartovať', later: 'Neskôr', trayIcon: 'Ikona v lište', language: 'Jazyk', windowSize: 'Veľkosť okna', compact: 'Kompaktné', standard: 'Štandardné', large: 'Veľké', max: 'Maximálne', testNotification: 'Otestovať upozornenie', notificationBlocked: 'Upozornenia sú zablokované', notificationBlockedDetail: 'macOS testovacie upozornenie neprijal. Povoľte upozornenia pre G&F Portal EU v Systémových nastaveniach.', openSettings: 'Otvoriť nastavenia', quit: 'Ukončiť', bolt: 'Blesk' },
+  cz: { open: 'Otevřít portál', reload: 'Obnovit', checkForUpdate: 'Zkontrolovat aktualizace', updating: 'Kontrola aktualizací…', updateDone: 'Aktualizace dokončena', updateLatest: 'Již máte nejnovější verzi', updateTapBehind: 'GitHub má {latest}, ale Homebrew cask je stále {cask}. Aktualizace se nainstaluje, až tap tuto verzi zveřejní.', updateFailed: 'Aktualizace selhala', brewMissing: 'Homebrew nenalezen. Nainstalujte Brew a přidejte GF-Elektro/tap.', relaunchPrompt: 'Byla nainstalována nová verze. Restartovat aplikaci?', relaunch: 'Restartovat', later: 'Později', trayIcon: 'Ikona v liště', language: 'Jazyk', windowSize: 'Velikost okna', compact: 'Kompaktní', standard: 'Standardní', large: 'Velké', max: 'Maximální', testNotification: 'Otestovat oznámení', notificationBlocked: 'Oznámení jsou zablokována', notificationBlockedDetail: 'macOS testovací oznámení nepřijal. Povolte oznámení pro G&F Portal EU v Nastavení systému.', openSettings: 'Otevřít nastavení', quit: 'Ukončit', bolt: 'Blesk' },
+  pl: { open: 'Otwórz portal', reload: 'Odśwież', checkForUpdate: 'Sprawdź aktualizacje', updating: 'Sprawdzanie aktualizacji…', updateDone: 'Aktualizacja zakończona', updateLatest: 'Masz już najnowszą wersję', updateTapBehind: 'GitHub ma {latest}, ale cask Homebrew jest nadal {cask}. Aktualizacja zainstaluje się, gdy tap opublikuje tę wersję.', updateFailed: 'Aktualizacja nie powiodła się', brewMissing: 'Nie znaleziono Homebrew. Zainstaluj Brew i dodaj GF-Elektro/tap.', relaunchPrompt: 'Zainstalowano nową wersję. Uruchomić aplikację ponownie?', relaunch: 'Uruchom ponownie', later: 'Później', trayIcon: 'Ikona w zasobniku', language: 'Język', windowSize: 'Rozmiar okna', compact: 'Kompaktowy', standard: 'Standardowy', large: 'Duży', max: 'Maksymalny', testNotification: 'Test powiadomienia', notificationBlocked: 'Powiadomienia są zablokowane', notificationBlockedDetail: 'macOS nie przyjął powiadomienia testowego. Zezwól na powiadomienia dla G&F Portal EU w Ustawieniach systemu.', openSettings: 'Otwórz ustawienia', quit: 'Zakończ', bolt: 'Błyskawica' },
+  hu: { open: 'Portál megnyitása', reload: 'Újratöltés', checkForUpdate: 'Frissítések keresése', updating: 'Frissítések ellenőrzése…', updateDone: 'Frissítés kész', updateLatest: 'Már a legújabb verzió fut', updateTapBehind: 'A GitHubon {latest} van, a Homebrew cask még {cask}. A frissítés akkor települ, ha a tap közzéteszi ezt a verziót.', updateFailed: 'A frissítés sikertelen', brewMissing: 'A Homebrew nem található. Telepítse a Brew-t és adja hozzá a GF-Elektro/tap-et.', relaunchPrompt: 'Új verzió telepítve. Újraindítja az alkalmazást?', relaunch: 'Újraindítás', later: 'Később', trayIcon: 'Tálcaikon', language: 'Nyelv', windowSize: 'Ablakméret', compact: 'Kompakt', standard: 'Normál', large: 'Nagy', max: 'Maximális', testNotification: 'Értesítés tesztelése', notificationBlocked: 'Az értesítések le vannak tiltva', notificationBlockedDetail: 'A macOS nem fogadta el a tesztértesítést. Engedélyezze az értesítéseket a G&F Portal EU számára a Rendszerbeállításokban.', openSettings: 'Beállítások megnyitása', quit: 'Kilépés', bolt: 'Villám' },
+  uk: { open: 'Відкрити портал', reload: 'Перезавантажити', checkForUpdate: 'Перевірити оновлення', updating: 'Перевірка оновлень…', updateDone: 'Оновлення завершено', updateLatest: 'Вже найновіша версія', updateTapBehind: 'На GitHub є {latest}, а cask Homebrew досі {cask}. Оновлення встановиться, коли tap опублікує цю версію.', updateFailed: 'Помилка оновлення', brewMissing: 'Homebrew не знайдено. Встановіть Brew і додайте GF-Elektro/tap.', relaunchPrompt: 'Встановлено нову версію. Перезапустити застосунок?', relaunch: 'Перезапустити', later: 'Пізніше', trayIcon: 'Значок у треї', language: 'Мова', windowSize: 'Розмір вікна', compact: 'Компактний', standard: 'Стандартний', large: 'Великий', max: 'Максимальний', testNotification: 'Тест сповіщення', notificationBlocked: 'Сповіщення заблоковані', notificationBlockedDetail: 'macOS не прийняв тестове сповіщення. Дозвольте сповіщення для G&F Portal EU в Системних параметрах.', openSettings: 'Відкрити параметри', quit: 'Вийти', bolt: 'Блискавка' },
 };
 const DEFAULT_WINDOW_PRESET_ID = 'standard';
 const DEFAULT_TRAY_ICON_PRESET_ID = 'g-and-f';
@@ -1031,52 +1031,63 @@ function hideWindowToTray() {
   }
 }
 
+let retainedTestNotification = null;
+
+function openNotificationSettings() {
+  if (process.platform === 'darwin') {
+    shell.openExternal('x-apple.systempreferences:com.apple.Notifications-Settings.extension');
+    return;
+  }
+  if (process.platform === 'win32') {
+    shell.openExternal('ms-settings:notifications');
+  }
+}
+
+async function explainNotificationBlocked(detail) {
+  const labels = getTrayLabels();
+  const result = await dialog.showMessageBox(mainWindow || undefined, {
+    type: 'warning',
+    title: APP_NAME,
+    message: labels.notificationBlocked,
+    detail: detail ? `${labels.notificationBlockedDetail}\n\n${detail}` : labels.notificationBlockedDetail,
+    buttons: [labels.openSettings, labels.later],
+    defaultId: 0,
+    cancelId: 1,
+  });
+  if (result.response === 0) openNotificationSettings();
+}
+
 /**
- * Fires a native test notification, or offers Windows settings when blocked.
+ * Fires a native test notification.
+ * The Notification object must stay referenced until Notification Center accepts it.
+ * Dropping it immediately lets V8 collect it while the icon attachment is still running,
+ * and the banner never appears.
  */
 async function showTestNotification() {
   if (!Notification.isSupported()) {
-    if (process.platform === 'win32') {
-      const result = await dialog.showMessageBox(mainWindow || undefined, {
-        type: 'warning',
-        title: APP_NAME,
-        message: 'Benachrichtigungen nicht verfügbar',
-        detail: 'Windows blockiert Benachrichtigungen für diese App. Öffnen Sie die Benachrichtigungseinstellungen, um sie zu aktivieren.',
-        buttons: ['Einstellungen öffnen', 'Abbrechen'],
-        defaultId: 0,
-        cancelId: 1,
-      });
-      if (result.response === 0) {
-        shell.openExternal('ms-settings:notifications');
-      }
-    }
+    await explainNotificationBlocked();
     return;
   }
 
   try {
-    const testOptions = {
+    const notification = new Notification({
       title: APP_NAME,
       body: 'Benachrichtigungen funktionieren.',
-    };
-    const notification = new Notification(withNotificationIcon(testOptions));
+    });
+    retainedTestNotification = notification;
     notification.on('click', () => showWindowFromTray());
+    notification.on('failed', (_event, error) => {
+      const message = error && error.message ? error.message : String(error || '');
+      console.error('[Main] Test notification failed:', message);
+      explainNotificationBlocked(message);
+    });
+    notification.on('close', () => {
+      if (retainedTestNotification === notification) retainedTestNotification = null;
+    });
     notification.show();
   } catch (error) {
     console.error('[Main] Failed to show test notification:', error);
-    if (process.platform === 'win32') {
-      const result = await dialog.showMessageBox(mainWindow || undefined, {
-        type: 'warning',
-        title: APP_NAME,
-        message: 'Benachrichtigungen blockiert',
-        detail: 'Die Test-Benachrichtigung konnte nicht angezeigt werden. Prüfen Sie die Windows-Benachrichtigungseinstellungen.',
-        buttons: ['Einstellungen öffnen', 'Abbrechen'],
-        defaultId: 0,
-        cancelId: 1,
-      });
-      if (result.response === 0) {
-        shell.openExternal('ms-settings:notifications');
-      }
-    }
+    await explainNotificationBlocked(error && error.message ? error.message : String(error));
   }
 }
 

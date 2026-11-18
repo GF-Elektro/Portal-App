@@ -9,6 +9,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.70] - 2026-11-18
+
+### Fixed
+
+- **Tray test notification** — **Benachrichtigung testen** created the macOS notification and then let it be discarded before Notification Center accepted it, so no banner appeared. The test notification is now kept until the system shows it, and a settings dialog appears if macOS blocks it.
+
+---
+
 ## [1.0.69] - 2026-11-18
 
 ### Fixed
