@@ -47,7 +47,12 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
                 });
               },
               show: function(title, options) {
-                post('show', { title: title || '', options: options || {} });
+                return new Promise(function(resolve) {
+                  var id = 's' + Math.random().toString(36).slice(2);
+                  window.__portalNativeResolvers = window.__portalNativeResolvers || {};
+                  window.__portalNativeResolvers[id] = resolve;
+                  post('show', { title: title || '', options: options || {}, requestId: id });
+                });
               }
             },
             push: {
@@ -117,7 +122,8 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
         case "show":
             let title = body["title"] as? String ?? "G&F Portal EU"
             let options = body["options"] as? [String: Any] ?? [:]
-            showLocalNotification(title: title, options: options)
+            let requestId = body["requestId"] as? String ?? ""
+            showLocalNotification(title: title, options: options, requestId: requestId)
         case "requestPermission":
             let requestId = body["requestId"] as? String ?? ""
             requestAuthorization(requestId: requestId)
@@ -170,7 +176,7 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
         }
     }
 
-    private func showLocalNotification(title: String, options: [String: Any]) {
+    private func showLocalNotification(title: String, options: [String: Any], requestId: String) {
         let content = UNMutableNotificationContent()
         content.title = title
         if let body = options["body"] as? String {
@@ -191,7 +197,23 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
         content.userInfo = userInfo
 
         let request = UNNotificationRequest(identifier: notificationId, content: content, trigger: nil)
-        UNUserNotificationCenter.current().add(request)
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            let allowed: Bool
+            switch settings.authorizationStatus {
+            case .authorized, .provisional, .ephemeral:
+                allowed = true
+            default:
+                allowed = false
+            }
+            if !allowed {
+                self.completeResolver(requestId: requestId, value: "rejected")
+                return
+            }
+            UNUserNotificationCenter.current().add(request) { error in
+                let value = error == nil ? "accepted" : "rejected"
+                self.completeResolver(requestId: requestId, value: value)
+            }
+        }
     }
 
     func userNotificationCenter(

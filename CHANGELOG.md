@@ -9,6 +9,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.71] - 2026-11-18
+
+### Fixed
+
+- **Operating-system notifications** — tray tests, portal alerts, and download notices now post a title and body and wait until macOS Notification Center lists the item. A missing banner no longer counts as success. If the center rejects the alert, the tray opens notification settings. iOS and Android report that rejection so the portal can keep the in-app toast as the fallback.
+
+---
+
 ## [1.0.70] - 2026-11-18
 
 ### Fixed

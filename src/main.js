@@ -155,10 +155,135 @@ function getIconPath() {
   return '';
 }
 
-function withNotificationIcon(options) {
-  const iconPath = getIconPath();
-  if (iconPath) options.icon = iconPath;
-  return options;
+let lastOsNotificationAccepted = null;
+
+/**
+ * @param {string} title
+ * @param {string} body
+ * @param {Electron.Notification[]} history
+ * @returns {boolean}
+ */
+function historyContainsNotification(history, title, body) {
+  return history.some((item) => item.title === title && (item.body || '') === body);
+}
+
+/**
+ * Mac acceptance is a Notification Center list entry.
+ * Other platforms accept when the native call does not emit failed.
+ *
+ * @param {Electron.Notification} notification
+ * @param {string} title
+ * @param {string} body
+ * @returns {Promise<{ accepted: boolean, reason?: string }>}
+ */
+function waitForOsAcceptance(notification, title, body) {
+  const waitMs = 2000;
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = (accepted, reason) => {
+      if (settled) return;
+      settled = true;
+      lastOsNotificationAccepted = accepted;
+      resolve(reason ? { accepted, reason } : { accepted });
+    };
+
+    if (process.platform !== 'darwin') {
+      const timer = setTimeout(() => finish(true), waitMs);
+      notification.once('show', () => {
+        clearTimeout(timer);
+        finish(true);
+      });
+      notification.once('failed', (_event, error) => {
+        clearTimeout(timer);
+        const message = error && error.message ? error.message : String(error || 'failed');
+        finish(false, message);
+      });
+      return;
+    }
+
+    notification.once('failed', (_event, error) => {
+      const message = error && error.message ? error.message : String(error || 'failed');
+      finish(false, message);
+    });
+
+    const started = Date.now();
+    const poll = async () => {
+      if (settled) return;
+      try {
+        if (typeof Notification.getHistory === 'function') {
+          const history = await Notification.getHistory();
+          if (historyContainsNotification(history, title, body)) {
+            finish(true);
+            return;
+          }
+        }
+      } catch (error) {
+        console.error('[Main] Notification history check failed:', error);
+      }
+      if (Date.now() - started >= waitMs) {
+        finish(false, 'not-in-notification-center');
+        return;
+      }
+      setTimeout(poll, 200);
+    };
+    setTimeout(poll, 150);
+  });
+}
+
+/**
+ * Posts a title and body to the OS notification center.
+ * An icon attachment is omitted because the Mac App Store build was not
+ * reaching Notification Center once Electron converted icon.icns.
+ *
+ * @param {string} title
+ * @param {object} options
+ * @param {{ onClick?: () => void }} [hooks]
+ * @returns {Promise<{ accepted: boolean, reason?: string, presentedFallback?: boolean }>}
+ */
+async function postOsNotification(title, options = {}, hooks = {}) {
+  const resolvedTitle = title || APP_NAME;
+  const body = options.body || options.message || '';
+
+  if (!Notification.isSupported()) {
+    return { accepted: false, reason: 'unsupported' };
+  }
+
+  if (shouldUseMacToastFallback()) {
+    showMacToastNotification(resolvedTitle, options);
+    return { accepted: false, reason: 'unsigned-dev', presentedFallback: true };
+  }
+
+  const notificationOptions = {
+    title: resolvedTitle,
+    body,
+    silent: Boolean(options.silent),
+  };
+  if (options.tag) notificationOptions.tag = options.tag;
+  if (Array.isArray(options.actions)) notificationOptions.actions = options.actions;
+
+  const notification = new Notification(notificationOptions);
+  retainedTestNotification = notification;
+  const notificationId = ++notificationIdCounter;
+  activeNotifications.set(notificationId, {
+    notification,
+    data: options.data || {},
+    tag: options.tag,
+  });
+
+  notification.on('click', () => {
+    if (typeof hooks.onClick === 'function') hooks.onClick();
+    else if (options.trayTest) showWindowFromTray();
+    else sendNotificationClicked({ id: options.id, tag: options.tag, data: options.data });
+    activeNotifications.delete(notificationId);
+  });
+
+  notification.on('close', () => {
+    activeNotifications.delete(notificationId);
+    if (retainedTestNotification === notification) retainedTestNotification = null;
+  });
+
+  notification.show();
+  return waitForOsAcceptance(notification, resolvedTitle, body);
 }
 
 /**
@@ -579,28 +704,15 @@ function registerDownloadHandler() {
       const fileName = path.basename(savePath);
 
       if (state === 'completed') {
-        if (!Notification.isSupported()) return;
-
-        const notification = new Notification(withNotificationIcon({
-          title: APP_NAME,
-          body: `Download abgeschlossen – ${fileName}`,
-        }));
-        notification.on('click', () => {
-          shell.showItemInFolder(savePath);
+        void postOsNotification(APP_NAME, { body: `Download abgeschlossen – ${fileName}` }, {
+          onClick: () => shell.showItemInFolder(savePath),
         });
-        notification.show();
         return;
       }
 
       if (state === 'cancelled') return;
 
-      if (Notification.isSupported()) {
-        const notification = new Notification(withNotificationIcon({
-          title: APP_NAME,
-          body: `Download fehlgeschlagen – ${fileName}`,
-        }));
-        notification.show();
-      }
+      void postOsNotification(APP_NAME, { body: `Download fehlgeschlagen – ${fileName}` });
     });
   });
 }
@@ -774,45 +886,10 @@ function showMacToastNotification(title, options = {}) {
  *
  * @param {string} title - Notification title
  * @param {object} options - Notification options
+ * @returns {Promise<{ accepted: boolean, reason?: string, presentedFallback?: boolean }>}
  */
 function showNativeNotification(title, options = {}) {
-  const notificationId = ++notificationIdCounter;
-  const notificationOptions = withNotificationIcon({
-    title: title || APP_NAME,
-    body: options.body || options.message || '',
-    silent: Boolean(options.silent),
-  });
-
-  if (Array.isArray(options.actions)) {
-    notificationOptions.actions = options.actions;
-  }
-  if (options.tag) {
-    notificationOptions.tag = options.tag;
-  }
-
-  const notification = new Notification(notificationOptions);
-  notification.on('failed', (_event, error) => {
-    console.error('[Main] Native notification failed:', error || _event);
-  });
-  activeNotifications.set(notificationId, { notification, data: options.data || {}, tag: options.tag });
-
-  notification.on('click', () => {
-    sendNotificationClicked({ id: options.id, tag: options.tag, data: options.data });
-    activeNotifications.delete(notificationId);
-    notification.close();
-  });
-
-  notification.on('close', () => {
-    activeNotifications.delete(notificationId);
-  });
-
-  if (options.requireInteraction === false && options.timeout) {
-    setTimeout(() => {
-      if (activeNotifications.has(notificationId)) notification.close();
-    }, options.timeout);
-  }
-
-  notification.show();
+  return postOsNotification(title, options);
 }
 
 /**
@@ -824,16 +901,12 @@ function registerIpcHandlers() {
 
   ipcMain.on('show-notification', (event, title, options = {}) => {
     if (!isTrustedNotificationSender(event)) return;
-    showNativeNotification(title, options);
+    void showNativeNotification(title, options);
   });
 
-  ipcMain.on('notification:show', (event, title, options = {}) => {
-    if (!isTrustedNotificationSender(event)) return;
-    if (shouldUseMacToastFallback()) {
-      showMacToastNotification(title, options);
-      return;
-    }
-    showNativeNotification(title, options);
+  ipcMain.handle('notification:show', async (event, title, options = {}) => {
+    if (!isTrustedNotificationSender(event)) return { accepted: false, reason: 'untrusted' };
+    return showNativeNotification(title, options);
   });
 
   ipcMain.on('toast-clicked', handleToastClicked);
@@ -842,26 +915,32 @@ function registerIpcHandlers() {
     if (!isTrustedNotificationSender(event) || !Notification.isSupported()) {
       return 'denied';
     }
-    return 'granted';
+    if (process.platform === 'darwin' && app.isPackaged && typeof Notification.getHistory === 'function') {
+      try {
+        const history = await Notification.getHistory();
+        if (Array.isArray(history) && history.length > 0) return 'granted';
+      } catch (error) {
+        console.error('[Main] Notification permission history check failed:', error);
+      }
+    }
+    if (lastOsNotificationAccepted === true) return 'granted';
+    return 'default';
   });
 
   ipcMain.handle('notification:request-permission', async (event) => {
     if (!isTrustedNotificationSender(event) || !Notification.isSupported()) {
       return 'denied';
     }
-
-    try {
-      const testNotification = new Notification(withNotificationIcon({
-        title: APP_NAME,
-        body: 'Notifications enabled',
-        silent: true,
-      }));
-      setTimeout(() => testNotification.close(), 100);
-      return 'granted';
-    } catch (error) {
-      console.error('[Main] Failed to request notification permission:', error);
-      return 'denied';
+    if (process.platform === 'darwin' && app.isPackaged && typeof Notification.getHistory === 'function') {
+      try {
+        const history = await Notification.getHistory();
+        if (Array.isArray(history) && history.length > 0) return 'granted';
+      } catch (error) {
+        console.error('[Main] Notification permission history check failed:', error);
+      }
     }
+    if (lastOsNotificationAccepted === true) return 'granted';
+    return 'default';
   });
 }
 
@@ -1064,27 +1143,14 @@ async function explainNotificationBlocked(detail) {
  * and the banner never appears.
  */
 async function showTestNotification() {
-  if (!Notification.isSupported()) {
-    await explainNotificationBlocked();
-    return;
-  }
-
   try {
-    const notification = new Notification({
-      title: APP_NAME,
+    const result = await postOsNotification(APP_NAME, {
       body: 'Benachrichtigungen funktionieren.',
+      trayTest: true,
     });
-    retainedTestNotification = notification;
-    notification.on('click', () => showWindowFromTray());
-    notification.on('failed', (_event, error) => {
-      const message = error && error.message ? error.message : String(error || '');
-      console.error('[Main] Test notification failed:', message);
-      explainNotificationBlocked(message);
-    });
-    notification.on('close', () => {
-      if (retainedTestNotification === notification) retainedTestNotification = null;
-    });
-    notification.show();
+    if (!result.accepted && !result.presentedFallback) {
+      await explainNotificationBlocked(result.reason);
+    }
   } catch (error) {
     console.error('[Main] Failed to show test notification:', error);
     await explainNotificationBlocked(error && error.message ? error.message : String(error));
@@ -1233,9 +1299,7 @@ async function checkForBrewCaskUpdate() {
   }
 
   isCheckingForUpdate = true;
-  if (Notification.isSupported()) {
-    new Notification(withNotificationIcon({ title: APP_NAME, body: labels.updating })).show();
-  }
+  void postOsNotification(APP_NAME, { body: labels.updating });
 
   try {
     await runBrew(brewPath, ['update', '--quiet']);

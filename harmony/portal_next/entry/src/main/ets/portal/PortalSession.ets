@@ -114,7 +114,7 @@ export class PortalSession implements PortalMessageSink {
     const action = incoming.action ?? '';
     if (action === 'show') {
       const options = incoming.options ?? new IncomingOptions();
-      this.showNotification(incoming.title ?? 'G&F Portal EU', options);
+      this.showNotification(incoming.title ?? 'G&F Portal EU', options, incoming.requestId ?? '');
       return;
     }
     if (action === 'requestPermission') {
@@ -258,12 +258,19 @@ export class PortalSession implements PortalMessageSink {
     } catch (err) {
       status = 'denied';
     }
+    await this.finishResolver(safeId, status);
+  }
+
+  private async finishResolver(requestId: string, value: string): Promise<void> {
+    if (requestId.length === 0 || !this.controller) {
+      return;
+    }
     const script =
-      `window.__portalNativeResolvers && window.__portalNativeResolvers['${safeId}'] && window.__portalNativeResolvers['${safeId}']('${status}'); delete window.__portalNativeResolvers['${safeId}'];`;
+      `window.__portalNativeResolvers && window.__portalNativeResolvers['${requestId}'] && window.__portalNativeResolvers['${requestId}']('${value}'); delete window.__portalNativeResolvers['${requestId}'];`;
     await this.controller.runJavaScript(script);
   }
 
-  private async showNotification(title: string, options: IncomingOptions): Promise<void> {
+  private async showNotification(title: string, options: IncomingOptions, requestId: string): Promise<void> {
     const body = options.body ?? options.message ?? '';
     const id = (options.id && options.id.length > 0) ? options.id : `${Date.now()}`;
     const tag = options.tag ?? '';
@@ -275,9 +282,14 @@ export class PortalSession implements PortalMessageSink {
     const notificationId = PortalSession.hashCode(id);
     try {
       if (this.context) {
-        const enabled = await notificationManager.isNotificationEnabled();
+        let enabled = await notificationManager.isNotificationEnabled();
         if (!enabled) {
           await notificationManager.requestEnableNotification(this.context);
+          enabled = await notificationManager.isNotificationEnabled();
+        }
+        if (!enabled) {
+          await this.finishResolver(PortalSession.safeId(requestId), 'rejected');
+          return;
         }
       }
       const slot: notificationManager.NotificationSlot = {
@@ -311,8 +323,10 @@ export class PortalSession implements PortalMessageSink {
       };
       request.wantAgent = await wantAgent.getWantAgent(info);
       await notificationManager.publish(request);
+      await this.finishResolver(PortalSession.safeId(requestId), 'accepted');
     } catch (err) {
       hilog.error(DOMAIN, TAG, 'notify failed %{public}s', JSON.stringify(err));
+      await this.finishResolver(PortalSession.safeId(requestId), 'rejected');
     }
   }
 

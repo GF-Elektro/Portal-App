@@ -130,7 +130,12 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
         });
       },
       show: function(title, options) {
-        post('show', { title: title || '', options: options || {} });
+        return new Promise(function(resolve) {
+          var id = 's' + Math.random().toString(36).slice(2);
+          window.__portalNativeResolvers = window.__portalNativeResolvers || {};
+          window.__portalNativeResolvers[id] = resolve;
+          post('show', { title: title || '', options: options || {}, requestId: id });
+        });
       }
     },
     push: {
@@ -155,10 +160,11 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
     final action = decoded['action'] as String?;
     switch (action) {
       case 'show':
-        _showNotification(
+        unawaited(_showNotification(
           decoded['title'] as String? ?? 'G&F Portal EU',
           Map<String, dynamic>.from(decoded['options'] as Map? ?? {}),
-        );
+          decoded['requestId'] as String? ?? '',
+        ));
       case 'requestPermission':
         unawaited(_resolveNotificationPermission(
           decoded['requestId'] as String? ?? '',
@@ -234,7 +240,16 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
     );
   }
 
-  Future<void> _showNotification(String title, Map<String, dynamic> options) async {
+  Future<void> _showNotification(
+    String title,
+    Map<String, dynamic> options,
+    String requestId,
+  ) async {
+    final status = await Permission.notification.status;
+    if (!status.isGranted) {
+      await _resolvePermission(requestId, status: 'rejected');
+      return;
+    }
     final body = (options['body'] ?? options['message'] ?? '') as String;
     final id = (options['id'] as String?) ?? DateTime.now().millisecondsSinceEpoch.toString();
     final tag = options['tag'] as String?;
@@ -243,21 +258,26 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
       'tag': tag,
       'data': options['data'],
     });
-    await _notifications.show(
-      id.hashCode,
-      title,
-      body,
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          _channelId,
-          _channelName,
-          channelDescription: 'Portal alerts',
-          importance: Importance.high,
-          priority: Priority.high,
+    try {
+      await _notifications.show(
+        id.hashCode,
+        title,
+        body,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            _channelId,
+            _channelName,
+            channelDescription: 'Portal alerts',
+            importance: Importance.high,
+            priority: Priority.high,
+          ),
         ),
-      ),
-      payload: payload,
-    );
+        payload: payload,
+      );
+      await _resolvePermission(requestId, status: 'accepted');
+    } catch (_) {
+      await _resolvePermission(requestId, status: 'rejected');
+    }
   }
 
   @override

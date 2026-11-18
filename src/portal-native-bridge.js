@@ -36,12 +36,20 @@
       this.onshow = null;
 
       activeNotifications.set(this.id, this);
-      native.show(title, { ...this.options, id: this.id });
-
-      setTimeout(() => {
-        this.dispatchEvent(new Event('show'));
-        if (typeof this.onshow === 'function') this.onshow(new Event('show'));
-      }, 50);
+      const notif = this;
+      const markShown = (result) => {
+        const accepted = result === 'accepted' || result === true || (result && result.accepted === true);
+        if (!accepted) {
+          notif.dispatchEvent(new Event('error'));
+          if (typeof notif.onerror === 'function') notif.onerror(new Event('error'));
+          return;
+        }
+        notif.dispatchEvent(new Event('show'));
+        if (typeof notif.onshow === 'function') notif.onshow(new Event('show'));
+      };
+      Promise.resolve(native.show(title, { ...this.options, id: this.id }))
+        .then(markShown)
+        .catch(() => markShown('rejected'));
     }
 
     static get permission() {
@@ -86,7 +94,11 @@
   if ('ServiceWorkerRegistration' in window) {
     ServiceWorkerRegistration.prototype.showNotification = async function (title, options = {}) {
       const id = Math.random().toString(36).substr(2, 9);
-      native.show(title, { ...options, id });
+      const result = await Promise.resolve(native.show(title, { ...options, id }));
+      const accepted = result === 'accepted' || result === true || (result && result.accepted === true);
+      if (!accepted) {
+        throw new Error('Notification center rejected the alert');
+      }
     };
   }
 })();

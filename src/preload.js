@@ -22,8 +22,9 @@ contextBridge.exposeInMainWorld('electronNotificationAPI', {
   // Check current permission state
   checkPermission: () => ipcRenderer.invoke('notification:check-permission'),
   
-  // Show a notification from trusted portal page code
-  show: (title, options) => ipcRenderer.send('notification:show', title, options),
+  // Show a notification from trusted portal page code.
+  // Resolves with { accepted: true } when the OS notification center takes it.
+  show: (title, options) => ipcRenderer.invoke('notification:show', title, options),
 });
 
 // ── Listener for Notification Clicks ────────────────────────
@@ -56,16 +57,25 @@ webFrame.executeJavaScript(`
 
         activeNotifications.set(this.id, this);
 
-        // Forward to our electron bridge
-        if (window.electronNotificationAPI) {
-          window.electronNotificationAPI.show(title, { ...this.options, id: this.id });
-        }
+        const notif = this;
+        const markShown = (result) => {
+          const accepted = result && result.accepted === true;
+          if (!accepted) {
+            notif.dispatchEvent(new Event('error'));
+            if (typeof notif.onerror === 'function') notif.onerror(new Event('error'));
+            return;
+          }
+          notif.dispatchEvent(new Event('show'));
+          if (typeof notif.onshow === 'function') notif.onshow(new Event('show'));
+        };
 
-        // Simulate async show event
-        setTimeout(() => {
-          this.dispatchEvent(new Event('show'));
-          if (typeof this.onshow === 'function') this.onshow(new Event('show'));
-        }, 50);
+        if (window.electronNotificationAPI) {
+          Promise.resolve(window.electronNotificationAPI.show(title, { ...this.options, id: this.id }))
+            .then(markShown)
+            .catch(() => markShown({ accepted: false }));
+        } else {
+          markShown({ accepted: false });
+        }
       }
       
       static get permission() {
@@ -113,8 +123,12 @@ webFrame.executeJavaScript(`
     if ('ServiceWorkerRegistration' in window) {
       ServiceWorkerRegistration.prototype.showNotification = async function(title, options = {}) {
         const id = Math.random().toString(36).substr(2, 9);
-        if (window.electronNotificationAPI) {
-          window.electronNotificationAPI.show(title, { ...options, id });
+        if (!window.electronNotificationAPI) {
+          throw new Error('Notification center rejected the alert');
+        }
+        const result = await window.electronNotificationAPI.show(title, { ...options, id });
+        if (!result || result.accepted !== true) {
+          throw new Error((result && result.reason) || 'Notification center rejected the alert');
         }
       };
     }

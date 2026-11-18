@@ -26,7 +26,12 @@ export const PORTAL_API_PRELUDE: string = `
         });
       },
       show: function(title, options) {
-        post('show', { title: title || '', options: options || {} });
+        return new Promise(function(resolve) {
+          var id = 's' + Math.random().toString(36).slice(2);
+          window.__portalNativeResolvers = window.__portalNativeResolvers || {};
+          window.__portalNativeResolvers[id] = resolve;
+          post('show', { title: title || '', options: options || {}, requestId: id });
+        });
       }
     },
     push: {
