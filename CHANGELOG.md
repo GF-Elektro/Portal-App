@@ -9,6 +9,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.72] - 2026-11-19
+
+### Added
+
+- **Google Play reviewer demo** — `demo.android@gfelektro.com` is an active `accommodation_provider` (same idea as `demo.ios@` / `demo.macos@`). Play App access uses that login. Password stays in Play Console, not in the repo. See [`docs/play-store.md`](docs/play-store.md) and [`docs/app-store-review-notes.md`](docs/app-store-review-notes.md).
+
+---
+
 ## [1.0.71] - 2026-11-18
 
 ### Added
