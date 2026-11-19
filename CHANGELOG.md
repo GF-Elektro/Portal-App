@@ -9,6 +9,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.74] - 2026-11-19
+
+### Added
+
+- **Google Play first-signup console** — public developer profile (sk default plus the other six locales, icon, header, website), Data safety, IARC, ads No, 18+ audience, Business category, and trader declaration. Maintainer notes stay in the local `docs/*.md` (gitignored on this public repo).
+
+---
+
 ## [1.0.73] - 2026-11-19
 
 ### Added
