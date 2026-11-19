@@ -17,6 +17,7 @@ struct PortalWebView: UIViewRepresentable {
         configuration.websiteDataStore = .default()
         configuration.defaultWebpagePreferences.allowsContentJavaScript = true
         configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
+        configuration.applicationNameForUserAgent = "GFPortalShell/ios"
 
         let userContent = configuration.userContentController
         let prelude = WKUserScript(

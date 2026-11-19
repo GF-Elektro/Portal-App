@@ -14,6 +14,25 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 
 import 'portal_hosts.dart';
 
+const portalAlertChannelId = 'gf_portal_alerts';
+const portalAlertChannelName = 'G&F Portal EU';
+
+Future<void> ensurePortalAlertChannel() async {
+  final plugin = FlutterLocalNotificationsPlugin();
+  const android = AndroidInitializationSettings('@mipmap/ic_launcher');
+  await plugin.initialize(const InitializationSettings(android: android));
+  final androidPlugin = plugin.resolvePlatformSpecificImplementation<
+      AndroidFlutterLocalNotificationsPlugin>();
+  await androidPlugin?.createNotificationChannel(
+    const AndroidNotificationChannel(
+      portalAlertChannelId,
+      portalAlertChannelName,
+      description: 'Chat and portal alerts',
+      importance: Importance.high,
+    ),
+  );
+}
+
 class PortalWebViewScreen extends StatefulWidget {
   const PortalWebViewScreen({super.key});
 
@@ -25,21 +44,18 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
   late final WebViewController _controller;
   final FlutterLocalNotificationsPlugin _notifications =
       FlutterLocalNotificationsPlugin();
-  static const _channelId = 'gf_portal_alerts';
-  static const _channelName = 'G&F Portal EU';
-  bool _scriptsInjected = false;
   String? _fcmToken;
+  StreamSubscription<String>? _tokenRefreshSub;
+  Future<void>? _messagingInit;
 
   @override
   void initState() {
     super.initState();
-    _initNotifications();
-    unawaited(_initFirebaseMessaging());
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
         NavigationDelegate(
-          onPageFinished: (_) => _injectScriptsOnce(),
+          onPageFinished: (_) => unawaited(_injectScripts()),
           onNavigationRequest: (request) {
             final uri = Uri.tryParse(request.url);
             if (uri == null) return NavigationDecision.prevent;
@@ -56,20 +72,50 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
       ..addJavaScriptChannel(
         'portalNative',
         onMessageReceived: _onPortalNativeMessage,
-      )
-      ..loadRequest(Uri.parse(PortalHosts.portalUrl));
-
-    _configureAndroid();
+      );
+    unawaited(_startPortal());
   }
 
-  Future<void> _initFirebaseMessaging() async {
+  @override
+  void dispose() {
+    _tokenRefreshSub?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _startPortal() async {
+    await _initNotifications();
+    await _initFirebaseMessaging();
     try {
-      await Firebase.initializeApp();
+      final current = await _controller.getUserAgent();
+      final base = current ?? '';
+      if (!base.contains('GFPortalShell/')) {
+        await _controller.setUserAgent('$base GFPortalShell/android');
+      }
+    } catch (_) {}
+    await _configureAndroid();
+    await _controller.loadRequest(Uri.parse(PortalHosts.portalUrl));
+  }
+
+  Future<void> _initFirebaseMessaging() {
+    return _messagingInit ??= _initFirebaseMessagingOnce();
+  }
+
+  Future<void> _initFirebaseMessagingOnce() async {
+    try {
+      if (Firebase.apps.isEmpty) {
+        await Firebase.initializeApp();
+      }
+      await Permission.notification.request();
       final messaging = FirebaseMessaging.instance;
       await messaging.requestPermission();
       _fcmToken = await messaging.getToken();
+      _tokenRefreshSub ??= messaging.onTokenRefresh.listen((token) {
+        _fcmToken = token;
+        unawaited(_signalPushReady());
+      });
     } catch (_) {
       _fcmToken = null;
+      _messagingInit = null;
     }
   }
 
@@ -90,8 +136,8 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
         AndroidFlutterLocalNotificationsPlugin>();
     await plugin?.createNotificationChannel(
       const AndroidNotificationChannel(
-        _channelId,
-        _channelName,
+        portalAlertChannelId,
+        portalAlertChannelName,
         description: 'Chat and portal alerts',
         importance: Importance.high,
       ),
@@ -175,12 +221,19 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
 ''';
   }
 
-  Future<void> _injectScriptsOnce() async {
-    if (_scriptsInjected) return;
-    _scriptsInjected = true;
+  Future<void> _signalPushReady() async {
+    try {
+      await _controller.runJavaScript(
+        "window.dispatchEvent(new Event('portal-native-ready'));",
+      );
+    } catch (_) {}
+  }
+
+  Future<void> _injectScripts() async {
     final bridge = await rootBundle.loadString('assets/portal-native-bridge.js');
     await _controller.runJavaScript(_portalApiPrelude());
     await _controller.runJavaScript(bridge);
+    await _signalPushReady();
   }
 
   void _onPortalNativeMessage(JavaScriptMessage message) {
@@ -266,8 +319,10 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
 
   Future<void> _resolvePermission(String requestId, {required String status}) async {
     if (requestId.isEmpty) return;
+    final request = jsonEncode(requestId);
+    final value = jsonEncode(status);
     await _controller.runJavaScript(
-      "window.__portalNativeResolvers && window.__portalNativeResolvers['$requestId'] && window.__portalNativeResolvers['$requestId']('$status'); delete window.__portalNativeResolvers['$requestId'];",
+      '(function(){var resolvers=window.__portalNativeResolvers||{};var resolve=resolvers[$request];if(resolve){resolve($value);delete resolvers[$request];}})();',
     );
   }
 
@@ -296,8 +351,8 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
         body,
         const NotificationDetails(
           android: AndroidNotificationDetails(
-            _channelId,
-            _channelName,
+            portalAlertChannelId,
+            portalAlertChannelName,
             channelDescription: 'Portal alerts',
             importance: Importance.high,
             priority: Priority.high,

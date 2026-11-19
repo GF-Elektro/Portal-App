@@ -184,16 +184,26 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
 
     private func completeResolver(requestId: String, value: String) {
         guard !requestId.isEmpty, let webView else { return }
-        let escaped = value.replacingOccurrences(of: "'", with: "\\'")
+        let requestLiteral = jsonLiteral(requestId)
+        let valueLiteral = jsonLiteral(value)
         let script = """
         (function() {
-          var r = window.__portalNativeResolvers && window.__portalNativeResolvers['\(requestId)'];
-          if (r) { r('\(escaped)'); delete window.__portalNativeResolvers['\(requestId)']; }
+          var resolvers = window.__portalNativeResolvers || {};
+          var resolve = resolvers[\(requestLiteral)];
+          if (resolve) { resolve(\(valueLiteral)); delete resolvers[\(requestLiteral)]; }
         })();
         """
         DispatchQueue.main.async {
             webView.evaluateJavaScript(script, completionHandler: nil)
         }
+    }
+
+    private func jsonLiteral(_ value: String) -> String {
+        guard let data = try? JSONEncoder().encode(value),
+              let text = String(data: data, encoding: .utf8) else {
+            return "\"\""
+        }
+        return text
     }
 
     private func showLocalNotification(title: String, options: [String: Any], requestId: String) {

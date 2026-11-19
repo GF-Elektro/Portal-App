@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'portal_webview_screen.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await ensurePortalAlertChannel();
   runApp(const PortalApp());
 }
 
