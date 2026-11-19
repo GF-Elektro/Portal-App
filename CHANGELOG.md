@@ -9,6 +9,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.75] - 2026-11-19
+
+### Added
+
+- **Google Play production submission** — upload-key AAB `10071` (1.0.71) enrolled Play App Signing, production countries set to 178 plus Rest of world, and the first listing (18 changes) sent for Google review.
+
+---
+
 ## [1.0.74] - 2026-11-19
 
 ### Added
