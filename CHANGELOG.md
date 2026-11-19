@@ -9,6 +9,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.73] - 2026-11-19
+
+### Added
+
+- **Google Play store listing languages** — the same seven locales as Microsoft Store and Apple (en-US, de-DE, sk, cs-CZ, pl-PL, hu-HU, uk): title, short description, full description, and release notes. Feature graphic is `docs/assets/store/play-feature-graphic.png` (1024×500).
+
+---
+
 ## [1.0.72] - 2026-11-19
 
 ### Added
