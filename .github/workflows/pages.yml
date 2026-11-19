@@ -23,6 +23,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+      - name: Attach Android APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p docs/downloads
+          if gh release download --repo "${{ github.repository }}" --pattern '*.apk' --dir "$RUNNER_TEMP/apk"; then
+            apk="$(find "$RUNNER_TEMP/apk" -name '*.apk' | head -n 1)"
+            cp "$apk" docs/downloads/GFElektroPortal.apk
+            echo "Attached $(basename "$apk") as docs/downloads/GFElektroPortal.apk"
+          else
+            echo "No APK on the latest GitHub Release; skipping Android download file."
+          fi
       - name: Setup Pages
         uses: actions/configure-pages@v6
       - name: Upload artifact

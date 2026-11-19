@@ -861,6 +861,17 @@ a {
     color: var(--color-primary);
 }
 
+.android-options__grid {
+    grid-template-columns: 1fr;
+}
+
+.android-install-note {
+    margin: 10px 0 0;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--color-text-muted);
+}
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -1594,6 +1605,16 @@ footer {
 
 .footer-links a:hover {
     color: var(--color-primary);
+}
+
+@media (max-width: 1100px) {
+    .download-row--platforms {
+        flex-wrap: wrap;
+    }
+
+    .download-row--platforms .btn {
+        flex: 1 1 calc(50% - 6px);
+    }
 }
 
 /* Responsive */

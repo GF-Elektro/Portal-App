@@ -101,7 +101,7 @@ This repository is **public and auditable** ([Apache 2.0](LICENSE)). Installers 
 | Platform | Location |
 | --- | --- |
 | **iOS** | [`ios/README.md`](ios/README.md) — Swift WKWebView shell (`com.gfelektro.portal.ios`). Run on **iPhone 18 Pro** (iOS 27) simulator or TestFlight. |
-| **Android** | [`mobile/portal_android/README.md`](mobile/portal_android/README.md) — Flutter WebView shell (`com.gfelektro.portal.android`). |
+| **Android** | [`mobile/portal_android/README.md`](mobile/portal_android/README.md) — Flutter WebView shell (`com.gfelektro.portal.android`). Direct APK (Google Android and Huawei EMUI / HarmonyOS 4): [docs.gfelektro.com/downloads/GFElektroPortal.apk](https://docs.gfelektro.com/downloads/GFElektroPortal.apk). |
 
 Install docs: [permissions](https://docs.gfelektro.com/permissions.html), [macOS DMG](https://docs.gfelektro.com/macos-install.html). The Mac app installs from the **DMG** only — Apple private keys are never published on the website.
 

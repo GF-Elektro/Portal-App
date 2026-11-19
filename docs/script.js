@@ -1,7 +1,23 @@
+function userAgentLower() {
+    return window.navigator.userAgent.toLowerCase();
+}
+
+function isAndroidOrHuaweiUa(userAgent) {
+    return (
+        userAgent.indexOf('android') !== -1 ||
+        userAgent.indexOf('harmonyos') !== -1 ||
+        userAgent.indexOf('huawei') !== -1 ||
+        userAgent.indexOf('honor') !== -1
+    );
+}
+
 function osHintMessage() {
     if (window.DocsI18n && typeof window.DocsI18n.t === 'function') {
         const t = window.DocsI18n.t.bind(window.DocsI18n);
-        const userAgent = window.navigator.userAgent.toLowerCase();
+        const userAgent = userAgentLower();
+        if (isAndroidOrHuaweiUa(userAgent)) {
+            return t('index.osHintAndroid');
+        }
         if (userAgent.indexOf('mac') !== -1 || userAgent.indexOf('darwin') !== -1) {
             return t('index.osHintMac');
         }
@@ -27,20 +43,37 @@ function initOsDownloadUi() {
     const btnWin = document.getElementById('btn-win');
     const btnMac = document.getElementById('btn-mac');
     const btnLinux = document.getElementById('btn-linux');
+    const btnAndroid = document.getElementById('btn-android');
     const linuxPanel = document.getElementById('linux-options-panel');
+    const androidPanel = document.getElementById('android-options-panel');
     const osHint = document.getElementById('os-hint');
 
     if (btnLinux && linuxPanel) {
         btnLinux.addEventListener('click', () => {
             const open = btnLinux.getAttribute('aria-expanded') === 'true';
             setLinuxPanelOpen(!open);
+            if (!open) setAndroidPanelOpen(false);
+        });
+    }
+
+    if (btnAndroid && androidPanel) {
+        btnAndroid.addEventListener('click', () => {
+            const open = btnAndroid.getAttribute('aria-expanded') === 'true';
+            setAndroidPanelOpen(!open);
+            if (!open) setLinuxPanelOpen(false);
         });
     }
 
     if (btnWin && btnMac && btnLinux && linuxPanel && osHint) {
-        const userAgent = window.navigator.userAgent.toLowerCase();
+        const userAgent = userAgentLower();
 
-        if (userAgent.indexOf('mac') !== -1 || userAgent.indexOf('darwin') !== -1) {
+        if (isAndroidOrHuaweiUa(userAgent) && btnAndroid) {
+            btnWin.classList.replace('btn-primary', 'btn-secondary');
+            btnWin.classList.remove('active');
+            btnAndroid.classList.add('active', 'btn-primary');
+            btnAndroid.classList.remove('btn-secondary');
+            setAndroidPanelOpen(true);
+        } else if (userAgent.indexOf('mac') !== -1 || userAgent.indexOf('darwin') !== -1) {
             btnMac.classList.add('active', 'btn-primary');
             btnMac.classList.remove('btn-secondary');
             btnWin.classList.replace('btn-primary', 'btn-secondary');
@@ -71,7 +104,10 @@ function applyInstallHelpHighlight() {
     macCard?.classList.remove('resource-card--active');
     chips.forEach((chip) => chip.classList.remove('active'));
 
-    const userAgent = window.navigator.userAgent.toLowerCase();
+    const userAgent = userAgentLower();
+    if (isAndroidOrHuaweiUa(userAgent)) {
+        return;
+    }
     if (userAgent.indexOf('mac') !== -1 || userAgent.indexOf('darwin') !== -1) {
         macCard?.classList.add('resource-card--active');
     } else if (userAgent.indexOf('win') !== -1) {
@@ -184,6 +220,15 @@ function setLinuxPanelOpen(open) {
 
     btnLinux.setAttribute('aria-expanded', open ? 'true' : 'false');
     linuxPanel.hidden = !open;
+}
+
+function setAndroidPanelOpen(open) {
+    const btnAndroid = document.getElementById('btn-android');
+    const androidPanel = document.getElementById('android-options-panel');
+    if (!btnAndroid || !androidPanel) return;
+
+    btnAndroid.setAttribute('aria-expanded', open ? 'true' : 'false');
+    androidPanel.hidden = !open;
 }
 
 function loadDesktopVersionLabel() {

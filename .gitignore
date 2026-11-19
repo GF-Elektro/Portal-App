@@ -66,6 +66,7 @@ plans/
 # Docs site HTML is tracked for GitHub Pages. Maintainer markdown
 # (signing, Partner Center, review notes) must stay untracked — repo is public.
 docs/**/*.md
+docs/downloads/*.apk
 hosting/
 packaging/
 firebase.json
