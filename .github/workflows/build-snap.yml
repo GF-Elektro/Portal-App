@@ -1,0 +1,33 @@
+name: Build Snap
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag (e.g. v1.0.75)
+        required: true
+
+jobs:
+  snap:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag }}
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build snap
+        run: npx electron-builder build --linux snap --x64 --publish never --config.linux.executableName=gfe-portal-eu
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gfe-portal-eu-snap
+          path: release/*.snap
+          if-no-files-found: error
