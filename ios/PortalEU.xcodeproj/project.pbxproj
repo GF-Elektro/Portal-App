@@ -265,7 +265,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = "PortalEU/PortalEU-Debug.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 71;
+				CURRENT_PROJECT_VERSION = 74;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PortalEU/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
@@ -273,7 +273,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.71;
+				MARKETING_VERSION = 1.0.74;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 				);
@@ -291,7 +291,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = "PortalEU/PortalEU-Release.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 71;
+				CURRENT_PROJECT_VERSION = 74;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = PortalEU/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
@@ -299,7 +299,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.71;
+				MARKETING_VERSION = 1.0.74;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 				);

@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>de</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>CFBundleDisplayName</key>
 	<string>G&amp;F Portal EU</string>
 	<key>CFBundleExecutable</key>

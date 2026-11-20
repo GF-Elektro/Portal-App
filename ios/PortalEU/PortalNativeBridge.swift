@@ -1,6 +1,7 @@
 import FirebaseCore
 import FirebaseMessaging
 import Foundation
+import UIKit
 import UserNotifications
 import WebKit
 
@@ -10,6 +11,7 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
 
     private weak var webView: WKWebView?
     private let handlerName = "portalNative"
+    private var latestPushToken: String?
 
     private override init() {
         super.init()
@@ -150,18 +152,65 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
         }
     }
 
+    func presentRemoteNotification(_ userInfo: [AnyHashable: Any]) {
+        Messaging.messaging().appDidReceiveMessage(userInfo)
+        guard UIApplication.shared.applicationState == .active else { return }
+        let aps = userInfo["aps"] as? [String: Any]
+        let alert = aps?["alert"] as? [String: Any]
+        let title = (alert?["title"] as? String)
+            ?? (userInfo["title"] as? String)
+            ?? "G&F Portal EU"
+        let body = (alert?["body"] as? String) ?? (userInfo["body"] as? String) ?? ""
+        guard !body.isEmpty || title != "G&F Portal EU" else { return }
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body
+        content.sound = .default
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+
+    func notePushToken(_ token: String) {
+        guard !token.isEmpty else { return }
+        latestPushToken = token
+        signalPushReady()
+    }
+
     private func resolveNativeToken(requestId: String) {
+        if let latestPushToken, !latestPushToken.isEmpty {
+            completeResolver(requestId: requestId, value: latestPushToken)
+            return
+        }
         guard FirebaseApp.app() != nil else {
             completeResolver(requestId: requestId, value: "")
             return
         }
-        Messaging.messaging().token { token, _ in
-            self.completeResolver(requestId: requestId, value: token ?? "")
+        Messaging.messaging().token { token, error in
+            if let token, !token.isEmpty {
+                self.latestPushToken = token
+                self.completeResolver(requestId: requestId, value: token)
+            } else {
+                print("[push] FCM token unavailable: \(error?.localizedDescription ?? "empty")")
+                self.completeResolver(requestId: requestId, value: "")
+            }
+        }
+    }
+
+    private func signalPushReady() {
+        guard let webView else { return }
+        let script = "window.dispatchEvent(new Event('portal-native-ready'));"
+        DispatchQueue.main.async {
+            webView.evaluateJavaScript(script, completionHandler: nil)
         }
     }
 
     private func requestAuthorization(requestId: String) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+            if granted {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
             let status = granted ? "granted" : "denied"
             self.completeResolver(requestId: requestId, value: status)
         }
