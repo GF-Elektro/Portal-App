@@ -46,7 +46,10 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
       FlutterLocalNotificationsPlugin();
   String? _fcmToken;
   StreamSubscription<String>? _tokenRefreshSub;
+  StreamSubscription<RemoteMessage>? _openedSub;
   Future<void>? _messagingInit;
+  String? _pendingClickPayload;
+  bool _pageReady = false;
 
   @override
   void initState() {
@@ -55,7 +58,7 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
         NavigationDelegate(
-          onPageFinished: (_) => unawaited(_injectScripts()),
+          onPageFinished: (_) => unawaited(_onPageFinished()),
           onNavigationRequest: (request) {
             final uri = Uri.tryParse(request.url);
             if (uri == null) return NavigationDecision.prevent;
@@ -79,6 +82,7 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
   @override
   void dispose() {
     _tokenRefreshSub?.cancel();
+    _openedSub?.cancel();
     super.dispose();
   }
 
@@ -113,6 +117,9 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
         _fcmToken = token;
         unawaited(_signalPushReady());
       });
+      final initial = await messaging.getInitialMessage();
+      if (initial != null) _queueRemoteMessage(initial);
+      _openedSub ??= FirebaseMessaging.onMessageOpenedApp.listen(_queueRemoteMessage);
     } catch (_) {
       _fcmToken = null;
       _messagingInit = null;
@@ -142,14 +149,48 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
         importance: Importance.high,
       ),
     );
+    final launch = await _notifications.getNotificationAppLaunchDetails();
+    final launchPayload = launch?.notificationResponse?.payload;
+    if (launch?.didNotificationLaunchApp == true &&
+        launchPayload != null &&
+        launchPayload.isNotEmpty) {
+      _queueClickPayload(launchPayload);
+    }
+  }
+
+  void _queueRemoteMessage(RemoteMessage message) {
+    final data = message.data;
+    if (data.isEmpty) return;
+    _queueClickPayload(jsonEncode({
+      'id': data['id'] ?? '',
+      'tag': data['tag'] ?? '',
+      'data': data,
+    }));
+  }
+
+  void _queueClickPayload(String payload) {
+    if (!_pageReady) {
+      _pendingClickPayload = payload;
+      return;
+    }
+    unawaited(_runClickPayload(payload));
+  }
+
+  Future<void> _runClickPayload(String payload) async {
+    final literal = jsonEncode(payload);
+    await _controller.runJavaScript('''
+      (function(){
+        var detail = JSON.parse($literal);
+        try { sessionStorage.setItem('gf-pending-notification', JSON.stringify(detail)); } catch (e) {}
+        window.dispatchEvent(new CustomEvent('portal-notification-clicked', { detail: detail }));
+      })();
+    ''');
   }
 
   void _onNotificationTap(NotificationResponse response) {
     final payload = response.payload;
     if (payload == null || payload.isEmpty) return;
-    _controller.runJavaScript(
-      "window.dispatchEvent(new CustomEvent('portal-notification-clicked', { detail: JSON.parse(${jsonEncode(payload)}) }));",
-    );
+    _queueClickPayload(payload);
   }
 
   Future<void> _configureAndroid() async {
@@ -227,6 +268,16 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
         "window.dispatchEvent(new Event('portal-native-ready'));",
       );
     } catch (_) {}
+  }
+
+  Future<void> _onPageFinished() async {
+    await _injectScripts();
+    _pageReady = true;
+    final pending = _pendingClickPayload;
+    _pendingClickPayload = null;
+    if (pending != null && pending.isNotEmpty) {
+      await _runClickPayload(pending);
+    }
   }
 
   Future<void> _injectScripts() async {

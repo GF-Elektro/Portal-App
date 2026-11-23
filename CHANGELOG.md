@@ -9,6 +9,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [Unreleased]
+
+### Fixed
+
+- **Notification bell and OS notification taps** — the installed app reports notification permission as granted when the system can show alerts, and tapping a Windows, macOS, iOS, or Android notification opens that item in the portal.
+
+---
+
 ## [1.0.75] - 2026-11-19
 
 ### Added

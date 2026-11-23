@@ -12,6 +12,7 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
     private weak var webView: WKWebView?
     private let handlerName = "portalNative"
     private var latestPushToken: String?
+    private var pendingClickScript: String?
 
     private override init() {
         super.init()
@@ -21,6 +22,12 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
         self.webView = webView
         userContentController.removeScriptMessageHandler(forName: handlerName)
         userContentController.add(self, name: handlerName)
+        if let pendingClickScript {
+            self.pendingClickScript = nil
+            DispatchQueue.main.async {
+                webView.evaluateJavaScript(pendingClickScript, completionHandler: nil)
+            }
+        }
     }
 
     static func portalAPIPreludeScript() -> String {
@@ -166,6 +173,19 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
         content.title = title
         content.body = body
         content.sound = .default
+        var stored: [AnyHashable: Any] = [:]
+        if let id = userInfo["id"] as? String { stored["id"] = id }
+        if let tag = userInfo["tag"] as? String { stored["tag"] = tag }
+        if let data = userInfo["data"] {
+            stored["data"] = data
+        } else {
+            var flat: [String: Any] = [:]
+            for key in ["url", "messageId", "threadId", "tag"] {
+                if let value = userInfo[key] { flat[key] = value }
+            }
+            if !flat.isEmpty { stored["data"] = flat }
+        }
+        content.userInfo = stored
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
@@ -317,11 +337,20 @@ final class PortalNativeBridge: NSObject, UNUserNotificationCenterDelegate, WKSc
     }
 
     private func forwardClickToWeb(id: String, tag: String, data: Any) {
-        guard let webView else { return }
         let payload: [String: Any] = ["id": id, "tag": tag, "data": data]
         guard let jsonData = try? JSONSerialization.data(withJSONObject: payload),
               let json = String(data: jsonData, encoding: .utf8) else { return }
-        let script = "window.dispatchEvent(new CustomEvent('portal-notification-clicked', { detail: \(json) }));"
+        let script = """
+        (function(){
+          var detail = \(json);
+          try { sessionStorage.setItem('gf-pending-notification', JSON.stringify(detail)); } catch (e) {}
+          window.dispatchEvent(new CustomEvent('portal-notification-clicked', { detail: detail }));
+        })();
+        """
+        guard let webView else {
+            pendingClickScript = script
+            return
+        }
         DispatchQueue.main.async {
             webView.evaluateJavaScript(script, completionHandler: nil)
         }

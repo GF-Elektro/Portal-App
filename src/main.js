@@ -789,11 +789,35 @@ function createToastHtml(title, message) {
  *
  * @param {object} data - Click payload
  */
+function notificationPermissionForPortal(event) {
+  if (!isTrustedNotificationSender(event) || !Notification.isSupported()) {
+    return 'denied';
+  }
+  return 'granted';
+}
+
+let pendingNotificationClick = null;
+
+function flushPendingNotificationClick() {
+  if (!pendingNotificationClick || !mainWindow || mainWindow.isDestroyed()) return;
+  if (mainWindow.webContents.isLoading()) return;
+  const data = pendingNotificationClick;
+  pendingNotificationClick = null;
+  mainWindow.webContents.send('notification:clicked', data);
+}
+
 function sendNotificationClicked(data) {
-  if (!mainWindow || mainWindow.isDestroyed()) return;
+  if (!mainWindow || mainWindow.isDestroyed()) {
+    pendingNotificationClick = data;
+    return;
+  }
   if (mainWindow.isMinimized()) mainWindow.restore();
   if (!mainWindow.isVisible()) showWindowFromTray();
   mainWindow.focus();
+  if (mainWindow.webContents.isLoading()) {
+    pendingNotificationClick = data;
+    return;
+  }
   mainWindow.webContents.send('notification:clicked', data);
 }
 
@@ -912,35 +936,11 @@ function registerIpcHandlers() {
   ipcMain.on('toast-clicked', handleToastClicked);
 
   ipcMain.handle('notification:check-permission', async (event) => {
-    if (!isTrustedNotificationSender(event) || !Notification.isSupported()) {
-      return 'denied';
-    }
-    if (process.platform === 'darwin' && app.isPackaged && typeof Notification.getHistory === 'function') {
-      try {
-        const history = await Notification.getHistory();
-        if (Array.isArray(history) && history.length > 0) return 'granted';
-      } catch (error) {
-        console.error('[Main] Notification permission history check failed:', error);
-      }
-    }
-    if (lastOsNotificationAccepted === true) return 'granted';
-    return 'default';
+    return notificationPermissionForPortal(event);
   });
 
   ipcMain.handle('notification:request-permission', async (event) => {
-    if (!isTrustedNotificationSender(event) || !Notification.isSupported()) {
-      return 'denied';
-    }
-    if (process.platform === 'darwin' && app.isPackaged && typeof Notification.getHistory === 'function') {
-      try {
-        const history = await Notification.getHistory();
-        if (Array.isArray(history) && history.length > 0) return 'granted';
-      } catch (error) {
-        console.error('[Main] Notification permission history check failed:', error);
-      }
-    }
-    if (lastOsNotificationAccepted === true) return 'granted';
-    return 'default';
+    return notificationPermissionForPortal(event);
   });
 }
 
@@ -992,6 +992,10 @@ function createWindow() {
 
   // Remove menu bar completely
   mainWindow.setMenu(null);
+
+  mainWindow.webContents.on('did-finish-load', () => {
+    flushPendingNotificationClick();
+  });
 
   // Load the portal URL
   mainWindow.loadURL(PORTAL_URL);

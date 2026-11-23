@@ -28,9 +28,16 @@ contextBridge.exposeInMainWorld('electronNotificationAPI', {
 });
 
 // ── Listener for Notification Clicks ────────────────────────
-ipcRenderer.on('notification:clicked', (event, data) => {
-  // Dispatch a CustomEvent into the web world
-  window.dispatchEvent(new CustomEvent('electron-notification-clicked', { detail: data }));
+ipcRenderer.on('notification:clicked', (_event, data) => {
+  const detail = JSON.stringify(data ?? {});
+  webFrame.executeJavaScript(`
+    (function () {
+      var detail = ${detail};
+      try { sessionStorage.setItem('gf-pending-notification', JSON.stringify(detail)); } catch (e) {}
+      window.dispatchEvent(new CustomEvent('electron-notification-clicked', { detail: detail }));
+      window.dispatchEvent(new CustomEvent('portal-notification-clicked', { detail: detail }));
+    })();
+  `);
 });
 
 // ── Page Notification Interception ──────────────────────────
