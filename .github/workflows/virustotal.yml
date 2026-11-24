@@ -1,8 +1,8 @@
 # Upload published installers to VirusTotal (free tier: 4 req/min, 500/day).
-# This release: Setup.exe, portable exe, msi, dmg, AppImage, deb, AppX, and any apk/aab/snap/hap/ipa/pkg/.app attached to it.
+# This release: Setup.exe, msi, dmg, AppImage, deb, AppX, and any apk/aab/snap/hap/ipa/pkg/.app attached to it.
 # If this tag has no APK, also scan the newest APK on any GitHub Release (Android and Huawei EMUI / HarmonyOS 4).
 # If this tag has no snap, also scan the Snap Store stable amd64 build.
-# Skips blockmaps and latest*.yml.
+# Skips blockmaps, latest*.yml, and the portable exe (same app as Setup.exe).
 # Requires repository secret VT_API_KEY (https://www.virustotal.com/gui/my-apikey).
 
 name: VirusTotal scan
@@ -53,7 +53,6 @@ jobs:
           gh release download "$TAG" \
             --repo "$REPO" \
             -p 'GFElektroPortal-*-Setup.exe' \
-            -p 'GFElektroPortal-*.exe' \
             -p 'GFElektroPortal-*.msi' \
             -p 'GFElektroPortal-*.dmg' \
             -p 'GFElektroPortal-*.AppImage' \
