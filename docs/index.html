@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="styles.css?v=28">
+    <link rel="stylesheet" href="styles.css?v=29">
     <link rel="icon" type="image/png" href="assets/icon-512.png">
 </head>
 <body data-docs-page="index">
@@ -79,19 +79,16 @@
                 <p data-i18n="index.storesLead">Google Play, Microsoft Store, Snap Store und TestFlight sind der vorgesehene Weg. Direkte Downloads und Paketbefehle stehen darunter.</p>
             </header>
 
+            <div class="official-store-badges">
+                <a class="official-store-badge" href="https://testflight.apple.com/join/FX9UNeGH" target="_blank" rel="noopener">
+                    <img data-i18n-badge="app-store" src="assets/badges/app-store/de.svg?v=2" alt="Im App Store laden" width="320" height="56" decoding="async">
+                </a>
+                <a class="official-store-badge" href="https://play.google.com/store/apps/details?id=com.gfelektro.portal.android" target="_blank" rel="noopener">
+                    <img data-i18n-badge="google-play" src="assets/badges/google-play/de.svg?v=2" alt="Bei Google Play laden" width="320" height="56" decoding="async">
+                </a>
+            </div>
+
             <div class="store-shelf">
-                <article class="store-card store-card--featured store-card--mobile">
-                    <h3 data-i18n="index.storeMobileTitle">App Store &amp; Google Play</h3>
-                    <p data-i18n="index.storeMobileDesc">Offizielle Apps für iPhone, iPad und Android. Google Play ist live; iOS läuft bis zur Freigabe über TestFlight.</p>
-                    <div class="official-store-badges" role="group" aria-label="App Store und Google Play">
-                        <a class="official-store-badge" href="https://testflight.apple.com/join/FX9UNeGH" target="_blank" rel="noopener">
-                            <img data-i18n-badge="app-store" src="assets/badges/app-store/de.svg?v=2" alt="Im App Store laden" width="320" height="56" decoding="async">
-                        </a>
-                        <a class="official-store-badge" href="https://play.google.com/store/apps/details?id=com.gfelektro.portal.android" target="_blank" rel="noopener">
-                            <img data-i18n-badge="google-play" src="assets/badges/google-play/de.svg?v=2" alt="Bei Google Play laden" width="320" height="56" decoding="async">
-                        </a>
-                    </div>
-                </article>
                 <article class="store-card store-card--featured">
                     <h3 data-i18n="index.storeWindowsTitle">Microsoft Store</h3>
                     <p data-i18n="index.storeWindowsDesc">Die Windows-App, signiert und über den Store aktualisiert.</p>
@@ -242,57 +239,6 @@
                 </div>
             </nav>
             </div>
-        </div>
-    </section>
-
-    <section class="roadmap" aria-labelledby="roadmap-heading">
-        <div class="container">
-            <div class="roadmap-header">
-                <span class="roadmap-eyebrow" data-i18n="index.roadmapEyebrow">Noch offen</span>
-                <h2 id="roadmap-heading" data-i18n="index.roadmapTitle">Noch nicht im Store</h2>
-                <p class="roadmap-intro" data-i18n="index.roadmapIntro">
-                    Diese Auslieferungen sind noch in Prüfung oder in Vorbereitung. Was schon da ist, steht oben.
-                </p>
-            </div>
-
-            <div class="roadmap-grid">
-                <article class="roadmap-card roadmap-card--review">
-                    <div class="roadmap-card__head">
-                        <span class="roadmap-icon roadmap-icon--ios" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16.83 13.13c-.02-2.31 1.89-3.42 1.97-3.47-1.07-1.56-2.74-1.77-3.33-1.8-1.42-.14-2.77.84-3.49.84-.73 0-1.84-.82-3.03-.8-1.56.02-3 .91-3.8 2.31-1.62 2.81-.41 6.97 1.16 9.25.77 1.12 1.69 2.38 2.9 2.33 1.17-.05 1.61-.75 3.02-.75 1.4 0 1.79.75 3.01.73 1.24-.02 2.03-1.13 2.78-2.26.88-1.28 1.24-2.52 1.26-2.58-.03-.01-2.42-.93-2.44-3.69l.04-.01zM14.58 4.2c.64-.78 1.07-1.87.95-2.95-.92.04-2.03.61-2.69 1.39-.59.69-1.11 1.8-.97 2.86 1.03.08 2.08-.53 2.71-1.3z"/></svg>
-                        </span>
-                        <span class="roadmap-badge roadmap-badge--review" data-i18n="index.roadmapBadgeReview">In Prüfung</span>
-                    </div>
-                    <h3 data-i18n="index.roadmapIosStoreTitle">App Store · iOS</h3>
-                    <p data-i18n="index.roadmapIosStoreDesc">Die iPhone- und iPad-App liegt beim Apple App Store in Prüfung. Bis dahin läuft die Beta über TestFlight.</p>
-                </article>
-
-                <article class="roadmap-card roadmap-card--review">
-                    <div class="roadmap-card__head">
-                        <span class="roadmap-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18.7 13.1c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.7-1.8-3.3-1.8-1.4-.1-2.8.8-3.5.8-.7 0-1.8-.8-3-.8-1.6 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.8 3-.8s1.8.8 3 .7c1.2 0 2-1.1 2.8-2.3.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.4-.9-2.6-3.6zM16.6 4.2c.6-.8 1.1-1.9 1-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.7-1.3z"/></svg>
-                        </span>
-                        <span class="roadmap-badge roadmap-badge--review" data-i18n="index.roadmapBadgeReview">In Prüfung</span>
-                    </div>
-                    <h3 data-i18n="index.roadmapMacStoreTitle">Mac App Store</h3>
-                    <p data-i18n="index.roadmapMacStoreDesc">Die Mac-App liegt beim Mac App Store in Prüfung. Die Beta gibt es über TestFlight.</p>
-                </article>
-
-                <article class="roadmap-card roadmap-card--soon">
-                    <div class="roadmap-card__head">
-                        <span class="roadmap-icon roadmap-icon--store" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 9h16v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9V7a4 4 0 0 1 8 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                        </span>
-                        <span class="roadmap-badge roadmap-badge--soon" data-i18n="index.roadmapBadgeSoon">Demnächst</span>
-                    </div>
-                    <h3 data-i18n="index.roadmapHuaweiTitle">Huawei AppGallery</h3>
-                    <p data-i18n="index.roadmapHuaweiDesc">AppGallery folgt. Huawei-Telefone mit EMUI oder HarmonyOS 4 können die Android-APK oben direkt installieren.</p>
-                </article>
-            </div>
-
-            <p class="roadmap-footnote" data-i18n-html="index.roadmapNote">
-                Mehr zu Kamera, Mikrofon und Benachrichtigungen auf allen Plattformen: <a href="permissions.html">Berechtigungen</a>.
-            </p>
         </div>
     </section>
 

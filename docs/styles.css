@@ -674,7 +674,7 @@ a {
 
 .store-shelf {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
     margin-bottom: 40px;
 }
@@ -768,10 +768,9 @@ a {
 
 .official-store-badges {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    margin-top: auto;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 .official-store-badge {
@@ -784,9 +783,8 @@ a {
 
 .official-store-badge img {
     display: block;
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
+    width: auto;
+    height: 56px;
 }
 
 .official-store-badge:hover {
@@ -797,10 +795,6 @@ a {
 .official-store-badge:focus-visible {
     outline: 2px solid #111;
     outline-offset: 3px;
-}
-
-.store-card--mobile .official-store-badges {
-    align-items: stretch;
 }
 
 .store-card .store-direct-link {
@@ -1701,12 +1695,6 @@ footer {
 }
 
 /* Responsive */
-@media (max-width: 1200px) {
-    .store-shelf {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
 @media (max-width: 900px) {
     .store-shelf {
         grid-template-columns: 1fr;
