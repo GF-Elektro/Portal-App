@@ -206,81 +206,9 @@ function initCodeBlocks() {
     });
 }
 
-const TESTFLIGHT_PLATFORMS = {
-    mac: {
-        href: 'https://testflight.apple.com/join/D7Ndxu4p',
-        name: 'macOS',
-        descKey: 'index.storeMacDesc',
-    },
-    ios: {
-        href: 'https://testflight.apple.com/join/FX9UNeGH',
-        name: 'iOS',
-        descKey: 'index.storeIosDesc',
-    },
-};
-
-function setTestFlightPlatform(platform) {
-    const card = document.getElementById('testflight-card');
-    const spec = TESTFLIGHT_PLATFORMS[platform] || TESTFLIGHT_PLATFORMS.mac;
-    const next = TESTFLIGHT_PLATFORMS[platform] ? platform : 'mac';
-    if (!card) return;
-    card.dataset.platform = next;
-
-    card.querySelectorAll('[data-testflight]').forEach((button) => {
-        const selected = button.getAttribute('data-testflight') === next;
-        button.setAttribute('aria-selected', selected ? 'true' : 'false');
-        button.tabIndex = selected ? 0 : -1;
-    });
-
-    const description = document.getElementById('testflight-panel');
-    if (description) {
-        description.setAttribute('data-i18n', spec.descKey);
-        const text = window.DocsI18n && window.DocsI18n.t(spec.descKey);
-        if (text) description.textContent = text;
-    }
-
-    const link = document.getElementById('testflight-link');
-    if (link) link.href = spec.href;
-
-    const badgeName = document.getElementById('testflight-badge-name');
-    if (badgeName) badgeName.textContent = spec.name;
-
-    const switcher = document.getElementById('testflight-switch');
-    if (switcher && window.DocsI18n) {
-        const label = window.DocsI18n.t('index.storeSwitchLabel');
-        if (label) switcher.setAttribute('aria-label', label);
-    }
-}
-
-function initTestFlightSwitch() {
-    const switcher = document.getElementById('testflight-switch');
-    if (!switcher) return;
-
-    const userAgent = userAgentLower();
-    const initial = /iphone|ipad|ipod/.test(userAgent) ? 'ios' : 'mac';
-    setTestFlightPlatform(initial);
-
-    switcher.addEventListener('click', (event) => {
-        const button = event.target.closest('[data-testflight]');
-        if (!button) return;
-        setTestFlightPlatform(button.getAttribute('data-testflight'));
-    });
-
-    switcher.addEventListener('keydown', (event) => {
-        if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
-        event.preventDefault();
-        const current = document.getElementById('testflight-card').dataset.platform === 'ios' ? 'ios' : 'mac';
-        const next = current === 'mac' ? 'ios' : 'mac';
-        setTestFlightPlatform(next);
-        const button = switcher.querySelector(`[data-testflight="${next}"]`);
-        if (button) button.focus();
-    });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     initCodeBlocks();
     initOsDownloadUi();
-    initTestFlightSwitch();
     loadDesktopVersionLabel();
     loadLatestReleaseAssets();
 });
@@ -289,8 +217,6 @@ window.addEventListener('docs:language-changed', () => {
     applyOsHint();
     loadDesktopVersionLabel();
     refreshCodeCopyButtons();
-    const card = document.getElementById('testflight-card');
-    if (card) setTestFlightPlatform(card.dataset.platform || 'mac');
 });
 
 function setWindowsPanelOpen(open) {
