@@ -80,11 +80,14 @@
             </header>
 
             <div class="official-store-badges">
+                <a class="official-store-badge" href="https://apps.microsoft.com/detail/9MXWQW7F7XPT" target="_blank" rel="noopener">
+                    <img data-i18n-badge="microsoft-store" src="assets/badges/microsoft-store/de.svg?v=3" alt="Im Microsoft Store laden" width="240" height="56" decoding="async">
+                </a>
                 <a class="official-store-badge" href="https://testflight.apple.com/join/FX9UNeGH" target="_blank" rel="noopener">
-                    <img data-i18n-badge="app-store" src="assets/badges/app-store/de.svg?v=2" alt="Im App Store laden" width="320" height="56" decoding="async">
+                    <img data-i18n-badge="app-store" src="assets/badges/app-store/de.svg?v=3" alt="Im App Store laden" width="200" height="56" decoding="async">
                 </a>
                 <a class="official-store-badge" href="https://play.google.com/store/apps/details?id=com.gfelektro.portal.android" target="_blank" rel="noopener">
-                    <img data-i18n-badge="google-play" src="assets/badges/google-play/de.svg?v=2" alt="Bei Google Play laden" width="320" height="56" decoding="async">
+                    <img data-i18n-badge="google-play" src="assets/badges/google-play/de.svg?v=3" alt="Bei Google Play laden" width="200" height="56" decoding="async">
                 </a>
             </div>
 
@@ -92,12 +95,8 @@
                 <article class="store-card store-card--featured">
                     <h3 data-i18n="index.storeWindowsTitle">Microsoft Store</h3>
                     <p data-i18n="index.storeWindowsDesc">Die Windows-App, signiert und über den Store aktualisiert.</p>
-                    <a class="ms-store-badge" href="https://apps.microsoft.com/detail/9MXWQW7F7XPT" target="_blank" rel="noopener">
-                        <svg class="ms-store-badge__icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" d="M0 93.7l210.7-29.7v167.4H0V93.7zm0 324.6l210.7 29.7V268.4H0v149.9zm227.3 32.1L448 480V268.4H227.3v182zm0-394.2V231.4H448V32L227.3 56.2z"/></svg>
-                        <span class="ms-store-badge__text">
-                            <span class="ms-store-badge__kicker">Microsoft Store</span>
-                            <span class="ms-store-badge__name">Windows</span>
-                        </span>
+                    <a class="official-store-badge" href="https://apps.microsoft.com/detail/9MXWQW7F7XPT" target="_blank" rel="noopener">
+                        <img data-i18n-badge="microsoft-store" src="assets/badges/microsoft-store/de.svg?v=3" alt="Im Microsoft Store laden" width="240" height="56" decoding="async">
                     </a>
                 </article>
                 <article class="store-card">
@@ -136,10 +135,11 @@
             <div class="download-panel">
             <div class="download-section">
                 <div class="download-row download-row--platforms">
-                    <a href="https://github.com/GF-Elektro/Portal-App/releases/download/v1.0.59/GFElektroPortal-1.0.59-Setup.exe" class="btn btn-primary" id="btn-win">
+                    <button type="button" class="btn btn-primary btn-linux-toggle" id="btn-win" aria-expanded="false" aria-controls="windows-options-panel">
                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 93.7l210.7-29.7v167.4H0V93.7zm0 324.6l210.7 29.7V268.4H0v149.9zm227.3 32.1L448 480V268.4H227.3v182zm0-394.2V231.4H448V32L227.3 56.2z"></path></svg>
                         Windows
-                    </a>
+                        <span class="btn-chevron" aria-hidden="true"></span>
+                    </button>
                     <a href="https://github.com/GF-Elektro/Portal-App/releases/download/v1.0.59/GFElektroPortal-1.0.59.dmg" class="btn btn-secondary" id="btn-mac">
                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 384 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path></svg>
                         macOS
@@ -154,6 +154,19 @@
                         Android
                         <span class="btn-chevron" aria-hidden="true"></span>
                     </button>
+                </div>
+                <div class="linux-options" id="windows-options-panel" hidden>
+                    <p class="linux-options__lead" data-i18n="index.windowsLead">Installer wählen. MSI ist die Standarddatei:</p>
+                    <div class="linux-options__grid">
+                        <a href="https://github.com/GF-Elektro/Portal-App/releases/download/v1.0.59/GFElektroPortal-1.0.59.msi" class="linux-option" id="btn-win-msi">
+                            <span class="linux-option__title">MSI</span>
+                            <span class="linux-option__desc" data-i18n="index.windowsMsiDesc">Standard, Installation für alle Benutzer</span>
+                        </a>
+                        <a href="https://github.com/GF-Elektro/Portal-App/releases/download/v1.0.59/GFElektroPortal-1.0.59-Setup.exe" class="linux-option" id="btn-win-exe">
+                            <span class="linux-option__title">EXE</span>
+                            <span class="linux-option__desc" data-i18n="index.windowsExeDesc">Setup.exe, Installationsordner wählbar</span>
+                        </a>
+                    </div>
                 </div>
                 <div class="linux-options" id="android-options-panel" hidden>
                     <p class="linux-options__lead" data-i18n="index.androidLead">APK für Android und Huawei, wenn Play Store oder AppGallery fehlen:</p>
@@ -285,8 +298,8 @@
         </div>
     </footer>
 
-    <script src="i18n/locales.js?v=15"></script>
-    <script src="i18n.js?v=6"></script>
-    <script src="script.js?v=7"></script>
+    <script src="i18n/locales.js?v=16"></script>
+    <script src="i18n.js?v=7"></script>
+    <script src="script.js?v=8"></script>
 </body>
 </html>

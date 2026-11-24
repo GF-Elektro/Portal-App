@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="320" height="56" viewBox="0 0 320 56" role="img">
-  <rect width="320" height="56" rx="8" fill="#111"/>
-  <g transform="translate(16 16)">
-    <path fill="#4285F4" d="M1.2 21.6V2.4c0-.4.2-.7.5-.8L13.4 12 1.2 21.6z"/>
-    <path fill="#34A853" d="M17.4 8.2 14 6.2 1.5 1.4C1.3 1.6 1.2 2 1.2 2.4L13.4 12l4-3.8z"/>
-    <path fill="#FBBC04" d="M17.4 15.8 13.4 12l4-3.8 2.3 1.3c.8.5.8 1.5 0 2z"/>
-    <path fill="#EA4335" d="M13.4 12 1.2 21.6c.2.4.6.6 1 .6.2 0 .5-.1.7-.2l14.5-8.2L13.4 12z"/>
-  </g>
-  <text x="52" y="23" fill="#fff" fill-opacity="0.78" font-family="Helvetica, Arial, sans-serif" font-size="10" font-weight="500">STÁHNOUT V</text>
-  <text x="52" y="42" fill="#fff" font-family="Helvetica, Arial, sans-serif" font-size="18" font-weight="700">Google Play</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="196" height="56" viewBox="0 0 196 56" role="img">
+  <rect width="196" height="56" rx="7" fill="#000"/>
+  <g transform="translate(14 15)">
+  <path fill="#4285F4" d="M.6 24.4V1.6c0-.6.3-1 .8-1.2L15.2 13 .6 24.4z"/>
+  <path fill="#34A853" d="M19.2 10.2 15.8 8.2.9.5C.7.7.6 1.1.6 1.6L15.2 13l4-2.8z"/>
+  <path fill="#FBBC04" d="M19.2 15.8 15.2 13l4-2.8 2.4 1.4c.9.5.9 1.6 0 2.1l-2.4 1.1z"/>
+  <path fill="#EA4335" d="M15.2 13 .6 24.4c.2.5.7.8 1.2.8.3 0 .6-.1.8-.2L19.2 15.8 15.2 13z"/>
+</g>
+  <text x="52" y="23" fill="#fff" fill-opacity="0.78" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="500">STÁHNOUT V</text>
+  <text x="52" y="42" fill="#fff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="700">Google Play</text>
 </svg>

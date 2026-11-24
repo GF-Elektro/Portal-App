@@ -48,11 +48,17 @@ function initOsDownloadUi() {
     const androidPanel = document.getElementById('android-options-panel');
     const osHint = document.getElementById('os-hint');
 
+    if (btnWin) {
+        btnWin.addEventListener('click', () => {
+            const open = btnWin.getAttribute('aria-expanded') === 'true';
+            setWindowsPanelOpen(!open);
+        });
+    }
+
     if (btnLinux && linuxPanel) {
         btnLinux.addEventListener('click', () => {
             const open = btnLinux.getAttribute('aria-expanded') === 'true';
             setLinuxPanelOpen(!open);
-            if (!open) setAndroidPanelOpen(false);
         });
     }
 
@@ -60,7 +66,6 @@ function initOsDownloadUi() {
         btnAndroid.addEventListener('click', () => {
             const open = btnAndroid.getAttribute('aria-expanded') === 'true';
             setAndroidPanelOpen(!open);
-            if (!open) setLinuxPanelOpen(false);
         });
     }
 
@@ -80,6 +85,7 @@ function initOsDownloadUi() {
             btnWin.classList.remove('active');
         } else if (userAgent.indexOf('win') !== -1) {
             btnWin.classList.add('active');
+            setWindowsPanelOpen(true);
         } else if (userAgent.indexOf('linux') !== -1) {
             btnWin.classList.replace('btn-primary', 'btn-secondary');
             btnWin.classList.remove('active');
@@ -287,6 +293,19 @@ window.addEventListener('docs:language-changed', () => {
     if (card) setTestFlightPlatform(card.dataset.platform || 'mac');
 });
 
+function setWindowsPanelOpen(open) {
+    const btnWin = document.getElementById('btn-win');
+    const windowsPanel = document.getElementById('windows-options-panel');
+    if (!btnWin || !windowsPanel) return;
+
+    btnWin.setAttribute('aria-expanded', open ? 'true' : 'false');
+    windowsPanel.hidden = !open;
+    if (open) {
+        setLinuxPanelOpen(false);
+        setAndroidPanelOpen(false);
+    }
+}
+
 function setLinuxPanelOpen(open) {
     const btnLinux = document.getElementById('btn-linux');
     const linuxPanel = document.getElementById('linux-options-panel');
@@ -294,6 +313,10 @@ function setLinuxPanelOpen(open) {
 
     btnLinux.setAttribute('aria-expanded', open ? 'true' : 'false');
     linuxPanel.hidden = !open;
+    if (open) {
+        setWindowsPanelOpen(false);
+        setAndroidPanelOpen(false);
+    }
 }
 
 function setAndroidPanelOpen(open) {
@@ -303,6 +326,10 @@ function setAndroidPanelOpen(open) {
 
     btnAndroid.setAttribute('aria-expanded', open ? 'true' : 'false');
     androidPanel.hidden = !open;
+    if (open) {
+        setWindowsPanelOpen(false);
+        setLinuxPanelOpen(false);
+    }
 }
 
 function loadDesktopVersionLabel() {
@@ -332,8 +359,10 @@ function loadLatestReleaseAssets() {
             const assets = release.assets;
             const bySuffix = (suffix) => assets.find((asset) => asset.name.endsWith(suffix));
             const setup = assets.find((asset) => asset.name.endsWith('-Setup.exe'));
+            const msi = assets.find((asset) => asset.name.endsWith('.msi') && !asset.name.includes('blockmap'));
 
-            setDownloadHref('btn-win', setup);
+            setDownloadHref('btn-win-msi', msi);
+            setDownloadHref('btn-win-exe', setup);
             setDownloadHref('btn-mac', bySuffix('.dmg'));
             setDownloadHref('btn-linux-appimage', bySuffix('.AppImage'));
             setDownloadHref('btn-linux-deb', bySuffix('.deb'));

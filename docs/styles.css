@@ -766,6 +766,10 @@ a {
     padding: 0 18px;
 }
 
+.store-card .official-store-badge {
+    margin-top: auto;
+}
+
 .official-store-badges {
     display: flex;
     flex-wrap: wrap;
