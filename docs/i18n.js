@@ -77,6 +77,15 @@ function applyTranslations() {
     if (html) el.innerHTML = html;
   });
 
+  document.querySelectorAll('[data-i18n-badge]').forEach((img) => {
+    const kind = img.getAttribute('data-i18n-badge');
+    if (!kind) return;
+    img.setAttribute('src', `assets/badges/${kind}/${activeLang}.svg`);
+    const altKey = kind === 'app-store' ? 'index.storeAppStoreBadgeAlt' : 'index.storeGooglePlayBadgeAlt';
+    const alt = getMessage(altKey);
+    if (alt) img.setAttribute('alt', alt);
+  });
+
   const page = document.body.getAttribute('data-docs-page');
   const descKey = page && PAGE_DESC_KEYS[page];
   if (descKey) {

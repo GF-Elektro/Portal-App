@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="styles.css?v=26">
+    <link rel="stylesheet" href="styles.css?v=27">
     <link rel="icon" type="image/png" href="assets/icon-512.png">
 </head>
 <body data-docs-page="index">
@@ -76,10 +76,22 @@
             <header class="distribution-header">
                 <span class="roadmap-eyebrow" data-i18n="index.storesEyebrow">Offiziell</span>
                 <h2 id="stores-heading" data-i18n="index.storesTitle">Im Store holen</h2>
-                <p data-i18n="index.storesLead">Microsoft Store, Snap Store und TestFlight sind der vorgesehene Weg. Direkte Downloads und Paketbefehle stehen darunter.</p>
+                <p data-i18n="index.storesLead">Google Play, Microsoft Store, Snap Store und TestFlight sind der vorgesehene Weg. Direkte Downloads und Paketbefehle stehen darunter.</p>
             </header>
 
             <div class="store-shelf">
+                <article class="store-card store-card--featured store-card--mobile">
+                    <h3 data-i18n="index.storeMobileTitle">App Store &amp; Google Play</h3>
+                    <p data-i18n="index.storeMobileDesc">Offizielle Apps für iPhone, iPad und Android. Google Play ist live; iOS läuft bis zur Freigabe über TestFlight.</p>
+                    <div class="official-store-badges" role="group" aria-label="App Store und Google Play">
+                        <a class="official-store-badge" href="https://testflight.apple.com/join/FX9UNeGH" target="_blank" rel="noopener">
+                            <img data-i18n-badge="app-store" src="assets/badges/app-store/de.svg" alt="Im App Store laden" width="270" height="80" decoding="async">
+                        </a>
+                        <a class="official-store-badge" href="https://play.google.com/store/apps/details?id=com.gfelektro.portal.android" target="_blank" rel="noopener">
+                            <img data-i18n-badge="google-play" src="assets/badges/google-play/de.svg" alt="Bei Google Play laden" width="270" height="80" decoding="async">
+                        </a>
+                    </div>
+                </article>
                 <article class="store-card store-card--featured">
                     <h3 data-i18n="index.storeWindowsTitle">Microsoft Store</h3>
                     <p data-i18n="index.storeWindowsDesc">Die Windows-App, signiert und über den Store aktualisiert.</p>
@@ -266,17 +278,6 @@
                     <p data-i18n="index.roadmapMacStoreDesc">Die Mac-App liegt beim Mac App Store in Prüfung. Die Beta gibt es über TestFlight.</p>
                 </article>
 
-                <article class="roadmap-card roadmap-card--review">
-                    <div class="roadmap-card__head">
-                        <span class="roadmap-icon roadmap-icon--android" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84 1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 1.23 12.95 1 12 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.97 3.3 6 5.03 6 7h12c0-1.97-.97-3.7-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>
-                        </span>
-                        <span class="roadmap-badge roadmap-badge--review" data-i18n="index.roadmapBadgeReview">In Prüfung</span>
-                    </div>
-                    <h3 data-i18n="index.roadmapAndroidTitle">Google Play</h3>
-                    <p data-i18n="index.roadmapAndroidDesc">Die Play-Store-Version ist in Prüfung. Bis dahin die APK oben laden — gilt auch für Huawei-Telefone ohne Play Store.</p>
-                </article>
-
                 <article class="roadmap-card roadmap-card--soon">
                     <div class="roadmap-card__head">
                         <span class="roadmap-icon roadmap-icon--store" aria-hidden="true">
@@ -338,7 +339,7 @@
         </div>
     </footer>
 
-    <script src="i18n/locales.js?v=14"></script>
+    <script src="i18n/locales.js?v=15"></script>
     <script src="i18n.js?v=5"></script>
     <script src="script.js?v=7"></script>
 </body>
