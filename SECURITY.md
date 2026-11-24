@@ -79,7 +79,7 @@ The application grants the following permissions to web content:
 
 ### Release integrity
 
-- Published installers are uploaded to [VirusTotal](https://www.virustotal.com) when a release is published: Windows **Setup.exe** and **AppX**, macOS **.dmg**, Linux **.AppImage** / **.deb**, plus an **APK**, **AAB**, **snap**, **HAP**, **IPA**, **pkg**, or HarmonyOS **.app** when that file is on the release. If the tag has no APK, the newest APK on any GitHub Release is scanned (Android and Huawei EMUI / HarmonyOS 4). If the tag has no snap, the Snap Store stable amd64 build is scanned.
+- Published installers are uploaded to [VirusTotal](https://www.virustotal.com) when a release is published: Windows **Setup.exe**, portable **.exe**, **.msi**, and **AppX**, macOS **.dmg**, Linux **.AppImage** / **.deb**, plus an **APK**, **AAB**, **snap**, **HAP**, **IPA**, **pkg**, or HarmonyOS **.app** when that file is on the release. If the tag has no APK, the newest APK on any GitHub Release is scanned (Android and Huawei EMUI / HarmonyOS 4). If the tag has no snap, the Snap Store stable amd64 build is scanned.
 - Scan report links and SHA256 hashes are appended to the release notes by the [`VirusTotal scan`](.github/workflows/virustotal.yml) workflow
 - **Maintainers:** repository secret `VT_API_KEY` from [VirusTotal → API key](https://www.virustotal.com/gui/my-apikey)
 
@@ -92,8 +92,8 @@ We intentionally stay within the **standard free public API** limits:
 | Request rate | **4 / minute** | Workflow `rate_limit: 4` |
 | Daily quota | **500 / day** | Only runs on release publish (or manual re-scan) |
 | Monthly quota | **~15.5 K / month** | One scan per release, not a recurring poll |
-| Files scanned | Each published installer | Skips `.blockmap`, `latest*.yml`, portable `.exe` duplicate |
-| Calls per release | **~14** (typical) | Each installer is **>32 MB** → 2 VT API calls per file (upload URL + submit). A full set is Setup, DMG, AppImage, deb, AppX, APK, and snap |
+| Files scanned | Each published installer | Skips `.blockmap` and `latest*.yml` |
+| Calls per release | **~18** (typical) | Each installer is **>32 MB** → 2 VT API calls per file (upload URL + submit). A full set is Setup.exe, portable exe, MSI, DMG, AppImage, deb, AppX, APK, and snap |
 
 - macOS release DMGs are signed with Developer ID and notarized when `APPLE_CERTIFICATE_BASE64` and `APPLE_API_KEY_BASE64` are configured in GitHub Actions. Windows installers are Authenticode-signed with Azure Artifact Signing, profile `portal-eu-public`. Private keys are not published. New publishers can still trigger heuristic detections on one engine; compare full VirusTotal reports and SHA256 hashes before treating a hit as malware
 - To re-scan an existing release: **Actions → VirusTotal scan → Run workflow** (enter tag, e.g. `v1.0.12`)
