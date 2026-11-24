@@ -9,6 +9,10 @@ void main() {
       isTrue,
     );
     expect(
+      PortalHosts.shouldKeepInApp(Uri.parse('https://accounts.google.sk/accounts/SetSID')),
+      isTrue,
+    );
+    expect(
       PortalHosts.shouldKeepInApp(Uri.parse('https://example.com')),
       isFalse,
     );

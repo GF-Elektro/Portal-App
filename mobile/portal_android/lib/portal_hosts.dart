@@ -26,6 +26,9 @@ class PortalHosts {
     if (scheme != 'https') return false;
     final host = url.host.toLowerCase();
     if (portalHosts.contains(host) || authHosts.contains(host)) return true;
+    // Slovak (and other country) Google sign-in uses accounts.google.sk,
+    // not accounts.google.com. That host must stay in the WebView.
+    if (host.startsWith('accounts.google.')) return true;
     return authSuffixes.any(host.endsWith);
   }
 }

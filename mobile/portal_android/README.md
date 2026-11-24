@@ -6,6 +6,7 @@ Flutter WebView shell for [https://portal.gfelektro.com](https://portal.gfelektr
 | --- | --- |
 | Application ID | `com.gfelektro.portal.android` |
 | Display name | G&F Portal EU |
+| Version | `pubspec.yaml` (`1.0.78+10078`; Play version code **10078**) |
 
 ## Requirements
 
@@ -21,9 +22,21 @@ flutter pub get
 flutter run
 ```
 
+## Distribution
+
+- **Google Play:** [play.google.com/store/apps/details?id=com.gfelektro.portal.android](https://play.google.com/store/apps/details?id=com.gfelektro.portal.android)
+- **Sideload APK** (Google Android and Huawei EMUI / HarmonyOS 4): [docs.gfelektro.com/downloads/GFElektroPortal.apk](https://docs.gfelektro.com/downloads/GFElektroPortal.apk)
+- HarmonyOS NEXT does not install this APK. That shell is [`harmony/portal_next`](../../harmony/portal_next/README.md). Store notes for both Huawei listings are in the root [README](../../README.md#huawei-appgallery).
+
 ## Release
 
-Production builds are signed with the upload key in `android/key.properties` and submitted by `tool/publish-play.sh`. The runbook is `docs/play-store.md`. Release builds fail when `android/key.properties` is missing.
+Production builds are signed with the upload key in `android/key.properties`. That file and the keystore stay off git. Release builds fail when `android/key.properties` is missing. Debug builds use the Android debug key.
+
+```bash
+flutter build apk --release
+```
+
+Output: `build/app/outputs/flutter-apk/app-release.apk`. GitHub Actions does not build this package.
 
 ## Clipboard
 
