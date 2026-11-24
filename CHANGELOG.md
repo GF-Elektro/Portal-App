@@ -17,6 +17,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ---
 
+## [1.0.76] - 2026-11-24
+
+### Fixed
+
+- **Electron certificate trust** — the desktop shell uses Electron 44.11.5, which stops trusting the revoked eMudhra RSA intermediates. Build tooling moves undici to 7.30.2 and the vulnerable minimatch copies to 11.0.9.
+
+---
+
 ## [1.0.75] - 2026-11-19
 
 ### Added
