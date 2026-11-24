@@ -11,6 +11,14 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ## [Unreleased]
 
+---
+
+## [1.0.77] - 2026-11-24
+
+### Added
+
+- **Windows MSI and EXE on the GitHub release** — the Windows job builds `GFElektroPortal-1.0.77.msi`, `GFElektroPortal-1.0.77-Setup.exe`, and the portable exe, then uploads them to the GitHub release. Azure Artifact Signing still returns 403 for `gfelektro-signing` / `portal-eu-public`, and that failure no longer drops the files. The same packages stay on [gfe-portal-packages.web.app](https://gfe-portal-packages.web.app/). VirusTotal scans the EXE and the MSI with the other installers.
+
 ### Fixed
 
 - **Notification bell and OS notification taps** — the installed app reports notification permission as granted when the system can show alerts, and tapping a Windows, macOS, iOS, or Android notification opens that item in the portal.

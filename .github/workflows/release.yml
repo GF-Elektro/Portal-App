@@ -100,6 +100,7 @@ jobs:
         run: npx electron-builder build --win --publish never
 
       - name: Azure login (Windows signing)
+        continue-on-error: true
         uses: azure/login@v3
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -107,6 +108,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Sign Windows installers (Artifact Signing)
+        continue-on-error: true
         uses: azure/artifact-signing-action@v2
         with:
           endpoint: https://eus.codesigning.azure.net/
@@ -114,6 +116,27 @@ jobs:
           certificate-profile-name: portal-eu-public
           files-folder: ${{ github.workspace }}/release
           files-folder-filter: exe
+          files-folder-recurse: false
+          exclude-environment-credential: true
+          exclude-workload-identity-credential: true
+          exclude-managed-identity-credential: true
+          exclude-shared-token-cache-credential: true
+          exclude-visual-studio-credential: true
+          exclude-visual-studio-code-credential: true
+          exclude-azure-cli-credential: false
+          exclude-azure-powershell-credential: true
+          exclude-azure-developer-cli-credential: true
+          exclude-interactive-browser-credential: true
+
+      - name: Sign Windows MSI (Artifact Signing)
+        continue-on-error: true
+        uses: azure/artifact-signing-action@v2
+        with:
+          endpoint: https://eus.codesigning.azure.net/
+          signing-account-name: gfelektro-signing
+          certificate-profile-name: portal-eu-public
+          files-folder: ${{ github.workspace }}/release
+          files-folder-filter: msi
           files-folder-recurse: false
           exclude-environment-credential: true
           exclude-workload-identity-credential: true

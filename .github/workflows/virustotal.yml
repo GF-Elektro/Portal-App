@@ -47,6 +47,8 @@ jobs:
           gh release download "${{ steps.meta.outputs.tag }}" \
             --repo "${{ github.repository }}" \
             -p 'GFElektroPortal-*-Setup.exe' \
+            -p 'GFElektroPortal-*.exe' \
+            -p 'GFElektroPortal-*.msi' \
             -p 'GFElektroPortal-*.dmg' \
             -p 'GFElektroPortal-*.AppImage' \
             -p 'GFElektroPortal-*.deb' \

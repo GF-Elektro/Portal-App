@@ -174,6 +174,7 @@ Download the latest release from the [Releases](https://github.com/GF-Elektro/Po
 
 | Platform | File                               | Notes                        |
 | -------- | ---------------------------------- | ---------------------------- |
+| Windows  | `GFElektroPortal-x.x.x.msi`       | Per-machine installer        |
 | Windows  | `GFElektroPortal-x.x.x-Setup.exe` | NSIS Desktop Installer       |
 | Windows  | `GFElektroPortal-x.x.x.exe`       | Portable Windows App         |
 | macOS    | `GFElektroPortal-x.x.x.dmg`       | Installs as **G&F Portal EU** |
