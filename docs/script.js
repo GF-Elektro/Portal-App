@@ -179,6 +179,16 @@ function initCodeBlocks() {
         const bar = document.createElement('div');
         bar.className = 'code-block__bar';
 
+        // Numbered steps: one command per block, run in order.
+        if (pre.dataset.step) {
+            block.classList.add('code-block--step');
+            const step = document.createElement('span');
+            step.className = 'code-block__step';
+            step.textContent = pre.dataset.step;
+            step.setAttribute('aria-hidden', 'true');
+            bar.appendChild(step);
+        }
+
         const copyButton = document.createElement('button');
         copyButton.type = 'button';
         copyButton.className = 'code-block__copy';

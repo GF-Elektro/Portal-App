@@ -16,76 +16,65 @@ const SHARED_DE = {
 };
 
 const INDEX_DE = {
-  metaDescription:
-    'Lade die offizielle G&F Portal EU Desktop App f\u00fcr Windows, macOS und Linux herunter.',
-  heroEyebrow: 'Offizieller Desktop-Client',
-  heroSubtitle: 'Jetzt als rasante Desktop App.',
-  heroDescription:
-    'Schneller Zugriff, native Benachrichtigungen und absolut ablenkungsfrei. Mobile Apps im App Store und bei Google Play \u2014 Desktop im Microsoft Store oder \u00fcber TestFlight.',
-  storesEyebrow: 'Offiziell',
-  storesTitle: 'Im Store holen',
-  storesLead:
-    'Google Play, Microsoft Store, Snap Store und TestFlight sind der vorgesehene Weg. Direkte Downloads und Paketbefehle stehen darunter.',
-  storeMobileTitle: 'App Store & Google Play',
-  storeMobileDesc:
-    'Offizielle Apps f\u00fcr iPhone, iPad und Android. Google Play ist live; iOS l\u00e4uft bis zur Freigabe \u00fcber TestFlight.',
-  storeAppStoreBadgeAlt: 'Im App Store laden',
-  storeGooglePlayBadgeAlt: 'Bei Google Play laden',
-  storeMicrosoftBadgeAlt: 'Im Microsoft Store laden',
-  storeWindowsTitle: 'Microsoft Store',
-  storeWindowsDesc: 'Die Windows-App, signiert und \u00fcber den Store aktualisiert.',
-  storeUbuntuTitle: 'Snap Store',
-  storeUbuntuDesc: 'Ubuntu, Debian, Fedora, Arch, openSUSE, Red Hat und die weiteren Distributionen im Snap Store.',
-  storeAppleTitle: 'TestFlight',
-  storeSwitchLabel: 'macOS oder iOS',
-  storeMacTitle: 'macOS \u00b7 TestFlight',
-  storeMacDesc: 'Beta f\u00fcr den Mac. Einmal anmelden, dann mit TestFlight installieren.',
-  storeIosTitle: 'iOS \u00b7 TestFlight',
-  storeIosDesc: 'Beta f\u00fcr iPhone und iPad.',
-  directTitle: 'Direkt herunterladen',
-  directLead: 'Installer, Android-APK (auch Huawei) und Paketquellen, wenn du den Store nicht nutzt.',
-  linuxLead: 'Direkt laden oder Paketquelle nutzen:',
-  windowsLead: 'Installer wählen. MSI ist die Standarddatei:',
-  windowsMsiDesc: 'Standard, Installation für alle Benutzer',
-  windowsExeDesc: 'Setup.exe, Installationsordner wählbar',
-  androidLead: 'APK nur als Fallback, wenn Play Store oder AppGallery fehlen:',
-  androidApkDesc: 'Android und Huawei (EMUI / HarmonyOS 4)',
-  androidInstallNote:
-    'Unbekannte Quellen erlauben. HarmonyOS NEXT (HarmonyOS 5+) installiert keine APKs \u2014 daf\u00fcr kommt die AppGallery-Version.',
-  linuxAppImageDesc: 'Universell, ohne Installation',
-  linuxDebDesc: 'Debian-Paket zum Installieren',
-  linuxAptDesc: 'apt-Repository einrichten',
-  linuxArchDesc: 'pacman-Repository',
-  linuxSnapDesc: 'Ubuntu, Debian, Fedora, Arch und weitere',
-  osHintDefault: 'W\u00e4hle deine Plattform',
-  osHintMac: 'Es sieht so aus, als w\u00fcrdest du macOS nutzen. Lade das DMG herunter.',
-  osHintWin: 'Windows erkannt \u2014 lade die MSI herunter oder wechsle zur EXE.',
-  osHintLinux: 'Linux erkannt \u2014 w\u00e4hle Snap, AppImage, .deb, apt oder Arch pacman.',
-  osHintAndroid: 'Android oder Huawei erkannt \u2014 lade die APK herunter.',
-  osHintOther: 'Bitte lade die f\u00fcr dein Betriebssystem passende Datei herunter.',
-  installResourcesTitle: 'Installation & Hilfe',
-  macosCardDesc:
-    'Homebrew (empfohlen) oder DMG in Programme ziehen. Signiert mit dem Apple Developer Account von G&F Elektro \u2014 keine Zertifikatsdatei n\u00f6tig.',
-  chipHomebrew: 'macOS (Homebrew)',
-  chipDebian: 'Debian / Ubuntu',
-  chipArch: 'Arch Linux',
-  chipWindows: 'Windows (Chocolatey)',
-  chipPermissions: 'Berechtigungen',
-  featuresTitle: 'Warum die Desktop App?',
-  featuresIntro:
-    'Alles, was du im Browser kennst \u2014 mit dem Komfort einer nativen Anwendung.',
-  feature1Title: 'Ablenkungsfrei',
-  feature1Desc:
-    'Keine Browser-Tabs, keine Lesezeichenleiste. Fokussiere dich zu 100\u00a0% auf das Portal und deine Projekte.',
-  feature2Title: 'Native Benachrichtigungen',
-  feature2Desc:
-    'Erhalte wichtige Portal-Updates direkt \u00fcber das Info-Center von Windows oder macOS.',
-  feature3Title: 'Immer griffbereit',
-  feature3Desc:
-    'Die App minimiert sich in den System-Tray und ist jederzeit mit nur einem Klick wieder ge\u00f6ffnet.',
-  feature4Title: 'Kamera, Mikrofon & Standort',
-  feature4Desc:
-    'Belegfotos, Sprachdiktat und optionale GPS-Koordinaten f\u00fcr Tagesberichte \u2013 nur wenn du sie im Portal nutzt.',
+  metaDescription: "Die offizielle App für G&F Portal EU – für Windows, macOS und Linux sowie für iPhone, iPad und Android.",
+  heroEyebrow: "Offizielle App von G&F Elektro",
+  heroSubtitle: "Ihr Portal. Überall, wo Sie arbeiten.",
+  heroDescription: "Projekte, Aufmaße, Stundenberichte und Rechnungen in einem eigenen Fenster – ohne Browser-Tab und mit Benachrichtigungen direkt vom Betriebssystem. Für Windows, macOS und Linux sowie für iPhone und Android.",
+  storesEyebrow: "Offizielle Bezugsquellen",
+  storesTitle: "Aus dem Store installieren",
+  storesLead: "Über Google Play, Microsoft Store, Snap Store und TestFlight erhalten Sie signierte Versionen mit automatischen Updates. Installer und Paketquellen für die eigene Verteilung finden Sie weiter unten.",
+  storeMobileTitle: "App Store & Google Play",
+  storeMobileDesc: "Offizielle Apps für iPhone, iPad und Android. Android ist bei Google Play verfügbar; iOS läuft bis zur Freigabe im App Store über TestFlight.",
+  storeAppStoreBadgeAlt: "Im App Store laden",
+  storeGooglePlayBadgeAlt: "Bei Google Play laden",
+  storeMicrosoftBadgeAlt: "Im Microsoft Store laden",
+  storeWindowsTitle: "Microsoft Store",
+  storeWindowsDesc: "Die Windows-App – signiert und automatisch über den Store aktualisiert.",
+  storeUbuntuTitle: "Snap Store",
+  storeUbuntuDesc: "Für Ubuntu, Debian, Fedora, Arch, openSUSE, Red Hat und weitere Distributionen – mit automatischen Updates aus dem Snap Store.",
+  storeAppleTitle: "TestFlight",
+  storeSwitchLabel: "macOS oder iOS",
+  storeMacTitle: "macOS · TestFlight",
+  storeMacDesc: "Beta-Version für den Mac. Einmal registrieren, danach installiert und aktualisiert TestFlight die App.",
+  storeIosTitle: "iOS · TestFlight",
+  storeIosDesc: "Beta-Version für iPhone, iPhone Duo und iPad – installiert über TestFlight.",
+  directTitle: "Direkt herunterladen",
+  directLead: "Installer, Android-APK (auch für Huawei) und Paketquellen – für Geräte ohne Store-Zugang oder für die Verteilung durch Ihre IT.",
+  linuxLead: "Datei direkt laden oder Paketquelle einrichten:",
+  windowsLead: "Bitte wählen Sie den Installer. Für die meisten Rechner ist MSI die richtige Wahl:",
+  windowsMsiDesc: "Empfohlen – Installation für alle Benutzer",
+  windowsExeDesc: "Setup.exe mit frei wählbarem Installationsordner",
+  androidLead: "Die APK ist für Geräte ohne Play Store oder AppGallery gedacht:",
+  androidApkDesc: "Android und Huawei (EMUI / HarmonyOS 4)",
+  androidInstallNote: "Erlauben Sie dazu die Installation aus unbekannten Quellen. HarmonyOS NEXT (ab HarmonyOS 5) installiert keine APKs – dafür folgt die AppGallery-Version.",
+  linuxAppImageDesc: "Universell, ohne Installation",
+  linuxDebDesc: "Debian-Paket zur Installation",
+  linuxAptDesc: "apt-Repository einrichten",
+  linuxArchDesc: "pacman-Repository",
+  linuxSnapDesc: "Ubuntu, Debian, Fedora, Arch und weitere",
+  osHintDefault: "Bitte wählen Sie Ihre Plattform.",
+  osHintMac: "Sie nutzen offenbar macOS. Laden Sie das DMG herunter oder installieren Sie die Beta über TestFlight.",
+  osHintWin: "Windows erkannt – laden Sie die MSI herunter oder wählen Sie alternativ die EXE.",
+  osHintLinux: "Linux erkannt – wählen Sie Snap, AppImage, .deb, apt oder pacman.",
+  osHintAndroid: "Android oder Huawei erkannt – am einfachsten über Google Play, sonst per APK.",
+  osHintOther: "Bitte laden Sie die passende Datei für Ihr Betriebssystem herunter.",
+  installResourcesTitle: "Installation & Hilfe",
+  macosCardDesc: "Per Homebrew (empfohlen) oder das DMG öffnen und in den Programme-Ordner ziehen. Signiert mit dem Apple-Entwicklerkonto von G&F Elektro – zusätzliche Zertifikate sind nicht nötig.",
+  chipHomebrew: "macOS (Homebrew)",
+  chipDebian: "Debian / Ubuntu",
+  chipArch: "Arch Linux",
+  chipWindows: "Windows (Chocolatey)",
+  chipPermissions: "Berechtigungen",
+  featuresTitle: "Warum die Desktop-App?",
+  featuresIntro: "Alles, was Sie aus dem Portal kennen – schneller erreichbar und ganz auf Ihre Arbeit konzentriert.",
+  feature1Title: "Volle Konzentration",
+  feature1Desc: "Keine Tabs, keine Lesezeichenleiste, keine Ablenkung. Das Portal läuft in einem eigenen Fenster – nur für Ihre Projekte.",
+  feature2Title: "Benachrichtigungen vom System",
+  feature2Desc: "Wichtige Neuigkeiten aus dem Portal erscheinen direkt in der Mitteilungszentrale von Windows, macOS oder Linux.",
+  feature3Title: "Immer griffbereit",
+  feature3Desc: "Beim Schließen wechselt die App in die Taskleiste bzw. Menüleiste und ist mit einem Klick wieder da.",
+  feature4Title: "Kamera, Mikrofon & Standort",
+  feature4Desc: "Belegfotos, Sprachdiktat und optionale GPS-Daten für Tagesberichte – nur, wenn Sie diese Funktionen im Portal selbst nutzen.",
   footerSource: 'Quellcode',
   footerPermissions: 'Berechtigungen',
   footerSupport: 'Support',
@@ -126,85 +115,69 @@ const INDEX_DE = {
 
 const MACOS_DE = {
   pageTitle: 'macOS-Installation \u2013 G&F Portal EU',
-  metaDescription:
-    'So installierst du G&F Portal EU auf dem Mac: DMG herunterladen, in Programme ziehen \u2013 sicher signiert, ohne Zertifikatsdateien.',
+  metaDescription: "So installieren Sie G&F Portal EU auf dem Mac: DMG herunterladen und in den Programme-Ordner ziehen – signiert, notarisiert und ohne Zertifikatsdateien.",
   h1: 'Installation auf macOS',
   h2: 'G&F Portal EU per DMG installieren',
-  intro:
-    'Die Desktop-App f\u00fcr Mac wird als <strong>DMG-Datei</strong> ausgeliefert. Du installierst nur diese App \u2013 keine zus\u00e4tzlichen Zertifikats- oder Schl\u00fcsseldateien. Welche Berechtigungen die App nutzt, steht auf der <a href="permissions.html">Berechtigungsseite</a>.',
+  intro: "Die Desktop-App für den Mac wird als <strong>DMG-Datei</strong> ausgeliefert. Sie installieren nur diese App – zusätzliche Zertifikats- oder Schlüsseldateien sind nicht erforderlich. Welche Berechtigungen die App nutzt, lesen Sie auf der <a href=\"permissions.html\">Berechtigungsseite</a>.",
   stepsTitle: 'Schritte',
-  step1: 'Lade die neueste <strong>macOS-DMG</strong> von GitHub herunter (Button unten).',
-  step2: '\u00d6ffne die heruntergeladene <code>.dmg</code>-Datei (Doppelklick).',
-  step3:
-    'Ziehe <strong>G&F Portal EU</strong> per Drag&nbsp;&amp;&nbsp;Drop in den Ordner <strong>Programme</strong> (Applications).',
-  step4: 'Werfe das DMG-Fenster weg und starte die App aus Programme oder \u00fcber Spotlight.',
-  signingPara:
-    'Releases, die mit dem <strong>Developer-ID-Zertifikat</strong> von G&F Elektro signiert und von Apple <strong>notarisiert</strong> sind, \u00f6ffnen ohne die Warnung \u201enicht identifizierter Entwickler\u201c. Der private Apple-Schl\u00fcssel bleibt bei G&F Elektro und wird nicht zum Download angeboten. \u00c4ltere Releases k\u00f6nnen die Warnung noch zeigen \u2014 dann die neueste DMG laden.',
+  step1: "Laden Sie die aktuelle <strong>macOS-DMG</strong> von GitHub herunter (Schaltfläche unten).",
+  step2: "Öffnen Sie die heruntergeladene <code>.dmg</code>-Datei per Doppelklick.",
+  step3: "Ziehen Sie <strong>G&F Portal EU</strong> per Drag&nbsp;&amp;&nbsp;Drop in den Ordner <strong>Programme</strong> (Applications).",
+  step4: "Schließen Sie das DMG-Fenster und starten Sie die App aus dem Programme-Ordner oder über Spotlight.",
+  signingPara: "Releases, die mit dem <strong>Developer-ID-Zertifikat</strong> von G&F Elektro signiert und von Apple <strong>notarisiert</strong> sind, öffnen sich ohne die Warnung „nicht identifizierter Entwickler“. Der private Apple-Schlüssel verbleibt bei G&F Elektro und wird nicht zum Download angeboten. Ältere Releases können die Warnung noch anzeigen – laden Sie in diesem Fall die aktuelle DMG.",
   securityTitle: 'Wichtig zur Sicherheit',
-  securityP1:
-    'Du installierst ausschlie\u00dflich die <strong>DMG</strong> mit der App. Du installierst <strong>keinen</strong> Apple-Privatschl\u00fcssel, keine <strong>.p12</strong>-Datei und keine <strong>.p8</strong>-Datei \u2013 weder von dieser Seite noch aus E-Mails oder anderen Quellen.',
+  securityP1: "Sie installieren ausschließlich die <strong>DMG</strong> mit der App – <strong>keinen</strong> Apple-Privatschlüssel, keine <strong>.p12</strong>- und keine <strong>.p8</strong>-Datei, weder von dieser Seite noch aus E-Mails oder anderen Quellen.",
   securityP2:
     '<strong>G&F Elektro</strong> signiert die App beim Build \u00fcber die Mitgliedschaft im <strong>Apple Developer Program</strong>. Der private Developer-ID-Schl\u00fcssel wird nur intern beim Erstellen der App verwendet und ist <strong>niemals</strong> auf dieser Website oder im \u00f6ffentlichen Git-Repository ver\u00f6ffentlicht.',
-  securityP3:
-    'Vertraue keinen Anleitungen, die dir zum Installieren der App ein Zertifikat oder einen Schl\u00fcssel zum Herunterladen anbieten \u2013 das ist nicht n\u00f6tig und unsicher.',
-  downloadBtn: 'Neueste macOS-DMG laden',
-  hint:
-    'Der Button f\u00fchrt zur aktuellsten GitHub-Release-Seite; dort die passende <strong>.dmg</strong> f\u00fcr Mac ausw\u00e4hlen.',
+  securityP3: "Misstrauen Sie Anleitungen, die Ihnen zur Installation ein Zertifikat oder einen Schlüssel zum Herunterladen anbieten. Das ist weder nötig noch sicher.",
+  downloadBtn: "Aktuelle macOS-DMG laden",
+  hint: "Die Schaltfläche führt zur aktuellen Release-Seite auf GitHub. Wählen Sie dort die <strong>.dmg</strong>-Datei für den Mac.",
   warningTitle: 'Warnung von macOS?',
-  warningP1:
-    'Wenn macOS beim \u00d6ffnen noch warnt, liegt oft eine <strong>\u00e4ltere, nicht signierte</strong> Version vor. <strong>Lade die neueste Version</strong> von der GitHub-Release-Seite (Link oben) und installiere sie erneut \u2013 das ist der empfohlene Weg.',
-  warningP2:
-    'Bitte <strong>deaktiviere Gatekeeper nicht</strong> und nutze keine Terminal-Befehle wie <code>xattr</code> als Standard-L\u00f6sung; bei aktuellen signierten Releases sind solche Workarounds nicht n\u00f6tig.',
-  warningP3:
-    'Hinweis: Sehr alte, unsignierte Test-Builds ben\u00f6tigten fr\u00fcher gelegentlich einen Quarant\u00e4ne-Workaround; ab den notarisierten Developer-ID-Releases entf\u00e4llt das.',
+  warningP1: "Warnt macOS beim Öffnen, handelt es sich meist um eine <strong>ältere, nicht signierte</strong> Version. <strong>Laden Sie die aktuelle Version</strong> von der GitHub-Release-Seite (Link oben) und installieren Sie sie erneut – das ist der empfohlene Weg.",
+  warningP2: "Bitte <strong>deaktivieren Sie Gatekeeper nicht</strong> und verwenden Sie keine Terminal-Befehle wie <code>xattr</code> als Standardlösung. Bei aktuellen, signierten Releases sind solche Umwege nicht nötig.",
+  warningP3: "Hinweis: Sehr alte, unsignierte Test-Builds benötigten früher gelegentlich einen Quarantäne-Workaround. Seit den notarisierten Developer-ID-Releases entfällt das.",
   brewTitle: 'Empfohlen: Homebrew',
-  brewIntro:
-    'Mit Homebrew installierst und aktualisierst du die App am einfachsten. Ausf\u00fchrliche Schritte: <a href="macos-homebrew.html">Homebrew-Anleitung</a>.',
+  brewIntro: "Am einfachsten installieren und aktualisieren Sie die App mit Homebrew. Die ausführlichen Schritte finden Sie in der <a href=\"macos-homebrew.html\">Homebrew-Anleitung</a>.",
   brewUpgradeLead: 'Aktualisieren:',
 };
 
 const MACOS_HOMEBREW_DE = {
   pageTitle: 'macOS Homebrew \u2013 G&F Portal EU',
-  metaDescription: 'So installierst du G&F Portal EU auf dem Mac mit Homebrew.',
+  metaDescription: "So installieren Sie G&F Portal EU auf dem Mac mit Homebrew.",
   h1: 'Installation mit Homebrew',
   h2: 'Empfohlen f\u00fcr macOS',
-  intro:
-    'Mit Homebrew installierst du die Desktop-App in wenigen Befehlen. Das Cask hei\u00dft <strong>gfe-portal-eu</strong> im Tap <strong>GF-Elektro/tap</strong>.',
-  upgradeLead: 'Sp\u00e4ter aktualisieren:',
-  trustNote: 'Wenn Homebrew nach dem Vertrauen in ein Drittanbieter-Cask fragt:',
-  dmgLink:
-    'Alternativ per DMG: <a href="macos-install.html">macOS-Installationsanleitung</a>.',
+  intro: "Mit Homebrew ist die Desktop-App in wenigen Befehlen installiert. Das Cask heißt <strong>gfe-portal-eu</strong> und liegt im Tap <strong>GF-Elektro/tap</strong>.",
+  upgradeLead: "Später aktualisieren:",
+  trustNote: "Falls Homebrew fragt, ob Sie einem Drittanbieter-Cask vertrauen:",
+  dmgLink: "Alternativ per DMG: <a href=\"macos-install.html\">macOS-Installationsanleitung</a>.",
   backLink: 'Zur\u00fcck zur \u00dcbersicht',
 };
 
 const LINUX_APT_DE = {
   pageTitle: 'Linux-Installation (apt) \u2013 G&F Portal EU',
-  metaDescription: 'So installierst du G&F Portal EU auf Debian und Ubuntu mit apt.',
+  metaDescription: "So installieren Sie G&F Portal EU unter Debian und Ubuntu mit apt.",
   h1: 'Installation mit apt',
   h2: 'Debian und Ubuntu',
-  intro:
-    'Das Paket-Repository ist unsigniert. Deshalb steht <strong>trusted=yes</strong> in der Quelle.',
+  intro: "Das Paket-Repository ist nicht signiert. Deshalb enthält die Quelle den Eintrag <strong>trusted=yes</strong>.",
   backLink: 'Zur\u00fcck zur \u00dcbersicht',
 };
 
 const LINUX_ARCH_DE = {
   pageTitle: 'Linux-Installation (Arch) \u2013 G&F Portal EU',
-  metaDescription: 'So installierst du G&F Portal EU unter Arch Linux mit pacman oder yay.',
+  metaDescription: "So installieren Sie G&F Portal EU unter Arch Linux mit pacman oder yay.",
   h1: 'Installation unter Arch',
   h2: 'pacman-Repository und AUR',
-  intro:
-    'Trage dieses Repository in <code>/etc/pacman.conf</code> ein. Die Datenbank ist nicht signiert (<strong>SigLevel = Optional TrustAll</strong>).',
-  aurNote: 'Alternativ \u00fcber das AUR, sobald das Paket dort ver\u00f6ffentlicht ist:',
+  intro: "Tragen Sie dieses Repository in <code>/etc/pacman.conf</code> ein. Die Datenbank ist nicht signiert (<strong>SigLevel = Optional TrustAll</strong>).",
+  aurNote: "Alternativ über das AUR, sobald das Paket dort veröffentlicht ist:",
   backLink: 'Zur\u00fcck zur \u00dcbersicht',
 };
 
 const WINDOWS_CHOCO_DE = {
   pageTitle: 'Windows-Installation \u2013 G&F Portal EU',
-  metaDescription: 'So installierst du G&F Portal EU unter Windows mit Chocolatey.',
+  metaDescription: "So installieren Sie G&F Portal EU unter Windows mit Chocolatey.",
   h1: 'Installation unter Windows',
   h2: 'G&F Portal EU mit Chocolatey',
-  intro:
-    'Mit Chocolatey installierst du die Desktop-App in einem Befehl. Das Paket hei\u00dft <strong>gfe-portal-eu</strong>.',
+  intro: "Mit Chocolatey installieren Sie die Desktop-App mit einem einzigen Befehl. Das Paket heißt <strong>gfe-portal-eu</strong>.",
   backLink: 'Zur\u00fcck zur \u00dcbersicht',
 };
 
@@ -213,22 +186,19 @@ const PERMISSIONS_DE = {
   metaDescription:
     'Warum G&F Portal EU Kamera, Mikrofon, Benachrichtigungen und Zwischenablage nutzt \u2013 macOS, Windows, iOS und Android.',
   h1: 'App-Berechtigungen',
-  h2: 'Warum G&F Portal EU auf deinem Ger\u00e4t fragt',
-  intro:
-    'Die Portal-Apps sind H\u00fcllen um <strong>portal.gfelektro.com</strong> \u2013 das Portal von G&F Elektro. F\u00fcr Baustellenfotos, Diktat, Chat-Benachrichtigungen und Einf\u00fcgen aus der Zwischenablage braucht das Betriebssystem deine Zustimmung.',
+  h2: "Warum G&F Portal EU um Ihre Erlaubnis bittet",
+  intro: "Die Portal-Apps bringen <strong>portal.gfelektro.com</strong> – das Portal von G&F Elektro – als eigenständige App auf Ihr Gerät. Für Baustellenfotos, Diktat, Chat-Benachrichtigungen und das Einfügen aus der Zwischenablage benötigt das Betriebssystem Ihre Zustimmung.",
   macTitle: 'macOS-App',
   macLi1: '<strong>Kamera</strong> \u2013 Belegfotos und Fotodokumentation auf der Baustelle.',
   macLi2:
     '<strong>Mikrofon</strong> \u2013 Sprachnachrichten, Diktat und Audiofunktionen (z.&nbsp;B. f\u00fcr Admins).',
-  macLi3: '<strong>Standort (optional)</strong> \u2013 nur wenn du GPS in Tagesberichten aktivierst.',
-  macLi4: '<strong>Benachrichtigungen</strong> \u2013 neue Nachrichten und Hinweise wie bei E-Mail oder SMS.',
-  macLi5: '<strong>Zwischenablage</strong> \u2013 Text einf\u00fcgen in Formularen im Portal.',
-  macFooter:
-    'Installation nur \u00fcber die <strong>DMG</strong> \u2013 siehe <a href="macos-install.html">macOS-Installationsanleitung</a>. Du l\u00e4dst <strong>kein</strong> Apple-Zertifikat und <strong>keinen</strong> privaten Schl\u00fcssel herunter; die App ist signiert und notarisiert.',
+  macLi3: "<strong>Standort (optional)</strong> – nur, wenn Sie GPS in Tagesberichten aktivieren.",
+  macLi4: "<strong>Benachrichtigungen</strong> – neue Nachrichten und Hinweise, wie Sie es von E-Mail oder SMS kennen.",
+  macLi5: "<strong>Zwischenablage</strong> – Text in Formulare des Portals einfügen.",
+  macFooter: "Installation ausschließlich über die <strong>DMG</strong> – siehe <a href=\"macos-install.html\">macOS-Installationsanleitung</a>. Sie laden <strong>kein</strong> Apple-Zertifikat und <strong>keinen</strong> privaten Schlüssel herunter; die App ist signiert und notarisiert.",
   winTitle: 'Windows-App',
-  winLi1: 'Gleiche Zwecke: Kamera, Mikrofon, Benachrichtigungen, Zwischenablage.',
-  winLi2:
-    'Wenn Windows Mikrofon oder Kamera blockiert, bietet die App einen Dialog mit Link zu den <strong>Datenschutz-Einstellungen</strong>.',
+  winLi1: "Dieselben Zwecke: Kamera, Mikrofon, Benachrichtigungen und Zwischenablage.",
+  winLi2: "Blockiert Windows Mikrofon oder Kamera, zeigt die App einen Hinweis mit direktem Link zu den <strong>Datenschutzeinstellungen</strong>.",
   winLi3:
     'Benachrichtigungen laufen \u00fcber die Windows-Mitteilungszentrale (App-ID <code>com.gfelektro.portal</code>).',
   iosTitle: 'iOS-App (TestFlight / App Store)',
@@ -237,11 +207,9 @@ const PERMISSIONS_DE = {
   androidTitle: 'Android-App',
   androidBody:
     'Kamera und Fotos f\u00fcr Baustellen-Uploads, Mikrofon f\u00fcr Diktat, Benachrichtigungen ab Android\u00a013 mit expliziter Erlaubnis. Wichtige Hinweise werden als System-Benachrichtigungen angezeigt.',
-  storeTitle: 'Microsoft Store (geplant)',
-  storeBody:
-    'Dieselbe Windows-Desktop-App, sp\u00e4ter \u00fcber den Store verteilt. Das MSIX-Paket braucht u.&nbsp;a. <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> und optional <code>location</code>. Details: <a href="microsoft-store.html">Microsoft Store</a>.',
-  devNote:
-    'Technische Details zur nativen Schnittstelle (Entwickler): <a href="native-shell-bridge.html">Native Shell Bridge</a>.',
+  storeTitle: "Microsoft Store",
+  storeBody: "Dieselbe Windows-Desktop-App, verteilt und aktualisiert über den Microsoft Store. Das MSIX-Paket deklariert u.&nbsp;a. <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> und optional <code>location</code>. Details: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  devNote: "Technische Details zur nativen Schnittstelle (für Entwickler): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   backBtn: 'Zur\u00fcck zum Download',
 };
 
@@ -251,19 +219,15 @@ const SUPPORT_DE = {
     'Hilfe f\u00fcr G&F Portal EU: Fragen stellen und Support anfordern.',
   h1: 'Support',
   h2: 'Fragen und Hilfe zu G&F Portal EU',
-  intro:
-    'Hier erreichst du den Support von G&F Elektro. Die Apps laden das Portal unter <strong>portal.gfelektro.com</strong>.',
+  intro: "Hier erreichen Sie den Support von G&F Elektro. Die Apps laden das Portal unter <strong>portal.gfelektro.com</strong>.",
   contactTitle: 'Kontakt',
-  contactBody:
-    'Schreib an <a href="mailto:info@gfelektro.com">info@gfelektro.com</a>. Nenne die Plattform (Windows, macOS, Linux, iOS oder Android), die App-Version und was nicht funktioniert.',
+  contactBody: "Schreiben Sie uns an <a href=\"mailto:info@gfelektro.com\">info@gfelektro.com</a>. Damit wir schnell helfen können, nennen Sie bitte die Plattform (Windows, macOS, Linux, iOS oder Android), die App-Version und eine kurze Beschreibung des Problems.",
   portalTitle: 'Portal',
-  portalBody:
-    'Anmeldung und t\u00e4gliche Arbeit: <a href="https://portal.gfelektro.com">portal.gfelektro.com</a>.',
+  portalBody: "Anmeldung und tägliche Arbeit: <a href=\"https://portal.gfelektro.com\">portal.gfelektro.com</a>.",
   companyTitle: 'Unternehmen',
   companyBody: '<a href="https://www.gfelektro.com">www.gfelektro.com</a>',
   deleteTitle: 'Konto l\u00f6schen',
-  deleteBody:
-    'Nach der Anmeldung im Portal: Einstellungen \u2192 Konto l\u00f6schen, dann die E-Mail-Adresse zur Best\u00e4tigung eingeben. Der Zugang wird gel\u00f6scht. Gesetzlich aufzubewahrende Arbeits- und Buchhaltungsunterlagen bleiben gespeichert.',
+  deleteBody: "Melden Sie sich im Portal an und wählen Sie Einstellungen → Konto löschen. Bestätigen Sie anschließend mit Ihrer E-Mail-Adresse. Ihr Zugang wird gelöscht; gesetzlich aufbewahrungspflichtige Arbeits- und Buchhaltungsunterlagen bleiben gespeichert.",
   backBtn: 'Zur\u00fcck zum Download',
 };
 
@@ -295,7 +259,7 @@ const SHARED_CZ = {
 const INDEX_CZ = {
   "metaDescription": "Stáhni si oficiální desktopovou aplikaci G&F Portal EU pro Windows, macOS a Linux.",
   "heroEyebrow": "Oficiální desktopový klient",
-  "heroSubtitle": "Teď jako rychlá desktopová aplikace.",
+  "heroSubtitle": "Tvůj portál. Všude, kde pracuješ.",
   "heroDescription": "Rychlý přístup, nativní oznámení a žádné rozptylování. Mobilní aplikace v App Store a na Google Play — desktop v Microsoft Store nebo přes TestFlight.",
   "storesEyebrow": "Oficiálně",
   "storesTitle": "Stáhnout ze storu",
@@ -314,7 +278,7 @@ const INDEX_CZ = {
   "storeMacTitle": "macOS · TestFlight",
   "storeMacDesc": "Beta pro Mac. Jednou se přihlas a nainstaluj ji přes TestFlight.",
   "storeIosTitle": "iOS · TestFlight",
-  "storeIosDesc": "Beta pro iPhone a iPad.",
+  "storeIosDesc": "Beta pro iPhone, iPhone Duo a iPad.",
   "directTitle": "Přímé stažení",
   "directLead": "Instalátory, Android APK (i Huawei) a zdroje balíčků, když Store nepoužíváš.",
   "linuxLead": "Stáhnout přímo nebo použít balíčkový zdroj:",
@@ -463,8 +427,8 @@ const PERMISSIONS_CZ = {
   "iosBody": "Stejné funkce přes systémové dialogy Apple. Oznámení se zobrazí v <strong>centru oznámení</strong>. Aplikace není obecný prohlížeč, ale oficiální klient portálu.",
   "androidTitle": "Android aplikace",
   "androidBody": "Kamera a fotky pro nahrávání ze stavby, mikrofon pro diktování, od Androidu 13 oznámení s výslovným souhlasem. Důležité zprávy jako systémová oznámení.",
-  "storeTitle": "Microsoft Store (plánováno)",
-  "storeBody": "Stejná Windows desktopová aplikace, později přes Store. Balíček MSIX potřebuje mimo jiné <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> a volitelně <code>location</code>. Podrobnosti: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  "storeTitle": "Microsoft Store",
+  "storeBody": "Stejná desktopová aplikace pro Windows, distribuovaná a aktualizovaná přes Microsoft Store. Balíček MSIX deklaruje mimo jiné <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> a volitelně <code>location</code>. Podrobnosti: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
   "devNote": "Technické detaily nativního mostu (vývojáři): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   "backBtn": "Zpět na stažení"
 };
@@ -482,7 +446,7 @@ const SHARED_EN = {
 const INDEX_EN = {
   "metaDescription": "Download the official G&F Portal EU desktop app for Windows, macOS, and Linux.",
   "heroEyebrow": "Official desktop client",
-  "heroSubtitle": "Now as a fast desktop app.",
+  "heroSubtitle": "Your portal. Wherever you work.",
   "heroDescription": "Quick access, native notifications, and zero distractions. Mobile apps on the App Store and Google Play — desktop from the Microsoft Store or TestFlight.",
   "storesEyebrow": "Official",
   "storesTitle": "Get it from the stores",
@@ -501,7 +465,7 @@ const INDEX_EN = {
   "storeMacTitle": "macOS · TestFlight",
   "storeMacDesc": "Mac beta. Sign up once, then install with TestFlight.",
   "storeIosTitle": "iOS · TestFlight",
-  "storeIosDesc": "Beta for iPhone and iPad.",
+  "storeIosDesc": "Beta for iPhone, iPhone Duo, and iPad.",
   "directTitle": "Direct download",
   "directLead": "Installers, the Android APK (including Huawei), and package sources if you are not using a store.",
   "linuxLead": "Download directly or use a package source:",
@@ -650,8 +614,8 @@ const PERMISSIONS_EN = {
   "iosBody": "The same features through Apple’s system dialogs. Notifications appear in the <strong>Notification Center</strong>. The app is not a generic browser but the official client for the portal.",
   "androidTitle": "Android app",
   "androidBody": "Camera and photos for site uploads, microphone for dictation, notifications from Android 13 onward with explicit permission. Important alerts appear as system notifications.",
-  "storeTitle": "Microsoft Store (planned)",
-  "storeBody": "The same Windows desktop app, distributed via the Store later. The MSIX package requires <code>internetClient</code>, <code>microphone</code>, <code>webcam</code>, and optionally <code>location</code>. Details: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  "storeTitle": "Microsoft Store",
+  "storeBody": "The same Windows desktop app, distributed and updated through the Microsoft Store. The MSIX package declares <code>internetClient</code>, <code>microphone</code>, <code>webcam</code>, and optionally <code>location</code>, among others. Details: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
   "devNote": "Technical details on the native bridge (developers): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   "backBtn": "Back to download"
 };
@@ -669,7 +633,7 @@ const SHARED_HU = {
 const INDEX_HU = {
   "metaDescription": "Töltsd le a hivatalos G&F Portal EU asztali alkalmazást Windowsra, macOS-re és Linuxra.",
   "heroEyebrow": "Hivatalos asztali kliens",
-  "heroSubtitle": "Most gyors asztali alkalmazásként.",
+  "heroSubtitle": "A portálod. Bárhol, ahol dolgozol.",
   "heroDescription": "Gyors hozzáférés, natív értesítések és zéró zavaró tényező. Mobil app az App Store-ban és a Google Playen — asztal a Microsoft Store-ból vagy TestFlighton.",
   "storesEyebrow": "Hivatalos",
   "storesTitle": "Letöltés a store-ból",
@@ -688,7 +652,7 @@ const INDEX_HU = {
   "storeMacTitle": "macOS · TestFlight",
   "storeMacDesc": "Béta Macre. Egyszer iratkozz fel, majd telepítsd TestFlighttal.",
   "storeIosTitle": "iOS · TestFlight",
-  "storeIosDesc": "Béta iPhone-ra és iPadre.",
+  "storeIosDesc": "Béta iPhone-ra, iPhone Duóra és iPadre.",
   "directTitle": "Közvetlen letöltés",
   "directLead": "Telepítők, Android APK (Huawei is) és csomagforrások, ha nem a store-t használod.",
   "linuxLead": "Letöltés közvetlenül vagy csomagforrás használata:",
@@ -837,8 +801,8 @@ const PERMISSIONS_HU = {
   "iosBody": "Ugyanazok a funkciók az Apple rendszerpárbeszédein keresztül. Az értesítések az <strong>Értesítésközpontban</strong> jelennek meg. Nem általános böngésző, hanem a portál hivatalos munkatársi kliense.",
   "androidTitle": "Android alkalmazás",
   "androidBody": "Kamera és fotók helyszíni feltöltésekhez, mikrofon diktáláshoz, Android 13-tól értesítések kifejezett engedéllyel. Fontos üzenetek rendszerértesítésként.",
-  "storeTitle": "Microsoft Store (tervezett)",
-  "storeBody": "Ugyanaz a Windows asztali alkalmazás, később a Store-on keresztül. Az MSIX csomagnak többek között <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> és opcionálisan <code>location</code> kell. Részletek: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  "storeTitle": "Microsoft Store",
+  "storeBody": "Ugyanaz a Windows asztali alkalmazás, a Microsoft Store-on keresztül terjesztve és frissítve. Az MSIX csomag többek között a <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> és opcionálisan a <code>location</code> képességet deklarálja. Részletek: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
   "devNote": "Technikai részletek a natív hídról (fejlesztőknek): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   "backBtn": "Vissza a letöltéshez"
 };
@@ -856,7 +820,7 @@ const SHARED_PL = {
 const INDEX_PL = {
   "metaDescription": "Pobierz oficjalną aplikację desktopową G&F Portal EU na Windows, macOS i Linux.",
   "heroEyebrow": "Oficjalny klient desktopowy",
-  "heroSubtitle": "Teraz jako szybka aplikacja desktopowa.",
+  "heroSubtitle": "Twój portal. Wszędzie, gdzie pracujesz.",
   "heroDescription": "Szybki dostęp, natywne powiadomienia i zero rozpraszaczy. Aplikacje mobilne w App Store i Google Play — desktop z Microsoft Store lub przez TestFlight.",
   "storesEyebrow": "Oficjalnie",
   "storesTitle": "Pobierz ze sklepu",
@@ -875,7 +839,7 @@ const INDEX_PL = {
   "storeMacTitle": "macOS · TestFlight",
   "storeMacDesc": "Beta na Maca. Zapisz się raz i zainstaluj przez TestFlight.",
   "storeIosTitle": "iOS · TestFlight",
-  "storeIosDesc": "Beta na iPhone i iPad.",
+  "storeIosDesc": "Beta na iPhone, iPhone Duo i iPad.",
   "directTitle": "Bezpośrednie pobranie",
   "directLead": "Instalatory, APK Androida (także Huawei) i źródła pakietów, gdy nie korzystasz ze sklepu.",
   "linuxLead": "Pobierz bezpośrednio lub użyj źródła pakietów:",
@@ -1024,8 +988,8 @@ const PERMISSIONS_PL = {
   "iosBody": "Te same funkcje przez systemowe okna Apple. Powiadomienia pojawiają się w <strong>centrum powiadomień</strong>. To nie ogólna przeglądarka, lecz oficjalny klient portalu.",
   "androidTitle": "Aplikacja Android",
   "androidBody": "Aparat i zdjęcia do uploadów z budowy, mikrofon do dyktowania, od Androida 13 powiadomienia z wyraźną zgodą. Ważne komunikaty jako powiadomienia systemowe.",
-  "storeTitle": "Microsoft Store (planowane)",
-  "storeBody": "Ta sama aplikacja desktopowa Windows, później przez Store. Pakiet MSIX wymaga m.in. <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> i opcjonalnie <code>location</code>. Szczegóły: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  "storeTitle": "Microsoft Store",
+  "storeBody": "Ta sama aplikacja desktopowa dla Windows, dystrybuowana i aktualizowana przez Microsoft Store. Pakiet MSIX deklaruje m.in. <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> i opcjonalnie <code>location</code>. Szczegóły: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
   "devNote": "Szczegóły techniczne mostu natywnego (dla deweloperów): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   "backBtn": "Wróć do pobierania"
 };
@@ -1041,13 +1005,13 @@ const SHARED_SK = {
   "copyDone": "Skopírované!"
 };
 const INDEX_SK = {
-  "metaDescription": "Stiahni si oficiálnu desktopovú aplikáciu G&F Portal EU pre Windows, macOS a Linux.",
-  "heroEyebrow": "Oficiálny desktopový klient",
-  "heroSubtitle": "Teraz ako rýchla desktopová aplikácia.",
-  "heroDescription": "Rýchly prístup, natívne upozornenia a žiadne rozptyľovanie. Mobilné aplikácie v App Store a na Google Play — desktop v Microsoft Store alebo cez TestFlight.",
-  "storesEyebrow": "Oficiálne",
-  "storesTitle": "Získať v obchode",
-  "storesLead": "Google Play, Microsoft Store, Snap Store a TestFlight sú určená cesta. Priame súbory a príkazy balíkov sú pod nimi.",
+  "metaDescription": "Oficiálna aplikácia G&F Portal EU pre Windows, macOS a Linux, ako aj pre iPhone, iPad a Android.",
+  "heroEyebrow": "Oficiálna aplikácia G&F Elektro",
+  "heroSubtitle": "Tvoj portál. Všade, kde pracuješ.",
+  "heroDescription": "Nahlás hodiny, zapíš Aufmass a vystav faktúru priamo z počítača alebo mobilu — bez hľadania v prehliadači a s upozorneniami priamo zo systému. Pre Windows, macOS a Linux, ako aj pre iPhone a Android.",
+  "storesEyebrow": "Oficiálne zdroje",
+  "storesTitle": "Nainštaluj z obchodu",
+  "storesLead": "Cez Google Play, Microsoft Store, Snap Store a TestFlight dostaneš podpísanú verziu s automatickými aktualizáciami. Inštalátory a balíkové zdroje nájdeš nižšie.",
   "storeMobileTitle": "App Store a Google Play",
   "storeMobileDesc": "Oficiálne aplikácie pre iPhone, iPad a Android. Google Play je online; iOS zatiaľ cez TestFlight do schválenia v App Store.",
   "storeAppStoreBadgeAlt": "Stiahnuť v App Store",
@@ -1055,16 +1019,16 @@ const INDEX_SK = {
   "storeMicrosoftBadgeAlt": "Stiahnuť z Microsoft Store",
   "storeWindowsTitle": "Microsoft Store",
   "storeUbuntuTitle": "Snap Store",
-  "storeUbuntuDesc": "Ubuntu, Debian, Fedora, Arch, openSUSE, Red Hat a ďalšie distribúcie na stránke obchodu.",
+  "storeUbuntuDesc": "Pre Ubuntu, Debian, Fedora, Arch, openSUSE, Red Hat a ďalšie distribúcie — s automatickými aktualizáciami zo Snap Store.",
   "storeAppleTitle": "TestFlight",
   "storeSwitchLabel": "macOS alebo iOS",
   "storeWindowsDesc": "Aplikácia pre Windows, podpísaná a aktualizovaná cez Store.",
   "storeMacTitle": "macOS · TestFlight",
-  "storeMacDesc": "Beta pre Mac. Raz sa prihlás a nainštaluj ju cez TestFlight.",
+  "storeMacDesc": "Beta pre Mac. Raz sa zaregistruj a TestFlight ti aplikáciu nainštaluje aj aktualizuje.",
   "storeIosTitle": "iOS · TestFlight",
-  "storeIosDesc": "Beta pre iPhone a iPad.",
+  "storeIosDesc": "Beta pre iPhone, iPhone Duo a iPad — inštalácia cez TestFlight.",
   "directTitle": "Priame stiahnutie",
-  "directLead": "Inštalátory, Android APK (aj Huawei) a zdroje balíkov, keď Store nepoužívaš.",
+  "directLead": "Inštalátory, Android APK (aj pre Huawei) a balíkové zdroje — keď nechceš alebo nemôžeš použiť obchod.",
   "linuxLead": "Stiahnuť priamo alebo použiť balíkový zdroj:",
   "windowsLead": "Vyber inštalátor. MSI je predvolený súbor:",
   "windowsMsiDesc": "Predvolené, inštalácia pre všetkých používateľov",
@@ -1090,16 +1054,16 @@ const INDEX_SK = {
   "chipArch": "Arch Linux",
   "chipWindows": "Windows (Chocolatey)",
   "chipPermissions": "Povolenia",
-  "featuresTitle": "Prečo desktopová aplikácia?",
-  "featuresIntro": "Všetko, čo poznáš z prehliadača — s pohodlím natívnej aplikácie.",
-  "feature1Title": "Bez rozptyľovania",
-  "feature1Desc": "Žiadne karty prehliadača, žiadny panel záložiek. Sústred sa na portál a svoje projekty.",
-  "feature2Title": "Natívne upozornenia",
-  "feature2Desc": "Dôležité aktualizácie portálu priamo cez informačné centrum Windows alebo macOS.",
+  "featuresTitle": "Prečo aplikácia?",
+  "featuresIntro": "Všetko, čo poznáš z portálu — rýchlejšie po ruke a bez rozptyľovania.",
+  "feature1Title": "Plné sústredenie",
+  "feature1Desc": "Žiadne karty, žiadne záložky. Portál má vlastné okno — len pre tvoje projekty, hodiny a faktúry.",
+  "feature2Title": "Upozornenia zo systému",
+  "feature2Desc": "Dôležité novinky z portálu uvidíš priamo v centre upozornení Windows, macOS alebo Linuxu.",
   "feature3Title": "Vždy po ruke",
-  "feature3Desc": "Aplikácia sa minimalizuje do systémovej lišty a otvoríš ju jedným klikom.",
+  "feature3Desc": "Po zatvorení sa aplikácia schová do lišty a jedným klikom je späť.",
   "feature4Title": "Kamera, mikrofón a poloha",
-  "feature4Desc": "Fotky dokladov, hlasové diktovanie a voliteľné GPS v denných správach — len keď ich v portáli používaš.",
+  "feature4Desc": "Fotky dokladov, hlasové diktovanie a voliteľné GPS v denných správach — len keď tieto funkcie v portáli sám použiješ.",
   "footerSource": "Zdrojový kód",
   "footerPermissions": "Povolenia",
   "footerSupport": "Podpora",
@@ -1211,8 +1175,8 @@ const PERMISSIONS_SK = {
   "iosBody": "Rovnaké funkcie cez systémové dialógy Apple. Upozornenia sa zobrazia v <strong>centre oznámení</strong>. Aplikácia nie je generický prehliadač, ale oficiálny klient portálu.",
   "androidTitle": "Android aplikácia",
   "androidBody": "Kamera a fotky na nahrávanie zo stavby, mikrofón na diktovanie, od Androidu 13 upozornenia s výslovným súhlasom. Dôležité správy ako systémové upozornenia.",
-  "storeTitle": "Microsoft Store (plánované)",
-  "storeBody": "Rovnaká Windows desktopová aplikácia, neskôr cez Store. Balík MSIX potrebuje okrem iného <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> a voliteľne <code>location</code>. Podrobnosti: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  "storeTitle": "Microsoft Store",
+  "storeBody": "Rovnaká desktopová aplikácia pre Windows, distribuovaná a aktualizovaná cez Microsoft Store. Balík MSIX deklaruje okrem iného <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> a voliteľne <code>location</code>. Podrobnosti: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
   "devNote": "Technické detaily natívneho mostu (vývojári): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   "backBtn": "Späť na stiahnutie"
 };
@@ -1230,7 +1194,7 @@ const SHARED_UK = {
 const INDEX_UK = {
   "metaDescription": "Завантаж офіційний десктопний додаток G&F Portal EU для Windows, macOS і Linux.",
   "heroEyebrow": "Офіційний десктопний клієнт",
-  "heroSubtitle": "Тепер як швидкий десктопний додаток.",
+  "heroSubtitle": "Твій портал. Скрізь, де ти працюєш.",
   "heroDescription": "Швидкий доступ, нативні сповіщення й жодних відволікань. Мобільні застосунки в App Store і Google Play — десктоп у Microsoft Store або TestFlight.",
   "storesEyebrow": "Офіційно",
   "storesTitle": "Отримати в магазині",
@@ -1249,7 +1213,7 @@ const INDEX_UK = {
   "storeMacTitle": "macOS · TestFlight",
   "storeMacDesc": "Бета для Mac. Зареєструйся один раз і встанови через TestFlight.",
   "storeIosTitle": "iOS · TestFlight",
-  "storeIosDesc": "Бета для iPhone та iPad.",
+  "storeIosDesc": "Бета для iPhone, iPhone Duo та iPad.",
   "directTitle": "Пряме завантаження",
   "directLead": "Інсталятори, Android APK (зокрема Huawei) та джерела пакетів, якщо не користуєшся магазином.",
   "linuxLead": "Завантажити напряму або скористатися джерелом пакетів:",
@@ -1398,8 +1362,8 @@ const PERMISSIONS_UK = {
   "iosBody": "Ті самі функції через системні діалоги Apple. Сповіщення з’являються в <strong>Центрі сповіщень</strong>. Це не універсальний браузер, а офіційний клієнт порталу.",
   "androidTitle": "Додаток Android",
   "androidBody": "Камера й фото для завантажень з об’єкта, мікрофон для диктування, від Android 13 — сповіщення з явним дозволом. Важливі повідомлення як системні сповіщення.",
-  "storeTitle": "Microsoft Store (заплановано)",
-  "storeBody": "Той самий десктопний додаток Windows, згодом через Store. Пакет MSIX потребує зокрема <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> та опційно <code>location</code>. Деталі: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
+  "storeTitle": "Microsoft Store",
+  "storeBody": "Той самий десктопний застосунок для Windows, який поширюється й оновлюється через Microsoft Store. Пакет MSIX декларує, зокрема, <code>internetClient</code>, <code>microphone</code>, <code>webcam</code> та опційно <code>location</code>. Деталі: <a href=\"microsoft-store.html\">Microsoft Store</a>.",
   "devNote": "Технічні деталі нативного мосту (для розробників): <a href=\"native-shell-bridge.html\">Native Shell Bridge</a>.",
   "backBtn": "Назад до завантаження"
 };

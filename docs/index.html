@@ -4,22 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>G&#38;F Elektro</title>
-    <meta name="description" content="Lade die offizielle G&#38;F Portal EU Desktop App für Windows, macOS und Linux herunter.">
+    <meta name="description" content="Die offizielle App für G&amp;F Portal EU – für Windows, macOS und Linux sowie für iPhone, iPad und Android.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.gfelektro.com/">
     <meta property="og:title" content="G&#38;F Elektro">
-    <meta property="og:description" content="Lade die offizielle G&#38;F Portal EU Desktop App für Windows, macOS und Linux herunter.">
+    <meta property="og:description" content="Die offizielle App für G&amp;F Portal EU – für Windows, macOS und Linux sowie für iPhone, iPad und Android.">
     <meta property="og:image" content="https://docs.gfelektro.com/assets/icon-512.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="G&#38;F Elektro">
-    <meta name="twitter:description" content="Lade die offizielle G&#38;F Portal EU Desktop App für Windows, macOS und Linux herunter.">
+    <meta name="twitter:description" content="Die offizielle App für G&amp;F Portal EU – für Windows, macOS und Linux sowie für iPhone, iPad und Android.">
     <meta name="twitter:image" content="https://docs.gfelektro.com/assets/icon-512.png">
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="fonts.css?v=1">
     
-    <link rel="stylesheet" href="styles.css?v=31">
+    <link rel="stylesheet" href="styles.css?v=33">
+    <script>
+        (function () {
+            var d = document.documentElement;
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            d.classList.add('js-motion');
+            window.setTimeout(function () { if (!d.classList.contains('motion-ready')) d.classList.remove('js-motion'); }, 2500);
+        })();
+    </script>
     <link rel="icon" type="image/png" href="assets/icon-512.png">
 </head>
 <body data-docs-page="index">
@@ -51,13 +58,13 @@
 
     <main class="hero-section hero-section--landing">
         <div class="hero-content">
-            <p class="hero-eyebrow" data-i18n="index.heroEyebrow">Offizieller Desktop-Client</p>
+            <p class="hero-eyebrow" data-i18n="index.heroEyebrow">Offizielle App von G&amp;F Elektro</p>
             <h1 class="hero-title">G&#38;F Portal EU</h1>
-            <h2 class="hero-subtitle" data-i18n="index.heroSubtitle">Jetzt als rasante Desktop App.</h2>
-            <p class="hero-description" data-i18n="index.heroDescription">
-                Schneller Zugriff, native Benachrichtigungen und absolut ablenkungsfrei.
-                Hol dir die App im Microsoft Store oder über TestFlight.
-            </p>
+            <h2 class="hero-subtitle" data-i18n="index.heroSubtitle">Ihr Portal. Überall, wo Sie arbeiten.</h2>
+            <p class="hero-description" data-i18n="index.heroDescription">Projekte, Aufmaße, Stundenberichte und Rechnungen in einem eigenen Fenster – ohne Browser-Tab und mit Benachrichtigungen direkt vom Betriebssystem. Für Windows, macOS und Linux sowie für iPhone und Android.</p>
+            <ul class="hero-platforms" aria-label="Plattformen">
+                <li>Windows</li><li>macOS</li><li>Linux</li><li>iOS</li><li>Android</li>
+            </ul>
         </div>
 
         <div class="hero-image-wrapper">
@@ -73,26 +80,26 @@
 
     <section class="distribution" aria-labelledby="stores-heading">
         <div class="container">
-            <header class="distribution-header">
-                <span class="roadmap-eyebrow" data-i18n="index.storesEyebrow">Offiziell</span>
-                <h2 id="stores-heading" data-i18n="index.storesTitle">Im Store holen</h2>
-                <p data-i18n="index.storesLead">Google Play, Microsoft Store, Snap Store und TestFlight sind der vorgesehene Weg. Direkte Downloads und Paketbefehle stehen darunter.</p>
+            <header class="distribution-header" data-reveal>
+                <span class="roadmap-eyebrow" data-i18n="index.storesEyebrow">Offizielle Bezugsquellen</span>
+                <h2 id="stores-heading" data-i18n="index.storesTitle">Aus dem Store installieren</h2>
+                <p data-i18n="index.storesLead">Über Google Play, Microsoft Store, Snap Store und TestFlight erhalten Sie signierte Versionen mit automatischen Updates. Installer und Paketquellen für die eigene Verteilung finden Sie weiter unten.</p>
             </header>
 
-            <div class="official-store-badges">
-                <a class="official-store-badge" href="https://apps.microsoft.com/detail/9MXWQW7F7XPT" target="_blank" rel="noopener">
+            <div class="official-store-badges" data-reveal-group>
+                <a class="official-store-badge shine" href="https://apps.microsoft.com/detail/9MXWQW7F7XPT" target="_blank" rel="noopener">
                     <img data-i18n-badge="microsoft-store" src="assets/badges/microsoft-store/de.svg?v=3" alt="Im Microsoft Store laden" width="240" height="56" decoding="async">
                 </a>
-                <a class="official-store-badge" href="https://play.google.com/store/apps/details?id=com.gfelektro.portal.android" target="_blank" rel="noopener">
+                <a class="official-store-badge shine" href="https://play.google.com/store/apps/details?id=com.gfelektro.portal.android" target="_blank" rel="noopener">
                     <img data-i18n-badge="google-play" src="assets/badges/google-play/de.svg?v=3" alt="Bei Google Play laden" width="200" height="56" decoding="async">
                 </a>
             </div>
 
-            <div class="store-shelf">
+            <div class="store-shelf" data-reveal-group>
                 <article class="store-card">
                     <h3 data-i18n="index.storeMacTitle">macOS · TestFlight</h3>
-                    <p data-i18n="index.storeMacDesc">Beta für den Mac. Einmal anmelden, dann mit TestFlight installieren.</p>
-                    <a class="testflight-badge" href="https://testflight.apple.com/join/D7Ndxu4p" target="_blank" rel="noopener">
+                    <p data-i18n="index.storeMacDesc">Beta-Version für den Mac. Einmal registrieren, danach installiert und aktualisiert TestFlight die App.</p>
+                    <a class="testflight-badge shine" href="https://testflight.apple.com/join/D7Ndxu4p" target="_blank" rel="noopener">
                         <svg class="testflight-badge__icon" viewBox="0 0 384 512" aria-hidden="true"><path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
                         <span class="testflight-badge__text">
                             <span class="testflight-badge__kicker">TestFlight</span>
@@ -102,8 +109,8 @@
                 </article>
                 <article class="store-card">
                     <h3 data-i18n="index.storeIosTitle">iOS · TestFlight</h3>
-                    <p data-i18n="index.storeIosDesc">Beta für iPhone und iPad.</p>
-                    <a class="testflight-badge" href="https://testflight.apple.com/join/FX9UNeGH" target="_blank" rel="noopener">
+                    <p data-i18n="index.storeIosDesc">Beta-Version für iPhone, iPhone Duo und iPad – installiert über TestFlight.</p>
+                    <a class="testflight-badge shine" href="https://testflight.apple.com/join/FX9UNeGH" target="_blank" rel="noopener">
                         <svg class="testflight-badge__icon" viewBox="0 0 384 512" aria-hidden="true"><path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
                         <span class="testflight-badge__text">
                             <span class="testflight-badge__kicker">TestFlight</span>
@@ -113,8 +120,8 @@
                 </article>
                 <article class="store-card">
                     <h3 data-i18n="index.storeUbuntuTitle">Snap Store</h3>
-                    <p data-i18n="index.storeUbuntuDesc">Ubuntu, Debian, Fedora, Arch, openSUSE, Red Hat und die weiteren Distributionen im Snap Store.</p>
-                    <a class="ms-store-badge" href="https://snapcraft.io/gfe-portal-eu" target="_blank" rel="noopener noreferrer">
+                    <p data-i18n="index.storeUbuntuDesc">Für Ubuntu, Debian, Fedora, Arch, openSUSE, Red Hat und weitere Distributionen – mit automatischen Updates aus dem Snap Store.</p>
+                    <a class="ms-store-badge shine" href="https://snapcraft.io/gfe-portal-eu" target="_blank" rel="noopener noreferrer">
                         <svg class="ms-store-badge__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.61.455a3.41 3.41 0 0 0-3.41 3.41 3.41 3.41 0 0 0 3.41 3.41 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41zM12.92.8C8.923.777 5.137 2.941 3.148 6.451a4.5 4.5 0 0 1 .26-.007 4.92 4.92 0 0 1 2.585.737A8.316 8.316 0 0 1 12.688 3.6 4.944 4.944 0 0 1 13.723.834 11.008 11.008 0 0 0 12.92.8zm9.226 4.994a4.915 4.915 0 0 1-1.918 2.246 8.36 8.36 0 0 1-.273 8.303 4.89 4.89 0 0 1 1.632 2.54 11.156 11.156 0 0 0 .559-13.089zM3.41 7.932A3.41 3.41 0 0 0 0 11.342a3.41 3.41 0 0 0 3.41 3.409 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41zm2.027 7.866a4.908 4.908 0 0 1-2.915.358 11.1 11.1 0 0 0 7.991 6.698 11.234 11.234 0 0 0 2.422.249 4.879 4.879 0 0 1-.999-2.85 8.484 8.484 0 0 1-.836-.136 8.304 8.304 0 0 1-5.663-4.32zm11.405.928a3.41 3.41 0 0 0-3.41 3.41 3.41 3.41 0 0 0 3.41 3.41 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41z"/></svg>
                         <span class="ms-store-badge__text">
                             <span class="ms-store-badge__kicker">Snap Store</span>
@@ -124,13 +131,13 @@
                 </article>
             </div>
 
-            <div class="direct-install">
+            <div class="direct-install" data-reveal>
                 <h2 data-i18n="index.directTitle">Direkt herunterladen</h2>
-                <p data-i18n="index.directLead">Installer und Paketquellen, wenn du den Store nicht nutzt.</p>
+                <p data-i18n="index.directLead">Installer, Android-APK (auch für Huawei) und Paketquellen – für Geräte ohne Store-Zugang oder für die Verteilung durch Ihre IT.</p>
             <div class="download-panel">
             <div class="download-section">
                 <div class="download-row download-row--platforms">
-                    <button type="button" class="btn btn-primary btn-linux-toggle" id="btn-win" aria-expanded="false" aria-controls="windows-options-panel">
+                    <button type="button" class="btn btn-primary btn-linux-toggle shine" id="btn-win" aria-expanded="false" aria-controls="windows-options-panel">
                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 93.7l210.7-29.7v167.4H0V93.7zm0 324.6l210.7 29.7V268.4H0v149.9zm227.3 32.1L448 480V268.4H227.3v182zm0-394.2V231.4H448V32L227.3 56.2z"></path></svg>
                         Windows
                         <span class="btn-chevron" aria-hidden="true"></span>
@@ -151,30 +158,30 @@
                     </button>
                 </div>
                 <div class="linux-options" id="windows-options-panel" hidden>
-                    <p class="linux-options__lead" data-i18n="index.windowsLead">Installer wählen. MSI ist die Standarddatei:</p>
+                    <p class="linux-options__lead" data-i18n="index.windowsLead">Bitte wählen Sie den Installer. Für die meisten Rechner ist MSI die richtige Wahl:</p>
                     <div class="linux-options__grid">
                         <a href="https://github.com/GF-Elektro/Portal-App/releases/download/v1.0.59/GFElektroPortal-1.0.59.msi" class="linux-option" id="btn-win-msi">
                             <span class="linux-option__title">MSI</span>
-                            <span class="linux-option__desc" data-i18n="index.windowsMsiDesc">Standard, Installation für alle Benutzer</span>
+                            <span class="linux-option__desc" data-i18n="index.windowsMsiDesc">Empfohlen – Installation für alle Benutzer</span>
                         </a>
                         <a href="https://github.com/GF-Elektro/Portal-App/releases/download/v1.0.59/GFElektroPortal-1.0.59-Setup.exe" class="linux-option" id="btn-win-exe">
                             <span class="linux-option__title">EXE</span>
-                            <span class="linux-option__desc" data-i18n="index.windowsExeDesc">Setup.exe, Installationsordner wählbar</span>
+                            <span class="linux-option__desc" data-i18n="index.windowsExeDesc">Setup.exe mit frei wählbarem Installationsordner</span>
                         </a>
                     </div>
                 </div>
                 <div class="linux-options" id="android-options-panel" hidden>
-                    <p class="linux-options__lead" data-i18n="index.androidLead">APK für Android und Huawei, wenn Play Store oder AppGallery fehlen:</p>
+                    <p class="linux-options__lead" data-i18n="index.androidLead">Die APK ist für Geräte ohne Play Store oder AppGallery gedacht:</p>
                     <div class="linux-options__grid android-options__grid">
                         <a href="downloads/GFElektroPortal.apk" class="linux-option" id="btn-android-apk">
                             <span class="linux-option__title">APK</span>
                             <span class="linux-option__desc" data-i18n="index.androidApkDesc">Android und Huawei (EMUI / HarmonyOS 4)</span>
                         </a>
                     </div>
-                    <p class="android-install-note" data-i18n="index.androidInstallNote">Unbekannte Quellen erlauben. HarmonyOS NEXT (HarmonyOS 5+) installiert keine APKs — dafür kommt die AppGallery-Version.</p>
+                    <p class="android-install-note" data-i18n="index.androidInstallNote">Erlauben Sie dazu die Installation aus unbekannten Quellen. HarmonyOS NEXT (ab HarmonyOS 5) installiert keine APKs – dafür folgt die AppGallery-Version.</p>
                 </div>
                 <div class="linux-options" id="linux-options-panel" hidden>
-                    <p class="linux-options__lead" data-i18n="index.linuxLead">Direkt laden oder Paketquelle nutzen:</p>
+                    <p class="linux-options__lead" data-i18n="index.linuxLead">Datei direkt laden oder Paketquelle einrichten:</p>
                     <div class="linux-options__grid">
                         <a href="https://snapcraft.io/gfe-portal-eu" class="linux-option linux-option--guide" id="btn-linux-snap" target="_blank" rel="noopener noreferrer">
                             <span class="linux-option__title">Snap</span>
@@ -186,7 +193,7 @@
                         </a>
                         <a href="https://github.com/GF-Elektro/Portal-App/releases/download/v1.0.59/GFElektroPortal-1.0.59.deb" class="linux-option" id="btn-linux-deb">
                             <span class="linux-option__title">.deb</span>
-                            <span class="linux-option__desc" data-i18n="index.linuxDebDesc">Debian-Paket zum Installieren</span>
+                            <span class="linux-option__desc" data-i18n="index.linuxDebDesc">Debian-Paket zur Installation</span>
                         </a>
                         <a href="linux-apt.html" class="linux-option linux-option--guide">
                             <span class="linux-option__title" data-i18n="index.chipDebian">Debian / Ubuntu</span>
@@ -199,7 +206,7 @@
                     </div>
                 </div>
             </div>
-            <p class="os-hint" id="os-hint" data-i18n="index.osHintDefault">Wähle deine Plattform</p>
+            <p class="os-hint" id="os-hint" data-i18n="index.osHintDefault">Bitte wählen Sie Ihre Plattform.</p>
             </div>
 
             <nav class="install-resources" aria-label="Installation und Hilfe">
@@ -211,7 +218,7 @@
                         </span>
                         <span class="resource-card__label">macOS</span>
                     </div>
-                    <span class="resource-card__desc" data-i18n="index.macosCardDesc">Homebrew (empfohlen) oder DMG in Programme ziehen. Signiert mit dem Apple Developer Account von G&amp;F Elektro — keine Zertifikatsdatei nötig.</span>
+                    <span class="resource-card__desc" data-i18n="index.macosCardDesc">Per Homebrew (empfohlen) oder das DMG öffnen und in den Programme-Ordner ziehen. Signiert mit dem Apple-Entwicklerkonto von G&amp;F Elektro – zusätzliche Zertifikate sind nicht nötig.</span>
                 </a>
                 <div class="resource-chips">
                     <a href="macos-homebrew.html" class="chip-link" data-install-os="mac-brew" id="chip-homebrew">
@@ -252,30 +259,30 @@
 
     <section class="features">
         <div class="container">
-            <div class="features-intro">
-                <h2 data-i18n="index.featuresTitle">Warum die Desktop App?</h2>
-                <p data-i18n="index.featuresIntro">Alles, was du im Browser kennst — mit dem Komfort einer nativen Anwendung.</p>
+            <div class="features-intro" data-reveal>
+                <h2 data-i18n="index.featuresTitle">Warum die Desktop-App?</h2>
+                <p data-i18n="index.featuresIntro">Alles, was Sie aus dem Portal kennen – schneller erreichbar und ganz auf Ihre Arbeit konzentriert.</p>
             </div>
-        <div class="features-grid">
+        <div class="features-grid" data-reveal-group>
             <div class="feature-card">
-                <div class="feature-icon">🚀</div>
-                <h3 data-i18n="index.feature1Title">Ablenkungsfrei</h3>
-                <p data-i18n="index.feature1Desc">Keine Browser-Tabs, keine Lesezeichenleiste. Fokussiere dich zu 100% auf das Portal und deine Projekte.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔔</div>
-                <h3 data-i18n="index.feature2Title">Native Benachrichtigungen</h3>
-                <p data-i18n="index.feature2Desc">Erhalte wichtige Portal-Updates direkt über das Info-Center von Windows oder macOS.</p>
+                <div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg></div>
+                <h3 data-i18n="index.feature1Title">Volle Konzentration</h3>
+                <p data-i18n="index.feature1Desc">Keine Tabs, keine Lesezeichenleiste, keine Ablenkung. Das Portal läuft in einem eigenen Fenster – nur für Ihre Projekte.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">⚡</div>
+                <div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 1 1 12 0c0 5 2 6.5 2 6.5H4S6 14 6 9z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></div>
+                <h3 data-i18n="index.feature2Title">Benachrichtigungen vom System</h3>
+                <p data-i18n="index.feature2Desc">Wichtige Neuigkeiten aus dem Portal erscheinen direkt in der Mitteilungszentrale von Windows, macOS oder Linux.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6L13 3z"/></svg></div>
                 <h3 data-i18n="index.feature3Title">Immer griffbereit</h3>
-                <p data-i18n="index.feature3Desc">Die App minimiert sich in den System-Tray und ist jederzeit mit nur einem Klick wieder geöffnet.</p>
+                <p data-i18n="index.feature3Desc">Beim Schließen wechselt die App in die Taskleiste bzw. Menüleiste und ist mit einem Klick wieder da.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">📷</div>
+                <div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
                 <h3 data-i18n="index.feature4Title">Kamera, Mikrofon &amp; Standort</h3>
-                <p data-i18n="index.feature4Desc">Belegfotos, Sprachdiktat und optionale GPS-Koordinaten für Tagesberichte – nur wenn du sie im Portal nutzt.</p>
+                <p data-i18n="index.feature4Desc">Belegfotos, Sprachdiktat und optionale GPS-Daten für Tagesberichte – nur, wenn Sie diese Funktionen im Portal selbst nutzen.</p>
             </div>
         </div>
         </div>
@@ -293,8 +300,10 @@
         </div>
     </footer>
 
-    <script src="i18n/locales.js?v=18"></script>
+    <script src="i18n/locales.js?v=21"></script>
     <script src="i18n.js?v=7"></script>
-    <script src="script.js?v=9"></script>
+    <script src="script.js?v=11"></script>
+    <script src="vendor/motion.min.js?v=14.14.0" defer></script>
+    <script src="motion-ui.js?v=2" defer></script>
 </body>
 </html>

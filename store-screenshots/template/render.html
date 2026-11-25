@@ -1,0 +1,362 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;800;900&display=block" rel="stylesheet">
+<script src="captions.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { overflow: hidden; background: #E2020D; }
+  body { font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  #stage { position: relative; overflow: hidden; }
+  #bg { position: absolute; top: 0; }
+  .caption { position: absolute; left: 0; right: 0; text-align: center; color: #fff; z-index: 5; }
+  .kicker { display: inline-flex; align-items: center; gap: .45em; background: rgba(0,0,0,.28); border: 1px solid rgba(255,255,255,.22);
+    border-radius: 999px; padding: .32em .9em .32em .36em; font-weight: 700; letter-spacing: .01em; }
+  .kicker img { height: 1.55em; width: 1.55em; border-radius: 24%; }
+  .headline { font-weight: 900; letter-spacing: -0.025em; line-height: 1.04; text-wrap: balance; text-shadow: 0 .04em .25em rgba(70,0,0,.35); }
+  .sub { font-weight: 500; line-height: 1.3; opacity: .9; text-wrap: balance; }
+  .device { position: absolute; z-index: 4; }
+  .mascot { position: absolute; z-index: 3;
+    -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent 100%); mask-image: radial-gradient(closest-side, #000 72%, transparent 100%); }
+  /* phone */
+  .phone { background: #0d0d0f; box-shadow: 0 0 0 .3% #3a3a40, 0 4% 9% rgba(40,0,0,.55), 0 1% 2% rgba(0,0,0,.35); }
+  .phone .screen { position: absolute; overflow: hidden; background: #fff; }
+  .statusbar { position: relative; background: #fff; display: flex; align-items: center; justify-content: space-between; color: #111; font-weight: 600; }
+  .island { position: absolute; left: 50%; transform: translateX(-50%); background: #000; border-radius: 999px; }
+  .punch { position: absolute; left: 50%; transform: translateX(-50%); background: #000; border-radius: 50%; }
+  .shot { display: block; width: 100%; }
+  /* windows */
+  .window { background: #fff; overflow: hidden; box-shadow: 0 3% 8% rgba(40,0,0,.55), 0 0 0 1px rgba(0,0,0,.25); }
+  .titlebar { display: flex; align-items: center; position: relative; color: #333; font-weight: 600; }
+  .titlebar.mac { background: #ececec; border-bottom: 1px solid #d4d4d4; }
+  .titlebar.win { background: #f3f3f3; border-bottom: 1px solid #e0e0e0; justify-content: space-between; }
+  .dots { display: flex; }
+  .dots i { display: block; border-radius: 50%; }
+  .ttl { position: absolute; left: 0; right: 0; text-align: center; pointer-events: none; }
+  .winctl { display: flex; height: 100%; }
+  .winctl span { display: flex; align-items: center; justify-content: center; height: 100%; color: #222; }
+  /* tablet */
+  .tablet { background: #0d0d0f; box-shadow: 0 0 0 .25% #3a3a40, 0 3% 8% rgba(40,0,0,.55); }
+  .tablet .screen { position: absolute; overflow: hidden; background: #fff; }
+  .hinge { position: absolute; top: 0; bottom: 0; left: 50%; width: 1.4%; transform: translateX(-50%);
+    background: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,.10) 40%, rgba(255,255,255,.18) 50%, rgba(0,0,0,.10) 60%, rgba(0,0,0,0)); z-index: 2; }
+  /* animation mode (?anim=1): the GitHub README banner GIF */
+  .glint::after, .phone .screen::after { content: ''; position: absolute; top: -20%; bottom: -20%; left: 0; width: 38%; z-index: 6; pointer-events: none;
+    background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.12) 38%, rgba(255,255,255,.55) 50%, rgba(255,255,255,.12) 62%, rgba(255,255,255,0) 100%);
+    transform: translateX(var(--gx, -150%)) skewX(-16deg); }
+  .phone .screen::after { width: 55%; background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.08) 40%, rgba(255,255,255,.38) 50%, rgba(255,255,255,.08) 60%, rgba(255,255,255,0) 100%); }
+  .wire { position: relative; border-radius: 999px; background: linear-gradient(90deg, rgba(255,255,255,.85), rgba(255,255,255,.25)); box-shadow: 0 0 .6em rgba(255,255,255,.45); }
+  .wire .spark { position: absolute; top: 50%; left: 0; width: 1.6em; height: 1.6em; margin: -.8em 0 0 -.8em; border-radius: 50%;
+    background: radial-gradient(circle, #fff 0 18%, rgba(255,240,200,.9) 30%, rgba(255,120,90,.35) 55%, rgba(255,80,60,0) 72%); }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+const P = new URLSearchParams(location.search);
+const SET = P.get('set'), LANG = P.get('lang') || 'de', I = +(P.get('i') || 0);
+const SHOTS = P.get('shots') || 'shots';
+const ANIM = P.get('anim') === '1';
+const SETS = {
+  play:    { W: 1080, H: 1920, kind: 'phone', os: 'android' },
+  iphone:  { W: 1206, H: 2622, kind: 'phone', os: 'ios' },
+  ipad:    { W: 2752, H: 2064, kind: 'tablet' },
+  duo:     { W: 2853, H: 2007, kind: 'tablet', hinge: true },
+  mac:     { W: 2880, H: 1800, kind: 'window', os: 'mac' },
+  msstore: { W: 1920, H: 1080, kind: 'window', os: 'win' },
+  header:  { W: 3840, H: 1646, kind: 'hero' },
+  search:  { W: 3840, H: 2560, kind: 'hero' },
+  poster:  { W: 1440, H: 2160, kind: 'poster' },
+  banner:  { W: 3840, H: 1280, kind: 'banner' },
+  // Galaxy Store seller page: banner (656x324) and header background (1440x1200), both rendered at 2x.
+  gbanner: { W: 1312, H: 648, kind: 'banner' },
+  gbg:     { W: 2880, H: 2400, kind: 'plain' },
+};
+const cfg = SETS[SET];
+const ORDER = CAPTIONS.order;
+const N = (cfg.kind === 'hero' || cfg.kind === 'poster' || cfg.kind === 'banner' || cfg.kind === 'plain') ? 1 : ORDER.length;
+const { W, H } = cfg;
+const stage = document.getElementById('stage');
+stage.style.width = W + 'px'; stage.style.height = H + 'px';
+const pending = [];
+const img = (src, cls) => { const im = new Image(); im.src = src; if (cls) im.className = cls; pending.push(im.decode().catch(e => { document.title = 'IMGERR ' + src; })); return im; };
+const el = (tag, cls, parent, css = {}) => { const e = document.createElement(tag); if (cls) e.className = cls; Object.assign(e.style, css); if (parent) parent.appendChild(e); return e; };
+const px = v => v + 'px';
+
+// ---------- shared panorama ----------
+// Drawn in units where the panorama height is 1000; width scales with the number of panels.
+function panorama() {
+  const U = 1000, TW = U * (N * W) / H;
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${TW} ${U}`); svg.setAttribute('width', N * W); svg.setAttribute('height', H);
+  svg.id = 'bg'; svg.style.left = px(-I * W);
+  const wave = (base, amp, period, phase, close) => {
+    let d = `M 0 ${base + amp * Math.sin(phase) + amp * .35 * Math.sin(phase * 2)}`;
+    for (let x = 20; x <= TW + 20; x += 20) d += ` L ${x} ${base + amp * Math.sin(phase + x / period * 2 * Math.PI) + amp * .35 * Math.sin(phase * 2 + x / (period * .43) * 2 * Math.PI)}`;
+    if (close) d += ` L ${TW + 20} ${U} L 0 ${U} Z`;
+    return d;
+  };
+  const per = U * 1.9;
+  let s = `
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="${TW}" y2="0" gradientUnits="userSpaceOnUse">
+      ${Array.from({ length: N * 2 + 1 }, (_, k) => `<stop offset="${k / (N * 2)}" stop-color="${['#E2020D', '#C4000B', '#E8101A', '#B00009'][k % 4]}"/>`).join('')}
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff4a3d" stop-opacity=".55"/><stop offset="1" stop-color="#ff4a3d" stop-opacity="0"/></radialGradient>
+    <linearGradient id="dark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a0306"/><stop offset="1" stop-color="#0e0e10"/></linearGradient>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.6" fill="#fff" fill-opacity=".09"/></pattern>
+    <filter id="blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
+    <filter id="blur2" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="22"/></filter>
+  </defs>
+  <rect width="${TW}" height="${U}" fill="url(#base)"/>
+  <rect width="${TW}" height="${U}" fill="url(#dots)"/>`;
+  // soft light blobs, one per panel, alternating height
+  for (let k = 0; k < N; k++) { const cx = (k + .5) * TW / N, cy = k % 2 ? 300 : 520; s += `<ellipse cx="${cx}" cy="${cy}" rx="${TW / N * .7}" ry="380" fill="url(#glow)"/>`; }
+  // big faint lightning bolts across panel joins
+  for (let k = 0; k <= N; k++) {
+    const x = k * TW / N, sc = 1.35;
+    s += `<path class="bolt" transform="translate(${x - 120 * sc} ${k % 2 ? 40 : 120}) scale(${sc})" d="M140 0 L40 260 L120 260 L70 470 L240 180 L150 180 L210 0 Z" fill="#fff" fill-opacity=".06"/>`;
+  }
+  // charcoal wave band at the bottom
+  s += `<path d="${wave(800, 55, per, .6, true)}" fill="url(#dark)" fill-opacity=".92"/>`;
+  s += `<path d="${wave(790, 55, per, .6, false)}" fill="none" stroke="#ff2a2a" stroke-opacity=".55" stroke-width="5"/>`;
+  // the power cable: glowing line running through every panel
+  const cable = wave(640, 110, per * 1.15, 2.1, false);
+  s += `<path d="${cable}" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="16" filter="url(#blur)"/>`;
+  s += `<path d="${cable}" fill="none" stroke="#fff" stroke-opacity=".95" stroke-width="4.5" stroke-linecap="round"/>`;
+  if (ANIM) {
+    // Energy packets that travel along the cable (animated via stroke-dashoffset, see animate()).
+    s += `<path class="pulse pulse-glow" d="${cable}" pathLength="1000" fill="none" stroke="#fff" stroke-width="44" stroke-linecap="round" stroke-dasharray="46 454" filter="url(#blur2)"/>`;
+    s += `<path class="pulse pulse-core" d="${cable}" pathLength="1000" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-dasharray="26 474"/>`;
+  }
+  const cable2 = wave(700, 80, per * .8, 4.0, false);
+  s += `<path d="${cable2}" fill="none" stroke="#1a0000" stroke-opacity=".35" stroke-width="9"/>`;
+  s += `<path d="${cable2}" fill="none" stroke="#ffb3ae" stroke-opacity=".5" stroke-width="2.5" stroke-dasharray="2 16" stroke-linecap="round"/>`;
+  // nodes on the cable
+  for (let k = 0; k < N * 3; k++) {
+    const x = (k + .5) * TW / (N * 3);
+    const y = 640 + 110 * Math.sin(2.1 + x / (per * 1.15) * 2 * Math.PI) + 110 * .35 * Math.sin(4.2 + x / (per * 1.15 * .43) * 2 * Math.PI);
+    s += `<circle class="nglow" data-f="${x / TW}" cx="${x}" cy="${y}" r="26" fill="#fff" fill-opacity=".35" filter="url(#blur2)"/><circle cx="${x}" cy="${y}" r="8" fill="#fff"/><circle class="nring" data-f="${x / TW}" cx="${x}" cy="${y}" r="14" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>`;
+  }
+  svg.innerHTML = s;
+  stage.appendChild(svg);
+}
+panorama();
+
+// ---------- caption ----------
+function caption(top, size, maxW, key, align = 'center', left = null) {
+  const [h, sub] = CAPTIONS.text[key][LANG];
+  const c = el('div', 'caption', stage, { top: px(top), fontSize: px(size), textAlign: align });
+  if (left !== null) { c.style.left = px(left); c.style.right = 'auto'; c.style.width = px(maxW); }
+  const k = el('div', 'kicker', c, { fontSize: px(size * .3) });
+  k.appendChild(img('appicon.png')); el('span', '', k).textContent = 'G&F Portal EU';
+  const hd = el('div', 'headline', c, { marginTop: px(size * .32), maxWidth: px(maxW), marginLeft: align === 'center' ? 'auto' : 0, marginRight: 'auto' });
+  hd.textContent = h;
+  const sb = el('div', 'sub', c, { fontSize: px(size * .4), marginTop: px(size * .28), maxWidth: px(maxW * .92), marginLeft: align === 'center' ? 'auto' : 0, marginRight: 'auto' });
+  sb.textContent = sub;
+  return c;
+}
+
+// ---------- devices ----------
+const SHOT = (dev, key) => `${SHOTS}/${LANG}/${dev}-${key}.png`;
+function statusIcons(h) {
+  return `<svg height="${h}" viewBox="0 0 78 14" style="display:block"><g fill="#111"><rect x="0" y="9" width="3" height="5" rx="1"/><rect x="5" y="6" width="3" height="8" rx="1"/><rect x="10" y="3" width="3" height="11" rx="1"/><rect x="15" y="0" width="3" height="14" rx="1"/>
+  <path d="M33 4.2a11 11 0 0 1 15 0l-1.6 1.7a8.6 8.6 0 0 0-11.8 0z M35.6 7a7.3 7.3 0 0 1 9.8 0l-1.6 1.7a5 5 0 0 0-6.6 0z M38.2 9.8a3.5 3.5 0 0 1 4.6 0L40.5 12.3z"/>
+  <rect x="53" y="1.5" width="21" height="11" rx="3" fill="none" stroke="#111" stroke-width="1.4"/><rect x="55" y="3.5" width="15" height="7" rx="1.5"/><rect x="75.3" y="5" width="1.8" height="4" rx=".9"/></g></svg>`;
+}
+function phone(x, y, pw, key) {
+  const bez = pw * .032, sw = pw - 2 * bez;
+  const sbH = sw * (46 / 430), shotH = sw * (932 / 430);
+  const ph = sbH + shotH + 2 * bez;
+  const d = el('div', 'device phone', stage, { left: px(x), top: px(y), width: px(pw), height: px(ph), borderRadius: px(pw * .135) });
+  const sc = el('div', 'screen', d, { left: px(bez), top: px(bez), width: px(sw), height: px(sbH + shotH), borderRadius: px(pw * .105) });
+  const sb = el('div', 'statusbar', sc, { height: px(sbH), padding: `0 ${sw * .085}px`, fontSize: px(sbH * .38) });
+  el('span', '', sb).textContent = cfg.os === 'ios' ? '9:41' : '9:41';
+  const ic = el('span', '', sb); ic.innerHTML = statusIcons(sbH * .3);
+  if (cfg.os === 'ios') el('div', 'island', sc, { top: px(sbH * .18), width: px(sw * .29), height: px(sbH * .64) });
+  else el('div', 'punch', sc, { top: px(sbH * .25), width: px(sbH * .5), height: px(sbH * .5) });
+  sc.appendChild(img(SHOT('phone', key), 'shot'));
+  return ph;
+}
+function tablet(x, y, tw, key) {
+  const bez = tw * .022, sw = tw - 2 * bez, shH = sw * (1032 / 1376);
+  const th = shH + 2 * bez;
+  const d = el('div', 'device tablet', stage, { left: px(x), top: px(y), width: px(tw), height: px(th), borderRadius: px(tw * .04) });
+  const sc = el('div', 'screen', d, { left: px(bez), top: px(bez), width: px(sw), height: px(shH), borderRadius: px(tw * .022) });
+  sc.appendChild(img(SHOT('tablet', key), 'shot'));
+  if (cfg.hinge) el('div', 'hinge', d);
+  return th;
+}
+function windowFrame(x, y, ww, key) {
+  const tb = ww * .028, shH = ww * (900 / 1440);
+  const wh = tb + shH;
+  const d = el('div', 'device window', stage, { left: px(x), top: px(y), width: px(ww), height: px(wh), borderRadius: px(cfg.os === 'mac' ? ww * .011 : ww * .006) });
+  const t = el('div', 'titlebar ' + cfg.os, d, { height: px(tb), fontSize: px(tb * .42), padding: `0 ${tb * .5}px` });
+  if (cfg.os === 'mac') {
+    const dots = el('div', 'dots', t, { gap: px(tb * .3) });
+    ['#ff5f57', '#febc2e', '#28c840'].forEach(c => el('i', '', dots, { width: px(tb * .42), height: px(tb * .42), background: c }));
+    el('div', 'ttl', t).textContent = 'G&F Portal EU';
+  } else {
+    const l = el('div', '', t, { display: 'flex', alignItems: 'center', gap: px(tb * .3) });
+    const ic = img('appicon.png'); Object.assign(ic.style, { height: px(tb * .55), borderRadius: '20%' }); l.appendChild(ic);
+    el('span', '', l).textContent = 'G&F Portal EU';
+    const c = el('div', 'winctl', t, { marginRight: px(-tb * .5) });
+    ['&#x2013;', '&#x25A1;', '&#x2715;'].forEach(g => { const s = el('span', '', c, { width: px(tb * 1.6), fontSize: px(tb * .42) }); s.innerHTML = g; });
+  }
+  d.appendChild(img(SHOT('desktop', key), 'shot'));
+  return wh;
+}
+function mascot(cx, cy, size) {
+  const m = img('mascot.png', 'mascot');
+  Object.assign(m.style, { left: px(cx - size / 2), top: px(cy - size / 2), width: px(size), height: px(size) });
+  stage.appendChild(m);
+}
+
+// ---------- layout ----------
+const key = ORDER[I];
+if (cfg.kind === 'phone') {
+  const fs = W * .083;
+  caption(H * .045, fs, W * .88, key);
+  const top = H * .285;
+  const pw = Math.min(W * .74, (H - top) * 1.13 / (2.27 + .1));
+  if (I === 0) mascot(W * .14, H * .80, W * .62);
+  phone((W - pw) / 2, top, pw, key);
+} else if (cfg.kind === 'tablet') {
+  const fs = W * .04;
+  caption(H * .045, fs, W * .8, key);
+  const top = H * .29;
+  const tw = Math.min(W * .78, (H - top) * 1.12 * 1376 / 1032);
+  if (I === 0) mascot(W * .1, H * .82, W * .34);
+  tablet((W - tw) / 2, top, tw, key);
+} else if (cfg.kind === 'window') {
+  const fs = W * .038;
+  caption(H * .05, fs, W * .8, key);
+  const top = H * .3;
+  const ww = Math.min(W * .82, (H - top) * 1.12 / (.028 + 900 / 1440));
+  if (I === 0) mascot(W * .09, H * .82, W * .3);
+  windowFrame((W - ww) / 2, top, ww, key);
+} else if (cfg.kind === 'hero') {
+  // App Store product page header / search result: tagline left, three phones right.
+  const [l1, l2] = CAPTIONS.tagline[LANG];
+  const fs = H * (SET === 'header' ? .095 : .07);
+  const c = el('div', 'caption', stage, { left: px(W * .06), right: 'auto', top: px(H * (SET === 'header' ? .26 : .3)), width: px(W * .42), textAlign: 'left', fontSize: px(fs) });
+  const k = el('div', 'kicker', c, { fontSize: px(fs * .32) }); k.appendChild(img('appicon.png')); el('span', '', k).textContent = 'G&F Portal EU';
+  const hd = el('div', 'headline', c, { marginTop: px(fs * .35) }); hd.innerHTML = `${l1}<br>${l2}`;
+  cfg.os = 'ios';
+  const pw = H * (SET === 'header' ? .33 : .24);
+  const keys = ['reports', 'home', 'growth'];
+  const x0 = W * (SET === 'header' ? .515 : .47); const xs = [x0, x0 + pw * 1.07, x0 + pw * 2.14];
+  const ys = SET === 'header' ? [H * .2, H * .1, H * .2] : [H * .24, H * .16, H * .24];
+  keys.forEach((kk, j) => phone(xs[j], ys[j], pw, kk));
+  mascot(W * .44, H * (SET === 'header' ? 1.02 : .98), H * (SET === 'header' ? .58 : .5));
+}
+// Banner knobs: pw phone width, x0 first phone x, mx/my/ms mascot centre and size, fs/cw/ct caption size, width, top, np phone count.
+const MP = Object.assign({ pw: .36, x0: .585, mx: .47, my: .6, ms: .95, mk: 78, fs: .11, cw: .4, ct: .2, np: 3 },
+  SET === 'gbanner' ? { fs: .085, cw: .46, ct: .17, pw: .4, x0: .565, np: 2, mx: .44, my: .86, ms: .5 } : {},
+  JSON.parse(P.get('mp') || '{}'));
+if (cfg.kind === 'banner') {
+  // Snap Store featured banner (3:1) and Galaxy Store seller banner (2:1): tagline left, mascot, phones right.
+  const [l1, l2] = CAPTIONS.tagline[LANG];
+  const fs = H * MP.fs;
+  const c = el('div', 'caption', stage, { left: px(W * .05), right: 'auto', top: px(H * MP.ct), width: px(W * MP.cw), textAlign: 'left', fontSize: px(fs) });
+  const k = el('div', 'kicker', c, { fontSize: px(fs * .32) }); k.appendChild(img('appicon.png')); el('span', '', k).textContent = 'G&F Portal EU';
+  const hd = el('div', 'headline', c, { marginTop: px(fs * .35) }); hd.innerHTML = `${l1}<br>${l2}`;
+  if (ANIM) {
+    k.classList.add('glint'); k.style.position = 'relative'; k.style.overflow = 'hidden';
+    // a "live wire" under the tagline: thin line with a spark running along it
+    const wire = el('div', 'wire', c, { marginTop: px(fs * .38), width: px(W * MP.cw * .55), height: px(fs * .05) });
+    el('i', 'spark', wire);
+  }
+  cfg.os = 'ios';
+  const pw = H * MP.pw;
+  const keys = MP.np === 2 ? ['home', 'reports'] : ['reports', 'home', 'growth'];
+  const x0 = W * MP.x0; const xs = [x0, x0 + pw * 1.07, x0 + pw * 2.14];
+  const ys = MP.np === 2 ? [H * .1, H * .2] : [H * .16, H * .06, H * .16];
+  keys.forEach((kk, j) => phone(xs[j], ys[j], pw, kk));
+  // Cut the mascot out of its flat red photo background (flood fill from the border), feather the edge.
+  const size = H * MP.ms, cvs = el('canvas', 'mascot-cut', stage, { position: 'absolute', zIndex: 3, left: px(W * MP.mx - size / 2), top: px(H * MP.my - size / 2), width: px(size), height: px(size), filter: 'drop-shadow(0 18px 40px rgba(40,0,0,.45))' });
+  const src = new Image(); src.src = 'mascot.png';
+  pending.push(src.decode().then(() => {
+    const w = src.naturalWidth, h = src.naturalHeight; cvs.width = w; cvs.height = h;
+    const ctx = cvs.getContext('2d'); ctx.drawImage(src, 0, 0);
+    const d = ctx.getImageData(0, 0, w, h), a = d.data;
+    let br = 0, bg = 0, bb = 0, n = 0;
+    for (const [x, y] of [[4, 4], [w - 5, 4], [4, h / 2 | 0], [w - 5, h / 2 | 0], [w / 2 | 0, 4]]) { const o = (y * w + x) * 4; br += a[o]; bg += a[o + 1]; bb += a[o + 2]; n++; }
+    br /= n; bg /= n; bb /= n;
+    const dist = o => Math.hypot(a[o] - br, a[o + 1] - bg, a[o + 2] - bb);
+    const T = MP.tol || 70, mask = new Float32Array(w * h).fill(1), seen = new Uint8Array(w * h), q = [];
+    const push = (x, y) => { const i = y * w + x; if (!seen[i] && dist(i * 4) < T) { seen[i] = 1; q.push(i); } };
+    for (let x = 0; x < w; x++) { push(x, 0); }
+    for (let y = 0; y < h * .62; y++) { push(0, y); push(w - 1, y); }
+    while (q.length) { const i = q.pop(), x = i % w, y = (i / w) | 0; mask[i] = 0;
+      if (x > 0) push(x - 1, y); if (x < w - 1) push(x + 1, y); if (y > 0) push(x, y - 1); if (y < h - 1) push(x, y + 1); }
+    // soft edge: pixels bordering the background get partial alpha by colour distance
+    for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) { const i = y * w + x; if (!mask[i]) continue;
+      if (!mask[i - 1] || !mask[i + 1] || !mask[i - w] || !mask[i + w]) mask[i] = Math.min(1, Math.max(0, (dist(i * 4) - T * .5) / (T * 1.6))); }
+    // 2-pass box blur of the mask for feathering
+    const blur = (m, r) => { const o = new Float32Array(w * h);
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { let s = 0, c = 0; for (let k = -r; k <= r; k++) { const xx = x + k; if (xx >= 0 && xx < w) { s += m[y * w + xx]; c++; } } o[y * w + x] = s / c; }
+      const o2 = new Float32Array(w * h);
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { let s = 0, c = 0; for (let k = -r; k <= r; k++) { const yy = y + k; if (yy >= 0 && yy < h) { s += o[yy * w + x]; c++; } } o2[y * w + x] = s / c; }
+      return o2; };
+    const fm = blur(mask, 1);
+    for (let i = 0; i < w * h; i++) a[i * 4 + 3] = Math.round(255 * Math.min(fm[i], mask[i] > 0 ? 1 : fm[i]));
+    ctx.putImageData(d, 0, 0);
+  }).catch(e => { document.title = 'IMGERR mascot ' + e; }));
+}
+if (cfg.kind === 'poster') {
+  const [l1, l2] = CAPTIONS.tagline[LANG];
+  const c = el('div', 'caption', stage, { top: px(H * .07), fontSize: px(W * .1) });
+  const k = el('div', 'kicker', c, { fontSize: px(W * .1 * .32) }); k.appendChild(img('appicon.png')); el('span', '', k).textContent = 'G&F Elektro';
+  const hd = el('div', 'headline', c, { marginTop: px(W * .035) }); hd.textContent = 'G&F Portal EU';
+  const sb = el('div', 'sub', c, { fontSize: px(W * .045), marginTop: px(W * .025) }); sb.innerHTML = `${l1}<br>${l2}`;
+  mascot(W * .5, H * .72, W * 1.12);
+}
+// ---------- animation mode ----------
+// Every effect is a looping Web Animation with the same period, paused and seeked by
+// render-gif.mjs via window.__seek(ms), so frames are deterministic and the GIF loops seamlessly.
+const LOOP = +(P.get('loop') || 4800);
+function animate() {
+  const L = { duration: LOOP, iterations: Infinity, easing: 'linear' };
+  const wave = (n, amp, phase, fn) => Array.from({ length: n + 1 }, (_, i) => fn(amp * Math.sin(phase + i / n * 2 * Math.PI), i / n));
+  // energy packets along the cable: two per loop
+  document.querySelectorAll('.pulse-glow').forEach(p => p.animate([{ strokeDashoffset: 10 }, { strokeDashoffset: -990 }], L));
+  document.querySelectorAll('.pulse-core').forEach(p => p.animate([{ strokeDashoffset: 0 }, { strokeDashoffset: -1000 }], L));
+  // cable nodes flare as a packet passes (packets sit at f and f+.5 of the loop)
+  const flare = (f, lo, hi) => {
+    const pts = [];
+    for (let i = 0; i <= 48; i++) { const t = i / 48; const d = Math.min(...[f, f + .5, f - .5, f + 1, f - 1].map(c => Math.abs(t - c))); pts.push({ offset: t, v: lo + (hi - lo) * Math.max(0, 1 - d / .06) }); }
+    return pts;
+  };
+  document.querySelectorAll('.nglow').forEach(n => n.animate(flare(+n.dataset.f, .3, 1).map(p => ({ offset: p.offset, fillOpacity: p.v })), L));
+  document.querySelectorAll('.nring').forEach(n => { n.style.transformBox = 'fill-box'; n.style.transformOrigin = 'center';
+    n.animate(flare(+n.dataset.f, 0, 1).map(p => ({ offset: p.offset, strokeOpacity: .6 + .4 * p.v, transform: `scale(${1 + 1.2 * p.v})` })), L); });
+  // lightning bolts flicker twice per loop, like a surge
+  document.querySelectorAll('.bolt').forEach((b, i) => { const o = (.18 + i * .29) % 1, f = [.06, .2, .08, .26, .06];
+    const kf = [{ offset: 0, fillOpacity: .06 }];
+    [0, .012, .024, .036, .06].forEach((d, j) => { const t = o + d; if (t < 1) kf.push({ offset: t, fillOpacity: f[j] }); });
+    kf.push({ offset: 1, fillOpacity: .06 }); kf.sort((a, b) => a.offset - b.offset); b.animate(kf, L); });
+  // phones float, out of phase
+  document.querySelectorAll('.device.phone').forEach((d, i) =>
+    d.animate(wave(24, H * .018, i * 2.1, (v, t) => ({ offset: t, transform: `translateY(${v}px) rotate(${v / (H * .018) * .6}deg)` })), L));
+  // mascot breathes and tilts a little
+  const m = document.querySelector('.mascot-cut');
+  if (m) { m.style.transformOrigin = '50% 90%'; m.animate(wave(24, 1, 1, (v, t) => ({ offset: t, transform: `translateY(${v * H * .012}px) rotate(${v * 1.4}deg) scale(${1 + v * .008})` })), L); }
+  // glints: kicker pill, then each phone screen in turn
+  const glint = (el, start, len) => el.animate([{ offset: 0, '--gx': '-150%' }, { offset: start, '--gx': '-150%' }, { offset: Math.min(start + len, 1), '--gx': '420%' }, { offset: 1, '--gx': '420%' }], L);
+  try { CSS.registerProperty({ name: '--gx', syntax: '<percentage>', inherits: true, initialValue: '-150%' }); } catch (e) {}
+  document.querySelectorAll('.glint').forEach(g => glint(g, .04, .2));
+  document.querySelectorAll('.phone .screen').forEach((sc, i) => glint(sc, .30 + i * .1, .24));
+  // spark on the live wire: runs left to right once per loop, fading at the ends
+  document.querySelectorAll('.wire .spark').forEach(sp => sp.animate([
+    { offset: 0, left: '0%', opacity: 0 }, { offset: .08, left: '8%', opacity: 1 }, { offset: .52, left: '100%', opacity: 1 }, { offset: .58, left: '100%', opacity: 0 }, { offset: 1, left: '0%', opacity: 0 }], L));
+  document.getAnimations().forEach(a => a.pause());
+  window.__seek = t => { document.getAnimations().forEach(a => { a.currentTime = t; }); return document.getAnimations().length; };
+}
+Promise.all([document.fonts.ready, ...pending]).then(() => { if (ANIM) animate(); document.body.dataset.ready = '1'; });
+</script>
+</body>
+</html>

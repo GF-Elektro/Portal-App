@@ -310,7 +310,7 @@ a {
     font-size: 1.0625rem;
     color: var(--color-text-muted);
     margin-bottom: 32px;
-    max-width: 34ch;
+    max-width: 46ch;
 }
 
 /* Install guide subpages (linux-apt, arch, chocolatey, …) */
@@ -1580,7 +1580,7 @@ a {
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
 }
 
@@ -1753,4 +1753,162 @@ footer {
     .download-panel {
         padding: 18px;
     }
+}
+
+/* ------------------------------------------------------------------
+   Landing polish: platform row, feature icons, shine, Motion states
+   ------------------------------------------------------------------ */
+.hero-platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin-top: -8px;
+}
+
+.hero-platforms li {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    padding: 5px 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 900px) {
+    .hero-platforms { justify-content: center; }
+}
+
+.feature-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    color: var(--color-primary);
+    background: var(--color-primary-soft);
+    border: 1px solid rgba(230, 0, 0, 0.12);
+    margin-bottom: 18px;
+}
+
+.feature-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.store-card {
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.store-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: rgba(20, 20, 20, 0.14);
+}
+
+/* Shine: a soft diagonal light sweep across store badges and primary buttons.
+   Runs on a slow loop and immediately on hover/focus. */
+.shine {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.shine::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    bottom: -50%;
+    left: 0;
+    width: 45%;
+    background: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.10) 35%,
+        rgba(255, 255, 255, 0.42) 50%,
+        rgba(255, 255, 255, 0.10) 65%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: translateX(-160%) skewX(-18deg);
+    pointer-events: none;
+    z-index: 1;
+    animation: shine-sweep 6s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+    animation-delay: var(--shine-delay, 1.2s);
+}
+
+.shine:hover::after,
+.shine:focus-visible::after {
+    animation: shine-sweep-once 0.9s cubic-bezier(0.45, 0, 0.2, 1) 1;
+}
+
+.official-store-badge.shine { border-radius: 8px; }
+.btn.shine::after { opacity: 0.8; }
+
+@keyframes shine-sweep {
+    0% { transform: translateX(-160%) skewX(-18deg); }
+    18%, 100% { transform: translateX(360%) skewX(-18deg); }
+}
+
+@keyframes shine-sweep-once {
+    from { transform: translateX(-160%) skewX(-18deg); }
+    to { transform: translateX(360%) skewX(-18deg); }
+}
+
+.glass-card .app-icon-large {
+    will-change: transform;
+}
+
+/* Motion: hide reveal targets only while the Motion layer is in charge.
+   The head script drops .js-motion after 2.5 s if Motion never loads. */
+.js-motion .hero-content > *,
+.js-motion .glass-card,
+.js-motion [data-reveal],
+.js-motion [data-reveal-group] > * {
+    opacity: 0;
+}
+
+.glass-card { transform-style: preserve-3d; }
+
+@media (prefers-reduced-motion: reduce) {
+    .shine::after { animation: none; display: none; }
+    html { scroll-behavior: auto; }
+}
+
+.motion-ready .glass-card,
+.motion-ready .feature-card,
+.motion-ready .store-card { transition-property: box-shadow, border-color; }
+
+@media (max-width: 1040px) {
+    .features-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+    .features-grid { grid-template-columns: 1fr; }
+}
+
+/* Install commands: one command per block, kept on one line (scrolls sideways
+   instead of wrapping, so a long command never looks like two). */
+.code-block pre {
+    white-space: pre;
+    overflow-wrap: normal;
+    word-break: normal;
+    overflow-x: auto;
+}
+
+.code-block--step .code-block__bar {
+    justify-content: space-between;
+}
+
+.code-block__step {
+    display: inline-grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1;
 }

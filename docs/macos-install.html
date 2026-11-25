@@ -4,22 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>macOS-Installation – G&#38;F Portal EU</title>
-    <meta name="description" content="So installierst du G&#38;F Portal EU auf dem Mac: DMG herunterladen, in Programme ziehen – sicher signiert, ohne Zertifikatsdateien.">
+    <meta name="description" content="So installieren Sie G&amp;F Portal EU auf dem Mac: DMG herunterladen und in den Programme-Ordner ziehen – signiert, notarisiert und ohne Zertifikatsdateien.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://docs.gfelektro.com/macos-install.html">
     <meta property="og:title" content="macOS-Installation – G&#38;F Portal EU">
-    <meta property="og:description" content="Anleitung zur Installation der G&#38;F Portal EU Desktop App auf macOS.">
+    <meta property="og:description" content="So installieren Sie G&amp;F Portal EU auf dem Mac: DMG herunterladen und in den Programme-Ordner ziehen – signiert, notarisiert und ohne Zertifikatsdateien.">
     <meta property="og:image" content="https://docs.gfelektro.com/assets/icon-512.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="macOS-Installation – G&#38;F Portal EU">
-    <meta name="twitter:description" content="Anleitung zur Installation der G&#38;F Portal EU Desktop App auf macOS.">
+    <meta name="twitter:description" content="So installieren Sie G&amp;F Portal EU auf dem Mac: DMG herunterladen und in den Programme-Ordner ziehen – signiert, notarisiert und ohne Zertifikatsdateien.">
     <meta name="twitter:image" content="https://docs.gfelektro.com/assets/icon-512.png">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="fonts.css?v=1">
 
-    <link rel="stylesheet" href="styles.css?v=16">
+    <link rel="stylesheet" href="styles.css?v=33">
     <link rel="icon" type="image/png" href="assets/icon-512.png">
 </head>
 <body data-docs-page="macos">
@@ -52,19 +51,18 @@
     <main class="container hero-section hero-section--page">
         <div class="hero-content hero-content--guide doc-article">
             <h1 class="hero-title" data-i18n="macos.h1">Installation auf macOS</h1>
-            <h2 class="hero-subtitle" data-i18n="macos.h2">G&#38;F Portal EU per DMG installieren</h2>
+            <h2 class="hero-subtitle" data-i18n="macos.h2">G&amp;F Portal EU per DMG installieren</h2>
             <p class="hero-description" data-i18n-html="macos.intro">
-                Die Desktop-App für Mac wird als <strong>DMG-Datei</strong> ausgeliefert. Du installierst nur diese App – keine zusätzlichen Zertifikats- oder Schlüsseldateien.
-                Welche Berechtigungen die App nutzt, steht auf der <a href="permissions.html">Berechtigungsseite</a>.
+                Die Desktop-App für den Mac wird als <strong>DMG-Datei</strong> ausgeliefert. Sie installieren nur diese App – zusätzliche Zertifikats- oder Schlüsseldateien sind nicht erforderlich. Welche Berechtigungen die App nutzt, lesen Sie auf der <a href="permissions.html">Berechtigungsseite</a>.
             </p>
 
             <div class="doc-section">
                 <h3 data-i18n="macos.brewTitle">Empfohlen: Homebrew</h3>
                 <p class="hero-description" data-i18n-html="macos.brewIntro">
-                    Mit Homebrew installierst und aktualisierst du die App am einfachsten. Ausführliche Schritte: <a href="macos-homebrew.html">Homebrew-Anleitung</a>.
-                </p>
-                <pre>brew tap GF-Elektro/tap
-brew install --cask gfe-portal-eu</pre>
+                Am einfachsten installieren und aktualisieren Sie die App mit Homebrew. Die ausführlichen Schritte finden Sie in der <a href="macos-homebrew.html">Homebrew-Anleitung</a>.
+            </p>
+                <pre data-step="1">brew tap GF-Elektro/tap</pre>
+                <pre data-step="2">brew install --cask gfe-portal-eu</pre>
                 <p class="hero-description" data-i18n="macos.brewUpgradeLead">Aktualisieren:</p>
                 <pre>brew upgrade --cask gfe-portal-eu</pre>
             </div>
@@ -72,56 +70,53 @@ brew install --cask gfe-portal-eu</pre>
             <div class="doc-section">
                 <h3 data-i18n="macos.stepsTitle">Schritte</h3>
                 <ol>
-                    <li data-i18n-html="macos.step1">Lade die neueste <strong>macOS-DMG</strong> von GitHub herunter (Button unten).</li>
-                    <li data-i18n-html="macos.step2">Öffne die heruntergeladene <code>.dmg</code>-Datei (Doppelklick).</li>
-                    <li data-i18n-html="macos.step3">Ziehe <strong>G&F Portal EU</strong> per Drag&nbsp;&amp;&nbsp;Drop in den Ordner <strong>Programme</strong> (Applications).</li>
-                    <li data-i18n="macos.step4">Werfe das DMG-Fenster weg und starte die App aus Programme oder über Spotlight.</li>
+                    <li data-i18n-html="macos.step1">Laden Sie die aktuelle <strong>macOS-DMG</strong> von GitHub herunter (Schaltfläche unten).</li>
+                    <li data-i18n-html="macos.step2">Öffnen Sie die heruntergeladene <code>.dmg</code>-Datei per Doppelklick.</li>
+                    <li data-i18n-html="macos.step3">Ziehen Sie <strong>G&F Portal EU</strong> per Drag&nbsp;&amp;&nbsp;Drop in den Ordner <strong>Programme</strong> (Applications).</li>
+                    <li data-i18n="macos.step4">Schließen Sie das DMG-Fenster und starten Sie die App aus dem Programme-Ordner oder über Spotlight.</li>
                 </ol>
             </div>
 
             <p class="hero-description" data-i18n-html="macos.signingPara">
-                Releases, die mit dem <strong>Developer-ID-Zertifikat</strong> von G&F Elektro signiert und von Apple <strong>notarisiert</strong> sind, öffnen ohne die Warnung „nicht identifizierter Entwickler“.
-                Der private Apple-Schlüssel bleibt bei G&F Elektro und wird nicht zum Download angeboten. Ältere Releases können die Warnung noch zeigen — dann die neueste DMG laden.
+                Releases, die mit dem <strong>Developer-ID-Zertifikat</strong> von G&F Elektro signiert und von Apple <strong>notarisiert</strong> sind, öffnen sich ohne die Warnung „nicht identifizierter Entwickler“. Der private Apple-Schlüssel verbleibt bei G&F Elektro und wird nicht zum Download angeboten. Ältere Releases können die Warnung noch anzeigen – laden Sie in diesem Fall die aktuelle DMG.
             </p>
 
             <div class="doc-section doc-section--emphasis">
                 <div class="doc-section__icon" aria-hidden="true">🔒</div>
                 <h3 data-i18n="macos.securityTitle">Wichtig zur Sicherheit</h3>
                 <p data-i18n-html="macos.securityP1">
-                    Du installierst ausschließlich die <strong>DMG</strong> mit der App. Du installierst <strong>keinen</strong> Apple-Privatschlüssel, keine <strong>.p12</strong>-Datei und keine <strong>.p8</strong>-Datei – weder von dieser Seite noch aus E-Mails oder anderen Quellen.
-                </p>
+                Sie installieren ausschließlich die <strong>DMG</strong> mit der App – <strong>keinen</strong> Apple-Privatschlüssel, keine <strong>.p12</strong>- und keine <strong>.p8</strong>-Datei, weder von dieser Seite noch aus E-Mails oder anderen Quellen.
+            </p>
                 <p data-i18n-html="macos.securityP2">
-                    <strong>G&F Elektro</strong> signiert die App beim Build über die Mitgliedschaft im <strong>Apple Developer Program</strong>.
-                    Der private Developer-ID-Schlüssel wird nur intern beim Erstellen der App verwendet und ist <strong>niemals</strong> auf dieser Website oder im öffentlichen Git-Repository veröffentlicht.
-                </p>
+                <strong>G&F Elektro</strong> signiert die App beim Build über die Mitgliedschaft im <strong>Apple Developer Program</strong>. Der private Developer-ID-Schlüssel wird nur intern beim Erstellen der App verwendet und ist <strong>niemals</strong> auf dieser Website oder im öffentlichen Git-Repository veröffentlicht.
+            </p>
                 <p data-i18n-html="macos.securityP3">
-                    Vertraue keinen Anleitungen, die dir zum Installieren der App ein Zertifikat oder einen Schlüssel zum Herunterladen anbieten – das ist nicht nötig und unsicher.
-                </p>
+                Misstrauen Sie Anleitungen, die Ihnen zur Installation ein Zertifikat oder einen Schlüssel zum Herunterladen anbieten. Das ist weder nötig noch sicher.
+            </p>
             </div>
 
             <div class="doc-actions">
                 <a href="https://github.com/GF-Elektro/Portal-App/releases/latest" class="btn btn-primary" id="btn-latest-dmg" rel="noopener">
                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 384 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path></svg>
-                    <span data-i18n="macos.downloadBtn">Neueste macOS-DMG laden</span>
+                    <span data-i18n="macos.downloadBtn">Aktuelle macOS-DMG laden</span>
                 </a>
                 <a href="index.html" class="btn btn-secondary" data-i18n="shared.backToDownload">Zurück zum Download</a>
             </div>
             <p class="os-hint" data-i18n-html="macos.hint">
-                Der Button führt zur aktuellsten GitHub-Release-Seite; dort die passende <strong>.dmg</strong> für Mac auswählen.
+                Die Schaltfläche führt zur aktuellen Release-Seite auf GitHub. Wählen Sie dort die <strong>.dmg</strong>-Datei für den Mac.
             </p>
 
             <div class="doc-section">
                 <h3 data-i18n="macos.warningTitle">Warnung von macOS?</h3>
                 <p data-i18n-html="macos.warningP1">
-                    Wenn macOS beim Öffnen noch warnt, liegt oft eine <strong>ältere, nicht signierte</strong> Version vor.
-                    <strong>Lade die neueste Version</strong> von der GitHub-Release-Seite (Link oben) und installiere sie erneut – das ist der empfohlene Weg.
-                </p>
+                Warnt macOS beim Öffnen, handelt es sich meist um eine <strong>ältere, nicht signierte</strong> Version. <strong>Laden Sie die aktuelle Version</strong> von der GitHub-Release-Seite (Link oben) und installieren Sie sie erneut – das ist der empfohlene Weg.
+            </p>
                 <p data-i18n-html="macos.warningP2">
-                    Bitte <strong>deaktiviere Gatekeeper nicht</strong> und nutze keine Terminal-Befehle wie <code>xattr</code> als Standard-Lösung; bei aktuellen signierten Releases sind solche Workarounds nicht nötig.
-                </p>
+                Bitte <strong>deaktivieren Sie Gatekeeper nicht</strong> und verwenden Sie keine Terminal-Befehle wie <code>xattr</code> als Standardlösung. Bei aktuellen, signierten Releases sind solche Umwege nicht nötig.
+            </p>
                 <p data-i18n="macos.warningP3">
-                    Hinweis: Sehr alte, unsignierte Test-Builds benötigten früher gelegentlich einen Quarantäne-Workaround; ab den notarisierten Developer-ID-Releases entfällt das.
-                </p>
+                Hinweis: Sehr alte, unsignierte Test-Builds benötigten früher gelegentlich einen Quarantäne-Workaround. Seit den notarisierten Developer-ID-Releases entfällt das.
+            </p>
             </div>
         </div>
     </main>
@@ -131,8 +126,8 @@ brew install --cask gfe-portal-eu</pre>
             <p data-i18n="shared.footerRights">&copy; 2026 G&F Elektro s.r.o. - Alle Rechte vorbehalten.</p>
         </div>
     </footer>
-    <script src="i18n/locales.js?v=5"></script>
+    <script src="i18n/locales.js?v=20"></script>
     <script src="i18n.js?v=3"></script>
-    <script src="script.js?v=5"></script>
+    <script src="script.js?v=11"></script>
 </body>
 </html>
