@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD033 MD041 -->
 <p align="center">
-  <img src="icon-512.png" alt="G&F Portal EU" width="80" />
+  <a href="https://docs.gfelektro.com"><img src="store-screenshots/listing/github/banner.gif" alt="G&F Portal EU: the portal for electricians on the job site" width="100%" /></a>
 </p>
 
 <h1 align="center">G&F Portal EU</h1>

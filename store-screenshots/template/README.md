@@ -18,6 +18,26 @@ sips -z 960 2880 store-screenshots/template/out/en/banner/banner.png --out /tmp/
 
 Layout knobs for the banner can be passed as `?mp=` JSON on `render.html` (`pw` phone width, `x0` first phone x, `mx`/`my`/`ms` mascot centre and size, `tol` cutout tolerance), all as fractions of the canvas.
 
+## Animated GitHub README banner
+
+`render-gif.mjs` renders the same banner with `?anim=1`: energy packets run along the cable, the nodes flare as they pass, the lightning bolts flicker, the phones float, the mascot moves, a spark runs along the line under the tagline, and a glint sweeps the badge and each phone screen. Every effect is a Web Animation with one shared period, paused and seeked frame by frame, so the GIF loops without a seam.
+
+```bash
+node store-screenshots/template/render-gif.mjs store-screenshots/listing/github/banner.gif 1280 15 4800
+```
+
+Arguments: output path, width, fps, loop length in ms, language. It needs ImageMagick (`magick`). `COLORS`, `DITHER` and `FUZZ` environment variables tune the encoding (defaults 160, None, 1.5%); the defaults keep the 1280-px GIF around 4.5 MB. A `-poster.png` of the first frame is written next to the GIF.
+
+## Galaxy Store seller page
+
+`gbanner` (2:1, rendered at 1312×648) and `gbg` (the plain panorama, rendered at 2880×2400) are the Seller Portal profile images. They need only the three English phone captures that are already in `shots/en/`.
+
+```bash
+node store-screenshots/template/render.mjs store-screenshots/template/out en gbanner,gbg
+```
+
+Samsung wants JPG under 4 MB: background 1440×1200, profile 240×240, banner 656×324. The exported files are in `store-screenshots/listing/galaxy/` (the profile is `listing/logos/box-1080.png` scaled down).
+
 ## Other sets
 
 `render.html` also has the Play, App Store, Microsoft Store, header, search and poster layouts (`?set=play|iphone|ipad|duo|mac|msstore|header|search|poster`). Those need the full set of portal captures under `shots/<lang>/` (`phone-*`, `tablet-*`, `desktop-*`), which are not in the repo. Captures must be anonymised before they are committed: this repo is public.
