@@ -11,6 +11,10 @@ From **1.0.19** onward, each release tag matches one section below (one logical 
 
 ## [Unreleased]
 
+### Fixed
+
+- **Android Google sign-in** — country sign-in hosts such as `accounts.google.sk` stay inside the app. The shell no longer rewrites that redirect and opens it in Chrome, which Google answered with HTTP 400. Play version code `10078`.
+
 ---
 
 ## [1.0.77] - 2026-11-24

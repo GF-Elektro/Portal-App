@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 
@@ -58,18 +58,8 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
         NavigationDelegate(
+          onPageStarted: (url) => unawaited(_leaveWebViewIfExternal(url)),
           onPageFinished: (_) => unawaited(_onPageFinished()),
-          onNavigationRequest: (request) {
-            final uri = Uri.tryParse(request.url);
-            if (uri == null) return NavigationDecision.prevent;
-            if (PortalHosts.shouldKeepInApp(uri)) {
-              return NavigationDecision.navigate;
-            }
-            if (uri.scheme == 'http' || uri.scheme == 'https') {
-              launchUrl(uri, mode: LaunchMode.externalApplication);
-            }
-            return NavigationDecision.prevent;
-          },
         ),
       )
       ..addJavaScriptChannel(
@@ -268,6 +258,22 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
         "window.dispatchEvent(new Event('portal-native-ready'));",
       );
     } catch (_) {}
+  }
+
+  /// Opens ordinary links in the system browser without rewriting the URL.
+  ///
+  /// Google's SetSID redirect carries an encoded `continue` value. Passing
+  /// that URL through `Uri.parse().toString()` (which `onNavigationRequest`
+  /// does on Android) decodes `%26` into `&` and Chrome answers with HTTP 400.
+  /// In-app pages, including `accounts.google.<country>`, load untouched.
+  Future<void> _leaveWebViewIfExternal(String url) async {
+    final uri = Uri.tryParse(url);
+    if (uri == null || PortalHosts.shouldKeepInApp(uri)) return;
+    if (uri.scheme != 'http' && uri.scheme != 'https') return;
+    if (await _controller.canGoBack()) {
+      await _controller.goBack();
+    }
+    await launchUrlString(url, mode: LaunchMode.externalApplication);
   }
 
   Future<void> _onPageFinished() async {
