@@ -1886,3 +1886,29 @@ footer {
 @media (max-width: 560px) {
     .features-grid { grid-template-columns: 1fr; }
 }
+
+/* Install commands: one command per block, kept on one line (scrolls sideways
+   instead of wrapping, so a long command never looks like two). */
+.code-block pre {
+    white-space: pre;
+    overflow-wrap: normal;
+    word-break: normal;
+    overflow-x: auto;
+}
+
+.code-block--step .code-block__bar {
+    justify-content: space-between;
+}
+
+.code-block__step {
+    display: inline-grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1;
+}
