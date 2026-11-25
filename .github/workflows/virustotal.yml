@@ -1,5 +1,8 @@
-# Upload primary release installers to VirusTotal (free tier: 4 req/min, 500/day).
-# Scans only Setup.exe + dmg + AppImage + deb — skips blockmaps, yml, portable exe duplicate.
+# Upload published installers to VirusTotal (free tier: 4 req/min, 500/day).
+# This release: Setup.exe, msi, dmg, AppImage, deb, AppX, and any apk/aab/snap/hap/ipa/pkg/.app attached to it.
+# If this tag has no APK, also scan the newest APK on any GitHub Release (Android and Huawei EMUI / HarmonyOS 4).
+# If this tag has no snap, also scan the Snap Store stable amd64 build.
+# Skips blockmaps, latest*.yml, and the portable exe (same app as Setup.exe).
 # Requires repository secret VT_API_KEY (https://www.virustotal.com/gui/my-apikey).
 
 name: VirusTotal scan
@@ -39,22 +42,90 @@ jobs:
           TAG="${{ steps.meta.outputs.tag }}"
           echo "id=$(gh api "repos/${{ github.repository }}/releases/tags/${TAG}" --jq .id)" >> "$GITHUB_OUTPUT"
 
-      - name: Download primary installers (quota-safe)
+      - name: Download installers (quota-safe)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
           mkdir -p vt-scan
-          gh release download "${{ steps.meta.outputs.tag }}" \
-            --repo "${{ github.repository }}" \
+          TAG="${{ steps.meta.outputs.tag }}"
+          REPO="${{ github.repository }}"
+          gh release download "$TAG" \
+            --repo "$REPO" \
             -p 'GFElektroPortal-*-Setup.exe' \
-            -p 'GFElektroPortal-*.exe' \
             -p 'GFElektroPortal-*.msi' \
             -p 'GFElektroPortal-*.dmg' \
             -p 'GFElektroPortal-*.AppImage' \
             -p 'GFElektroPortal-*.deb' \
+            -p 'GFElektroPortal-*.appx' \
+            -p 'GFElektroPortal-*.apk' \
+            -p 'GFElektroPortal-*.aab' \
+            -p 'GFElektroPortal-*.snap' \
+            -p 'GFElektroPortal-*.hap' \
+            -p 'GFElektroPortal-*.ipa' \
+            -p 'GFElektroPortal-*.pkg' \
+            -p 'GFElektroPortal-*.app' \
             -D vt-scan
+
+          if ! compgen -G 'vt-scan/*.apk' > /dev/null; then
+            APK_TAG="$(gh api "repos/${REPO}/releases?per_page=40" --jq '[.[] | select(any(.assets[]; .name | endswith(".apk"))) | .tag_name][0] // empty')"
+            if [ -n "$APK_TAG" ]; then
+              echo "No APK on ${TAG}; scanning ${APK_TAG}"
+              gh release download "$APK_TAG" --repo "$REPO" -p 'GFElektroPortal-*.apk' -D vt-scan
+            else
+              echo "No published APK found."
+            fi
+          fi
+
+          if ! compgen -G 'vt-scan/*.snap' > /dev/null; then
+            python3 - <<'PY'
+          import json
+          import pathlib
+          import urllib.request
+
+          info_req = urllib.request.Request(
+              "https://api.snapcraft.io/v2/snaps/info/gfe-portal-eu",
+              headers={
+                  "Snap-Device-Series": "16",
+                  "User-Agent": "gfe-portal-virustotal",
+              },
+          )
+          with urllib.request.urlopen(info_req, timeout=60) as resp:
+              data = json.load(resp)
+          chosen = None
+          for channel_entry in data.get("channel-map", []):
+              channel = channel_entry.get("channel") or {}
+              if channel.get("architecture") == "amd64" and channel.get("risk") == "stable":
+                  chosen = channel_entry
+                  break
+          if chosen is None:
+              raise SystemExit("Snap Store has no stable amd64 build of gfe-portal-eu")
+          version = chosen.get("version") or "unknown"
+          dest = pathlib.Path("vt-scan") / ("gfe-portal-eu_%s_amd64.snap" % version)
+          download_req = urllib.request.Request(
+              chosen["download"]["url"],
+              headers={
+                  "Snap-Device-Series": "16",
+                  "User-Agent": "gfe-portal-virustotal",
+              },
+          )
+          print("Downloading Snap %s" % version)
+          with urllib.request.urlopen(download_req, timeout=180) as resp, dest.open("wb") as out:
+              while True:
+                  chunk = resp.read(1024 * 1024)
+                  if not chunk:
+                      break
+                  out.write(chunk)
+          print("Snap bytes %s" % dest.stat().st_size)
+          PY
+          fi
+
           echo "Files to scan:"
-          ls -la vt-scan
+          find vt-scan -type f -printf '%s %p\n'
+          if ! find vt-scan -type f | grep -q .; then
+            echo "Nothing to scan." >&2
+            exit 1
+          fi
 
       - name: Ensure release has a body
         env:
