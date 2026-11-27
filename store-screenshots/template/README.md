@@ -36,6 +36,8 @@ Arguments: output path, width, fps, loop length in ms, language. It needs ImageM
 node store-screenshots/template/render.mjs store-screenshots/template/out en gbanner,gbg
 ```
 
+`gwbg` (the plain panorama, rendered at 2048×1000) is the Galaxy Watch brand background, exported as `watch-brand-background.jpg` (1024×500).
+
 Samsung wants JPG under 4 MB: background 1440×1200, profile 240×240, banner 656×324. The exported files are in `store-screenshots/listing/galaxy/` (the profile is `listing/logos/box-1080.png` scaled down).
 
 ## Other sets
