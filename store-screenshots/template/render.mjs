@@ -8,7 +8,7 @@ import { spawn } from 'node:child_process';
 const [outDirArg, langsArg = 'en', setsArg = 'banner'] = process.argv.slice(2);
 const outDir = path.resolve(outDirArg || new URL('./out/', import.meta.url).pathname);
 const DESIGN = new URL('./', import.meta.url).pathname;
-const SIZES = { play: [1080, 1920, 9], iphone: [1206, 2622, 9], ipad: [2752, 2064, 9], duo: [2853, 2007, 9], mac: [2880, 1800, 9], msstore: [1920, 1080, 9], header: [3840, 1646, 1], search: [3840, 2560, 1], poster: [1440, 2160, 1], banner: [3840, 1280, 1], gbanner: [1312, 648, 1], gbg: [2880, 2400, 1] };
+const SIZES = { play: [1080, 1920, 9], iphone: [1206, 2622, 9], ipad: [2752, 2064, 9], duo: [2853, 2007, 9], mac: [2880, 1800, 9], msstore: [1920, 1080, 9], header: [3840, 1646, 1], search: [3840, 2560, 1], poster: [1440, 2160, 1], banner: [3840, 1280, 1], gbanner: [1312, 648, 1], gbg: [2880, 2400, 1], gwbg: [2048, 1000, 1] };
 const langs = langsArg.split(','), sets = setsArg.split(',');
 const ORDER = ['home', 'reports', 'performance', 'turnus', 'growth', 'news', 'extra', 'docs', 'languages'];
 
